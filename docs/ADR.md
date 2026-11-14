@@ -762,3 +762,8 @@ Status: `proposed` · `accepted` · `superseded` · `open` · `resolved` · `def
 - Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted
 - Action: stopped the previously owned Streamlit process and started the current src/psi_fire/interface/app.py on http://127.0.0.1:8501. No source or scientific data was regenerated.
 - Verification: python -m compileall -q src/psi_fire completed successfully; the new server health endpoint returned HTTP 200 with body ok. Full tests and browser interaction were not repeated for this operational restart.
+
+### ADR-0096 - Project published as the public GitHub repository FLAMSA
+- Date: 2026-11-14 | Type: DECISION | Status: accepted | Related: ADR-0082
+- Decision: at the user's request, the project was published as a public repository at https://github.com/Huarada/FLAMSA (branch `main`). The initial commit holds 1,325 files, including `knowledgeBase/` (864 MB, no zip archives, no file above 95 MB).
+- Pre-publication checks: `.gitignore` (ADR-0082) excludes secrets, browser-test profiles and caches. The staged set contained no env, secret, cache or local-settings file, and no tracked text file contains the user's e-mail or home path. Commit authorship uses the user's own git identity.
