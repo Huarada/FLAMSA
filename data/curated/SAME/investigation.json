@@ -1,0 +1,427 @@
+{
+  "columns": {
+    "flow_speed_cm_s_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Air Flow (cm/s)"
+      ],
+      "unit": "cm_s"
+    },
+    "flow_speed_cm_s_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Air Flow (cm/s)"
+      ],
+      "unit": "cm_s"
+    },
+    "flow_speed_cm_s_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Air Flow (cm/s)"
+      ],
+      "unit": null
+    },
+    "fuel_name": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Sample Material"
+      ],
+      "unit": null
+    },
+    "fuel_name_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Sample Material"
+      ],
+      "unit": null
+    },
+    "fuel_phase": {
+      "derivation": "adapter: solid unless overridden by fuel name",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "sample_mass_loss_rate_mg_s": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Weight loss rate (mg/min)"
+      ],
+      "unit": "mg_s"
+    },
+    "sample_mass_loss_rate_mg_s_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Weight loss rate (mg/min)"
+      ],
+      "unit": null
+    },
+    "smoke_aging_duration_s": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Aging Duration (minutes)"
+      ],
+      "unit": "s"
+    },
+    "smoke_aging_duration_s_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Aging Duration (minutes)"
+      ],
+      "unit": null
+    },
+    "test_point_id": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Sample #"
+      ],
+      "unit": null
+    }
+  },
+  "held_constant_variables": [],
+  "id": "SAME",
+  "manual_metadata": {
+    "earth_applications": [
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Research Impacts]",
+            "quote": "The smoke detectors developed from the results of SAME can also be useful in other extreme environments on Earth, such as submarines or underwater laboratories.",
+            "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": null,
+        "status": "verified",
+        "value": "Smoke detectors for other extreme environments on Earth, such as submarines or underwater laboratories."
+      }
+    ],
+    "gravity_regime": {
+      "evidence": [
+        {
+          "locator": "Comment[Project Type]",
+          "quote": "Microgravity Investigation",
+          "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": null,
+      "status": "verified",
+      "value": "microgravity"
+    },
+    "hardware": {
+      "evidence": [
+        {
+          "locator": "Comment[Experiment Hardware]",
+          "quote": "Comparitive Soot Diagnostic Hardware",
+          "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Approach]",
+          "quote": "The crew installed the near field hardware in the Glovebox, attached the Far Field Box to the Glovebox",
+          "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Flight Platform]",
+          "quote": "International Space Station (ISS)",
+          "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": "'Comparitive' is a typo in the source record.",
+      "status": "verified",
+      "value": "SAME near-field hardware in the Glovebox with a Far Field Box, on the ISS"
+    },
+    "investigation_id": "SAME",
+    "nominal_atmosphere": {
+      "evidence": [
+        {
+          "locator": "p. 29",
+          "quote": "d) Range: Air flow 1-15 cm/s, humidity 10 to 90% RH, pressure 0.08 to 0.13 mPa, temperature 15",
+          "source_file": "knowledgeBase/Detection/SAME/SAME EIRD Rev 2.00 02-25-05 HIgh Q.pdf",
+          "source_url": null
+        }
+      ],
+      "note": "The experimental table carries no O2 or pressure. Read in full for a chamber or cabin atmosphere: the ISA-Tab study record, the Final Science Report (03 18 10), SAME_Operations Manual_007, SAME EIRD Rev 2.00 and the SAME Baseline Concept Description Document: none states one. The pressures found are not test atmospheres: hardware fill pressures such as 13.2 psia in the Operations Manual, and a requirement for the EIRD ambient-pressure measurement range of 0.08 to 0.13 mPa (a typo for MPa), an instrument range. Not searched: the PowerPoint presentations, the ICES papers, the VPRED, the drawings and the wire-test report. Do not assume cabin air.",
+      "status": "not_reported",
+      "value": null
+    },
+    "pillars": {
+      "evidence": [
+        {
+          "locator": "Comment[Research Impacts]",
+          "quote": "The SAME experiment will provide technology for an advanced fire detector for future spacecraft",
+          "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Research Impacts]",
+          "quote": "SAME will provide quantitative data on the sensitivity of these detectors to reduced gravity smokes",
+          "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": "The stated purpose is smoke-detector technology and detector sensitivity to low-gravity smoke: the detection pillar. Pillar is the curator's classification, not a source statement.",
+      "status": "inferred",
+      "value": [
+        "detection"
+      ]
+    },
+    "review_status": "draft",
+    "reviewed_by": null,
+    "reviewed_on": null,
+    "sensors": [
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "ran the self diagnostic procedures on the two smoke detectors",
+            "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+            "source_url": null
+          },
+          {
+            "locator": "Comment[Approach]",
+            "quote": "analyzed to determine the response of the detectors.",
+            "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+            "source_url": null
+          },
+          {
+            "locator": "p. 3",
+            "quote": "For comparison, smoke detectors from",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 4",
+            "quote": "also included in the SAME apparatus.",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Two smoke detectors. Detectors from the ISS and the space shuttle were included for comparison (the sentence wraps from p. 3 to p. 4); the cited lines do not say whether they are the same two.",
+        "status": "verified",
+        "value": {
+          "instrument": "smoke detector",
+          "measures": "detector response to smoke"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "initiated the thermophoretic soot samplers to sample the smoke",
+            "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+            "source_url": null
+          },
+          {
+            "locator": "p. 3",
+            "quote": "(TEM) grids for post-flight analysis.",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 8",
+            "quote": "Figure 6. Thermal Precipitator Module.",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Called a Thermal Precipitator Module in the figure list (p. 8).",
+        "status": "verified",
+        "value": {
+          "instrument": "thermophoretic soot sampler",
+          "measures": "collects smoke particles on TEM grids"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "analyzed using a Transmission Electron microscope (TEM) to determine primary and aggregate particle dimensions",
+            "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "A post-flight laboratory instrument used on the particles collected in flight, not a flight sensor.",
+        "status": "verified",
+        "value": {
+          "instrument": "transmission electron microscope",
+          "measures": "primary and aggregate particle dimensions"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 8",
+            "quote": "Figure 7. P-trak Calibration results with Mono disperse DOP droplets.",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 3",
+            "quote": "aerosol diagnostics that measure different",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 38",
+            "quote": "The zeroth-moment instrument is a condensation nuclei",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "The zeroth-moment instrument is a condensation nuclei counter, the P-Trak (the name is on the next printed line, p. 38). Listed among the calibration figures of the Final Science Report (p. 8).",
+        "status": "verified",
+        "value": {
+          "instrument": "P-Trak",
+          "measures": "zeroth moment of the particle size distribution"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 8",
+            "quote": "Figure 8. Ion Chamber Calibration results with Mono disperse DOP droplets.",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 3",
+            "quote": "aerosol diagnostics that measure different",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Listed among the calibration figures of the Final Science Report (p. 8).",
+        "status": "verified",
+        "value": {
+          "instrument": "ion chamber",
+          "measures": null
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 8",
+            "quote": "Figure 9. DustTrak results with Mono disperse DOP droplets.",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 3",
+            "quote": "aerosol diagnostics that measure different",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 20",
+            "quote": "The SAME experiment included 2 DustTraks",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 20",
+            "quote": "90 degree light scattering signal to quantify the aerosol mass density.",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 20",
+            "quote": "one with a 1 μm impactor and the other with a 10 μm impactor.",
+            "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Two DustTraks, one with a 1 micron impactor and the other with a 10 micron impactor (same page, next printed line). Listed among the calibration figures of the Final Science Report (p. 8).",
+        "status": "verified",
+        "value": {
+          "instrument": "DustTrak",
+          "measures": "aerosol mass density by 90 degree light scattering"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "positioned the video cameras",
+            "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+            "source_url": null
+          },
+          {
+            "locator": "Comment[Approach]",
+            "quote": "activated the video cameras",
+            "source_file": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": null,
+        "status": "verified",
+        "value": {
+          "instrument": "video camera",
+          "measures": null
+        }
+      }
+    ]
+  },
+  "psi_id": "PSI-102",
+  "record_level": "test",
+  "source_files": [
+    {
+      "encoding": "utf-8",
+      "path": "knowledgeBase/Detection/SAME/PSI-102_Experimental table_SAME.csv",
+      "sha256": "268d1e121d2f211b124407dd32b9475617bd269ede2c2d1749441da3e949a2af"
+    }
+  ],
+  "source_notes": [],
+  "study_metadata": {
+    "approach": "The crew installed the near field hardware in the Glovebox, attached the Far Field Box to the Glovebox, and positioned the video cameras. The operator then ran the self diagnostic procedures on the two smoke detectors and activated the video cameras, turned on the igniter for a predefined period of time (15 to 60 seconds), and initiated the thermophoretic soot samplers to sample the smoke. The actual duration of each combustion event was typically 2 minutes. After flight, the particulate collected on the thermophoretic probes were analyzed using a Transmission Electron microscope (TEM) to determine primary and aggregate particle dimensions. The remains of the samples were weighed to determine their mass loss. The digital data was transcribed from the video record and analyzed to determine the response of the detectors. Once the flight mass loss rates were determined, 1-g operation conditions to produce the same loss were determined.The measurements were made using smoke generated by overheated spacecraft materials where variables such as the sample temperature, flow field, and particle aging time were more rigorously controlled.",
+    "doi": "10.60555/gd4k-8h62",
+    "experiment_hardware": "Comparitive Soot Diagnostic Hardware",
+    "experiment_hardware_link": "https://ntrs.nasa.gov/api/citations/19960008413/downloads/19960008413.pdf",
+    "flight_platform": "International Space Station (ISS)",
+    "funding": "IH1013215",
+    "hypothesis": "The three hypotheses that motivated this investigation: In a μg environment, with the absence of the strong buoyancy-induced flows, smoke particle growth from a pyrolyzing/smoldering source, as a result of nucleation, condensation, and coagulation, will lead to larger particles compared to those produced in 1g. The formation of the larger particles is favored by the expected higher vapor concentration and smoke residence times near the source due to the reduced velocities and mixing at μg conditions. In particular, it is hypothesized that liquid aerosol smokes produced in microgravity will exhibit substantially larger droplet sizes than under the same conditions in normal gravity (with a corresponding decrease in the particle number density for the same mass of smoke). The change in the size distribution and number density will, in turn, affect the response of the smoke detectors and possibly result in some detectors not producing an alarm when exposed to this smoke.",
+    "investigation_acronym": "SAME",
+    "investigation_end_date": "02-28-2008",
+    "investigation_start_date": "03-02-2001",
+    "managing_nasa_center": "Glenn Research Center (GRC)",
+    "objective": "One of the major goals of this investigation was to quantify the sizes that the liquid smoke particulate achieves in low gravity and to relate the droplet size distribution to the smoke generation and smoke transport conditions in the experiment. A numerical code was to be developed to predict the smoke droplet growth as a function of the fuel pyrolysis rate, the thermodynamic properties of the pyrolysis vapor, and the flow environment.",
+    "project_type": "Microgravity Investigation",
+    "research_area": "Combustion Science",
+    "research_impacts": "The SAME experiment will provide technology for an advanced fire detector for future spacecraft that will be used for long duration missions. SAME will provide quantitative data on the sensitivity of these detectors to reduced gravity smokes that will allow evaluation of the adequacy of these existing technologies using relevant data. The current Fire Prevention, Detection, and Suppression (FPDS) program plan allows for the re-evaluation of future sensor technology, to allow new technology and capability to be utilized. The results from SAME are needed to provide the reduced gravity baseline data against which future detection technology developments can be evaluated.The smoke detectors developed from the results of SAME can also be useful in other extreme environments on Earth, such as submarines or underwater laboratories. Accurate detection of smoke in these environments can save lives.",
+    "space_program": "National Aeronautics and Space Administration (NASA)",
+    "study_file_name": "s_PSI-102.txt",
+    "study_identifier": "PSI-102",
+    "study_public_release_date": "18-Sep-2024",
+    "study_submission_date": "18-Sep-2024",
+    "study_title": "Smoke and Aerosol Measurement Experiment",
+    "subresearch_area": "Spacecraft Fire Safety"
+  },
+  "study_metadata_source": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt",
+  "test_point_count": 20,
+  "unreported_variables": [
+    "diluent",
+    "flow_direction",
+    "o2_basis",
+    "o2_percent",
+    "pressure_psi"
+  ],
+  "varied_variables": [
+    "flow_speed_cm_s",
+    "fuel_name",
+    "fuel_phase",
+    "sample_mass_loss_rate_mg_s",
+    "smoke_aging_duration_s"
+  ]
+}

@@ -1,0 +1,41 @@
+# SAFFIRE-III: review sheet (draft)
+
+Edit `data/manual/SAFFIRE-III.json` to approve: set `review_status` to `reviewed`, `reviewed_by` and `reviewed_on`. Check each box after comparing the quote with the linked page.
+
+- [ ] **Pillars**: `['prevention']` · _inferred_
+  - note: Objective (2) is the low-g flammability limit of a material, which is the prevention pillar (material selection depends on flammability limits). Objective (1), fire growth rate, also feeds fire-behaviour models. Pillar is the curator's classification, not a source statement.
+  - [i_Investigation.txt · Comment[Objective]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `(2) investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test.`
+  - [SAFFIRE-I and SAFFIRE-III DoD.docx · para 1](../../knowledgeBase/Flammable/SAFFIRE3/SAFFIRE-I%20and%20SAFFIRE-III%20DoD.docx): `determine how rapidly a large-scale fire grows in low-gravity and whether it reaches a steady-state spread rate`
+- [ ] **Gravity regime**: `microgravity` · _verified_
+  - [i_Investigation.txt · Comment[Project Type]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `Microgravity Investigation`
+- [ ] **Hardware**: `Saffire III enclosure in Cygnus (operated after Cygnus unberths from the ISS)` · _verified_
+  - [i_Investigation.txt · Comment[Experiment Hardware]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `Saffire III enclosure in Cygnus`
+  - [SAFFIRE-III Operations.pdf · p. 1](../../knowledgeBase/Flammable/SAFFIRE3/SAFFIRE-III%20Operations.pdf#page=1): `Saffire-III mission operations begin when Cygnus unberths from the ISS.`
+- [ ] **Nominal atmosphere**: `None` · _not_reported_
+  - note: Searched the ISA-Tab study record, the SAFFIRE-I/III DoD, SAFFIRE-III Operations and the 2017 NTRS Saffire paper: none states the O2 fraction or pressure for the Saffire-III flight. The paper gives the cabin O2 as near 21 percent for the Saffire-I and Saffire-II flights (p. 4, pre-flight); applying it to Saffire-III would be an inference by analogy, left to the reviewer. The solid-state O2/CO2/pressure sensors measured them, but the values are in the raw sensor files. Do not assume cabin air.
+- [ ] **Sensor**: `{'instrument': 'thermocouple', 'measures': 'flow, flame and plume temperatures'}` · _verified_
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `thermocouples provided flow, flame, and plume temperatures`
+- [ ] **Sensor**: `{'instrument': 'radiometer', 'measures': 'flame radiation'}` · _verified_
+  - note: The source says two radiometers.
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `two radiometers recorded flame radiation`
+- [ ] **Sensor**: `{'instrument': 'anemometer', 'measures': 'flow velocity'}` · _verified_
+  - note: The source says two anemometers.
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `two anemometer tracked flow velocity`
+- [ ] **Sensor**: `{'instrument': 'O2 sensor', 'measures': 'O2 mole fraction'}` · _verified_
+  - note: Solid-state sensors (the source text reads 'mole faction', a typo for fraction).
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `solid state sensors were used to measure pressure, CO2 and O2 mole faction`
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `Instruments on an unmanned cargo vessel measure oxygen, carbon dioxide, heat, pressure and flame growth`
+- [ ] **Sensor**: `{'instrument': 'CO2 sensor', 'measures': 'CO2 mole fraction'}` · _verified_
+  - note: Solid-state sensors (the source text reads 'mole faction', a typo for fraction).
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `solid state sensors were used to measure pressure, CO2 and O2 mole faction`
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `Instruments on an unmanned cargo vessel measure oxygen, carbon dioxide, heat, pressure and flame growth`
+- [ ] **Sensor**: `{'instrument': 'pressure sensor', 'measures': 'pressure'}` · _verified_
+  - note: Solid-state sensors.
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `solid state sensors were used to measure pressure, CO2 and O2 mole faction`
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `Instruments on an unmanned cargo vessel measure oxygen, carbon dioxide, heat, pressure and flame growth`
+- [ ] **Sensor**: `{'instrument': 'video camera', 'measures': 'flame images'}` · _verified_
+  - note: Two cameras; the Research Impacts text calls them video cameras.
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `flame images were captured using two cameras`
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `and two video cameras provide views of the flame.`
+- [ ] **Earth application**: `Studying fire in small sealed environments benefits fire safety and prevention on Earth: mines, airplanes, submarines.` · _verified_
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt): `benefits fire safety and prevention efforts on Earth, including inside mines, airplanes, or submarines.`

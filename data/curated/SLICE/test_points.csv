@@ -1,0 +1,13 @@
+investigation_id,test_point_id,record_level,fuel_name,fuel_phase,o2_basis,o2_percent_min,o2_percent_max,o2_percent_raw,pressure_psi_min,pressure_psi_max,pressure_psi_raw,diluent,flow_speed_cm_s_min,flow_speed_cm_s_max,flow_speed_cm_s_raw,flow_direction,source_file,source_row,provenance_status,provenance_note,test_date_and_remarks,fuel_name_raw,fuel_label_fraction_percent
+SLICE,r2,test_day,methane,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,2,verified,,2012-FEB-09,100% CH4,100
+SLICE,r3,test_day,methane,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,3,verified,,2012-FEB-13 SLICE testing with,40% CH4 (balance N2) including 2 pyrometry calibration tests and 2 fan calibrations,40
+SLICE,r4,test_day,methane,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,4,verified,,2012-FEB-17,70% CH4 (balance N2) including 1 pyrometry calibration test,70
+SLICE,r5,test_day,ethylene,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,5,verified,,2012-FEB-20,20% C2H4 (balance N2),20
+SLICE,r6,test_day,methane,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,6,verified,,2012-FEB-27,100% CH4,100
+SLICE,r7,test_day,methane,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,7,verified,,2012-MAR-01,40% CH4 (balance N2),40
+SLICE,r8,test_day,methane,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,8,verified,,2012-MAR-05 SLICE testing with,70% CH4 (balance N2) where the fuel bottle was not emptied (in contrast to most days),70
+SLICE,r9,test_day,ethane,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,9,verified,,2012-MAR-09,100% C2H6,100
+SLICE,r10,test_day,methane,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,10,verified,,2012-MAR-12,100% CH4,100
+SLICE,r11,test_day,ethylene,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,11,verified,,2012-MAR-15,20% C2H4 (balance N2),20
+SLICE,r12,test_day,methane,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,12,verified,,2012-MAR-19 SLICE testing with,70% CH4 (balance N2) including 1 pyrometry calibration test and 2 fan calibrations,70
+SLICE,r13,test_day,ethylene,gas,,,,,,,,,,,,,knowledgeBase/MSG (SolidAndGas)/SLICE/PSI-106_Experimental table_Slice.csv,13,verified,,2012-MAR-23 Last day of testing: SPICE testing with 100% C3H8 and then 100%,100% C2H4,100

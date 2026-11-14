@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 565" role="img" aria-labelledby="title desc">
+<title id="title">Conceptual space combustion research scene</title>
+<desc id="desc">Four numbered research themes: flame behavior at the center, Earth applications at left, exploration habitats at right, and diagnostics at lower left. This schematic is not experimental imagery.</desc>
+<defs>
+ <linearGradient id="space" x2="1" y2="1"><stop stop-color="#eaf2fa"/><stop offset="1" stop-color="#c8d9ed"/></linearGradient>
+ <radialGradient id="earth"><stop stop-color="#a4c4df"/><stop offset=".7" stop-color="#6788b2"/><stop offset="1" stop-color="#315879"/></radialGradient>
+ <radialGradient id="glow"><stop stop-color="#e4f6ff"/><stop offset=".45" stop-color="#9dc6ec" stop-opacity=".7"/><stop offset="1" stop-color="#6788d4" stop-opacity="0"/></radialGradient>
+ <linearGradient id="steel" x2="1" y2="1"><stop stop-color="#fbfdff" stop-opacity=".9"/><stop offset="1" stop-color="#e0eaf5" stop-opacity=".55"/></linearGradient>
+</defs>
+<rect width="1000" height="565" rx="24" fill="url(#space)"/>
+<g fill="#fff" opacity=".8"><circle cx="70" cy="40" r="2"/><circle cx="192" cy="68" r="2"/><circle cx="392" cy="42" r="1.5"/><circle cx="627" cy="70" r="2"/><circle cx="917" cy="56" r="1.5"/><circle cx="950" cy="288" r="2"/><circle cx="725" cy="460" r="1.5"/></g>
+<circle cx="90" cy="167" r="103" fill="url(#earth)"/>
+<path d="M25 122l48-26 36 18-8 28 33 24-7 45-38-10-10-37-32-8zM137 98l32 23 14 49-28-5-7-36z" fill="#d3e6e8" opacity=".6"/>
+<circle cx="91" cy="167" r="110" fill="none" stroke="#f2fbff" stroke-width="6" opacity=".55"/>
+<circle cx="860" cy="151" r="72" fill="#e7eaf0" stroke="#b5c6d9" stroke-width="2"/>
+<g fill="#b5c4d7" opacity=".5"><circle cx="836" cy="128" r="14"/><circle cx="888" cy="168" r="18"/><circle cx="837" cy="184" r="8"/></g>
+<path d="M755 260h180v29H755z" fill="#8da8c2"/><path d="M772 260v-30h58v30m22 0v-30h64v30" fill="#eff6fd" stroke="#7998b6" stroke-width="3"/>
+<g stroke="#96afca" stroke-width="2"><path d="M797 231v29m77-29v29m20-29v29"/></g>
+<rect x="237" y="97" width="465" height="380" rx="32" fill="url(#steel)" stroke="#9db4ce" stroke-width="2"/>
+<rect x="272" y="129" width="396" height="299" rx="20" fill="#e8f2fb" fill-opacity=".7" stroke="#afc3dc"/>
+<g stroke="#bfd1e4" opacity=".7"><path d="M272 179h396M272 229h396M272 279h396M272 329h396M272 379h396M322 129v299M372 129v299M422 129v299M472 129v299M522 129v299M572 129v299M622 129v299"/></g>
+<circle cx="470" cy="270" r="128" fill="url(#glow)"/>
+<circle cx="470" cy="270" r="56" fill="#8cb9df" fill-opacity=".48" stroke="#87acd5" stroke-width="2"/>
+<circle cx="470" cy="270" r="31" fill="#edf9ff" fill-opacity=".85"/>
+<path d="M470 372v-48m-48 50h96" stroke="#6d8aa7" stroke-width="5" stroke-linecap="round"/>
+<g fill="#fff" stroke="#91aac4" stroke-width="2"><rect x="39" y="338" width="150" height="147" rx="14"/><rect x="57" y="358" width="113" height="58" rx="7" fill="#dae8f6"/></g>
+<path d="M65 398l18-15 17 6 19-24 15 15 27-10" fill="none" stroke="#6788d4" stroke-width="3"/>
+<g fill="#8ba7c1"><circle cx="69" cy="441" r="5"/><circle cx="95" cy="441" r="5"/><rect x="118" y="437" width="44" height="8" rx="3"/></g>
+<g stroke="#829db9" stroke-dasharray="5 7" fill="none" opacity=".6"><path d="M190 400h48M702 270h67M200 165h37"/></g>
+<g font-family="Arial,sans-serif" text-anchor="middle" font-size="17" font-weight="700" fill="#fff" stroke="#f7fbff" stroke-width="3">
+<circle cx="540" cy="264" r="22" fill="#527dae"/><circle cx="127" cy="152" r="22" fill="#527dae"/><circle cx="864" cy="233" r="22" fill="#527dae"/><circle cx="110" cy="396" r="22" fill="#527dae"/>
+</g>
+<g font-family="Arial,sans-serif" text-anchor="middle" font-size="17" font-weight="700" fill="#fff"><text x="540" y="270">1</text><text x="127" y="158">2</text><text x="864" y="239">3</text><text x="110" y="402">4</text></g>
+<text x="499" y="520" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" letter-spacing="3" fill="#526d87">CONCEPTUAL RESEARCH SCENE / NOT EXPERIMENTAL FOOTAGE</text>
+</svg>

@@ -1,0 +1,158 @@
+{
+  "investigation_id": "SPICE",
+  "review_status": "draft",
+  "reviewed_by": null,
+  "reviewed_on": null,
+  "pillars": {
+    "value": [],
+    "status": "inferred",
+    "note": "No pillar-specific statement. The objectives are smoke points and sooting of gas jet diffusion flames; the impact is 'to help design safer spacecraft environments', and the PSI SubResearch Area is 'Fire Safety'. Smoke production could relate to detection, but no cited line says so. Pillar list left empty on purpose; the reviewer should decide.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "(1) Identify the laminar smoke-point properties of non-buoyant jet diffusion flames under various co-flow conditions in microgravity."
+      },
+      {
+        "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "(3) Quantify the sooting propensity of different fuels, such as ethylene, propane, and propylene mixtures."
+      },
+      {
+        "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+        "locator": "Comment[Research Impacts]",
+        "quote": "(1) Will improve our understanding of soot formation mechanisms and help design safer spacecraft environments."
+      },
+      {
+        "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+        "locator": "Comment[SubResearch Area]",
+        "quote": "Comment[SubResearch Area] Fire Safety"
+      }
+    ]
+  },
+  "gravity_regime": {
+    "value": "microgravity",
+    "status": "verified",
+    "note": null,
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+        "locator": "Comment[Project Type]",
+        "quote": "Microgravity Investigation"
+      }
+    ]
+  },
+  "hardware": {
+    "value": "Microgravity Science Glovebox (MSG) with a flow duct, integrated nozzles, cameras and a fuel delivery system, on the ISS",
+    "status": "verified",
+    "note": null,
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+        "locator": "Comment[Experiment Hardware]",
+        "quote": "Microgravity Science Glovebox (MSG)"
+      },
+      {
+        "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+        "locator": "Comment[Approach]",
+        "quote": "an apparatus with a flow duct with integrated nozzles, cameras, and fuel delivery systems"
+      },
+      {
+        "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+        "locator": "Comment[Flight Platform]",
+        "quote": "International Space Station (ISS)"
+      }
+    ]
+  },
+  "nominal_atmosphere": {
+    "value": {
+      "o2_percent_min": 19.0,
+      "o2_percent_max": 24.0
+    },
+    "status": "verified",
+    "note": "O2 only: the glovebox was flushed with ISS cabin air whose O2 mole fraction is maintained within 19 to 24 percent (p. 19). No pressure is set: the only pressure in the report is a calculation assumption (burner gas properties at 298 K and 101 kPa, p. 20), not a chamber condition. The experimental table has no O2 or pressure column.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE Final Report 12_2_2012.pdf",
+        "locator": "p. 19",
+        "quote": "such burns the MSG contents were flushed with ISS cabin air. The oxygen mole fraction of this"
+      },
+      {
+        "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE Final Report 12_2_2012.pdf",
+        "locator": "p. 19",
+        "quote": "cabin air is maintained within 19 – 24%."
+      },
+      {
+        "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE Final Report 12_2_2012.pdf",
+        "locator": "p. 20",
+        "quote": "gas properties at 298 K and 101 kPa."
+      }
+    ]
+  },
+  "sensors": [
+    {
+      "value": {
+        "instrument": "still camera",
+        "measures": "flame lengths"
+      },
+      "status": "verified",
+      "note": "Still and video cameras together.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+          "locator": "Comment[Approach]",
+          "quote": "Data such as flame lengths were recorded using still and video cameras."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "video camera",
+        "measures": "flame lengths"
+      },
+      "status": "verified",
+      "note": "Still and video cameras together.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+          "locator": "Comment[Approach]",
+          "quote": "Data such as flame lengths were recorded using still and video cameras."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "anemometer",
+        "measures": "air velocity"
+      },
+      "status": "verified",
+      "note": "An omni-directional TSI model 8475-3-xx anemometer inside the flow duct near the nozzle connector.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE Final Report 12_2_2012.pdf",
+          "locator": "p. 12",
+          "quote": "An omni-directional anemometer, TSI model 8475-3-xx, is"
+        },
+        {
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE Final Report 12_2_2012.pdf",
+          "locator": "p. 12",
+          "quote": "located inside the flow duct near the nozzle connecter to measure the air velocity."
+        }
+      ]
+    }
+  ],
+  "earth_applications": [
+    {
+      "value": "Possible insights into better fuel formulations and combustion processes.",
+      "status": "verified",
+      "note": "Stated as 'could possibly'.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+          "locator": "Comment[Research Impacts]",
+          "quote": "Could possibly provide insights to better fuel formulations and combustion processes."
+        }
+      ]
+    }
+  ]
+}

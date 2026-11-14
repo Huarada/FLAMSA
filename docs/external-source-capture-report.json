@@ -1,0 +1,70 @@
+{
+  "captures": [
+    {
+      "source_id": "nasa-iss-science-facilities",
+      "capture_id": "20261114T145743890246Z",
+      "status": "captured",
+      "error": null
+    },
+    {
+      "source_id": "nasa-combustion-science",
+      "capture_id": "20261114T145744296441Z",
+      "status": "captured",
+      "error": null
+    },
+    {
+      "source_id": "saffire-ii-20170000230",
+      "capture_id": "20261114T145744662608Z",
+      "status": "captured",
+      "error": null
+    },
+    {
+      "source_id": "cygnus-fact-sheet",
+      "capture_id": "20261114T145744665885Z",
+      "status": "captured",
+      "error": null
+    },
+    {
+      "source_id": "ntrs-19960008413",
+      "capture_id": "20261114T145744672840Z",
+      "status": "captured",
+      "error": null
+    },
+    {
+      "source_id": "iss-national-lab-cir",
+      "capture_id": "20261114T145747965377Z",
+      "status": "failed",
+      "error": "HTTP 403; response archived as failure, not source content"
+    },
+    {
+      "source_id": "nasa-mdca-operations",
+      "capture_id": "20261114T145748730207Z",
+      "status": "captured",
+      "error": null
+    },
+    {
+      "source_id": "nasa-mdca-operations",
+      "capture_id": "20261114T145920221851Z",
+      "status": "captured",
+      "error": null
+    },
+    {
+      "source_id": "nasa-fluids-combustion-facility",
+      "capture_id": "20261114T145811132211Z",
+      "status": "captured",
+      "error": null
+    },
+    {
+      "source_id": "esa-microgravity-science-glovebox",
+      "capture_id": "20261114T145811550349Z",
+      "status": "captured",
+      "error": null
+    },
+    {
+      "source_id": "esa-microgravity-science-glovebox",
+      "capture_id": "20261114T145943504523Z",
+      "status": "captured",
+      "error": null
+    }
+  ]
+}

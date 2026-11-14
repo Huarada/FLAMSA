@@ -1,0 +1,402 @@
+{
+  "columns": {
+    "burner_size_mm": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Burner Size (mm)"
+      ],
+      "unit": "mm"
+    },
+    "flames_ignited": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Flames Ignited"
+      ],
+      "unit": ""
+    },
+    "fuel_label_fraction_percent": {
+      "derivation": "percentage printed in the fuel label ('pure' = 100); not the measured composition",
+      "kind": "quantity",
+      "source_headers": [
+        "Fuel Bottle"
+      ],
+      "unit": "percent"
+    },
+    "fuel_name": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Fuel Bottle"
+      ],
+      "unit": null
+    },
+    "fuel_name_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Fuel Bottle"
+      ],
+      "unit": null
+    },
+    "fuel_phase": {
+      "derivation": "adapter: gas unless overridden by fuel name",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "o2_basis": {
+      "derivation": "table constant: O2 column reports the chamber atmosphere",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "o2_percent_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Oxygen Conc (percent)"
+      ],
+      "unit": "percent"
+    },
+    "o2_percent_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Oxygen Conc (percent)"
+      ],
+      "unit": "percent"
+    },
+    "o2_percent_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Oxygen Conc (percent)"
+      ],
+      "unit": null
+    },
+    "test_day_of_month": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Date"
+      ],
+      "unit": null
+    },
+    "test_month": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Month"
+      ],
+      "unit": null
+    },
+    "test_year": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Year"
+      ],
+      "unit": null
+    }
+  },
+  "held_constant_variables": [
+    "fuel_phase",
+    "o2_basis"
+  ],
+  "id": "ACME-BRE",
+  "manual_metadata": {
+    "earth_applications": [],
+    "gravity_regime": {
+      "evidence": [
+        {
+          "locator": "Comment[Project Type]",
+          "quote": "Microgravity Investigation",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": null,
+      "status": "verified",
+      "value": "microgravity"
+    },
+    "hardware": {
+      "evidence": [
+        {
+          "locator": "Comment[Experiment Hardware]",
+          "quote": "Combustion Integrated Rack (CIR), ACME",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "p. 8",
+          "quote": "flat porous burners for the BRE experiment (with inner diameters of 25 and 50 mm).",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "source_url": null
+        }
+      ],
+      "note": "Flat porous burners of 25 and 50 mm are listed in the design section of the final report (p. 8): see the heat flux sensor and thermocouple claims for the burner instruments.",
+      "status": "verified",
+      "value": "Combustion Integrated Rack (CIR), ACME hardware"
+    },
+    "investigation_id": "ACME-BRE",
+    "nominal_atmosphere": {
+      "evidence": [
+        {
+          "locator": "p. 18",
+          "quote": "ambient conditions of 21% oxygen and 14.7 psia.  At conditions of 27% oxygen, 10.2 psia and 34%",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 18",
+          "quote": "oxygen, 8.2 psia, the flames generally persisted for 3 minutes or more.  These are all atmospheric",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 20",
+          "quote": "even with oxygen concentrations of up to 40% (by volume)",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 20",
+          "quote": "oxygen partial pressure), but more of the testing was conducted at roughly atmospheric pressure",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 5",
+          "quote": "oxygen: 10.2 psia, 26.5 %; and 8.2 psia, 34 % oxygen.",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "source_url": null
+        }
+      ],
+      "note": "As-run statements: flames were tested at 21 percent O2 and 14.7 psia, 27 percent and 10.2 psia, and 34 percent and 8.2 psia (p. 18; the plan on p. 5 gives 26.5 percent for the middle pair), and with O2 up to 40 percent (p. 20); 'more of the testing was conducted at roughly atmospheric pressure' with elevated O2. The min/max is an envelope of those conditions and the pairing is not representable: do not combine 40 percent O2 with 8.2 psia or 34 percent with 14.7 psia. The experimental table gives O2 per test day and no pressure.",
+      "status": "verified",
+      "value": {
+        "o2_percent_max": 40.0,
+        "o2_percent_min": 21.0,
+        "pressure_psi_max": 14.7,
+        "pressure_psi_min": 8.2
+      }
+    },
+    "pillars": {
+      "evidence": [
+        {
+          "locator": "Comment[Objective]",
+          "quote": "The BRE flight program seeks to establish the burning conditions in a quiescent microgravity ambient in terms of material properties.",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Hypothesis]",
+          "quote": "This could enable the Cone Calorimeter (NASA Test 2) test as a basis for establishing flammability maps for real materials.",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Research Impacts]",
+          "quote": "BRE yielded important data relevant to spacecraft fire safety.",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "p. 68",
+          "quote": "one of the six ACME experiments was focused on spacecraft fire safety and that was",
+          "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Research Impacts]",
+          "quote": "where the cessation of ventilation is an established step in putting out spacecraft fires.",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Research Impacts]",
+          "quote": "Quasi-steady burning corresponding to various condensed-phase materials (such as PMMA and Nylon) was observed in microgravity despite the absence of air flow",
+          "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "p. 68",
+          "quote": "Burning Rate Emulator (BRE), not CFI-G.",
+          "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+          "source_url": null
+        }
+      ],
+      "note": "The objective is the burning conditions of materials in microgravity as a function of material properties, to build flammability maps: the prevention pillar. The ISA text also says that flames kept burning without air flow, and the cessation of ventilation is an established step in putting out spacecraft fires; that bears on suppression practice but is not encoded. Pillar is the curator's classification, not a source statement.",
+      "status": "inferred",
+      "value": [
+        "prevention"
+      ]
+    },
+    "review_status": "draft",
+    "reviewed_by": null,
+    "reviewed_on": null,
+    "sensors": [
+      {
+        "evidence": [
+          {
+            "locator": "p. 8",
+            "quote": "will be equipped with a surface thermocouple, and each BRE burner will have two heat flux",
+            "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 6",
+            "quote": "- Obtain color video, burner surface temperature, and burner heat flux for two C2H4",
+            "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Hardware description from the final report's design sections, written in the future tense ('will be'); the as-flown configuration is not confirmed in the cited lines. Two heat flux transducers per BRE burner.",
+        "status": "inferred",
+        "value": {
+          "instrument": "heat flux sensor",
+          "measures": "burner heat flux"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 8",
+            "quote": "will be equipped with a surface thermocouple, and each BRE burner will have two heat flux",
+            "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 6",
+            "quote": "- Obtain color video, burner surface temperature, and burner heat flux for two C2H4",
+            "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Hardware description from the final report's design sections, written in the future tense ('will be'); the as-flown configuration is not confirmed in the cited lines. A surface thermocouple on most burners.",
+        "status": "inferred",
+        "value": {
+          "instrument": "thermocouple",
+          "measures": "burner surface temperature"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 8",
+            "quote": "transducers.  The internal pressure of the porous burners will be measured to allow monitoring",
+            "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Hardware description from the final report's design sections, written in the future tense ('will be'); the as-flown configuration is not confirmed in the cited lines.",
+        "status": "inferred",
+        "value": {
+          "instrument": "pressure sensor",
+          "measures": "internal pressure of the porous burner"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 12",
+            "quote": "(ACME) array of 5 radiometers, and (bottom) array with three radiometers, designed for the BRE",
+            "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "A crew-exchangeable array of three radiometers was designed for BRE, the lowest one masked to avoid viewing the burner (Figure 4 caption, p. 12); a design description, the flown configuration is not confirmed.",
+        "status": "inferred",
+        "value": {
+          "instrument": "radiometer",
+          "measures": null
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 9",
+            "quote": "Color imaging is provided by two cameras:",
+            "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 6",
+            "quote": "- Obtain color video, burner surface temperature, and burner heat flux for two C2H4",
+            "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "ACME-wide imaging hardware: two color cameras (p. 9), described in the same page as 'now in development' (a design description); 'color video' is a BRE minimum-success item (p. 6).",
+        "status": "inferred",
+        "value": {
+          "instrument": "color camera",
+          "measures": null
+        }
+      }
+    ]
+  },
+  "psi_id": "PSI-20",
+  "record_level": "test_day",
+  "source_files": [
+    {
+      "encoding": "utf-8",
+      "path": "knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv",
+      "sha256": "4aa5d3f98708ceacced5c620d46858b9965f8d4d941b203229f46467d53e5ab7"
+    }
+  ],
+  "source_notes": [
+    {
+      "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv",
+      "source_row": 2,
+      "text": "Oxygen Conc. (as diluted with nitrogen on a volume basis) was varied between tests where approximate concentrations for tests that ignited are listed. The chamber pressures were also varied but are not identified in this summary table."
+    },
+    {
+      "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv",
+      "source_row": 3,
+      "text": "Flames Ignited is the number ignited on that day (neglecting the day change on ISS)."
+    }
+  ],
+  "study_metadata": {
+    "approach": "To accomplish the above objectives, flight experiments are proposed. Additionally, preliminary flight tests will be performed to verify the experiment operations and for comparison with ground-based tests. For each test, conditions will be established for the chamber contents, namely choice of diluent, oxygen concentration, and pressure. Fuel flow will commence followed by ignition. The flames will initially be observed without varying the fuel flow rate. Because burner surface temperature and heat flux will vary, this will allow a broad range of conditions to be observed during a single test. As the surface temperature of the burner increases, and the flame remains steady, a continuous set of data is produced for the flammability map. Eventually either the flame will extinguish, the surface temperature of the burner will equilibrate, or the temperature limit of the heat flux sensor will be reached. At this time the fuel flow will be terminated. So a test should terminate for a given flow rate at extinction, and for continued burning when the burner surface temperature has steadied or the temperature limit of the heat flux sensor is neared. The extinction limit could be found once the burner temperature has steadied, and the heat flux sensor has not exceeded its limit. At that state, the flow rate can be reduced in small increments, until extinction is observed and the flow rate shut off. Again, in this process, new data is being produced for the flammability map. Ignition limit tests are not proposed for microgravity, but we will explore these under normal gravity. We believe there is better control on Earth-based ignition testing and that these results should carry over to microgravity conditions. In addition to the flight experiments, in normal gravity testing will continue. These tests will involve gaseous, liquid, and solid fuels. These experiments will further establish the validation of the BRE for 1-g applications and show its usefulness to establish 1-g ignition and extinction limits. As available, drop facility testing will be used to refine procedures, test instrumentation, and help to establish viable flow conditions. We will also pursue a CFD model for the quiescent microgravity burning. This will also guide us in the flight experiments, and potentially provide a predictive methodology.",
+    "doi": "10.60555/vb93-3y72",
+    "experiment_hardware": "Combustion Integrated Rack (CIR), ACME",
+    "experiment_hardware_link": "https://www1.grc.nasa.gov/space/iss-research/iss-fcf/cir/, https://www1.grc.nasa.gov/space/iss-research/iss-fcf/combustion-science/acme/",
+    "flight_platform": "International Space Station (ISS)",
+    "funding": "NNX10AD98G, NNX15AD06A, 80NSSC20M0119",
+    "hypothesis": "The BRE investigation hypothesizes that there can exist a regime of quasi-steady burning in microgravity as a function of materials properties. Steady burning may never be achieved, and only slowly changing unsteady flames are possible. The proposed tests aboard the ISS aims to query this hypothesis by establishing a range of quasi-steady burning conditions for condensed fuels in the microgravity environment. It is hypothesized that BRE can determine a range of burning conditions in microgravity as a function of heat of gasification, reradiation heat flux, applied radiant heat flux, heat of combustion and smoke point. This could enable the Cone Calorimeter (NASA Test 2) test as a basis for establishing flammability maps for real materials. The key hypothesis is that the heat of combustion, smoke point, and heat of gasification of the fuel mixture will represent a real solid fuel (or liquid fuel absorbed in an inert matrix). Thus achieved steady burning would represent the potential for real solid fuels to achieve steady burning in microgravity. Other than a candle flame, this has not been shown before.",
+    "investigation_acronym": "ACME BRE",
+    "investigation_end_date": "02-08-2025",
+    "investigation_start_date": "01-01-2010",
+    "managing_nasa_center": "Glenn Research Center (GRC)",
+    "objective": "The BRE flight program seeks to establish the burning conditions in a quiescent microgravity ambient in terms of material properties. The specific flight objectives are as follows. 1. Observe burning behavior in long-duration microgravity for CH4/N2 and C2H4/N2mixtures on porous circular burners of 25 and 50 mm diameter. Consider O2/N2 ambients with various pressures and ambient O2 concentrations and pressures. NASA - considered atmosphere for human space missions will be examined: 14.7 psia, 21 % oxygen: 10.2 psia, 26.5 %; and 8.2 psia, 34 % oxygen. Emphasize fuel conditions that can be related to a diverse range of condensed fuels. 2. Consider the conditions of Objective 1 for ambients of O2/CO2 (desired). 3. Consider the conditions of Objectives 1 – 2 for extinction limits.",
+    "project_type": "Microgravity Investigation",
+    "proposal_title": "Experimental Investigation of Emulated Burning Rate at Various Gravity Levels",
+    "research_area": "Combustion Science",
+    "research_impacts": "BRE yielded important data relevant to spacecraft fire safety. Quasi-steady burning corresponding to various condensed-phase materials (such as PMMA and Nylon) was observed in microgravity despite the absence of air flow, where the cessation of ventilation is an established step in putting out spacecraft fires. The ongoing combustion without air flow was notably seen in elevated-oxygen atmospheres which are being considered for use in future spacecraft, whereas such flames in a normal atmosphere of 21% oxygen self-extinguished in a short time. While BRE’s results are still preliminary, they suggest that NASA may want to increase use of its alternative flammability Test 2, with the cone calorimeter, where that test can measure material properties corresponding to the microgravity flames observed with the BRE burner.",
+    "space_program": "National Aeronautics and Space Administration (NASA)",
+    "study_file_name": "s_PSI-20.txt",
+    "study_identifier": "PSI-20",
+    "study_public_release_date": "15-Sep-2022",
+    "study_submission_date": "15-Sep-2022",
+    "study_title": "Advanced Combustion via Microgravity Experiments - Burning Rate Emulator",
+    "subresearch_area": "Flames of Gaseous Fuels"
+  },
+  "study_metadata_source": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+  "test_point_count": 18,
+  "unreported_variables": [
+    "diluent",
+    "flow_direction",
+    "flow_speed_cm_s",
+    "pressure_psi"
+  ],
+  "varied_variables": [
+    "burner_size_mm",
+    "flames_ignited",
+    "fuel_label_fraction_percent",
+    "fuel_name",
+    "o2_percent"
+  ]
+}

@@ -1,0 +1,447 @@
+{
+  "columns": {
+    "burner_campaign": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Test Type"
+      ],
+      "unit": null
+    },
+    "electrode_polarity": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Mesh Polarity"
+      ],
+      "unit": null
+    },
+    "flames_ignited": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Flames Ignited"
+      ],
+      "unit": ""
+    },
+    "fuel_concentration_percent_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Fuel Conc"
+      ],
+      "unit": "percent"
+    },
+    "fuel_concentration_percent_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Fuel Conc"
+      ],
+      "unit": "percent"
+    },
+    "fuel_concentration_percent_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Fuel Conc"
+      ],
+      "unit": null
+    },
+    "fuel_label_fraction_percent": {
+      "derivation": "percentage printed in the fuel label ('pure' = 100); not the measured composition",
+      "kind": "quantity",
+      "source_headers": [
+        "Fuel Bottle"
+      ],
+      "unit": "percent"
+    },
+    "fuel_name": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Fuel Bottle"
+      ],
+      "unit": null
+    },
+    "fuel_name_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Fuel Bottle"
+      ],
+      "unit": null
+    },
+    "fuel_phase": {
+      "derivation": "adapter: gas unless overridden by fuel name",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "test_day_of_month": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Date"
+      ],
+      "unit": null
+    },
+    "test_day_yyddd": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Test Day"
+      ],
+      "unit": null
+    },
+    "test_month": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Month"
+      ],
+      "unit": null
+    },
+    "test_year": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Year"
+      ],
+      "unit": null
+    }
+  },
+  "held_constant_variables": [
+    "fuel_phase"
+  ],
+  "id": "ACME-E-FIELD",
+  "manual_metadata": {
+    "earth_applications": [
+      {
+        "evidence": [
+          {
+            "locator": "p. 77",
+            "quote": "The ability to control flames with an electric field may have practical applications on Earth.",
+            "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+            "source_url": null
+          }
+        ],
+        "note": null,
+        "status": "verified",
+        "value": "Controlling flames with an electric field may have practical applications on Earth."
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 43",
+            "quote": "of less polluting and more efficient combustion technology for use on Earth.",
+            "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+            "source_url": null
+          }
+        ],
+        "note": null,
+        "status": "verified",
+        "value": "Less polluting and more efficient combustion technology."
+      }
+    ],
+    "gravity_regime": {
+      "evidence": [
+        {
+          "locator": "p. 3",
+          "quote": "independent experiments that make up the Advanced Combustion via Microgravity Experiments (ACME)",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 37",
+          "quote": "fields for weak zero gravity flames was a surprise, and it suggests that electric fields may",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 37",
+          "quote": "be a good tool for approximating buoyancy body forces at partial gravity.",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 37",
+          "quote": "(1) The behavior of the V-I curve is distinctly different in microgravity as compared to 1-g flames,",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 3",
+          "quote": "Space Station (ISS).",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        }
+      ],
+      "note": "The tests ran in microgravity on the ISS: the V-I curve behaves differently 'in microgravity as compared to 1-g flames' (p. 37) and the experiment is one of the ACME tests conducted in the CIR on the International Space Station (p. 3, the sentence wraps over two lines). The final report only suggests that electric fields 'may be a good tool for approximating buoyancy body forces at partial gravity' (p. 37), a finding and not a measured partial-gravity condition: no partial-gravity measurement exists. `partial_emulated` means emulation by electric field, never lunar or Martian gravity; the reviewer may prefer `microgravity`.",
+      "status": "inferred",
+      "value": "partial_emulated"
+    },
+    "hardware": {
+      "evidence": [
+        {
+          "locator": "p. 3",
+          "quote": "project for which tests are conducted within the Combustion Integrated Rack",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 7",
+          "quote": "test with two different burner types (specifically gas-jet and coflow burners)",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 13",
+          "quote": "by the E-FIELD Flames experiment, can be seen above the coflow burner.",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 3",
+          "quote": "Space Station (ISS).",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 13",
+          "quote": "(b) Detail of the ACME chamber insert where the copper electrode mesh, used",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        }
+      ],
+      "note": null,
+      "status": "verified",
+      "value": "Combustion Integrated Rack (CIR) on the ISS with the ACME chamber insert: gas-jet and coflow burners and a copper electrode mesh above the burner"
+    },
+    "investigation_id": "ACME-E-FIELD",
+    "nominal_atmosphere": {
+      "evidence": [
+        {
+          "locator": "p. 21",
+          "quote": "(i.e., 21/79 oxygen/nitrogen by volume) at a nominal pressure of 100 kPa.",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 46",
+          "quote": "the coflow was 21% oxygen with a balance of nitrogen (on a volume basis).",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 4",
+          "quote": "environment gas will have a nominal molar composition of 21% O2 and 79% N2.",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        }
+      ],
+      "note": "As-run statements. O2: the coflow was 21 percent O2 with a nitrogen balance 'in all cases' (p. 46). Pressure: a nominal 100 kPa (converted at 0.145038 psi/kPa) in the tests of the paper quoted on p. 21 (100% methane, synthetic air); it is not stated for every test. The pre-flight plan (p. 4) agrees on the O2. The experimental table has no O2 or pressure column.",
+      "status": "verified",
+      "value": {
+        "o2_percent_max": 21.0,
+        "o2_percent_min": 21.0,
+        "pressure_psi_max": 14.5038,
+        "pressure_psi_min": 14.5038
+      }
+    },
+    "pillars": {
+      "evidence": [
+        {
+          "locator": "p. 68",
+          "quote": "one of the six ACME experiments was focused on spacecraft fire safety and that was",
+          "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 68",
+          "quote": "Burning Rate Emulator (BRE), not CFI-G.",
+          "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 3",
+          "quote": "This project utilizes electric fields in microgravity combustion science to establish a fundamental",
+          "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+          "source_url": null
+        }
+      ],
+      "note": "No direct fire-safety pillar. The ACME CFI-G final report says only one of the six ACME experiments was focused on spacecraft fire safety, the Burning Rate Emulator (the word 'only' starts the first quoted line, split by the PDF text layer); E-FIELD Flames is another of the six. E-FIELD uses electric fields in microgravity combustion science (p. 3). Pillar list left empty on purpose; the reviewer should decide.",
+      "status": "inferred",
+      "value": []
+    },
+    "review_status": "draft",
+    "reviewed_by": null,
+    "reviewed_on": null,
+    "sensors": [
+      {
+        "evidence": [
+          {
+            "locator": "p. 14",
+            "quote": "Chemiluminescent emission is measured with a set of",
+            "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 14",
+            "quote": "three Photomultiplier Tube (PMT) modules.",
+            "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Three PMT modules.",
+        "status": "verified",
+        "value": {
+          "instrument": "photomultiplier tube",
+          "measures": "chemiluminescent emission"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 14",
+            "quote": "the radiant emission is measured with 6 thermopile",
+            "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 10",
+            "quote": "Measure soot luminosity (radiometer measurement) as a function of applied voltage",
+            "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 15",
+            "quote": "radiometers (ACME-RPT-011), and Photomultiplier Tubes",
+            "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Six thermopile detectors; five are in a crew-exchangeable array and one is downstream and off axis (p. 14, the second sentence is split by the text layer).",
+        "status": "verified",
+        "value": {
+          "instrument": "radiometer",
+          "measures": "radiant emission"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 14",
+            "quote": "imaging is provided by an analog color camera within the chamber",
+            "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Imaging is provided by an analog color camera within the chamber; a second color camera is named later on the same printed line (split by the PDF text layer).",
+        "status": "verified",
+        "value": {
+          "instrument": "color camera",
+          "measures": null
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 14",
+            "quote": "include the chamber pressure and temperature, the three gas flow rates, and",
+            "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Listed among ACME's non-imaging measurements recorded at 125 Hz (p. 14); the source names the measured test conditions, not the instruments.",
+        "status": "inferred",
+        "value": {
+          "instrument": "pressure sensor",
+          "measures": "chamber pressure"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 14",
+            "quote": "include the chamber pressure and temperature, the three gas flow rates, and",
+            "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Listed among ACME's non-imaging measurements recorded at 125 Hz (p. 14); the source names the measured test conditions, not the instruments.",
+        "status": "inferred",
+        "value": {
+          "instrument": "temperature sensor",
+          "measures": "chamber temperature"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 14",
+            "quote": "include the chamber pressure and temperature, the three gas flow rates, and",
+            "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Listed among ACME's non-imaging measurements recorded at 125 Hz (p. 14); the source names the measured test conditions, not the instruments.",
+        "status": "inferred",
+        "value": {
+          "instrument": "gas flow meter",
+          "measures": "the three gas flow rates"
+        }
+      }
+    ]
+  },
+  "psi_id": "PSI-22",
+  "record_level": "test_day",
+  "source_files": [
+    {
+      "encoding": "utf-8",
+      "path": "knowledgeBase/ACME/E-FIELDS/PSI-22_Experimental table_ACME E-FIELD Flames.csv",
+      "sha256": "69090c357b83ae38d161d29001d1d32b40fd77b13324ca6585ee990cdceef524"
+    }
+  ],
+  "source_notes": [
+    {
+      "source_file": "knowledgeBase/ACME/E-FIELDS/PSI-22_Experimental table_ACME E-FIELD Flames.csv",
+      "source_row": 2,
+      "text": "Test day is formatted YYDDD where YY identifies year and DDD identifies day of year (GMT)."
+    },
+    {
+      "source_file": "knowledgeBase/ACME/E-FIELDS/PSI-22_Experimental table_ACME E-FIELD Flames.csv",
+      "source_row": 3,
+      "text": "Mesh polarity refers to the polarity of the high-voltage power supply and the copper electrode relative to the burner."
+    },
+    {
+      "source_file": "knowledgeBase/ACME/E-FIELDS/PSI-22_Experimental table_ACME E-FIELD Flames.csv",
+      "source_row": 4,
+      "text": "Fuel Conc. (diluted with nitrogen on a volume basis) was varied between tests, but typically matched the bottle. The list only accounts for flames ignited."
+    },
+    {
+      "source_file": "knowledgeBase/ACME/E-FIELDS/PSI-22_Experimental table_ACME E-FIELD Flames.csv",
+      "source_row": 5,
+      "text": "Flames Ignited is the number ignited on that day (neglecting the day change on ISS)."
+    }
+  ],
+  "study_metadata": {},
+  "study_metadata_source": null,
+  "test_point_count": 21,
+  "unreported_variables": [
+    "diluent",
+    "flow_direction",
+    "flow_speed_cm_s",
+    "o2_basis",
+    "o2_percent",
+    "pressure_psi"
+  ],
+  "varied_variables": [
+    "burner_campaign",
+    "electrode_polarity",
+    "flames_ignited",
+    "fuel_concentration_percent",
+    "fuel_label_fraction_percent",
+    "fuel_name"
+  ]
+}

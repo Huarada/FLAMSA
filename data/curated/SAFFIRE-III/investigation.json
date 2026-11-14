@@ -1,0 +1,410 @@
+{
+  "columns": {
+    "camera_1_video": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Camera 1"
+      ],
+      "unit": null
+    },
+    "camera_2_video": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Camera 2"
+      ],
+      "unit": null
+    },
+    "flow_direction": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Direction"
+      ],
+      "unit": null
+    },
+    "flow_speed_cm_s_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Air Flow"
+      ],
+      "unit": "cm_s"
+    },
+    "flow_speed_cm_s_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Air Flow"
+      ],
+      "unit": "cm_s"
+    },
+    "flow_speed_cm_s_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Air Flow"
+      ],
+      "unit": null
+    },
+    "fuel_geometry": {
+      "derivation": "geometry word literally present in the fuel label",
+      "kind": "text",
+      "source_headers": [
+        "Material"
+      ],
+      "unit": null
+    },
+    "fuel_name": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Material"
+      ],
+      "unit": null
+    },
+    "fuel_name_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Material"
+      ],
+      "unit": null
+    },
+    "fuel_phase": {
+      "derivation": "adapter: solid unless overridden by fuel name",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "sample_length_mm": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Sample Length"
+      ],
+      "unit": "mm"
+    },
+    "sample_length_mm_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Sample Length"
+      ],
+      "unit": null
+    },
+    "sample_thickness_mm": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Sample Thickness"
+      ],
+      "unit": "mm"
+    },
+    "sample_thickness_mm_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Sample Thickness"
+      ],
+      "unit": null
+    },
+    "sample_width_mm": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Sample Width"
+      ],
+      "unit": "mm"
+    },
+    "sample_width_mm_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Sample Width"
+      ],
+      "unit": null
+    },
+    "test_point_id": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Sample Number"
+      ],
+      "unit": null
+    }
+  },
+  "held_constant_variables": [
+    "flow_speed_cm_s",
+    "fuel_geometry",
+    "fuel_name",
+    "fuel_phase",
+    "sample_length_mm",
+    "sample_thickness_mm",
+    "sample_width_mm"
+  ],
+  "id": "SAFFIRE-III",
+  "manual_metadata": {
+    "earth_applications": [
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Research Impacts]",
+            "quote": "benefits fire safety and prevention efforts on Earth, including inside mines, airplanes, or submarines.",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": null,
+        "status": "verified",
+        "value": "Studying fire in small sealed environments benefits fire safety and prevention on Earth: mines, airplanes, submarines."
+      }
+    ],
+    "gravity_regime": {
+      "evidence": [
+        {
+          "locator": "Comment[Project Type]",
+          "quote": "Microgravity Investigation",
+          "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": null,
+      "status": "verified",
+      "value": "microgravity"
+    },
+    "hardware": {
+      "evidence": [
+        {
+          "locator": "Comment[Experiment Hardware]",
+          "quote": "Saffire III enclosure in Cygnus",
+          "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "p. 1",
+          "quote": "Saffire-III mission operations begin when Cygnus unberths from the ISS.",
+          "source_file": "knowledgeBase/Flammable/SAFFIRE3/SAFFIRE-III Operations.pdf",
+          "source_url": null
+        }
+      ],
+      "note": null,
+      "status": "verified",
+      "value": "Saffire III enclosure in Cygnus (operated after Cygnus unberths from the ISS)"
+    },
+    "investigation_id": "SAFFIRE-III",
+    "nominal_atmosphere": {
+      "evidence": [],
+      "note": "Searched the ISA-Tab study record, the SAFFIRE-I/III DoD, SAFFIRE-III Operations and the 2017 NTRS Saffire paper: none states the O2 fraction or pressure for the Saffire-III flight. The paper gives the cabin O2 as near 21 percent for the Saffire-I and Saffire-II flights (p. 4, pre-flight); applying it to Saffire-III would be an inference by analogy, left to the reviewer. The solid-state O2/CO2/pressure sensors measured them, but the values are in the raw sensor files. Do not assume cabin air.",
+      "status": "not_reported",
+      "value": null
+    },
+    "pillars": {
+      "evidence": [
+        {
+          "locator": "Comment[Objective]",
+          "quote": "(2) investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test.",
+          "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "para 1",
+          "quote": "determine how rapidly a large-scale fire grows in low-gravity and whether it reaches a steady-state spread rate",
+          "source_file": "knowledgeBase/Flammable/SAFFIRE3/SAFFIRE-I and SAFFIRE-III DoD.docx",
+          "source_url": null
+        }
+      ],
+      "note": "Objective (2) is the low-g flammability limit of a material, which is the prevention pillar (material selection depends on flammability limits). Objective (1), fire growth rate, also feeds fire-behaviour models. Pillar is the curator's classification, not a source statement.",
+      "status": "inferred",
+      "value": [
+        "prevention"
+      ]
+    },
+    "review_status": "draft",
+    "reviewed_by": null,
+    "reviewed_on": null,
+    "sensors": [
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "thermocouples provided flow, flame, and plume temperatures",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": null,
+        "status": "verified",
+        "value": {
+          "instrument": "thermocouple",
+          "measures": "flow, flame and plume temperatures"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "two radiometers recorded flame radiation",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "The source says two radiometers.",
+        "status": "verified",
+        "value": {
+          "instrument": "radiometer",
+          "measures": "flame radiation"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "two anemometer tracked flow velocity",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "The source says two anemometers.",
+        "status": "verified",
+        "value": {
+          "instrument": "anemometer",
+          "measures": "flow velocity"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "solid state sensors were used to measure pressure, CO2 and O2 mole faction",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          },
+          {
+            "locator": "Comment[Research Impacts]",
+            "quote": "Instruments on an unmanned cargo vessel measure oxygen, carbon dioxide, heat, pressure and flame growth",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "Solid-state sensors (the source text reads 'mole faction', a typo for fraction).",
+        "status": "verified",
+        "value": {
+          "instrument": "O2 sensor",
+          "measures": "O2 mole fraction"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "solid state sensors were used to measure pressure, CO2 and O2 mole faction",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          },
+          {
+            "locator": "Comment[Research Impacts]",
+            "quote": "Instruments on an unmanned cargo vessel measure oxygen, carbon dioxide, heat, pressure and flame growth",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "Solid-state sensors (the source text reads 'mole faction', a typo for fraction).",
+        "status": "verified",
+        "value": {
+          "instrument": "CO2 sensor",
+          "measures": "CO2 mole fraction"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "solid state sensors were used to measure pressure, CO2 and O2 mole faction",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          },
+          {
+            "locator": "Comment[Research Impacts]",
+            "quote": "Instruments on an unmanned cargo vessel measure oxygen, carbon dioxide, heat, pressure and flame growth",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "Solid-state sensors.",
+        "status": "verified",
+        "value": {
+          "instrument": "pressure sensor",
+          "measures": "pressure"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "flame images were captured using two cameras",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          },
+          {
+            "locator": "Comment[Research Impacts]",
+            "quote": "and two video cameras provide views of the flame.",
+            "source_file": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "Two cameras; the Research Impacts text calls them video cameras.",
+        "status": "verified",
+        "value": {
+          "instrument": "video camera",
+          "measures": "flame images"
+        }
+      }
+    ]
+  },
+  "psi_id": "PSI-100",
+  "record_level": "test",
+  "source_files": [
+    {
+      "encoding": "utf-8",
+      "path": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_Experimental table_SAFFIRE-3.csv",
+      "sha256": "4d3c717ec20dd0247db670b2784a9fd7d746788bc54a936f80693e48eb8cd117"
+    }
+  ],
+  "source_notes": [],
+  "study_metadata": {
+    "approach": "The Saffire-III experiments were performed on the Orbital Science’s Cygnus resupply vehicle after it deberthed from the ISS. As a follow on to the Saffire 1 investigation, the Saffire III investigation also used SIBAL as the sample material. However, the experiments were conducted at a flow velocity of 30 cm/s compared to 20 cm/s during Saffire I. The flow was either concurrent or opposed. Once the sample was ignited flame images were captured using two cameras. In addition, thermocouples provided flow, flame, and plume temperatures, two radiometers recorded flame radiation, solid state sensors were used to measure pressure, CO2 and O2 mole faction, and two anemometer tracked flow velocity. All data was compressed, and subsequently downlinked. Details related to samples and experimental parameters are provided in the Experimental Details file in the Science document folder.",
+    "doi": "10.60555/040q-4h36",
+    "experiment_hardware": "Saffire III enclosure in Cygnus",
+    "experiment_hardware_link": "https://www1.grc.nasa.gov/space/iss-research/msg/saffire/",
+    "flight_platform": "International Space Station (ISS)",
+    "funding": "NASA",
+    "hypothesis": "This investigation hypothesizes that due to large differences between fire behavior in normal and reduced gravity, the use of terrestrial fires and fire standards to design spacecraft fire safety systems presents an inherent risk to the vehicle because of the significant level of uncertainty. While this approach has been successful thus far, the uncertainty and risk will increase as exploration missions venture further from earth with considerably longer transit times for a safe return. There is a significant lack of microgravity data available for spacecraft designers on which to base their fire safety designs and procedures. To address this knowledge gap, this investigation proposed to conduct large-scale fire safety experiments in an expendable spacecraft without risk to a crew.",
+    "investigation_acronym": "SAFFIRE-III",
+    "investigation_start_date": "04-18-2017",
+    "managing_nasa_center": "Glenn Research Center (GRC)",
+    "objective": "The objectives of this investigation were to: (1) determine how rapidly a large scale fire grows in low-gravity and (2) investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test.",
+    "project_type": "Microgravity Investigation",
+    "research_area": "Combustion Science",
+    "research_impacts": "The Saffire-I experiment provides a new way to study a realistic fire on an exploration vehicle, which has not been possible in the past because the risks are too high. Instruments on an unmanned cargo vessel measure oxygen, carbon dioxide, heat, pressure and flame growth, and two video cameras provide views of the flame. Results determine microgravity flammability limits for several spacecraft materials, help to validate NASA’s material selection criteria, and how microgravity and limited oxygen affect flame size. The investigation is crucial for the safety of current and future space missions. Studying fire in small, sealed environments such as the Cygnus cargo supply vehicle benefits fire safety and prevention efforts on Earth, including inside mines, airplanes, or submarines.",
+    "space_program": "National Aeronautics and Space Administration (NASA)",
+    "study_file_name": "s_PSI-100.txt",
+    "study_identifier": "PSI-100",
+    "study_public_release_date": "18-Sep-2024",
+    "study_submission_date": "18-Sep-2024",
+    "study_title": "Spacecraft Fire Experiment-III",
+    "subresearch_area": "Spacecraft Fire Safety"
+  },
+  "study_metadata_source": "knowledgeBase/Flammable/SAFFIRE3/PSI-100_metadata_PSI-168_SAFFIRE-III/i_Investigation.txt",
+  "test_point_count": 2,
+  "unreported_variables": [
+    "diluent",
+    "o2_basis",
+    "o2_percent",
+    "pressure_psi"
+  ],
+  "varied_variables": [
+    "flow_direction"
+  ]
+}

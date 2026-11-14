@@ -1,0 +1,332 @@
+{
+  "columns": {
+    "as_run_test_number": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "As Run Test #"
+      ],
+      "unit": null
+    },
+    "fuel_geometry": {
+      "derivation": "geometry word literally present in the fuel label",
+      "kind": "text",
+      "source_headers": [
+        "Fuel Sample Material"
+      ],
+      "unit": null
+    },
+    "fuel_name": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Fuel Sample Material"
+      ],
+      "unit": null
+    },
+    "fuel_name_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Fuel Sample Material"
+      ],
+      "unit": null
+    },
+    "fuel_phase": {
+      "derivation": "adapter: solid unless overridden by fuel name",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "gmt_day_of_year": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "GMT"
+      ],
+      "unit": null
+    },
+    "planned_test_number": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Test #"
+      ],
+      "unit": null
+    },
+    "sample_number": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Sample #"
+      ],
+      "unit": null
+    },
+    "test_date": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Date"
+      ],
+      "unit": null
+    }
+  },
+  "held_constant_variables": [
+    "fuel_phase"
+  ],
+  "id": "BASS",
+  "manual_metadata": {
+    "earth_applications": [
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Research Impacts]",
+            "quote": "These models have wide applicability to the general understanding of many terrestrial combustion problems",
+            "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": null,
+        "status": "verified",
+        "value": "Validated combustion models apply to many terrestrial combustion problems."
+      }
+    ],
+    "gravity_regime": {
+      "evidence": [
+        {
+          "locator": "Comment[Project Type]",
+          "quote": "Microgravity Investigation",
+          "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": null,
+      "status": "verified",
+      "value": "microgravity"
+    },
+    "hardware": {
+      "evidence": [
+        {
+          "locator": "Comment[Experiment Hardware]",
+          "quote": "Microgravity Science Glovebox",
+          "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Approach]",
+          "quote": "The experiment was conducted aboard the International Space Station (ISS)",
+          "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Approach]",
+          "quote": "The samples were placed in a small flow duct (76 mm x 76 mm cross section)",
+          "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Approach]",
+          "quote": "airflow speeds reaching as high as 40 cm/s",
+          "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "p. 4",
+          "quote": "The airflow speed can be adjusted from 5 to",
+          "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 4",
+          "quote": "50 cm/s. Nitrogen is supplied through the nozzle",
+          "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+          "source_url": null
+        }
+      ],
+      "note": "The ISA-Tab says airflow up to 40 cm/s; the requirements document plans 5 to 50 cm/s (SRD p. 4). Not reconciled.",
+      "status": "verified",
+      "value": "Microgravity Science Glovebox (MSG) with a 76 mm x 76 mm flow duct, on the ISS"
+    },
+    "investigation_id": "BASS",
+    "nominal_atmosphere": {
+      "evidence": [
+        {
+          "locator": "p. 51",
+          "quote": "Atmosphere: 17% O2/N2; 1 atm; Flow speed: 12 cm/s (left to right)",
+          "source_file": "knowledgeBase/Flammable/BASS/ISS Denver 2013-BASS.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 4",
+          "quote": "More recent tests varying oxygen (below 21%)",
+          "source_file": "knowledgeBase/Flammable/BASS/ISS Denver 2013-BASS.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 31",
+          "quote": "NOMEX – III, 22% O2, 1 atm",
+          "source_file": "knowledgeBase/Flammable/BASS/ISS Denver 2013-BASS.pdf",
+          "source_url": null
+        }
+      ],
+      "note": "Pressure only (1 atm = 14.6959 psi), taken from slide captions of individual tests; no section states it as a nominal condition for the whole investigation. O2 is not set: the experimental table has no O2 column and the slides show different values (17% in these captions, 22% on p. 31). Do not assume cabin air.",
+      "status": "inferred",
+      "value": {
+        "o2_percent_max": null,
+        "o2_percent_min": null,
+        "pressure_psi_max": 14.6959,
+        "pressure_psi_min": 14.6959
+      }
+    },
+    "pillars": {
+      "evidence": [
+        {
+          "locator": "Comment[Objective]",
+          "quote": "Begin to bridge the gap between the normal gravity NASA-STD-6001 Test#1 method, ground-based microgravity tests, and actual material flammability in microgravity.",
+          "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Objective]",
+          "quote": "Assess the effectiveness of an inert, gaseous extinguishing agent (similar to that used on ISS) in putting out flames over different materials, geometries, preheating, and flow.",
+          "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": "Two stated objectives: material flammability in microgravity (prevention) and the effectiveness of an extinguishing agent (suppression). Pillar is the curator's classification, not a source statement.",
+      "status": "inferred",
+      "value": [
+        "prevention",
+        "suppression"
+      ]
+    },
+    "review_status": "draft",
+    "reviewed_by": null,
+    "reviewed_on": null,
+    "sensors": [
+      {
+        "evidence": [
+          {
+            "locator": "p. 4",
+            "quote": "to blow air through the duct. An anemometer",
+            "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 4",
+            "quote": "is used to measure the actual flow speed.",
+            "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Stated as the plan in the Science Requirements Document (Feb 2010); the as-flown configuration is not confirmed in the cited documents.",
+        "status": "inferred",
+        "value": {
+          "instrument": "anemometer",
+          "measures": "flow speed"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 4",
+            "quote": "A radiometer measures flame output.",
+            "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Stated as the plan in the Science Requirements Document (Feb 2010); the as-flown configuration is not confirmed in the cited documents.",
+        "status": "inferred",
+        "value": {
+          "instrument": "radiometer",
+          "measures": "flame output"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 10",
+            "quote": "Video and digital still camera provided bulk",
+            "source_file": "knowledgeBase/Flammable/BASS/ISS Denver 2013-BASS.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 4",
+            "quote": "still cameras are used to image the flame.",
+            "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "A digital still camera (2013 ISS R&D slide: it 'provided bulk' of the data, continued on the next printed line); the requirements document also plans still cameras.",
+        "status": "verified",
+        "value": {
+          "instrument": "still camera",
+          "measures": null
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 10",
+            "quote": "Video and digital still camera provided bulk",
+            "source_file": "knowledgeBase/Flammable/BASS/ISS Denver 2013-BASS.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Same slide as the still camera: video and digital still camera provided the bulk of the data (continued on the next printed line).",
+        "status": "verified",
+        "value": {
+          "instrument": "video camera",
+          "measures": null
+        }
+      }
+    ]
+  },
+  "psi_id": "PSI-26",
+  "record_level": "test",
+  "source_files": [
+    {
+      "encoding": "utf-8",
+      "path": "knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv",
+      "sha256": "ccfc3c54d948b64a1c5d2596a63c7c8019e51df0c91a1d62f039f48fa28c300f"
+    }
+  ],
+  "source_notes": [],
+  "study_metadata": {
+    "approach": "The experiment was conducted aboard the International Space Station (ISS) inside the Microgravity Glove Box (MSG). Custom-made fabric samples consisting of 75% cotton and 25% fiberglass (by mass) measuring were used as a fuel source as well as Nomex fabric and Ultem. A Kanthal wire (29-gage)igniter was used to initiate combustion at one end of the fabric. Airflow was controlled using a variable speed fan, with airflow speeds reaching as high as 40 cm/s. The airflow was directed along the fuel surface in either the opposed or concurrent direction. This investigation explored two primary air flow configurations; concurrent-flow and opposed-flow. With concurrent-flow air flows in the same direction as the flame spread and in opposed-flow air flows in the opposite direction of flame spread. Flames were observed in the top and edge profiles and data was collected on flame size, shape, color, spread rate, and potential flame quenching. The samples were placed in a small flow duct (76 mm x 76 mm cross section) that allowed for airflow across the fabric. Other sample shapes were utilized as well including spheres and cylinders.",
+    "doi": "10.60555/58h4-dy80",
+    "experiment_hardware": "Microgravity Science Glovebox",
+    "experiment_hardware_link": "https://www1.grc.nasa.gov/space/iss-research/msg/",
+    "flight_platform": "International Space Station (ISS)",
+    "hypothesis": "BASS experiments were based on the hypothesis that materials in microgravity, with adequate ventilation, burn as well if not better than the same material in normal gravity with other conditions being identical (pressure, oxygen concentration, temperature, etc.) To test this hypothesis with any but the thinnest materials requires extended microgravity time – longer than available in drop towers or parabolic aircraft.",
+    "investigation_acronym": "BASS",
+    "investigation_end_date": "06-30-2013",
+    "investigation_start_date": "10-01-2009",
+    "managing_nasa_center": "Glenn Research Center (GRC)",
+    "objective": "The two main objectives for BASS are to: 1.) Begin to bridge the gap between the normal gravity NASA-STD-6001 Test#1 method, ground-based microgravity tests, and actual material flammability in microgravity. The relation between these can be investigated by observing flames burning for the longer times available in flight. Practical, realistic (thicker) fuels in typical geometries will be examined, including wake flames which have characteristics of a fire burning behind another object (for example, a fire burning in tight area which may not be easily accessible). 2.) Assess the effectiveness of an inert, gaseous extinguishing agent (similar to that used on ISS) in putting out flames over different materials, geometries, preheating, and flow.",
+    "project_type": "Microgravity Investigation",
+    "research_area": "Combustion Science",
+    "research_impacts": "Current NASA spacecraft materials selection is based on a standard test method (NASA–STD–6001 Test 1) that segregates material based on 1-g behavior without consideration of low gravity effects. A critical element of this understanding is the radiative heat emission from the flame. These results are used in first order models and predictions of heat release in spacecraft fires and as a means to extend heat release data from tests like the NASA cone calorimeter test (NASA–STD–6001 Test 2) to a performance-based material selection process. Using nitrogen as a flame suppressant in microgravity provides a direct link to current and planned extinguishment techniques. BASS results provide essential guidance to ground-based microgravity combustion research efforts. Detailed combustion models are validated using the simpler flow environment afforded by tests in microgravity. Once validated, they can be used to build more complex combustion models needed to capture the important details of flames burning in normal gravity. These models have wide applicability to the general understanding of many terrestrial combustion problems and will guide novel spacecraft design and ensure the safety of future crewed missions.",
+    "space_program": "National Aeronautics and Space Administration (NASA)",
+    "study_file_name": "s_PSI-26.txt",
+    "study_identifier": "PSI-26",
+    "study_public_release_date": "30-Jun-2013",
+    "study_submission_date": "30-Jun-2013",
+    "study_title": "Burning and Suppression of Solids",
+    "subresearch_area": "Spacecraft Fire Safety"
+  },
+  "study_metadata_source": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+  "test_point_count": 122,
+  "unreported_variables": [
+    "diluent",
+    "flow_direction",
+    "flow_speed_cm_s",
+    "o2_basis",
+    "o2_percent",
+    "pressure_psi"
+  ],
+  "varied_variables": [
+    "fuel_geometry",
+    "fuel_name"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "source_id": "saffire-ii-20170000230",
+  "captured_at_utc": "2026-11-14T14:57:44.662608+00:00",
+  "requested_url": null,
+  "investigation_ids": [
+    "SAFFIRE-II"
+  ],
+  "association_status": "user_supplied_pending_scientific_review",
+  "status": "captured",
+  "title": null,
+  "artifacts": {
+    "document.pdf": {
+      "sha256": "34c6a5a3a2f3dcca7eec796596dee842a59d029635416cbf5b4916516bd7218c",
+      "bytes": 556175
+    }
+  },
+  "limitations": [
+    "Source association is not verification of hardware or sensors used by an investigation.",
+    "Document content is evidence, not executable instructions.",
+    "PDF preserved without automatic text extraction, per project policy."
+  ],
+  "original_filename": "20170000230.pdf"
+}

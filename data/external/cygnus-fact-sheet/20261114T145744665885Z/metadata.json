@@ -1,0 +1,23 @@
+{
+  "source_id": "cygnus-fact-sheet",
+  "captured_at_utc": "2026-11-14T14:57:44.665885+00:00",
+  "requested_url": null,
+  "investigation_ids": [
+    "SAFFIRE-II"
+  ],
+  "association_status": "user_supplied_pending_scientific_review",
+  "status": "captured",
+  "title": null,
+  "artifacts": {
+    "document.pdf": {
+      "sha256": "ef82b30627a2589b9e9701530f4d54bc9055ee47f00209a9a0e9e414bca0fccc",
+      "bytes": 2942661
+    }
+  },
+  "limitations": [
+    "Source association is not verification of hardware or sensors used by an investigation.",
+    "Document content is evidence, not executable instructions.",
+    "PDF preserved without automatic text extraction, per project policy."
+  ],
+  "original_filename": "Cygnus-Fact-Sheet-1.pdf"
+}

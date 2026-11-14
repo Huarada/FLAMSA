@@ -1,0 +1,606 @@
+{
+  "columns": {
+    "adiabatic_flame_temperature_k": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Tad (K)"
+      ],
+      "unit": "k"
+    },
+    "adiabatic_flame_temperature_k_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Tad (K)"
+      ],
+      "unit": null
+    },
+    "ambient_fuel_fraction_after_test_percent": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Xf after test"
+      ],
+      "unit": "percent"
+    },
+    "ambient_fuel_fraction_after_test_percent_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Xf after test"
+      ],
+      "unit": null
+    },
+    "ambient_fuel_fraction_percent": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Xf before test"
+      ],
+      "unit": "percent"
+    },
+    "ambient_fuel_fraction_percent_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Xf before test"
+      ],
+      "unit": null
+    },
+    "burn_time_s": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "burn time (sec)"
+      ],
+      "unit": "s"
+    },
+    "burner_fuel_fraction_percent": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Xf"
+      ],
+      "unit": "percent"
+    },
+    "burner_fuel_fraction_percent_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Xf"
+      ],
+      "unit": null
+    },
+    "campaign_day": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Day"
+      ],
+      "unit": null
+    },
+    "comments": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Comments"
+      ],
+      "unit": null
+    },
+    "cool_flame_observed": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Cool flame?"
+      ],
+      "unit": null
+    },
+    "flame_color": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Color"
+      ],
+      "unit": null
+    },
+    "flame_configuration": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Flame Type"
+      ],
+      "unit": null
+    },
+    "fuel_label_fraction_percent": {
+      "derivation": "percentage printed in the fuel label ('pure' = 100); not the measured composition",
+      "kind": "quantity",
+      "source_headers": [
+        "Fuel"
+      ],
+      "unit": "percent"
+    },
+    "fuel_mass_flow_rate_mg_s": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "mHC (mg/s)",
+        "HC burnrate (mg/s)"
+      ],
+      "unit": "mg_s"
+    },
+    "fuel_mass_flow_rate_mg_s_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "mHC (mg/s)",
+        "HC burnrate (mg/s)"
+      ],
+      "unit": null
+    },
+    "fuel_name": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Fuel"
+      ],
+      "unit": null
+    },
+    "fuel_name_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Fuel"
+      ],
+      "unit": null
+    },
+    "fuel_phase": {
+      "derivation": "adapter: gas unless overridden by fuel name",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "hot_ignition": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Hot ignition"
+      ],
+      "unit": null
+    },
+    "o2_after_test_percent": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "XO2 after test"
+      ],
+      "unit": "percent"
+    },
+    "o2_after_test_percent_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "XO2 after test"
+      ],
+      "unit": null
+    },
+    "o2_basis": {
+      "derivation": "table constant: O2 column reports the chamber atmosphere",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "o2_percent_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "XO2 before test",
+        "XO2"
+      ],
+      "unit": "percent"
+    },
+    "o2_percent_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "XO2 before test",
+        "XO2"
+      ],
+      "unit": "percent"
+    },
+    "o2_percent_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "XO2 before test",
+        "XO2"
+      ],
+      "unit": null
+    },
+    "oxygen_mass_flow_rate_mg_s": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "O2 flow rate (mg/s)"
+      ],
+      "unit": "mg_s"
+    },
+    "peak_burner_temperature_k": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Peak burner T (C )",
+        "Peak burner temp (K)"
+      ],
+      "unit": "k"
+    },
+    "peak_burner_temperature_k_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Peak burner T (C )",
+        "Peak burner temp (K)"
+      ],
+      "unit": null
+    },
+    "pressure_psi_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "approx p (bar)"
+      ],
+      "unit": "psi"
+    },
+    "pressure_psi_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "approx p (bar)"
+      ],
+      "unit": "psi"
+    },
+    "pressure_psi_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "approx p (bar)"
+      ],
+      "unit": null
+    },
+    "stoichiometric_mixture_fraction": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Zst"
+      ],
+      "unit": ""
+    },
+    "stoichiometric_mixture_fraction_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Zst"
+      ],
+      "unit": null
+    },
+    "termination_mode": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Self-ext or flow term",
+        "Self -ext or flow term"
+      ],
+      "unit": null
+    },
+    "test_point_id": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Test"
+      ],
+      "unit": null
+    },
+    "tfp": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "TFP"
+      ],
+      "unit": null
+    }
+  },
+  "held_constant_variables": [
+    "fuel_phase"
+  ],
+  "id": "ACME-CFI-G",
+  "manual_metadata": {
+    "earth_applications": [
+      {
+        "evidence": [
+          {
+            "locator": "p. 4",
+            "quote": "It should advance the state-of-the-art in cool flame kinetics mechanisms, which in turn could lead",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 4",
+            "quote": "to cleaner, more efficient internal combustion engines.",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "A 'could lead' statement from the Broader Impacts of the proposal text (p. 4).",
+        "status": "verified",
+        "value": "Cool-flame knowledge could lead to cleaner, more efficient internal combustion engines."
+      }
+    ],
+    "gravity_regime": {
+      "evidence": [
+        {
+          "locator": "p. 3",
+          "quote": "make up the Advanced Combustion via Microgravity Experiments (ACME) project for which the tests were",
+          "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 3",
+          "quote": "conducted within the Combustion Integrated Rack (CIR) on the International Space Station (ISS).",
+          "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+          "source_url": null
+        }
+      ],
+      "note": "The word 'Microgravity' is in the project name; the report places the tests on the ISS (the sentence wraps over the two quoted lines, p. 3).",
+      "status": "verified",
+      "value": "microgravity"
+    },
+    "hardware": {
+      "evidence": [
+        {
+          "locator": "p. 3",
+          "quote": "conducted within the Combustion Integrated Rack (CIR) on the International Space Station (ISS).",
+          "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 29",
+          "quote": "The tests, performed with gaseous fuel and a porous spherical burner, cannot",
+          "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+          "source_url": null
+        }
+      ],
+      "note": null,
+      "status": "verified",
+      "value": "Combustion Integrated Rack (CIR) on the ISS; porous spherical burner"
+    },
+    "investigation_id": "ACME-CFI-G",
+    "nominal_atmosphere": null,
+    "pillars": {
+      "evidence": [
+        {
+          "locator": "p. 68",
+          "quote": "one of the six ACME experiments was focused on spacecraft fire safety and that was",
+          "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 68",
+          "quote": "Burning Rate Emulator (BRE), not CFI-G.",
+          "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "row 140",
+          "quote": "Normal,9,30% ethane,21162A1,,0.3997,0.394966671,1.0133,0.3,2.36,No",
+          "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Experimental table_CFI-G_Normal Flames.csv",
+          "source_url": null
+        }
+      ],
+      "note": "No direct fire-safety pillar. The final report says that one of the six ACME experiments was focused on spacecraft fire safety and that it was BRE, not CFI-G (the sentence wraps over the two quoted lines, p. 68). CFI-G studies cool diffusion flames of gases. It is still relevant to habitat fire safety through its high-O2 microgravity data: ambient O2 up to 39.97 percent in the experimental table (for example the Normal Flames row 140, XO2 before test 0.3997); the 85 percent values are the burner stream of inverse flames (o2_basis oxidizer_stream), not the chamber atmosphere. That is a data property, not a pillar. Pillar list left empty on purpose.",
+      "status": "inferred",
+      "value": []
+    },
+    "review_status": "draft",
+    "reviewed_by": null,
+    "reviewed_on": null,
+    "sensors": [
+      {
+        "evidence": [
+          {
+            "locator": "p. 23",
+            "quote": "intensified video camera, radiometers, and thermocouples.",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 14",
+            "quote": "The two lone thermocouples, which are both at nominally 200 mm from the center of the spherical",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 14",
+            "quote": "while the others are type K.",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 33",
+            "quote": "The data rate of the non-imaging measurements was 125 per sec.",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 14",
+            "quote": "thermocouple rake are type B,",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Two thermocouples nominally 200 mm from the burner centre (p. 14). Thermocouple rakes: the two nearest the burner are type B, the others type K (p. 14). Logged with the other non-imaging data at 125 per second (p. 33). The source does not state here what they measure.",
+        "status": "verified",
+        "value": {
+          "instrument": "thermocouple",
+          "measures": null
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 23",
+            "quote": "intensified video camera, radiometers, and thermocouples.",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 33",
+            "quote": "(PMTs), gas flow meters, and radiometers",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 33",
+            "quote": "The data rate of the non-imaging measurements was 125 per sec.",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Logged with the other non-imaging data at 125 per second (p. 33). The source does not state here what they measure.",
+        "status": "verified",
+        "value": {
+          "instrument": "radiometer",
+          "measures": null
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 33",
+            "quote": "such as thermocouples, photomultiplier tubes",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 33",
+            "quote": "The data rate of the non-imaging measurements was 125 per sec.",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Called PMT in the report. Logged with the other non-imaging data at 125 per second (p. 33). The source does not state here what they measure.",
+        "status": "verified",
+        "value": {
+          "instrument": "photomultiplier tube",
+          "measures": null
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 33",
+            "quote": "(PMTs), gas flow meters, and radiometers",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 33",
+            "quote": "The data rate of the non-imaging measurements was 125 per sec.",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Logged with the other non-imaging data at 125 per second (p. 33). The source does not state here what they measure.",
+        "status": "verified",
+        "value": {
+          "instrument": "gas flow meter",
+          "measures": null
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 23",
+            "quote": "intensified video camera, radiometers, and thermocouples.",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          }
+        ],
+        "note": null,
+        "status": "verified",
+        "value": {
+          "instrument": "intensified video camera",
+          "measures": null
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 55",
+            "quote": "The left image is from a color",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 7",
+            "quote": "color camera and an avionics package,",
+            "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "A CFI-G figure caption says the left image is from a color camera (the word 'camera.' is on the next printed line, p. 55). The ACME paper lists a high-definition color camera as ACME-unique hardware (p. 7).",
+        "status": "verified",
+        "value": {
+          "instrument": "color camera",
+          "measures": null
+        }
+      }
+    ]
+  },
+  "psi_id": "PSI-159",
+  "record_level": "test",
+  "source_files": [
+    {
+      "encoding": "utf-8",
+      "path": "knowledgeBase/ACME/CFI-G/PSI-159_Experimental table_CFI-G_Normal Flames.csv",
+      "sha256": "d95a621c3fbd27d204dd32ed29fa17d68f2b779d6a523cde8479ed7ebaa5251a"
+    },
+    {
+      "encoding": "utf-8",
+      "path": "knowledgeBase/ACME/CFI-G/PSI-159_Experimental table_CFI-G_Inverse Flames.csv",
+      "sha256": "d4d44f8b9896936728748e34d1b6ad0812032a92fa5289599b708c138e3a9b39"
+    }
+  ],
+  "source_notes": [],
+  "study_metadata": {},
+  "study_metadata_source": null,
+  "test_point_count": 333,
+  "unreported_variables": [
+    "diluent",
+    "flow_direction",
+    "flow_speed_cm_s"
+  ],
+  "varied_variables": [
+    "adiabatic_flame_temperature_k",
+    "ambient_fuel_fraction_after_test_percent",
+    "ambient_fuel_fraction_percent",
+    "burn_time_s",
+    "burner_fuel_fraction_percent",
+    "comments",
+    "cool_flame_observed",
+    "flame_color",
+    "flame_configuration",
+    "fuel_label_fraction_percent",
+    "fuel_mass_flow_rate_mg_s",
+    "fuel_name",
+    "hot_ignition",
+    "o2_after_test_percent",
+    "o2_basis",
+    "o2_percent",
+    "oxygen_mass_flow_rate_mg_s",
+    "peak_burner_temperature_k",
+    "pressure_psi",
+    "stoichiometric_mixture_fraction",
+    "termination_mode",
+    "tfp"
+  ]
+}

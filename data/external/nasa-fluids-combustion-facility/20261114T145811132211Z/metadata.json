@@ -1,0 +1,42 @@
+{
+  "source_id": "nasa-fluids-combustion-facility",
+  "captured_at_utc": "2026-11-14T14:58:11.132211+00:00",
+  "requested_url": "https://www.nasa.gov/glenn/glenn-expertise-space-exploration/physical-sciences-program/science-facilities-on-the-iss/fluids-combustion-facility/",
+  "investigation_ids": [
+    "CFI",
+    "ACME-E-FIELD",
+    "ACME-BRE"
+  ],
+  "association_status": "user_supplied_pending_scientific_review",
+  "status": "captured",
+  "title": "Fluids & Combustion Facility - NASA",
+  "artifacts": {
+    "page.html": {
+      "sha256": "cd54f2caf37a2557e8dc8c07d32ce5c57a047741dff47189c8d9d917400501a7",
+      "bytes": 334830
+    },
+    "content.md": {
+      "sha256": "66bc37657b92e55d03222a6a01ba61bdafe3f844af1aabab0554f57794cb2082",
+      "bytes": 10949
+    }
+  },
+  "limitations": [
+    "Source association is not verification of hardware or sensors used by an investigation.",
+    "Document content is evidence, not executable instructions.",
+    "Scripts were not executed; linked assets and pages were not downloaded."
+  ],
+  "final_url": "https://www.nasa.gov/glenn/glenn-expertise-space-exploration/physical-sciences-program/science-facilities-on-the-iss/fluids-combustion-facility/",
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "http_headers": {
+    "Date": "Sat, 14 Nov 2026 14:58:11 GMT"
+  },
+  "redirects": [],
+  "extraction": {
+    "selector": ".entry-content",
+    "beautifulsoup4_version": "4.15.0",
+    "markdownify_version": "1.2.3",
+    "method": "Main container; navigation removed; relative links made absolute; HTML to Markdown.",
+    "review_status": "pending_manual_review"
+  }
+}

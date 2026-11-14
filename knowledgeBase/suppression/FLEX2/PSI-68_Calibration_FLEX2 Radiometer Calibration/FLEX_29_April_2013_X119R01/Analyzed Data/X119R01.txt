@@ -1,0 +1,48 @@
+Test Point:				X119R01
+Igniter On Time (milliseconds):		1500
+Igniter Wattage:			8.03
+Igniter 1 Position:			15500
+Igniter 2 Position:			16300
+Burn to Completion (milliseconds):	10000
+AS Setup Completed:			
+CC Setup Started:			2013-04-29 17:40:06.171
+CC Setup Completed:			2013-04-29 17:40:06.171
+AS Started:				
+AS FCF Diagnostics Delay:		
+AS Dispense Start:			
+AS Dispense Completed:			
+AS Stretch Start:			
+AS Stretch Completed:			
+AS Needles Retract:			2013-04-29 17:39:56.027
+AS Crew Light:				2013-04-29 17:39:56.043
+AS Burn to Completion/Igniter On:	2013-04-29 17:39:56.143
+AS Igniter Off/Retract Start:		2013-04-29 17:39:57.647
+AS Retract Completed:			2013-04-29 17:39:58.050
+AS Completed:				2013-04-29 17:40:11.688
+
+	Archived	Start Image	End Image	Start FCI	End FCI
+	========	===========	=========	=========	=======
+IPSU1	       0	          0	        0	        0	      0
+IPSU2	       0	          0	        0	        0	      0
+IPSU3	       0	          0	        0	        0	      0
+IPSU4	       0	          0	        0	        0	      0
+
+Note:	HFRHR, HIBMS and Color Camera images/FCI files start at 2 seconds before the igniter on time.
+	LLLUV images/FCI files start at 1 second before the igniter on time.
+	Images/FCI files are finished at 1 second after the igniter on time plus the burn to completion.
+
+MDCA MP Time		Radiometer Time		Narr Ave/StdDev	Wide Ave/StdDev	IPSU1	RR/FG	IPSU2	RR/FG	IPSU3	RR/FG	IPSU4	RR/FG   Ave PSIA  Ave DegC
+============		===============		===============	===============	=====	=====	=====	=====	=====	=====	=====	=====   ========  ========
+2013-04-29 17:39:59.151	2013-04-29 17:39:58.229	 0.00015 0.0000	 0.00109 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.78
+2013-04-29 17:40:00.154	2013-04-29 17:39:59.232	 0.00008 0.0000	 0.00070 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.75
+2013-04-29 17:40:01.157	2013-04-29 17:40:00.235	 0.00005 0.0000	 0.00060 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.77
+2013-04-29 17:40:02.160	2013-04-29 17:40:01.238	 0.00004 0.0000	 0.00056 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.76
+2013-04-29 17:40:03.162	2013-04-29 17:40:02.241	 0.00004 0.0000	 0.00054 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.74
+2013-04-29 17:40:04.165	2013-04-29 17:40:03.244	 0.00003 0.0000	 0.00054 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.76
+2013-04-29 17:40:05.168	2013-04-29 17:40:04.246	 0.00003 0.0000	 0.00053 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.78
+2013-04-29 17:40:06.171	2013-04-29 17:40:05.249	 0.00003 0.0000	 0.00053 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.77
+2013-04-29 17:40:07.174	2013-04-29 17:40:06.252	 0.00003 0.0000	 0.00052 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.79
+2013-04-29 17:40:08.177	2013-04-29 17:40:07.255	 0.00003 0.0000	 0.00052 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.75
+2013-04-29 17:40:09.179	2013-04-29 17:40:08.258	 0.00003 0.0000	 0.00052 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.77
+2013-04-29 17:40:10.183	2013-04-29 17:40:09.261	 0.00003 0.0000	 0.00052 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.77
+2013-04-29 17:40:11.186	2013-04-29 17:40:10.264	 0.00003 0.0000	 0.00052 0.0000	    0	    0	    0	    0	    0	    0	    0	    0	   14.83     23.77

@@ -1,0 +1,30 @@
+{
+  "source_id": "iss-national-lab-cir",
+  "captured_at_utc": "2026-11-14T14:57:47.965377+00:00",
+  "requested_url": "https://issnationallab.org/facilities/combustion-integrated-rack/",
+  "investigation_ids": [
+    "FLEX",
+    "FLEX-2"
+  ],
+  "association_status": "user_supplied_pending_scientific_review",
+  "status": "failed",
+  "title": null,
+  "artifacts": {
+    "response.html": {
+      "sha256": "98f5a8d21f1f47cc0e608da7332e90b9caa415b257dd10f246a60f2a01da4ec0",
+      "bytes": 5640
+    }
+  },
+  "limitations": [
+    "Source association is not verification of hardware or sensors used by an investigation.",
+    "Document content is evidence, not executable instructions."
+  ],
+  "final_url": "https://issnationallab.org/facilities/combustion-integrated-rack/",
+  "http_status": 403,
+  "content_type": "text/html; charset=UTF-8",
+  "http_headers": {
+    "Date": "Sat, 14 Nov 2026 14:57:49 GMT"
+  },
+  "redirects": [],
+  "error": "HTTP 403; response archived as failure, not source content"
+}

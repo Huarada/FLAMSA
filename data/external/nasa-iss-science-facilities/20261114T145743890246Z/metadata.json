@@ -1,0 +1,41 @@
+{
+  "source_id": "nasa-iss-science-facilities",
+  "captured_at_utc": "2026-11-14T14:57:43.890246+00:00",
+  "requested_url": "https://www.nasa.gov/glenn/glenn-expertise-space-exploration/physical-sciences-program/science-facilities-on-the-iss/",
+  "investigation_ids": [
+    "BASS",
+    "BASS-II"
+  ],
+  "association_status": "user_supplied_pending_scientific_review",
+  "status": "captured",
+  "title": "Science Facilities on the ISS - NASA",
+  "artifacts": {
+    "page.html": {
+      "sha256": "a4e1131742e4cb3caceaa0a17579b8b507afcb961ee1bae87a9319de562c70c4",
+      "bytes": 296867
+    },
+    "content.md": {
+      "sha256": "abf1e1227a95a74a3c270aa99a97166218a58e4fd3caca0692459df2b1260394",
+      "bytes": 5237
+    }
+  },
+  "limitations": [
+    "Source association is not verification of hardware or sensors used by an investigation.",
+    "Document content is evidence, not executable instructions.",
+    "Scripts were not executed; linked assets and pages were not downloaded."
+  ],
+  "final_url": "https://www.nasa.gov/glenn/glenn-expertise-space-exploration/physical-sciences-program/science-facilities-on-the-iss/",
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "http_headers": {
+    "Date": "Sat, 14 Nov 2026 14:57:44 GMT"
+  },
+  "redirects": [],
+  "extraction": {
+    "selector": ".entry-content",
+    "beautifulsoup4_version": "4.15.0",
+    "markdownify_version": "1.2.3",
+    "method": "Main container; navigation removed; relative links made absolute; HTML to Markdown.",
+    "review_status": "pending_manual_review"
+  }
+}

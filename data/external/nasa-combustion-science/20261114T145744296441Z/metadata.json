@@ -1,0 +1,44 @@
+{
+  "source_id": "nasa-combustion-science",
+  "captured_at_utc": "2026-11-14T14:57:44.296441+00:00",
+  "requested_url": "https://www.nasa.gov/glenn/glenn-expertise-space-exploration/physical-sciences-program/combustion-science/",
+  "investigation_ids": [
+    "SAFFIRE-I",
+    "SAFFIRE-III",
+    "CFI",
+    "ACME-E-FIELD",
+    "ACME-BRE"
+  ],
+  "association_status": "user_supplied_pending_scientific_review",
+  "status": "captured",
+  "title": "Combustion Science - NASA",
+  "artifacts": {
+    "page.html": {
+      "sha256": "b1918d4610db9ffd4dbab3e815df2c4de6f959945b65bd6edc14e3aaae7a7116",
+      "bytes": 334305
+    },
+    "content.md": {
+      "sha256": "b1d5b0b82cdc55a051b799d585be6213a491e3fa3245613cb140a6f69e7667ee",
+      "bytes": 13965
+    }
+  },
+  "limitations": [
+    "Source association is not verification of hardware or sensors used by an investigation.",
+    "Document content is evidence, not executable instructions.",
+    "Scripts were not executed; linked assets and pages were not downloaded."
+  ],
+  "final_url": "https://www.nasa.gov/glenn/glenn-expertise-space-exploration/physical-sciences-program/combustion-science/",
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "http_headers": {
+    "Date": "Sat, 14 Nov 2026 14:57:45 GMT"
+  },
+  "redirects": [],
+  "extraction": {
+    "selector": ".entry-content",
+    "beautifulsoup4_version": "4.15.0",
+    "markdownify_version": "1.2.3",
+    "method": "Main container; navigation removed; relative links made absolute; HTML to Markdown.",
+    "review_status": "pending_manual_review"
+  }
+}

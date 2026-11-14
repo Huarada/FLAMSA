@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="250" height="62" viewBox="0 0 250 62" role="img" aria-labelledby="title desc">
+  <title id="title">FLAMSA</title>
+  <desc id="desc">An amber flame beside the FLAMSA research workspace wordmark. Vector interpretation of the supplied design reference.</desc>
+  <defs><linearGradient id="flame" x1="0" y1="0" x2="0.4" y2="1"><stop stop-color="#FFE6B0"/><stop offset=".48" stop-color="#F4BD61"/><stop offset="1" stop-color="#CB8732"/></linearGradient></defs>
+  <path transform="translate(2 3)" fill="url(#flame)" d="M25 1C28 15 16 19 17 30C11 25 11 18 14 12C-2 25 2 43 18 51C14 40 25 36 26 28C27 38 36 39 31 53C49 42 40 24 36 15C35 23 32 27 30 28C33 15 29 7 25 1Z"/>
+  <text x="61" y="40" fill="#203747" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" letter-spacing="4">FLAMSA</text>
+</svg>

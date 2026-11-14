@@ -1,0 +1,209 @@
+{
+  "investigation_id": "ACME-BRE",
+  "review_status": "draft",
+  "reviewed_by": null,
+  "reviewed_on": null,
+  "pillars": {
+    "value": [
+      "prevention"
+    ],
+    "status": "inferred",
+    "note": "The objective is the burning conditions of materials in microgravity as a function of material properties, to build flammability maps: the prevention pillar. The ISA text also says that flames kept burning without air flow, and the cessation of ventilation is an established step in putting out spacecraft fires; that bears on suppression practice but is not encoded. Pillar is the curator's classification, not a source statement.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "The BRE flight program seeks to establish the burning conditions in a quiescent microgravity ambient in terms of material properties."
+      },
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+        "locator": "Comment[Hypothesis]",
+        "quote": "This could enable the Cone Calorimeter (NASA Test 2) test as a basis for establishing flammability maps for real materials."
+      },
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+        "locator": "Comment[Research Impacts]",
+        "quote": "BRE yielded important data relevant to spacecraft fire safety."
+      },
+      {
+        "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+        "locator": "p. 68",
+        "quote": "one of the six ACME experiments was focused on spacecraft fire safety and that was"
+      },
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+        "locator": "Comment[Research Impacts]",
+        "quote": "where the cessation of ventilation is an established step in putting out spacecraft fires."
+      },
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+        "locator": "Comment[Research Impacts]",
+        "quote": "Quasi-steady burning corresponding to various condensed-phase materials (such as PMMA and Nylon) was observed in microgravity despite the absence of air flow"
+      },
+      {
+        "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+        "locator": "p. 68",
+        "quote": "Burning Rate Emulator (BRE), not CFI-G."
+      }
+    ]
+  },
+  "gravity_regime": {
+    "value": "microgravity",
+    "status": "verified",
+    "note": null,
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+        "locator": "Comment[Project Type]",
+        "quote": "Microgravity Investigation"
+      }
+    ]
+  },
+  "hardware": {
+    "value": "Combustion Integrated Rack (CIR), ACME hardware",
+    "status": "verified",
+    "note": "Flat porous burners of 25 and 50 mm are listed in the design section of the final report (p. 8): see the heat flux sensor and thermocouple claims for the burner instruments.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE/i_Investigation.txt",
+        "locator": "Comment[Experiment Hardware]",
+        "quote": "Combustion Integrated Rack (CIR), ACME"
+      },
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+        "locator": "p. 8",
+        "quote": "flat porous burners for the BRE experiment (with inner diameters of 25 and 50 mm)."
+      }
+    ]
+  },
+  "nominal_atmosphere": {
+    "value": {
+      "o2_percent_min": 21.0,
+      "o2_percent_max": 40.0,
+      "pressure_psi_min": 8.2,
+      "pressure_psi_max": 14.7
+    },
+    "status": "verified",
+    "note": "As-run statements: flames were tested at 21 percent O2 and 14.7 psia, 27 percent and 10.2 psia, and 34 percent and 8.2 psia (p. 18; the plan on p. 5 gives 26.5 percent for the middle pair), and with O2 up to 40 percent (p. 20); 'more of the testing was conducted at roughly atmospheric pressure' with elevated O2. The min/max is an envelope of those conditions and the pairing is not representable: do not combine 40 percent O2 with 8.2 psia or 34 percent with 14.7 psia. The experimental table gives O2 per test day and no pressure.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+        "locator": "p. 18",
+        "quote": "ambient conditions of 21% oxygen and 14.7 psia.  At conditions of 27% oxygen, 10.2 psia and 34%"
+      },
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+        "locator": "p. 18",
+        "quote": "oxygen, 8.2 psia, the flames generally persisted for 3 minutes or more.  These are all atmospheric"
+      },
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+        "locator": "p. 20",
+        "quote": "even with oxygen concentrations of up to 40% (by volume)"
+      },
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+        "locator": "p. 20",
+        "quote": "oxygen partial pressure), but more of the testing was conducted at roughly atmospheric pressure"
+      },
+      {
+        "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+        "locator": "p. 5",
+        "quote": "oxygen: 10.2 psia, 26.5 %; and 8.2 psia, 34 % oxygen."
+      }
+    ]
+  },
+  "sensors": [
+    {
+      "value": {
+        "instrument": "heat flux sensor",
+        "measures": "burner heat flux"
+      },
+      "status": "inferred",
+      "note": "Hardware description from the final report's design sections, written in the future tense ('will be'); the as-flown configuration is not confirmed in the cited lines. Two heat flux transducers per BRE burner.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "locator": "p. 8",
+          "quote": "will be equipped with a surface thermocouple, and each BRE burner will have two heat flux"
+        },
+        {
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "locator": "p. 6",
+          "quote": "- Obtain color video, burner surface temperature, and burner heat flux for two C2H4"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "thermocouple",
+        "measures": "burner surface temperature"
+      },
+      "status": "inferred",
+      "note": "Hardware description from the final report's design sections, written in the future tense ('will be'); the as-flown configuration is not confirmed in the cited lines. A surface thermocouple on most burners.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "locator": "p. 8",
+          "quote": "will be equipped with a surface thermocouple, and each BRE burner will have two heat flux"
+        },
+        {
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "locator": "p. 6",
+          "quote": "- Obtain color video, burner surface temperature, and burner heat flux for two C2H4"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "pressure sensor",
+        "measures": "internal pressure of the porous burner"
+      },
+      "status": "inferred",
+      "note": "Hardware description from the final report's design sections, written in the future tense ('will be'); the as-flown configuration is not confirmed in the cited lines.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "locator": "p. 8",
+          "quote": "transducers.  The internal pressure of the porous burners will be measured to allow monitoring"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "radiometer",
+        "measures": null
+      },
+      "status": "inferred",
+      "note": "A crew-exchangeable array of three radiometers was designed for BRE, the lowest one masked to avoid viewing the burner (Figure 4 caption, p. 12); a design description, the flown configuration is not confirmed.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "locator": "p. 12",
+          "quote": "(ACME) array of 5 radiometers, and (bottom) array with three radiometers, designed for the BRE"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "color camera",
+        "measures": null
+      },
+      "status": "inferred",
+      "note": "ACME-wide imaging hardware: two color cameras (p. 9), described in the same page as 'now in development' (a design description); 'color video' is a BRE minimum-success item (p. 6).",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "locator": "p. 9",
+          "quote": "Color imaging is provided by two cameras:"
+        },
+        {
+          "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+          "locator": "p. 6",
+          "quote": "- Obtain color video, burner surface temperature, and burner heat flux for two C2H4"
+        }
+      ]
+    }
+  ],
+  "earth_applications": []
+}

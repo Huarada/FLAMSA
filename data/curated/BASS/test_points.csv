@@ -1,0 +1,123 @@
+investigation_id,test_point_id,record_level,fuel_name,fuel_phase,o2_basis,o2_percent_min,o2_percent_max,o2_percent_raw,pressure_psi_min,pressure_psi_max,pressure_psi_raw,diluent,flow_speed_cm_s_min,flow_speed_cm_s_max,flow_speed_cm_s_raw,flow_direction,source_file,source_row,provenance_status,provenance_note,test_date,gmt_day_of_year,as_run_test_number,planned_test_number,sample_number,fuel_name_raw,fuel_geometry
+BASS,r2,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,2,verified,,3/30/2012,90,1,1,4,SIBAL 2 cm,
+BASS,r3,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,3,verified,,3/30/2012,90,2,42,24,PMMA sphere 2 cm,sphere
+BASS,r4,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,4,verified,,3/30/2012,90,3,18,19,PMMA sphere 1 cm,sphere
+BASS,r5,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,5,verified,,4/5/2012,96,4,7,10,SIBAL 2 cm,
+BASS,r6,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,6,verified,,4/5/2012,96,5,8,11,SIBAL 2 cm,
+BASS,r7,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,7,verified,,4/9/2012,100,6,43,24,PMMA sphere 2 cm,sphere
+BASS,r8,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,8,verified,,4/9/2012,100,7,44,24,PMMA sphere 2 cm,sphere
+BASS,r9,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,9,verified,,4/9/2012,100,8,45,24,PMMA sphere 2 cm,sphere
+BASS,r10,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,10,verified,,5/2/2012,123,9,19,19,PMMA sphere 1 cm,sphere
+BASS,r11,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,11,verified,,5/2/2012,123,10,20,19,PMMA sphere 1 cm,sphere
+BASS,r12,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,12,verified,,5/2/2012,123,11,21,19,PMMA sphere 1 cm,sphere
+BASS,r13,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,13,verified,,5/10/2012,131,12,4,12,SIBAL 2 cm,
+BASS,r14,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,14,verified,,5/10/2012,131,13,10,2,SIBAL 1 cm,
+BASS,r15,test,nomex,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,15,verified,,5/10/2012,131,14,12,27,Nomex blend 2 cm,
+BASS,r16,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,16,verified,,5/11/2012,132,15,54,21,PMMA 2 cm,
+BASS,r17,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,17,verified,,5/11/2012,132,16,55,21,PMMA 2 cm,
+BASS,r18,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,18,verified,,5/11/2012,132,17,56,21,PMMA 2 cm,
+BASS,r19,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,19,verified,,5/11/2012,132,18,57,21,PMMA 2 cm,
+BASS,r20,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,20,verified,,5/11/2012,132,19,110,21,PMMA 2 cm,
+BASS,r21,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,21,verified,,6/5/2012,157,20,30,15,PMMA 1 cm,
+BASS,r22,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,22,verified,,6/5/2012,157,21,31,15,PMMA 1 cm,
+BASS,r23,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,23,verified,,6/5/2012,157,22,32,15,PMMA 1 cm,
+BASS,r24,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,24,verified,,6/5/2012,157,23,33,15,PMMA 1 cm,
+BASS,r25,test,nomex,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,25,verified,,6/5/2012,157,24,12-R,27,Nomex blend 2 cm,
+BASS,r26,test,nomex,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,26,verified,,6/5/2012,157,24,12-R2,27,Nomex blend 2 cm,
+BASS,r27,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,27,verified,,6/11/2012,163,25,46,22,2 cm sphere,sphere
+BASS,r28,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,28,verified,,6/11/2012,163,26,47,22,2 cm sphere,sphere
+BASS,r29,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,29,verified,,6/11/2012,163,27,48,22,2 cm sphere,sphere
+BASS,r30,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,30,verified,,6/11/2012,163,28,49,22,2 cm sphere,sphere
+BASS,r31,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,31,verified,,6/14/2012,166,29,22,18,1 cm sphere,sphere
+BASS,r32,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,32,verified,,6/14/2012,166,30,23,18,1 cm sphere,sphere
+BASS,r33,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,33,verified,,6/14/2012,166,31,24,18,1 cm sphere,sphere
+BASS,r34,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,34,verified,,6/14/2012,166,32,25,18,1 cm sphere,sphere
+BASS,r35,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,35,verified,,6/18/2012,170,33,58,25,2 cm sphere,sphere
+BASS,r36,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,36,verified,,6/18/2012,170,34,59,25,2 cm sphere,sphere
+BASS,r37,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,37,verified,,6/18/2012,170,35,60,25,2 cm sphere,sphere
+BASS,r38,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,38,verified,,6/18/2012,170,36,61,25,2 cm sphere,sphere
+BASS,r39,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,39,verified,,6/28/2012,180,37,5,9,SIBAL 2 cm,
+BASS,r40,test,nomex,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,40,verified,,6/28/2012,180,38,14,29,Nomex III Natural,
+BASS,r41,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,41,verified,,6/28/2012,180,39,66,33,PMMA slab,slab
+BASS,r42,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,42,verified,,6/28/2012,180,40,67,33,PMMA slab,slab
+BASS,r43,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,43,verified,,6/29/2012,181,41,34,16,1 cm sphere,sphere
+BASS,r44,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,44,verified,,6/29/`12,181,42,35,16,1 cm sphere,sphere
+BASS,r45,test,ultem,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,45,verified,,6/29/2012,181,43,16,31,ultem sheet,sheet
+BASS,r46,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,46,verified,,6/29/2012,181,44,5b,9,SIBAL 2 cm opposed flow,
+BASS,r47,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,47,verified,,7/3/2012,185,45,6,8,SIBAL 2 cm,
+BASS,r48,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,48,verified,,7/3/2012,185,46,82,35,candle,candle
+BASS,r49,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,49,verified,,7/3/2012,185,47,82a,35,candle,candle
+BASS,r50,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,50,verified,,7/3/2012,185,48,82b,35,candle,candle
+BASS,r51,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,51,verified,,7/3/2012,185,49,68,33,pmma slab,slab
+BASS,r52,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,52,verified,,7/12/2012,194,50,69,33,pmma slab,slab
+BASS,r53,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,53,verified,,7/12/2012,194,51,111,21,2 cm sphere wake ign,sphere
+BASS,r54,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,54,verified,,7/12/2012,194,52,112,21,2 cm sphere wake ign,sphere
+BASS,r55,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,55,verified,,7/12/2012,194,53,113,21,2 cm sphere wake ign,sphere
+BASS,r56,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,56,verified,,7/19/2012,201,54,2,5,SIBAL 2 cm,
+BASS,r57,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,57,verified,,7/19/2012,201,55,3,6,SIBAL 2 cm,
+BASS,r58,test,nomex,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,58,verified,,7/19/2012,201,56,15,30,nomex natural III,
+BASS,r59,test,nomex,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,59,verified,,7/19/2012,201,57,13,28,Nomex blend 2 cm,
+BASS,r60,test,ultem,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,60,verified,,7/19/2012,201,58,17,32,ultem sheet,sheet
+BASS,r61,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,61,verified,,7/19/2012,201,59,114,25,pmma sphere,sphere
+BASS,r62,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,62,verified,,7/23/2012,205,60,62,23,PMMA sphere 2 cm,sphere
+BASS,r63,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,63,verified,,7/23/2012,205,61,63,23,PMMA sphere 2 cm,sphere
+BASS,r64,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,64,verified,,7/23/2012,205,62,64,23,PMMA sphere 2 cm,sphere
+BASS,r65,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,65,verified,,7/23/2012,205,63,65,23,PMMA sphere 2 cm,sphere
+BASS,r66,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,66,verified,,7/23/2012,205,64,118,23,PMMA sphere 2 cm,sphere
+BASS,r67,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,67,verified,,8/3/2012,216,,,,SOOT Cleaning,
+BASS,r68,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,68,verified,,8/9/2012,222,65,11,3,SIBAL 1 cm,
+BASS,r69,test,sibal,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,69,verified,,8/9/2012,222,66,9,7,SIBAL 2 cm,
+BASS,r70,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,70,verified,,8/9/2012,222,67,102,22,PMMA sphere 2 cm,sphere
+BASS,r71,test,japan wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,71,verified,,8/16/2012,229,68,83a,36,Japan Wax Candle wake,candle
+BASS,r72,test,japan wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,72,verified,,8/16/2012,229,69,83b,36,Japan Wax Candle wake,candle
+BASS,r73,test,japan wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,73,verified,,8/16/2012,229,70,83c,36,Japan Wax Candle wake,candle
+BASS,r74,test,japan wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,74,verified,,8/16/2012,229,71,84a,37,Japan Wax Candle wake,candle
+BASS,r75,test,japan wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,75,verified,,8/16/2012,229,72,84b,37,Japan Wax Candle wake,candle
+BASS,r76,test,japan wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,76,verified,,8/16/2012,229,73,86a,38,Japan Wax Candle wake,candle
+BASS,r77,test,japan wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,77,verified,,8/16/2012,229,74,86b,38,Japan Wax Candle wake,candle
+BASS,r78,test,japan wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,78,verified,,8/16/2012,229,75,86c,38,Japan Wax Candle wake,candle
+BASS,r79,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,79,verified,,8/21/2012,234,76,70,34,PMMA slab,slab
+BASS,r80,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,80,verified,,8/21/2012,234,77,71,34,PMMA slab,slab
+BASS,r81,test,paraffin wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,81,verified,,8/21/2012,234,78,74,41,paraffin wax slab,slab
+BASS,r82,test,paraffin wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,82,verified,,8/21/2012,234,79,75,41,parrafin wax slab,slab
+BASS,r83,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,83,verified,,4/5/2013,95,80,98,24,PMMA 2 cm,
+BASS,r84,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,84,verified,,4/5/2013,95,81,99,24,PMMA 2 cm,
+BASS,r85,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,85,verified,,4/9/2013,99,82,114,25,PMMA 2 cm,
+BASS,r86,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,86,verified,,4/9/2013,99,83,115,25,pmma 2 cm,
+BASS,r87,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,87,verified,,4/9/2013,99,84,116,25,pmma 2 cm,
+BASS,r88,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,88,verified,,4/9/2013,99,85,117,25,pmma 2 cm,
+BASS,r89,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,89,verified,,4/9/2013,99,85,117a,25,pmma 2 cm,
+BASS,r90,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,90,verified,,4/12/2013,102,86,100,24,pmma 2 cm,
+BASS,r91,test,paraffin wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,91,verified,,4/12/2013,102,87,85,43,candle paraffin wake,candle
+BASS,r92,test,paraffin wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,92,verified,,4/12/2013,102,88,93,43,candle paraffin wake,candle
+BASS,r93,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,93,verified,,4/16/2013,106,89,26,17,pmma 1 cm,
+BASS,r94,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,94,verified,,4/16/2013,106,90,27,17,pmma 1 cm,
+BASS,r95,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,95,verified,,4/16/2013,106,91,28,17,pmma 1 cm,
+BASS,r96,test,japan wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,96,verified,,4/23/2013,113,89,87,40,candle Japan wax,candle
+BASS,r97,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,97,verified,,4/23/2013,113,90,103,22,2 cm sphere,sphere
+BASS,r98,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,98,verified,,4/23/2013,113,91,104,22,2 cm sphere,sphere
+BASS,r99,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,99,verified,,4/23/2013,113,92,105,22,2 cm sphere,sphere
+BASS,r100,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,100,verified,,4/26/2013,113,93,38,20,1 cm sphere wake,sphere
+BASS,r101,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,101,verified,,4/26/2013,116,94,39,20,1 cm wake sphere,sphere
+BASS,r102,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,102,verified,,4/26/2013,116,95,40,20,1 cm wake sphere,sphere
+BASS,r103,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,103,verified,,4/26/2013,116,96,72,34,pmma slab opposed,slab
+BASS,r104,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,104,verified,,4/26/2013,116,97,73,34,pmma slab oppsed,slab
+BASS,r105,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,105,verified,,4/29/2013,119,98,118,23,2 cm pmma sphere,sphere
+BASS,r106,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,106,verified,,4/29/2013,119,99,119,23,2 cm pmma sphere,sphere
+BASS,r107,test,paraffin wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,107,verified,,5/2/2013,122,100,89,44,parrafin wax candle,candle
+BASS,r108,test,paraffin wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,108,verified,,5/2/2013,122,101,95,44,paraffin wax candle,candle
+BASS,r109,test,japan wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,109,verified,,5/2/2013,122,102,92,40,candle Japan wax,candle
+BASS,r110,test,paraffin wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,110,verified,,5/2/2013,122,103,78,42,paraffin wax slab,slab
+BASS,r111,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,111,verified,,5/15/2103,135,104,50,26,2 cm pmma sphere,sphere
+BASS,r112,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,112,verified,,5/15/2013,135,105,51,26,2 cm sphere,sphere
+BASS,r113,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,113,verified,,5/15/2013,135,106,52,26,2 cm sphere,sphere
+BASS,r114,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,114,verified,,5/15/2013,135,107,53,26,2 cm sphere,sphere
+BASS,r115,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,115,verified,,5/17/2013,137,108,106,26,2 cm sphere,sphere
+BASS,r116,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,116,verified,,5/17/2013,137,109,107,26,2 cm sphere,sphere
+BASS,r117,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,117,verified,,5/17/2013,137,110,108,26,2 cm sphere,sphere
+BASS,r118,test,,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,118,verified,,6/1/2013,137,111,109,26,2 cm sphere,sphere
+BASS,r119,test,wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,119,verified,,6/1/2013,150,112,79,42,flat wax slab,slab
+BASS,r120,test,wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,120,verified,,6/1/2013,150,113,80,42,flat wax slab,slab
+BASS,r121,test,wax,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,121,verified,,6/1/2013,150,114,75,41,flat wax slab,slab
+BASS,r122,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,122,verified,,6/1/2013,150,115,53,26,pmma sphere,sphere
+BASS,r123,test,pmma,solid,,,,,,,,,,,,,knowledgeBase/Flammable/BASS/PSI-26_Experimental table_BASS.csv,123,verified,,6/1/2013,150,116,53a,26,pmma sphere,sphere

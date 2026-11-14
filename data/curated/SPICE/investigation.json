@@ -1,0 +1,365 @@
+{
+  "columns": {
+    "flow_direction": {
+      "derivation": "table constant: SPICE = Smoke Point In Co-flow Experiment; air is coflow",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "flow_speed_cm_s_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Air Rate (cm/s)"
+      ],
+      "unit": "cm_s"
+    },
+    "flow_speed_cm_s_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Air Rate (cm/s)"
+      ],
+      "unit": "cm_s"
+    },
+    "flow_speed_cm_s_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Air Rate (cm/s)"
+      ],
+      "unit": null
+    },
+    "fuel_label_fraction_percent": {
+      "derivation": "percentage printed in the fuel label ('pure' = 100); not the measured composition",
+      "kind": "quantity",
+      "source_headers": [
+        "Fuel"
+      ],
+      "unit": "percent"
+    },
+    "fuel_mass_flow_rate_mg_s": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Fuel Rate (mg/s)"
+      ],
+      "unit": "mg_s"
+    },
+    "fuel_mass_flow_rate_mg_s_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Fuel Rate (mg/s)"
+      ],
+      "unit": null
+    },
+    "fuel_name": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Fuel"
+      ],
+      "unit": null
+    },
+    "fuel_name_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Fuel"
+      ],
+      "unit": null
+    },
+    "fuel_phase": {
+      "derivation": "adapter: gas unless overridden by fuel name",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "fuel_volume_flow_rate_sccm": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Fuel Rate (sccm)"
+      ],
+      "unit": "sccm"
+    },
+    "gmt_day_of_year": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "GMT date"
+      ],
+      "unit": null
+    },
+    "gmt_flame_off_time": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "GMT Flame Off"
+      ],
+      "unit": null
+    },
+    "gmt_ignition_time": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "GMT ignition"
+      ],
+      "unit": null
+    },
+    "hydrocarbon_mass_flow_rate_mg_s": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "HC Fuel Rate (mg/s)"
+      ],
+      "unit": "mg_s"
+    },
+    "hydrocarbon_mass_flow_rate_mg_s_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "HC Fuel Rate (mg/s)"
+      ],
+      "unit": null
+    },
+    "nozzle_diameter_mm": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Nozzle (mm)"
+      ],
+      "unit": "mm"
+    }
+  },
+  "held_constant_variables": [
+    "flow_direction",
+    "fuel_phase"
+  ],
+  "id": "SPICE",
+  "manual_metadata": {
+    "earth_applications": [
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Research Impacts]",
+            "quote": "Could possibly provide insights to better fuel formulations and combustion processes.",
+            "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "Stated as 'could possibly'.",
+        "status": "verified",
+        "value": "Possible insights into better fuel formulations and combustion processes."
+      }
+    ],
+    "gravity_regime": {
+      "evidence": [
+        {
+          "locator": "Comment[Project Type]",
+          "quote": "Microgravity Investigation",
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": null,
+      "status": "verified",
+      "value": "microgravity"
+    },
+    "hardware": {
+      "evidence": [
+        {
+          "locator": "Comment[Experiment Hardware]",
+          "quote": "Microgravity Science Glovebox (MSG)",
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Approach]",
+          "quote": "an apparatus with a flow duct with integrated nozzles, cameras, and fuel delivery systems",
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Flight Platform]",
+          "quote": "International Space Station (ISS)",
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": null,
+      "status": "verified",
+      "value": "Microgravity Science Glovebox (MSG) with a flow duct, integrated nozzles, cameras and a fuel delivery system, on the ISS"
+    },
+    "investigation_id": "SPICE",
+    "nominal_atmosphere": {
+      "evidence": [
+        {
+          "locator": "p. 19",
+          "quote": "such burns the MSG contents were flushed with ISS cabin air. The oxygen mole fraction of this",
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE Final Report 12_2_2012.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 19",
+          "quote": "cabin air is maintained within 19 – 24%.",
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE Final Report 12_2_2012.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 20",
+          "quote": "gas properties at 298 K and 101 kPa.",
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE Final Report 12_2_2012.pdf",
+          "source_url": null
+        }
+      ],
+      "note": "O2 only: the glovebox was flushed with ISS cabin air whose O2 mole fraction is maintained within 19 to 24 percent (p. 19). No pressure is set: the only pressure in the report is a calculation assumption (burner gas properties at 298 K and 101 kPa, p. 20), not a chamber condition. The experimental table has no O2 or pressure column.",
+      "status": "verified",
+      "value": {
+        "o2_percent_max": 24.0,
+        "o2_percent_min": 19.0,
+        "pressure_psi_max": null,
+        "pressure_psi_min": null
+      }
+    },
+    "pillars": {
+      "evidence": [
+        {
+          "locator": "Comment[Objective]",
+          "quote": "(1) Identify the laminar smoke-point properties of non-buoyant jet diffusion flames under various co-flow conditions in microgravity.",
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Objective]",
+          "quote": "(3) Quantify the sooting propensity of different fuels, such as ethylene, propane, and propylene mixtures.",
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Research Impacts]",
+          "quote": "(1) Will improve our understanding of soot formation mechanisms and help design safer spacecraft environments.",
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[SubResearch Area]",
+          "quote": "Comment[SubResearch Area] Fire Safety",
+          "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": "No pillar-specific statement. The objectives are smoke points and sooting of gas jet diffusion flames; the impact is 'to help design safer spacecraft environments', and the PSI SubResearch Area is 'Fire Safety'. Smoke production could relate to detection, but no cited line says so. Pillar list left empty on purpose; the reviewer should decide.",
+      "status": "inferred",
+      "value": []
+    },
+    "review_status": "draft",
+    "reviewed_by": null,
+    "reviewed_on": null,
+    "sensors": [
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "Data such as flame lengths were recorded using still and video cameras.",
+            "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "Still and video cameras together.",
+        "status": "verified",
+        "value": {
+          "instrument": "still camera",
+          "measures": "flame lengths"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "Data such as flame lengths were recorded using still and video cameras.",
+            "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "Still and video cameras together.",
+        "status": "verified",
+        "value": {
+          "instrument": "video camera",
+          "measures": "flame lengths"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 12",
+            "quote": "An omni-directional anemometer, TSI model 8475-3-xx, is",
+            "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE Final Report 12_2_2012.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 12",
+            "quote": "located inside the flow duct near the nozzle connecter to measure the air velocity.",
+            "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE Final Report 12_2_2012.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "An omni-directional TSI model 8475-3-xx anemometer inside the flow duct near the nozzle connector.",
+        "status": "verified",
+        "value": {
+          "instrument": "anemometer",
+          "measures": "air velocity"
+        }
+      }
+    ]
+  },
+  "psi_id": "PSI-107",
+  "record_level": "test",
+  "source_files": [
+    {
+      "encoding": "utf-8",
+      "path": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_Experimental table_Spice.csv",
+      "sha256": "fb0d7e60cf5367afb429089e9901d27288f78038efd26c8de1db4fbe04117136"
+    }
+  ],
+  "source_notes": [],
+  "study_metadata": {
+    "approach": "The experimental setup in the microgravity science glovebox consisted of an apparatus with a flow duct with integrated nozzles, cameras, and fuel delivery systems. Fuels tested included methane, ethylene, propane, propylene, and propylene mixtures. Each flame was ignited in a controlled co-flow air environment, with burner diameters of 0.41 mm, 0.76 mm, and 1.6 mm and co-flow velocities ranging from 5.4 cm/s to 65 cm/s. Fuel flow rates were adjusted to identify the smoke point, marked by the flame's transition to emitting soot. Data such as flame lengths were recorded using still and video cameras. Measurements included flame height, radiative heat losses, and co-flow air velocity distributions. In total 526 flames were studied.",
+    "doi": "10.60555/9kbh-e962",
+    "experiment_hardware": "Microgravity Science Glovebox (MSG)",
+    "experiment_hardware_link": "https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/Columbus/Microgravity_Science_Glovebox",
+    "flight_platform": "International Space Station (ISS)",
+    "hypothesis": "The research hypothesizes that by minimizing gravity-driven transport phenomena scientists can study the laminar smoke-point properties of non-buoyant jet diffusion flames. Flame properties are expected to differ significantly from those observed under normal gravity.",
+    "investigation_acronym": "SPICE",
+    "managing_nasa_center": "Glenn Research Center (GRC)",
+    "objective": "The objective of SPICE is to better understand the complex process of combustion by observing flames in a microgravity environment aboard the International Space Station (ISS) and analogous ground experiments. Specific objectives were: (1) Identify the laminar smoke-point properties of non-buoyant jet diffusion flames under various co-flow conditions in microgravity. (2) Determine the effects of burner diameter and co-flow velocity on the luminous flame lengths and smoke points. (3) Quantify the sooting propensity of different fuels, such as ethylene, propane, and propylene mixtures. (4) Validate the correlation between luminous flame shape and residence time under microgravity conditions. (5) Investigate the impact of air and fuel flow rate variations on smoke point phenomena in space.",
+    "project_type": "Microgravity Investigation",
+    "research_area": "Combustion Science",
+    "research_impacts": "(1) Will improve our understanding of soot formation mechanisms and help design safer spacecraft environments. (2) Will contribute to refining our computational models for predicting flame behaviors under non-buoyant conditions. (3) Will enhance our knowledge of soot generation (4) Could possibly provide insights to better fuel formulations and combustion processes.",
+    "space_program": "National Aeronautics and Space Administration (NASA)",
+    "study_file_name": "s_PSI-107.txt",
+    "study_identifier": "PSI-107",
+    "study_public_release_date": "18-Sep-2024",
+    "study_submission_date": "18-Sep-2024",
+    "study_title": "Smoke Point In Co-flow Experiment",
+    "subresearch_area": "Fire Safety"
+  },
+  "study_metadata_source": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE/i_Investigation.txt",
+  "test_point_count": 469,
+  "unreported_variables": [
+    "diluent",
+    "o2_basis",
+    "o2_percent",
+    "pressure_psi"
+  ],
+  "varied_variables": [
+    "flow_speed_cm_s",
+    "fuel_label_fraction_percent",
+    "fuel_mass_flow_rate_mg_s",
+    "fuel_name",
+    "fuel_volume_flow_rate_sccm",
+    "hydrocarbon_mass_flow_rate_mg_s",
+    "nozzle_diameter_mm"
+  ]
+}

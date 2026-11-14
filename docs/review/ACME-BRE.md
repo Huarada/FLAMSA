@@ -1,0 +1,44 @@
+# ACME-BRE: review sheet (draft)
+
+Edit `data/manual/ACME-BRE.json` to approve: set `review_status` to `reviewed`, `reviewed_by` and `reviewed_on`. Check each box after comparing the quote with the linked page.
+
+- [ ] **Pillars**: `['prevention']` · _inferred_
+  - note: The objective is the burning conditions of materials in microgravity as a function of material properties, to build flammability maps: the prevention pillar. The ISA text also says that flames kept burning without air flow, and the cessation of ventilation is an established step in putting out spacecraft fires; that bears on suppression practice but is not encoded. Pillar is the curator's classification, not a source statement.
+  - [i_Investigation.txt · Comment[Objective]](../../knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME%20BRE/i_Investigation.txt): `The BRE flight program seeks to establish the burning conditions in a quiescent microgravity ambient in terms of material properties.`
+  - [i_Investigation.txt · Comment[Hypothesis]](../../knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME%20BRE/i_Investigation.txt): `This could enable the Cone Calorimeter (NASA Test 2) test as a basis for establishing flammability maps for real materials.`
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME%20BRE/i_Investigation.txt): `BRE yielded important data relevant to spacecraft fire safety.`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 68](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=68): `one of the six ACME experiments was focused on spacecraft fire safety and that was`
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME%20BRE/i_Investigation.txt): `where the cessation of ventilation is an established step in putting out spacecraft fires.`
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME%20BRE/i_Investigation.txt): `Quasi-steady burning corresponding to various condensed-phase materials (such as PMMA and Nylon) was observed in microgravity despite the absence of air flow`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 68](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=68): `Burning Rate Emulator (BRE), not CFI-G.`
+- [ ] **Gravity regime**: `microgravity` · _verified_
+  - [i_Investigation.txt · Comment[Project Type]](../../knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME%20BRE/i_Investigation.txt): `Microgravity Investigation`
+- [ ] **Hardware**: `Combustion Integrated Rack (CIR), ACME hardware` · _verified_
+  - note: Flat porous burners of 25 and 50 mm are listed in the design section of the final report (p. 8): see the heat flux sensor and thermocouple claims for the burner instruments.
+  - [i_Investigation.txt · Comment[Experiment Hardware]](../../knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME%20BRE/i_Investigation.txt): `Combustion Integrated Rack (CIR), ACME`
+  - [BRE_final_report_20220201.pdf · p. 8](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=8): `flat porous burners for the BRE experiment (with inner diameters of 25 and 50 mm).`
+- [ ] **Nominal atmosphere**: `{'o2_percent_min': 21.0, 'o2_percent_max': 40.0, 'pressure_psi_min': 8.2, 'pressure_psi_max': 14.7}` · _verified_
+  - note: As-run statements: flames were tested at 21 percent O2 and 14.7 psia, 27 percent and 10.2 psia, and 34 percent and 8.2 psia (p. 18; the plan on p. 5 gives 26.5 percent for the middle pair), and with O2 up to 40 percent (p. 20); 'more of the testing was conducted at roughly atmospheric pressure' with elevated O2. The min/max is an envelope of those conditions and the pairing is not representable: do not combine 40 percent O2 with 8.2 psia or 34 percent with 14.7 psia. The experimental table gives O2 per test day and no pressure.
+  - [BRE_final_report_20220201.pdf · p. 18](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=18): `ambient conditions of 21% oxygen and 14.7 psia.  At conditions of 27% oxygen, 10.2 psia and 34%`
+  - [BRE_final_report_20220201.pdf · p. 18](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=18): `oxygen, 8.2 psia, the flames generally persisted for 3 minutes or more.  These are all atmospheric`
+  - [BRE_final_report_20220201.pdf · p. 20](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=20): `even with oxygen concentrations of up to 40% (by volume)`
+  - [BRE_final_report_20220201.pdf · p. 20](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=20): `oxygen partial pressure), but more of the testing was conducted at roughly atmospheric pressure`
+  - [BRE_final_report_20220201.pdf · p. 5](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=5): `oxygen: 10.2 psia, 26.5 %; and 8.2 psia, 34 % oxygen.`
+- [ ] **Sensor**: `{'instrument': 'heat flux sensor', 'measures': 'burner heat flux'}` · _inferred_
+  - note: Hardware description from the final report's design sections, written in the future tense ('will be'); the as-flown configuration is not confirmed in the cited lines. Two heat flux transducers per BRE burner.
+  - [BRE_final_report_20220201.pdf · p. 8](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=8): `will be equipped with a surface thermocouple, and each BRE burner will have two heat flux`
+  - [BRE_final_report_20220201.pdf · p. 6](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=6): `- Obtain color video, burner surface temperature, and burner heat flux for two C2H4`
+- [ ] **Sensor**: `{'instrument': 'thermocouple', 'measures': 'burner surface temperature'}` · _inferred_
+  - note: Hardware description from the final report's design sections, written in the future tense ('will be'); the as-flown configuration is not confirmed in the cited lines. A surface thermocouple on most burners.
+  - [BRE_final_report_20220201.pdf · p. 8](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=8): `will be equipped with a surface thermocouple, and each BRE burner will have two heat flux`
+  - [BRE_final_report_20220201.pdf · p. 6](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=6): `- Obtain color video, burner surface temperature, and burner heat flux for two C2H4`
+- [ ] **Sensor**: `{'instrument': 'pressure sensor', 'measures': 'internal pressure of the porous burner'}` · _inferred_
+  - note: Hardware description from the final report's design sections, written in the future tense ('will be'); the as-flown configuration is not confirmed in the cited lines.
+  - [BRE_final_report_20220201.pdf · p. 8](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=8): `transducers.  The internal pressure of the porous burners will be measured to allow monitoring`
+- [ ] **Sensor**: `{'instrument': 'radiometer'}` · _inferred_
+  - note: A crew-exchangeable array of three radiometers was designed for BRE, the lowest one masked to avoid viewing the burner (Figure 4 caption, p. 12); a design description, the flown configuration is not confirmed.
+  - [BRE_final_report_20220201.pdf · p. 12](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=12): `(ACME) array of 5 radiometers, and (bottom) array with three radiometers, designed for the BRE`
+- [ ] **Sensor**: `{'instrument': 'color camera'}` · _inferred_
+  - note: ACME-wide imaging hardware: two color cameras (p. 9), described in the same page as 'now in development' (a design description); 'color video' is a BRE minimum-success item (p. 6).
+  - [BRE_final_report_20220201.pdf · p. 9](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=9): `Color imaging is provided by two cameras:`
+  - [BRE_final_report_20220201.pdf · p. 6](../../knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf#page=6): `- Obtain color video, burner surface temperature, and burner heat flux for two C2H4`

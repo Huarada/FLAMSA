@@ -1,0 +1,186 @@
+{
+  "investigation_id": "BASS",
+  "review_status": "draft",
+  "reviewed_by": null,
+  "reviewed_on": null,
+  "pillars": {
+    "value": [
+      "prevention",
+      "suppression"
+    ],
+    "status": "inferred",
+    "note": "Two stated objectives: material flammability in microgravity (prevention) and the effectiveness of an extinguishing agent (suppression). Pillar is the curator's classification, not a source statement.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "Begin to bridge the gap between the normal gravity NASA-STD-6001 Test#1 method, ground-based microgravity tests, and actual material flammability in microgravity."
+      },
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "Assess the effectiveness of an inert, gaseous extinguishing agent (similar to that used on ISS) in putting out flames over different materials, geometries, preheating, and flow."
+      }
+    ]
+  },
+  "gravity_regime": {
+    "value": "microgravity",
+    "status": "verified",
+    "note": null,
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+        "locator": "Comment[Project Type]",
+        "quote": "Microgravity Investigation"
+      }
+    ]
+  },
+  "hardware": {
+    "value": "Microgravity Science Glovebox (MSG) with a 76 mm x 76 mm flow duct, on the ISS",
+    "status": "verified",
+    "note": "The ISA-Tab says airflow up to 40 cm/s; the requirements document plans 5 to 50 cm/s (SRD p. 4). Not reconciled.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+        "locator": "Comment[Experiment Hardware]",
+        "quote": "Microgravity Science Glovebox"
+      },
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+        "locator": "Comment[Approach]",
+        "quote": "The experiment was conducted aboard the International Space Station (ISS)"
+      },
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+        "locator": "Comment[Approach]",
+        "quote": "The samples were placed in a small flow duct (76 mm x 76 mm cross section)"
+      },
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+        "locator": "Comment[Approach]",
+        "quote": "airflow speeds reaching as high as 40 cm/s"
+      },
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+        "locator": "p. 4",
+        "quote": "The airflow speed can be adjusted from 5 to"
+      },
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+        "locator": "p. 4",
+        "quote": "50 cm/s. Nitrogen is supplied through the nozzle"
+      }
+    ]
+  },
+  "nominal_atmosphere": {
+    "value": {
+      "pressure_psi_min": 14.6959,
+      "pressure_psi_max": 14.6959
+    },
+    "status": "inferred",
+    "note": "Pressure only (1 atm = 14.6959 psi), taken from slide captions of individual tests; no section states it as a nominal condition for the whole investigation. O2 is not set: the experimental table has no O2 column and the slides show different values (17% in these captions, 22% on p. 31). Do not assume cabin air.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/ISS Denver 2013-BASS.pdf",
+        "locator": "p. 51",
+        "quote": "Atmosphere: 17% O2/N2; 1 atm; Flow speed: 12 cm/s (left to right)"
+      },
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/ISS Denver 2013-BASS.pdf",
+        "locator": "p. 4",
+        "quote": "More recent tests varying oxygen (below 21%)"
+      },
+      {
+        "source_file": "knowledgeBase/Flammable/BASS/ISS Denver 2013-BASS.pdf",
+        "locator": "p. 31",
+        "quote": "NOMEX – III, 22% O2, 1 atm"
+      }
+    ]
+  },
+  "sensors": [
+    {
+      "value": {
+        "instrument": "anemometer",
+        "measures": "flow speed"
+      },
+      "status": "inferred",
+      "note": "Stated as the plan in the Science Requirements Document (Feb 2010); the as-flown configuration is not confirmed in the cited documents.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+          "locator": "p. 4",
+          "quote": "to blow air through the duct. An anemometer"
+        },
+        {
+          "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+          "locator": "p. 4",
+          "quote": "is used to measure the actual flow speed."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "radiometer",
+        "measures": "flame output"
+      },
+      "status": "inferred",
+      "note": "Stated as the plan in the Science Requirements Document (Feb 2010); the as-flown configuration is not confirmed in the cited documents.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+          "locator": "p. 4",
+          "quote": "A radiometer measures flame output."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "still camera",
+        "measures": null
+      },
+      "status": "verified",
+      "note": "A digital still camera (2013 ISS R&D slide: it 'provided bulk' of the data, continued on the next printed line); the requirements document also plans still cameras.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/Flammable/BASS/ISS Denver 2013-BASS.pdf",
+          "locator": "p. 10",
+          "quote": "Video and digital still camera provided bulk"
+        },
+        {
+          "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+          "locator": "p. 4",
+          "quote": "still cameras are used to image the flame."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "video camera",
+        "measures": null
+      },
+      "status": "verified",
+      "note": "Same slide as the still camera: video and digital still camera provided the bulk of the data (continued on the next printed line).",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/Flammable/BASS/ISS Denver 2013-BASS.pdf",
+          "locator": "p. 10",
+          "quote": "Video and digital still camera provided bulk"
+        }
+      ]
+    }
+  ],
+  "earth_applications": [
+    {
+      "value": "Validated combustion models apply to many terrestrial combustion problems.",
+      "status": "verified",
+      "note": null,
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS/i_Investigation.txt",
+          "locator": "Comment[Research Impacts]",
+          "quote": "These models have wide applicability to the general understanding of many terrestrial combustion problems"
+        }
+      ]
+    }
+  ]
+}

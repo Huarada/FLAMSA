@@ -1,0 +1,168 @@
+{
+  "investigation_id": "SAME-R",
+  "review_status": "draft",
+  "reviewed_by": null,
+  "reviewed_on": null,
+  "pillars": {
+    "value": [
+      "detection"
+    ],
+    "status": "inferred",
+    "note": "SAMER is the re-flight of SAME (an extension or continuation, p. 2); its stated purpose is smoke detection: the M-pass two-moment smoke detector and the design of fire detection systems. The report calls the re-flight both SAMER and SAME-2. Pillar is the curator's classification, not a source statement.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+        "locator": "p. 6",
+        "quote": "The MPASS was included in SAME-2 to demonstrate the effectiveness of a two-moment smoke detector."
+      },
+      {
+        "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+        "locator": "p. 73",
+        "quote": "design of fire detection systems requires knowledge of both the expected signature of the events to"
+      }
+    ]
+  },
+  "gravity_regime": {
+    "value": "microgravity",
+    "status": "inferred",
+    "note": "The report says 'low-gravity' and places the flight tests on the ISS (p. 3: thermal precipitators uploaded to the ISS); mapped to the microgravity regime.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+        "locator": "p. 9",
+        "quote": "It is important to recognize that this condition is unique to low-gravity scenarios."
+      },
+      {
+        "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+        "locator": "p. 3",
+        "quote": "Six re-assembled Thermal Precipitators, each having 12 TEM grids in it, were uploaded to ISS for SAMER."
+      }
+    ]
+  },
+  "hardware": {
+    "value": "SAME smoke apparatus re-flown on the ISS with modifications: a new M-pass instrument replaced one of the two Commercial Diagnostic Enclosures",
+    "status": "verified",
+    "note": "The SAME flight (2007) was in the Microgravity Science Glovebox (p. 2); the cited lines do not repeat that for SAMER, so it is not stated here.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+        "locator": "p. 2",
+        "quote": "Smoke Aerosol Measurement Experiment Re-flight (SAMER) is an extension or continuation of Smoke Aerosol"
+      },
+      {
+        "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+        "locator": "p. 2",
+        "quote": "instrument, M-pass, developed in-house GRC, was used to replace one of the two Commercial Diagnostic"
+      },
+      {
+        "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+        "locator": "p. 3",
+        "quote": "Six re-assembled Thermal Precipitators, each having 12 TEM grids in it, were uploaded to ISS for SAMER."
+      }
+    ]
+  },
+  "nominal_atmosphere": {
+    "value": null,
+    "status": "not_reported",
+    "note": "The experimental table carries no O2 or pressure. Searched the whole SAMER Final Report (2014) for cabin or ambient pressure and oxygen: the only pressure found is 309 kPa-g of house air for a ground flow test, not the flight atmosphere. The SAME documents searched for SAME (ISA-Tab, Final Science Report, Operations Manual, EIRD, Baseline Concept Description) also state none; the SAME2 folder holds byte-identical copies of the last three. Not searched: presentations, papers, drawings. Do not assume cabin air.",
+    "evidence": []
+  },
+  "sensors": [
+    {
+      "value": {
+        "instrument": "M-pass",
+        "measures": null
+      },
+      "status": "verified",
+      "note": "A new in-house GRC instrument, called MPASS in a later section; 'to demonstrate the effectiveness of a two-moment smoke detector' (p. 6). Instrument of the SAMER flight apparatus (Final Report, 2014).",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+          "locator": "p. 2",
+          "quote": "instrument, M-pass, developed in-house GRC, was used to replace one of the two Commercial Diagnostic"
+        },
+        {
+          "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+          "locator": "p. 6",
+          "quote": "The MPASS was included in SAME-2 to demonstrate the effectiveness of a two-moment smoke detector."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "P-Trak",
+        "measures": null
+      },
+      "status": "verified",
+      "note": "Named in the SAMER apparatus flow tests (p. 2); SAME-R reused the SAME hardware already on orbit (p. 3).",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+          "locator": "p. 2",
+          "quote": "accurate dilution ratio data of the P-trak and Dusttrak so that the accuracy of aerosol concentration can be improved."
+        },
+        {
+          "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+          "locator": "p. 3",
+          "quote": "SAME-R utilized the SAME hardware already on  orbit with reloaded sample carousels, 30  extra loose samples,"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "DustTrak",
+        "measures": null
+      },
+      "status": "verified",
+      "note": "Named in the SAMER apparatus flow tests (p. 2); SAME-R reused the SAME hardware already on orbit (p. 3).",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+          "locator": "p. 2",
+          "quote": "accurate dilution ratio data of the P-trak and Dusttrak so that the accuracy of aerosol concentration can be improved."
+        },
+        {
+          "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+          "locator": "p. 3",
+          "quote": "SAME-R utilized the SAME hardware already on  orbit with reloaded sample carousels, 30  extra loose samples,"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "thermophoretic soot sampler",
+        "measures": null
+      },
+      "status": "inferred",
+      "note": "Called Thermal Precipitators in the report; the same device is called thermophoretic soot samplers in the SAME record (curator's identification, hence inferred). Six re-assembled Thermal Precipitators were uploaded to the ISS for SAMER (p. 3).",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+          "locator": "p. 3",
+          "quote": "Six re-assembled Thermal Precipitators, each having 12 TEM grids in it, were uploaded to ISS for SAMER."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "scanning mobility particle sizer",
+        "measures": "particle size distribution, as the reference instrument for validation"
+      },
+      "status": "verified",
+      "note": "A post-flight ground instrument, not part of the flight apparatus.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+          "locator": "p. 9",
+          "quote": "incorporating the flight aerosol instruments which had been returned to earth.  A Scanning Mobility Particle Sizer"
+        },
+        {
+          "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+          "locator": "p. 9",
+          "quote": "(SMPS) Spectrometer (3936, TSI, Shoreview, MN, USA) was used as the reference instrument in validation"
+        }
+      ]
+    }
+  ],
+  "earth_applications": []
+}

@@ -1,0 +1,167 @@
+{
+  "investigation_id": "SAFFIRE-II",
+  "review_status": "draft",
+  "reviewed_by": null,
+  "reviewed_on": null,
+  "pillars": {
+    "value": [
+      "prevention"
+    ],
+    "status": "inferred",
+    "note": "Objectives are fire growth rate and the low-g flammability limit of a material; the second is the prevention pillar (material selection depends on flammability limits). Pillar is the curator's classification, not a source statement.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/Flammable/SAFFIRE2/SAFFIRE-II DoD.docx",
+        "locator": "para 1",
+        "quote": "investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test"
+      },
+      {
+        "source_file": "data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf",
+        "locator": "p. 4",
+        "quote": "Maximum Oxygen Concentration (MOC) flammability limits in long-term low gravity.2 The configuration for these"
+      }
+    ]
+  },
+  "gravity_regime": {
+    "value": "microgravity",
+    "status": "inferred",
+    "note": "The sources say 'low-gravity'; mapped to the microgravity regime.",
+    "evidence": [
+      {
+        "source_file": "data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf",
+        "locator": "p. 4",
+        "quote": "Maximum Oxygen Concentration (MOC) flammability limits in long-term low gravity.2 The configuration for these"
+      }
+    ]
+  },
+  "hardware": {
+    "value": "Saffire experiment unit in the Cygnus vehicle: flow duct with an adjacent avionics bay",
+    "status": "verified",
+    "note": null,
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/Flammable/SAFFIRE/SAFFIRE-I Operations.pdf",
+        "locator": "p. 1",
+        "quote": "The Saffire experiments are conducted in three consecutive flights of the Cygnus vehicle."
+      },
+      {
+        "source_file": "data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf",
+        "locator": "p. 3",
+        "quote": "The experiment package consists of a flow duct and an adjacent avionics bay as shown in"
+      }
+    ]
+  },
+  "nominal_atmosphere": {
+    "value": {
+      "o2_percent_min": 21.0,
+      "o2_percent_max": 21.0
+    },
+    "status": "inferred",
+    "note": "O2 only, near 21 percent: a pre-flight expectation ('will be nearly 21%', paper p. 4), not a measurement; the experimental table reports 21.5 to 22.1 percent measured. No source gives the pressure.",
+    "evidence": [
+      {
+        "source_file": "data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf",
+        "locator": "p. 4",
+        "quote": "nearly 21% by volume—the same as in the ISS when the hatch was closed."
+      }
+    ]
+  },
+  "sensors": [
+    {
+      "value": {
+        "instrument": "O2 sensor",
+        "measures": "oxygen concentration"
+      },
+      "status": "inferred",
+      "note": "Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the sensor suite is common to Saffire-I, II and III (Table 3, not extractable as text). Measured at the inlet of the avionics bay.",
+      "evidence": [
+        {
+          "source_file": "data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf",
+          "locator": "p. 3",
+          "quote": "The oxygen and CO2 concentrations will be measured at the inlet of the avionics bay so that"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "CO2 sensor",
+        "measures": "CO2 concentration"
+      },
+      "status": "inferred",
+      "note": "Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the sensor suite is common to Saffire-I, II and III (Table 3, not extractable as text). Measured at the inlet of the avionics bay.",
+      "evidence": [
+        {
+          "source_file": "data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf",
+          "locator": "p. 3",
+          "quote": "The oxygen and CO2 concentrations will be measured at the inlet of the avionics bay so that"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "pressure sensor",
+        "measures": "pressure"
+      },
+      "status": "inferred",
+      "note": "Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the suite is common to Saffire-I, II and III (its diagnostics table is an image and cannot be quoted). Called a pressure transducer in the paper.",
+      "evidence": [
+        {
+          "source_file": "data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf",
+          "locator": "p. 3",
+          "quote": "A pressure transducer will also measure the pressure"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "anemometer",
+        "measures": "flow velocity in the duct"
+      },
+      "status": "inferred",
+      "note": "Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the sensor suite is common to Saffire-I, II and III (Table 3, not extractable as text). Two anemometers, one on each side of the sample.",
+      "evidence": [
+        {
+          "source_file": "data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf",
+          "locator": "p. 3",
+          "quote": "Two flow anemometers, one on each side of the sample will quantify the flow velocity in the duct and"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "video camera",
+        "measures": null
+      },
+      "status": "inferred",
+      "note": "Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the sensor suite is common to Saffire-I, II and III (Table 3, not extractable as text). Two cameras, located in the avionics bay.",
+      "evidence": [
+        {
+          "source_file": "data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf",
+          "locator": "p. 3",
+          "quote": "Two video cameras located in the avionics bay will provide front"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "radiometer",
+        "measures": "broadband radiative emission from the sample"
+      },
+      "status": "inferred",
+      "note": "Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the sensor suite is common to Saffire-I, II and III (Table 3, not extractable as text). Four radiometers: two viewing the front of the sample, two the back.",
+      "evidence": [
+        {
+          "source_file": "data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf",
+          "locator": "p. 4",
+          "quote": "Four calibrated radiometers, two viewing the front of the sample and two viewing the back, will measure the"
+        },
+        {
+          "source_file": "data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf",
+          "locator": "p. 4",
+          "quote": "broadband radiative emission from the sample to provide an estimate of the radiative flux from the burning zone"
+        }
+      ]
+    }
+  ],
+  "earth_applications": []
+}

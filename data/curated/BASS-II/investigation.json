@@ -1,0 +1,517 @@
+{
+  "columns": {
+    "air_display_setting": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Air display"
+      ],
+      "unit": null
+    },
+    "co2_final_percent": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Final CO2 % by vol"
+      ],
+      "unit": "percent"
+    },
+    "co2_initial_percent": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Initial CO2 % by vol"
+      ],
+      "unit": "percent"
+    },
+    "co_final_ppm": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Final CO (ppm)"
+      ],
+      "unit": "ppm"
+    },
+    "co_final_ppm_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Final CO (ppm)"
+      ],
+      "unit": null
+    },
+    "co_initial_ppm": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Initial CO (ppm)"
+      ],
+      "unit": "ppm"
+    },
+    "co_initial_ppm_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Initial CO (ppm)"
+      ],
+      "unit": null
+    },
+    "fan_display_setting": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Fan display"
+      ],
+      "unit": null
+    },
+    "flow_restrictor_setting": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Flow restrictor"
+      ],
+      "unit": null
+    },
+    "fuel_geometry": {
+      "derivation": "geometry word literally present in the fuel label",
+      "kind": "text",
+      "source_headers": [
+        "Fuel Sample Material"
+      ],
+      "unit": null
+    },
+    "fuel_name": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Fuel Sample Material"
+      ],
+      "unit": null
+    },
+    "fuel_name_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Fuel Sample Material"
+      ],
+      "unit": null
+    },
+    "fuel_phase": {
+      "derivation": "adapter: solid unless overridden by fuel name",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "gmt_day_of_year": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "GMT"
+      ],
+      "unit": null
+    },
+    "o2_basis": {
+      "derivation": "table constant: O2 column reports the chamber atmosphere",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "o2_final_percent": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Calibrated final O2 % by vol"
+      ],
+      "unit": "percent"
+    },
+    "o2_final_percent_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Calibrated final O2 % by vol"
+      ],
+      "unit": null
+    },
+    "o2_percent_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Calibrated initial O2 % by vol"
+      ],
+      "unit": "percent"
+    },
+    "o2_percent_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Calibrated initial O2 % by vol"
+      ],
+      "unit": "percent"
+    },
+    "o2_percent_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Calibrated initial O2 % by vol"
+      ],
+      "unit": null
+    },
+    "principal_investigator": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "PI"
+      ],
+      "unit": null
+    },
+    "radiometer_gain": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Radiometer gain (1000 250 50 10)"
+      ],
+      "unit": null
+    },
+    "sample_number": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Sample #"
+      ],
+      "unit": null
+    },
+    "test_date": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Date"
+      ],
+      "unit": null
+    },
+    "test_point_id": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Test #"
+      ],
+      "unit": null
+    },
+    "total_frames_shot": {
+      "derivation": null,
+      "kind": "meta",
+      "source_headers": [
+        "Total Frames Shot"
+      ],
+      "unit": null
+    }
+  },
+  "held_constant_variables": [
+    "fuel_phase",
+    "o2_basis"
+  ],
+  "id": "BASS-II",
+  "manual_metadata": {
+    "earth_applications": [
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Research Impacts]",
+            "quote": "These models can then be used to more accurately study flames on Earth, such as in wildfires, building fires, energy recapture from waste recycling, and other combustion problems.",
+            "source_file": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": null,
+        "status": "verified",
+        "value": "Combustion models validated in microgravity can be used to study flames on Earth: wildfires, building fires, energy recapture from waste recycling."
+      }
+    ],
+    "gravity_regime": {
+      "evidence": [
+        {
+          "locator": "Comment[Project Type]",
+          "quote": "Microgravity Investigation",
+          "source_file": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": null,
+      "status": "verified",
+      "value": "microgravity"
+    },
+    "hardware": {
+      "evidence": [
+        {
+          "locator": "Comment[Experiment Hardware]",
+          "quote": "Microgravity Science Glovebox (MSG)",
+          "source_file": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Approach]",
+          "quote": "The wind tunnel was installed in the Microgravity Science Glovebox which supplied power, imaging, and a level of containment.",
+          "source_file": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Approach]",
+          "quote": "microgravity combustion tests were performed aboard the International Space Station.",
+          "source_file": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "p. 29",
+          "quote": "the flow velocity can range from 0 to 50 cm/s",
+          "source_file": "knowledgeBase/Flammable/BASS2/BASS-II Summary Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Approach]",
+          "quote": "which could impose airflow speeds up to 40 cm/s",
+          "source_file": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": "Maximum airflow differs between sources: the ISA-Tab says up to 40 cm/s, the Summary Report (p. 29) says 0 to 50 cm/s. Not reconciled.",
+      "status": "verified",
+      "value": "Microgravity Science Glovebox (MSG) with a wind tunnel, on the ISS"
+    },
+    "investigation_id": "BASS-II",
+    "nominal_atmosphere": {
+      "evidence": [
+        {
+          "locator": "p. 46",
+          "quote": "The total pressure is also monitored, which",
+          "source_file": "knowledgeBase/Flammable/BASS2/BASS-II Summary Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 46",
+          "quote": "varied from 99.2 to 99.5 kPa in the tests reported.",
+          "source_file": "knowledgeBase/Flammable/BASS2/BASS-II Summary Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 102",
+          "quote": "21 percent. Ambient pressure was 1 atm. It should be noted that for a given test the O2 concentration was",
+          "source_file": "knowledgeBase/Flammable/BASS2/BASS-II Summary Report.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Approach]",
+          "quote": "oxygen varied below 21% by adding nitrogen",
+          "source_file": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": "Pressure only: 99.2 to 99.5 kPa monitored in the tests reported (p. 46, converted at 0.145038 psi/kPa). Another section says 'Ambient pressure was 1 atm' for the SIBAL tests (p. 102), about 2 percent higher; both are kept. O2 is not set: the experimental table carries it, and the report gives 16 to 21 percent for the SIBAL tests (p. 102).",
+      "status": "verified",
+      "value": {
+        "o2_percent_max": null,
+        "o2_percent_min": null,
+        "pressure_psi_max": 14.4313,
+        "pressure_psi_min": 14.3878
+      }
+    },
+    "pillars": {
+      "evidence": [
+        {
+          "locator": "Comment[Research Impacts]",
+          "quote": "BASS-II helps engineers select the safest materials and improve firefighting methods on future space missions.",
+          "source_file": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Objective]",
+          "quote": "BASS-II results contribute to the combustion computational models used in the design of fire detection and suppression systems in microgravity and on Earth.",
+          "source_file": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": "Primary pillar is prevention: the tests measure flammability and flame spread of solid materials, and the stated impact is safest-material selection. The objective also says the results feed models used to design detection and suppression systems; that secondary use is not encoded here. Pillar is the curator's classification, not a source statement.",
+      "status": "inferred",
+      "value": [
+        "prevention"
+      ]
+    },
+    "review_status": "draft",
+    "reviewed_by": null,
+    "reviewed_on": null,
+    "sensors": [
+      {
+        "evidence": [
+          {
+            "locator": "para 20",
+            "quote": "Useful for relative flame intensity readings and flame dynamics",
+            "source_file": "knowledgeBase/Flammable/BASS2/BASS-II data FAQ.docx",
+            "source_url": null
+          },
+          {
+            "locator": "p. 29",
+            "quote": "A radiometer is used to confirm flame extinction when the visible flame goes out.",
+            "source_file": "knowledgeBase/Flammable/BASS2/BASS-II Summary Report.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Radiometer gain is uncalibrated (FAQ para 20).",
+        "status": "verified",
+        "value": {
+          "instrument": "radiometer",
+          "measures": "relative flame intensity and flame dynamics; confirms flame extinction"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "p. 29",
+            "quote": "anemometer is used to calibrate the flow velocity with fan voltage",
+            "source_file": "knowledgeBase/Flammable/BASS2/BASS-II Summary Report.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "Called a hot-wire anemometer in the report (p. 29: 'A hot wire' ends the previous line); used to calibrate flow speed against fan voltage.",
+        "status": "verified",
+        "value": {
+          "instrument": "anemometer",
+          "measures": "flow velocity"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "para 22",
+            "quote": "Calibrated initial and final O2: The O2 sensor was out of calibration, so the MCA ISS reading was used to correct the initial ISS",
+            "source_file": "knowledgeBase/Flammable/BASS2/BASS-II data FAQ.docx",
+            "source_url": null
+          }
+        ],
+        "note": "Readings were offset-corrected with the ISS MCA reading (FAQ para 22).",
+        "status": "verified",
+        "value": {
+          "instrument": "O2 sensor",
+          "measures": "initial and final O2"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "para 23",
+            "quote": "CO2 readings:  CDM sensor readings.",
+            "source_file": "knowledgeBase/Flammable/BASS2/BASS-II data FAQ.docx",
+            "source_url": null
+          }
+        ],
+        "note": "Called the CDM sensor in the source.",
+        "status": "verified",
+        "value": {
+          "instrument": "CO2 sensor",
+          "measures": "CO2"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "para 24",
+            "quote": "CO readings:  CSA-CP sensor readings.",
+            "source_file": "knowledgeBase/Flammable/BASS2/BASS-II data FAQ.docx",
+            "source_url": null
+          },
+          {
+            "locator": "para 24",
+            "quote": "OR = over range (> 1000 ppm)",
+            "source_file": "knowledgeBase/Flammable/BASS2/BASS-II data FAQ.docx",
+            "source_url": null
+          }
+        ],
+        "note": "Called the CSA-CP sensor in the source; 'OR' means over range (above 1000 ppm).",
+        "status": "verified",
+        "value": {
+          "instrument": "CO sensor",
+          "measures": "CO"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "para 21",
+            "quote": "digital Nikon still image frames shot",
+            "source_file": "knowledgeBase/Flammable/BASS2/BASS-II data FAQ.docx",
+            "source_url": null
+          },
+          {
+            "locator": "p. 29",
+            "quote": "photographed with a high-resolution digital still camera with a frame rate of",
+            "source_file": "knowledgeBase/Flammable/BASS2/BASS-II Summary Report.pdf",
+            "source_url": null
+          },
+          {
+            "locator": "p. 29",
+            "quote": "1 per second. A radiometer is used to confirm flame extinction when the visible flame goes out.",
+            "source_file": "knowledgeBase/Flammable/BASS2/BASS-II Summary Report.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "A digital Nikon still camera (FAQ para 21); frame rate of 1 per second (p. 29: the line before ends 'with a frame rate of').",
+        "status": "verified",
+        "value": {
+          "instrument": "still camera",
+          "measures": null
+        }
+      }
+    ]
+  },
+  "psi_id": "PSI-25",
+  "record_level": "test",
+  "source_files": [
+    {
+      "encoding": "utf-8",
+      "path": "knowledgeBase/Flammable/BASS2/PSI-25_Experimental table_BASS-II.csv",
+      "sha256": "71e792bf6b5fb5ea620c5dd70fbbac05515992e12aefcf5dff47312caa48c042"
+    }
+  ],
+  "source_notes": [],
+  "study_metadata": {
+    "approach": "To summarize, BASS-II's approach, microgravity combustion tests were performed aboard the International Space Station. Active crew support for real-time “lab partner” operations. The wind tunnel was installed in the Microgravity Science Glovebox which supplied power, imaging, and a level of containment. Fuel samples were mounted inside a small wind tunnel which could impose airflow speeds up to 40 cm/s. Main variables are airflow speed and oxygen concentration (oxygen varied below 21% by adding nitrogen). Flame appearance, flame growth, and spread rates were determined in both the opposed and concurrent flow.",
+    "doi": "10.60555/4qc4-de67",
+    "experiment_hardware": "Microgravity Science Glovebox (MSG)",
+    "experiment_hardware_link": "https://www1.grc.nasa.gov/space/iss-research/msg/",
+    "flight_platform": "International Space Station (ISS)",
+    "hypothesis": "BASS–II tests the hypothesis that materials in microgravity, with adequate ventilation, burn as well if not better than the same material in normal gravity with other conditions being identical (pressure, O2 concentration, temperature, etc.). NASA tests and controls materials from a flammability perspective using an upward burning test in normal gravity, which is considered to be the worst-case geometry for flammability of the material on Earth. However, it may not be conservative for flammability in space. Testing at constant O2 mole fractions permits studying flame spread and extinction at low and high flow speed. We are interested in finding the fundamental limit for a given material.",
+    "investigation_acronym": "BASS-II",
+    "investigation_end_date": "12-31-2022",
+    "investigation_start_date": "01-01-2010",
+    "managing_nasa_center": "Glenn Research Center (GRC)",
+    "objective": "BASS-II results contribute to the combustion computational models used in the design of fire detection and suppression systems in microgravity and on Earth. Objectives Include: 1) Study the ignition, flame growth, flame spread, and extinction limits for solid fuels burning in low-velocity forced flows in microgravity. 2) Begin to bridge the gap between the normal gravity NASA-STD-6001 Test #1 method, ground-based microgravity tests, and actual material flammability in microgravity. 3) Provide SoFIE PIs with preliminary data to refine Science Requirements. 4) Practical, realistic (thicker) fuels in typical geometries will be examined, including slabs, cylinders, and spherical sections. The primary variables include: • Forced flow velocity (speed and direction) • Ambient oxygen concentration (via working volume nitrogen vitiation) • Sample geometry (rods, spherical section, slabs, films, and fabric sheets",
+    "project_type": "Microgravity Investigation",
+    "research_area": "Combustion Science",
+    "research_impacts": "A primary goal of BASS-II is improved spacecraft fire safety, improved understanding of combustion in space and how to avoid it. If you’re on a mission far from Earth, a fire can be catastrophic. BASS-II helps engineers select the safest materials and improve firefighting methods on future space missions. In outer space, fuels burn as oval balls rather than with an upward pointed cone flame as they do on Earth. This simpler combustion process enables researchers to evaluate computer models of fuel burning. These models can then be used to more accurately study flames on Earth, such as in wildfires, building fires, energy recapture from waste recycling, and other combustion problems.",
+    "space_program": "National Aeronautics and Space Administration (NASA)",
+    "study_file_name": "s_PSI-25.txt",
+    "study_identifier": "PSI-25",
+    "study_public_release_date": "31-Dec-2022",
+    "study_submission_date": "31-Dec-2022",
+    "study_title": "Burning and Suppression of Solids - II",
+    "subresearch_area": "Spacecraft Fire Safety"
+  },
+  "study_metadata_source": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt",
+  "test_point_count": 129,
+  "unreported_variables": [
+    "diluent",
+    "flow_direction",
+    "flow_speed_cm_s",
+    "pressure_psi"
+  ],
+  "varied_variables": [
+    "air_display_setting",
+    "co2_final_percent",
+    "co2_initial_percent",
+    "co_final_ppm",
+    "co_initial_ppm",
+    "fan_display_setting",
+    "flow_restrictor_setting",
+    "fuel_geometry",
+    "fuel_name",
+    "o2_final_percent",
+    "o2_percent"
+  ]
+}

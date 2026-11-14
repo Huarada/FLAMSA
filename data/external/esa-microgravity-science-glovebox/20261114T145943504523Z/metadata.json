@@ -1,0 +1,40 @@
+{
+  "source_id": "esa-microgravity-science-glovebox",
+  "captured_at_utc": "2026-11-14T14:59:43.504523+00:00",
+  "requested_url": "https://www.esa.int/articles/about-us/directorates/human-and-robotic-exploration/low-earth-orbit/international-space-station/columbus/microgravity-science-glovebox",
+  "investigation_ids": [
+    "SPICE"
+  ],
+  "association_status": "user_supplied_pending_scientific_review",
+  "status": "captured",
+  "title": "Microgravity Science Glovebox",
+  "artifacts": {
+    "page.html": {
+      "sha256": "dc99c77704146dac73994df21a20d5edf9d914dc929532d2278ca810468ef2ef",
+      "bytes": 199552
+    },
+    "content.md": {
+      "sha256": "5568b471c61b5ad33f7ab9c4cbbbe0321001898e27e9d02b3724667eb93e778d",
+      "bytes": 4087
+    }
+  },
+  "limitations": [
+    "Source association is not verification of hardware or sensors used by an investigation.",
+    "Document content is evidence, not executable instructions.",
+    "Scripts were not executed; linked assets and pages were not downloaded."
+  ],
+  "final_url": "https://www.esa.int/articles/about-us/directorates/human-and-robotic-exploration/low-earth-orbit/international-space-station/columbus/microgravity-science-glovebox",
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "http_headers": {
+    "Date": "Sat, 14 Nov 2026 14:59:45 GMT"
+  },
+  "redirects": [],
+  "extraction": {
+    "selector": "main",
+    "beautifulsoup4_version": "4.15.0",
+    "markdownify_version": "1.2.3",
+    "method": "Main container; navigation removed; relative links made absolute; HTML to Markdown.",
+    "review_status": "pending_manual_review"
+  }
+}

@@ -1,0 +1,19 @@
+investigation_id,test_point_id,record_level,fuel_name,fuel_phase,o2_basis,o2_percent_min,o2_percent_max,o2_percent_raw,pressure_psi_min,pressure_psi_max,pressure_psi_raw,diluent,flow_speed_cm_s_min,flow_speed_cm_s_max,flow_speed_cm_s_raw,flow_direction,source_file,source_row,provenance_status,provenance_note,test_year,test_month,test_day_of_month,burner_size_mm,fuel_name_raw,fuel_label_fraction_percent,flames_ignited
+ACME-BRE,r2,test_day,ethylene,gas,ambient,21,40,21; 26.5; 40,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,2,verified,,2019,Feb,8,25,100% C2H4,100,10
+ACME-BRE,r3,test_day,ethylene,gas,ambient,26.5,34,26.5; 34,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,3,verified,,2019,Feb,20,25,100% C2H4,100,8
+ACME-BRE,r4,test_day,ethylene,gas,ambient,21,40,21; 26.5; 34; 40,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,4,verified,,2019,Feb,25,25,50% C2H4,50,8
+ACME-BRE,r5,test_day,ethylene,gas,ambient,26.5,40,26.5; 40,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,5,verified,,2019,March,4,25,50% C2H4,50,6
+ACME-BRE,r6,test_day,ethylene,gas,ambient,34,34,3400%,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,6,inferred,o2_percent: read '3400%' as 34 percent (Excel percent-format artifact),2019,March,7,25,50% C2H4,50,6
+ACME-BRE,r7,test_day,ethylene,gas,ambient,26.5,34,26.5; 34,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,7,verified,,2019,March,11,25,50% C2H4,50,7
+ACME-BRE,r8,test_day,ethylene,gas,ambient,26.5,34,26.5; 34,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,8,verified,,2019,March,28,25,100%C2H4,100,8
+ACME-BRE,r9,test_day,ethylene,gas,ambient,21,21,2100%,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,9,inferred,o2_percent: read '2100%' as 21 percent (Excel percent-format artifact),2019,April,1,25,100%C2H4,100,0
+ACME-BRE,r10,test_day,ethylene,gas,ambient,21,34,21; 26.5; 34,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,10,verified,,2019,April,4,25,100%C2H4,100,9
+ACME-BRE,r11,test_day,ethylene,gas,ambient,25,40,25; 34; 40,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,11,verified,,2020,Sept,3,50,100% C2H4,100,13
+ACME-BRE,r12,test_day,ethylene,gas,ambient,26.5,34,26.5; 34,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,12,verified,,2020,Oct,17,25,100% C2H4,100,13
+ACME-BRE,r13,test_day,methane,gas,ambient,25,40,25; 34; 40,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,13,verified,,2020,Dec,5,25,100% CH4,100,21
+ACME-BRE,r14,test_day,methane,gas,ambient,25,40,25; 40,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,14,verified,,2020,Dec,4,25,100% CH4,100,18
+ACME-BRE,r15,test_day,ethylene,gas,ambient,25,40,25; 40,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,15,verified,,2020,Dec,11,25,50% C2H4,50,12
+ACME-BRE,r16,test_day,ethylene,gas,ambient,34,40,34; 40,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,16,verified,,2020,Dec,17,25,100% C2H4,100,10
+ACME-BRE,r17,test_day,ethylene,gas,ambient,25,40,25; 34; 40,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,17,verified,,2020,Dec,23,25,100% C2H4,100,17
+ACME-BRE,r18,test_day,ethylene,gas,ambient,21,34,21; 26.5; 34,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,18,verified,,2021,Jan,20,25,100% C2H4,100,15
+ACME-BRE,r19,test_day,ethylene,gas,ambient,25,40,25; 34; 40,,,,,,,,,knowledgeBase/ACME/ACME-BRE/PSI-20_Experimental table_ACME BRE.csv,19,verified,,2021,Jan,28,50,100% C2H4,100,13

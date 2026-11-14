@@ -1,0 +1,52 @@
+# ACME-E-FIELD: review sheet (draft)
+
+Edit `data/manual/ACME-E-FIELD.json` to approve: set `review_status` to `reviewed`, `reviewed_by` and `reviewed_on`. Check each box after comparing the quote with the linked page.
+
+- [ ] **Pillars**: `[]` · _inferred_
+  - note: No direct fire-safety pillar. The ACME CFI-G final report says only one of the six ACME experiments was focused on spacecraft fire safety, the Burning Rate Emulator (the word 'only' starts the first quoted line, split by the PDF text layer); E-FIELD Flames is another of the six. E-FIELD uses electric fields in microgravity combustion science (p. 3). Pillar list left empty on purpose; the reviewer should decide.
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 68](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=68): `one of the six ACME experiments was focused on spacecraft fire safety and that was`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 68](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=68): `Burning Rate Emulator (BRE), not CFI-G.`
+  - [E-FIELD Flames Final Report.pdf · p. 3](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=3): `This project utilizes electric fields in microgravity combustion science to establish a fundamental`
+- [ ] **Gravity regime**: `partial_emulated` · _inferred_
+  - note: The tests ran in microgravity on the ISS: the V-I curve behaves differently 'in microgravity as compared to 1-g flames' (p. 37) and the experiment is one of the ACME tests conducted in the CIR on the International Space Station (p. 3, the sentence wraps over two lines). The final report only suggests that electric fields 'may be a good tool for approximating buoyancy body forces at partial gravity' (p. 37), a finding and not a measured partial-gravity condition: no partial-gravity measurement exists. `partial_emulated` means emulation by electric field, never lunar or Martian gravity; the reviewer may prefer `microgravity`.
+  - [E-FIELD Flames Final Report.pdf · p. 3](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=3): `independent experiments that make up the Advanced Combustion via Microgravity Experiments (ACME)`
+  - [E-FIELD Flames Final Report.pdf · p. 37](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=37): `fields for weak zero gravity flames was a surprise, and it suggests that electric fields may`
+  - [E-FIELD Flames Final Report.pdf · p. 37](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=37): `be a good tool for approximating buoyancy body forces at partial gravity.`
+  - [E-FIELD Flames Final Report.pdf · p. 37](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=37): `(1) The behavior of the V-I curve is distinctly different in microgravity as compared to 1-g flames,`
+  - [E-FIELD Flames Final Report.pdf · p. 3](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=3): `Space Station (ISS).`
+- [ ] **Hardware**: `Combustion Integrated Rack (CIR) on the ISS with the ACME chamber insert: gas-jet and coflow burners and a copper electrode mesh above the burner` · _verified_
+  - [E-FIELD Flames Final Report.pdf · p. 3](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=3): `project for which tests are conducted within the Combustion Integrated Rack`
+  - [E-FIELD Flames Final Report.pdf · p. 7](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=7): `test with two different burner types (specifically gas-jet and coflow burners)`
+  - [E-FIELD Flames Final Report.pdf · p. 13](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=13): `by the E-FIELD Flames experiment, can be seen above the coflow burner.`
+  - [E-FIELD Flames Final Report.pdf · p. 3](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=3): `Space Station (ISS).`
+  - [E-FIELD Flames Final Report.pdf · p. 13](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=13): `(b) Detail of the ACME chamber insert where the copper electrode mesh, used`
+- [ ] **Nominal atmosphere**: `{'o2_percent_min': 21.0, 'o2_percent_max': 21.0, 'pressure_psi_min': 14.5038, 'pressure_psi_max': 14.5038}` · _verified_
+  - note: As-run statements. O2: the coflow was 21 percent O2 with a nitrogen balance 'in all cases' (p. 46). Pressure: a nominal 100 kPa (converted at 0.145038 psi/kPa) in the tests of the paper quoted on p. 21 (100% methane, synthetic air); it is not stated for every test. The pre-flight plan (p. 4) agrees on the O2. The experimental table has no O2 or pressure column.
+  - [E-FIELD Flames Final Report.pdf · p. 21](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=21): `(i.e., 21/79 oxygen/nitrogen by volume) at a nominal pressure of 100 kPa.`
+  - [E-FIELD Flames Final Report.pdf · p. 46](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=46): `the coflow was 21% oxygen with a balance of nitrogen (on a volume basis).`
+  - [E-FIELD Flames Final Report.pdf · p. 4](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=4): `environment gas will have a nominal molar composition of 21% O2 and 79% N2.`
+- [ ] **Sensor**: `{'instrument': 'photomultiplier tube', 'measures': 'chemiluminescent emission'}` · _verified_
+  - note: Three PMT modules.
+  - [E-FIELD Flames Final Report.pdf · p. 14](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=14): `Chemiluminescent emission is measured with a set of`
+  - [E-FIELD Flames Final Report.pdf · p. 14](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=14): `three Photomultiplier Tube (PMT) modules.`
+- [ ] **Sensor**: `{'instrument': 'radiometer', 'measures': 'radiant emission'}` · _verified_
+  - note: Six thermopile detectors; five are in a crew-exchangeable array and one is downstream and off axis (p. 14, the second sentence is split by the text layer).
+  - [E-FIELD Flames Final Report.pdf · p. 14](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=14): `the radiant emission is measured with 6 thermopile`
+  - [E-FIELD Flames Final Report.pdf · p. 10](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=10): `Measure soot luminosity (radiometer measurement) as a function of applied voltage`
+  - [E-FIELD Flames Final Report.pdf · p. 15](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=15): `radiometers (ACME-RPT-011), and Photomultiplier Tubes`
+- [ ] **Sensor**: `{'instrument': 'color camera'}` · _verified_
+  - note: Imaging is provided by an analog color camera within the chamber; a second color camera is named later on the same printed line (split by the PDF text layer).
+  - [E-FIELD Flames Final Report.pdf · p. 14](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=14): `imaging is provided by an analog color camera within the chamber`
+- [ ] **Sensor**: `{'instrument': 'pressure sensor', 'measures': 'chamber pressure'}` · _inferred_
+  - note: Listed among ACME's non-imaging measurements recorded at 125 Hz (p. 14); the source names the measured test conditions, not the instruments.
+  - [E-FIELD Flames Final Report.pdf · p. 14](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=14): `include the chamber pressure and temperature, the three gas flow rates, and`
+- [ ] **Sensor**: `{'instrument': 'temperature sensor', 'measures': 'chamber temperature'}` · _inferred_
+  - note: Listed among ACME's non-imaging measurements recorded at 125 Hz (p. 14); the source names the measured test conditions, not the instruments.
+  - [E-FIELD Flames Final Report.pdf · p. 14](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=14): `include the chamber pressure and temperature, the three gas flow rates, and`
+- [ ] **Sensor**: `{'instrument': 'gas flow meter', 'measures': 'the three gas flow rates'}` · _inferred_
+  - note: Listed among ACME's non-imaging measurements recorded at 125 Hz (p. 14); the source names the measured test conditions, not the instruments.
+  - [E-FIELD Flames Final Report.pdf · p. 14](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=14): `include the chamber pressure and temperature, the three gas flow rates, and`
+- [ ] **Earth application**: `Controlling flames with an electric field may have practical applications on Earth.` · _verified_
+  - [E-FIELD Flames Final Report.pdf · p. 77](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=77): `The ability to control flames with an electric field may have practical applications on Earth.`
+- [ ] **Earth application**: `Less polluting and more efficient combustion technology.` · _verified_
+  - [E-FIELD Flames Final Report.pdf · p. 43](../../knowledgeBase/ACME/E-FIELDS/E-FIELD%20Flames%20Final%20Report.pdf#page=43): `of less polluting and more efficient combustion technology for use on Earth.`

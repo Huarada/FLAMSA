@@ -1,0 +1,47 @@
+# BASS-II: review sheet (draft)
+
+Edit `data/manual/BASS-II.json` to approve: set `review_status` to `reviewed`, `reviewed_by` and `reviewed_on`. Check each box after comparing the quote with the linked page.
+
+- [ ] **Pillars**: `['prevention']` · _inferred_
+  - note: Primary pillar is prevention: the tests measure flammability and flame spread of solid materials, and the stated impact is safest-material selection. The objective also says the results feed models used to design detection and suppression systems; that secondary use is not encoded here. Pillar is the curator's classification, not a source statement.
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt): `BASS-II helps engineers select the safest materials and improve firefighting methods on future space missions.`
+  - [i_Investigation.txt · Comment[Objective]](../../knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt): `BASS-II results contribute to the combustion computational models used in the design of fire detection and suppression systems in microgravity and on Earth.`
+- [ ] **Gravity regime**: `microgravity` · _verified_
+  - [i_Investigation.txt · Comment[Project Type]](../../knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt): `Microgravity Investigation`
+- [ ] **Hardware**: `Microgravity Science Glovebox (MSG) with a wind tunnel, on the ISS` · _verified_
+  - note: Maximum airflow differs between sources: the ISA-Tab says up to 40 cm/s, the Summary Report (p. 29) says 0 to 50 cm/s. Not reconciled.
+  - [i_Investigation.txt · Comment[Experiment Hardware]](../../knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt): `Microgravity Science Glovebox (MSG)`
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt): `The wind tunnel was installed in the Microgravity Science Glovebox which supplied power, imaging, and a level of containment.`
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt): `microgravity combustion tests were performed aboard the International Space Station.`
+  - [BASS-II Summary Report.pdf · p. 29](../../knowledgeBase/Flammable/BASS2/BASS-II%20Summary%20Report.pdf#page=29): `the flow velocity can range from 0 to 50 cm/s`
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt): `which could impose airflow speeds up to 40 cm/s`
+- [ ] **Nominal atmosphere**: `{'pressure_psi_min': 14.3878, 'pressure_psi_max': 14.4313}` · _verified_
+  - note: Pressure only: 99.2 to 99.5 kPa monitored in the tests reported (p. 46, converted at 0.145038 psi/kPa). Another section says 'Ambient pressure was 1 atm' for the SIBAL tests (p. 102), about 2 percent higher; both are kept. O2 is not set: the experimental table carries it, and the report gives 16 to 21 percent for the SIBAL tests (p. 102).
+  - [BASS-II Summary Report.pdf · p. 46](../../knowledgeBase/Flammable/BASS2/BASS-II%20Summary%20Report.pdf#page=46): `The total pressure is also monitored, which`
+  - [BASS-II Summary Report.pdf · p. 46](../../knowledgeBase/Flammable/BASS2/BASS-II%20Summary%20Report.pdf#page=46): `varied from 99.2 to 99.5 kPa in the tests reported.`
+  - [BASS-II Summary Report.pdf · p. 102](../../knowledgeBase/Flammable/BASS2/BASS-II%20Summary%20Report.pdf#page=102): `21 percent. Ambient pressure was 1 atm. It should be noted that for a given test the O2 concentration was`
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt): `oxygen varied below 21% by adding nitrogen`
+- [ ] **Sensor**: `{'instrument': 'radiometer', 'measures': 'relative flame intensity and flame dynamics; confirms flame extinction'}` · _verified_
+  - note: Radiometer gain is uncalibrated (FAQ para 20).
+  - [BASS-II data FAQ.docx · para 20](../../knowledgeBase/Flammable/BASS2/BASS-II%20data%20FAQ.docx): `Useful for relative flame intensity readings and flame dynamics`
+  - [BASS-II Summary Report.pdf · p. 29](../../knowledgeBase/Flammable/BASS2/BASS-II%20Summary%20Report.pdf#page=29): `A radiometer is used to confirm flame extinction when the visible flame goes out.`
+- [ ] **Sensor**: `{'instrument': 'anemometer', 'measures': 'flow velocity'}` · _verified_
+  - note: Called a hot-wire anemometer in the report (p. 29: 'A hot wire' ends the previous line); used to calibrate flow speed against fan voltage.
+  - [BASS-II Summary Report.pdf · p. 29](../../knowledgeBase/Flammable/BASS2/BASS-II%20Summary%20Report.pdf#page=29): `anemometer is used to calibrate the flow velocity with fan voltage`
+- [ ] **Sensor**: `{'instrument': 'O2 sensor', 'measures': 'initial and final O2'}` · _verified_
+  - note: Readings were offset-corrected with the ISS MCA reading (FAQ para 22).
+  - [BASS-II data FAQ.docx · para 22](../../knowledgeBase/Flammable/BASS2/BASS-II%20data%20FAQ.docx): `Calibrated initial and final O2: The O2 sensor was out of calibration, so the MCA ISS reading was used to correct the initial ISS`
+- [ ] **Sensor**: `{'instrument': 'CO2 sensor', 'measures': 'CO2'}` · _verified_
+  - note: Called the CDM sensor in the source.
+  - [BASS-II data FAQ.docx · para 23](../../knowledgeBase/Flammable/BASS2/BASS-II%20data%20FAQ.docx): `CO2 readings:  CDM sensor readings.`
+- [ ] **Sensor**: `{'instrument': 'CO sensor', 'measures': 'CO'}` · _verified_
+  - note: Called the CSA-CP sensor in the source; 'OR' means over range (above 1000 ppm).
+  - [BASS-II data FAQ.docx · para 24](../../knowledgeBase/Flammable/BASS2/BASS-II%20data%20FAQ.docx): `CO readings:  CSA-CP sensor readings.`
+  - [BASS-II data FAQ.docx · para 24](../../knowledgeBase/Flammable/BASS2/BASS-II%20data%20FAQ.docx): `OR = over range (> 1000 ppm)`
+- [ ] **Sensor**: `{'instrument': 'still camera'}` · _verified_
+  - note: A digital Nikon still camera (FAQ para 21); frame rate of 1 per second (p. 29: the line before ends 'with a frame rate of').
+  - [BASS-II data FAQ.docx · para 21](../../knowledgeBase/Flammable/BASS2/BASS-II%20data%20FAQ.docx): `digital Nikon still image frames shot`
+  - [BASS-II Summary Report.pdf · p. 29](../../knowledgeBase/Flammable/BASS2/BASS-II%20Summary%20Report.pdf#page=29): `photographed with a high-resolution digital still camera with a frame rate of`
+  - [BASS-II Summary Report.pdf · p. 29](../../knowledgeBase/Flammable/BASS2/BASS-II%20Summary%20Report.pdf#page=29): `1 per second. A radiometer is used to confirm flame extinction when the visible flame goes out.`
+- [ ] **Earth application**: `Combustion models validated in microgravity can be used to study flames on Earth: wildfires, building fires, energy recapture from waste recycling.` · _verified_
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II/i_Investigation.txt): `These models can then be used to more accurately study flames on Earth, such as in wildfires, building fires, energy recapture from waste recycling, and other combustion problems.`

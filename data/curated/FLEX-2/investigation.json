@@ -1,0 +1,420 @@
+{
+  "columns": {
+    "ambient_temperature_k": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Ambient Temperature (C)"
+      ],
+      "unit": "k"
+    },
+    "ambient_temperature_k_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Ambient Temperature (C)"
+      ],
+      "unit": null
+    },
+    "diluent": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Ambient Gas Mixture"
+      ],
+      "unit": null
+    },
+    "droplet_initial_diameter_mm_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Initial Droplet Diameter (mm)"
+      ],
+      "unit": "mm"
+    },
+    "droplet_initial_diameter_mm_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Initial Droplet Diameter (mm)"
+      ],
+      "unit": "mm"
+    },
+    "droplet_initial_diameter_mm_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Initial Droplet Diameter (mm)"
+      ],
+      "unit": null
+    },
+    "flow_speed_cm_s_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Flow Velocity (cm/s)"
+      ],
+      "unit": "cm_s"
+    },
+    "flow_speed_cm_s_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Flow Velocity (cm/s)"
+      ],
+      "unit": "cm_s"
+    },
+    "flow_speed_cm_s_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Flow Velocity (cm/s)"
+      ],
+      "unit": null
+    },
+    "fuel_label_fraction_percent": {
+      "derivation": "percentage printed in the fuel label ('pure' = 100); not the measured composition",
+      "kind": "quantity",
+      "source_headers": [
+        "Sample (Fuel Type)"
+      ],
+      "unit": "percent"
+    },
+    "fuel_name": {
+      "derivation": null,
+      "kind": "text",
+      "source_headers": [
+        "Sample (Fuel Type)"
+      ],
+      "unit": null
+    },
+    "fuel_name_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Sample (Fuel Type)"
+      ],
+      "unit": null
+    },
+    "fuel_phase": {
+      "derivation": "adapter: liquid unless overridden by fuel name",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "o2_basis": {
+      "derivation": "table constant: O2 column reports the chamber atmosphere",
+      "kind": "text",
+      "source_headers": [],
+      "unit": null
+    },
+    "o2_percent_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Oxygen Mole Fraction"
+      ],
+      "unit": "percent"
+    },
+    "o2_percent_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Oxygen Mole Fraction"
+      ],
+      "unit": "percent"
+    },
+    "o2_percent_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Oxygen Mole Fraction"
+      ],
+      "unit": null
+    },
+    "pressure_psi_max": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Ambient Pressure (atm)"
+      ],
+      "unit": "psi"
+    },
+    "pressure_psi_min": {
+      "derivation": null,
+      "kind": "quantity",
+      "source_headers": [
+        "Ambient Pressure (atm)"
+      ],
+      "unit": "psi"
+    },
+    "pressure_psi_raw": {
+      "derivation": null,
+      "kind": "raw",
+      "source_headers": [
+        "Ambient Pressure (atm)"
+      ],
+      "unit": null
+    }
+  },
+  "held_constant_variables": [
+    "ambient_temperature_k",
+    "diluent",
+    "droplet_initial_diameter_mm",
+    "flow_speed_cm_s",
+    "fuel_label_fraction_percent",
+    "fuel_phase",
+    "o2_basis",
+    "o2_percent",
+    "pressure_psi"
+  ],
+  "id": "FLEX-2",
+  "manual_metadata": {
+    "earth_applications": [
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Research Impacts]",
+            "quote": "Insights gained from these studies can lead to more efficient and cleaner combustion technologies which are crucial for reducing pollution and greenhouse gas emissions.",
+            "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": null,
+        "status": "verified",
+        "value": "More efficient and cleaner combustion technologies, reducing pollution and greenhouse gas emissions."
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Research Impacts]",
+            "quote": "4) Validation of jet engine models by engine manufacturers with support from prior droplet results.",
+            "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": null,
+        "status": "verified",
+        "value": "Validation of jet engine models by engine manufacturers."
+      }
+    ],
+    "gravity_regime": {
+      "evidence": [
+        {
+          "locator": "Comment[Project Type]",
+          "quote": "Microgravity Investigation",
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": null,
+      "status": "verified",
+      "value": "microgravity"
+    },
+    "hardware": {
+      "evidence": [
+        {
+          "locator": "Comment[Experiment Hardware]",
+          "quote": "Combustion Integrated Rack (CIR), Multi-user Droplet Combustion Appartatus (MDCA)",
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Flight Platform]",
+          "quote": "International Space Station (ISS)",
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": "'Appartatus' is a typo in the source record.",
+      "status": "verified",
+      "value": "Combustion Integrated Rack (CIR) with the Multi-user Droplet Combustion Apparatus (MDCA), on the ISS"
+    },
+    "investigation_id": "FLEX-2",
+    "nominal_atmosphere": {
+      "evidence": [
+        {
+          "locator": "Comment[Approach]",
+          "quote": "which was varied in pressure between 0.5 atm to 3.0 atm and O2 concentration between 0.1 to 0.4 mole fraction",
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "row 2",
+          "quote": "IsoOctane (pure),1.5 - 5,O2/N2 or O2/He,0.17; 0.21;0.25; 0.3,0.5; 1.0; 1.5; 2.0; or 3.0 ,25,0.1 - 5",
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_Experimental table_Flex2.csv",
+          "source_url": null
+        }
+      ],
+      "note": "Envelope from the Approach text (0.5 to 3.0 atm, converted at 14.6959 psi/atm; O2 0.1 to 0.4 mole fraction, balance diluent). The experimental table is a planned matrix with O2 0.17 to 0.30 and the same pressures: the Approach text states a wider O2 range; both are kept. The O2/pressure pairing is not given.",
+      "status": "verified",
+      "value": {
+        "o2_percent_max": 40.0,
+        "o2_percent_min": 10.0,
+        "pressure_psi_max": 44.0877,
+        "pressure_psi_min": 7.3479
+      }
+    },
+    "pillars": {
+      "evidence": [
+        {
+          "locator": "p. 7",
+          "quote": "paratus, MDCA, in the combustion integrated rack, CIR. While FLEX is focussed on spacecraft",
+          "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 SRD Final.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 7",
+          "quote": "FLEX-2 returns to the broader objective of improving the fun-",
+          "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 SRD Final.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "p. 7",
+          "quote": "damental understanding of liquid-fuel combustion. The FLEX-2 experiments thus fall in the",
+          "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 SRD Final.pdf",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[SubResearch Area]",
+          "quote": "Spacecraft Fire Safety",
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+          "source_url": null
+        },
+        {
+          "locator": "Comment[Objective]",
+          "quote": "Study flame extinction mechanisms and their boundaries.",
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+          "source_url": null
+        }
+      ],
+      "note": "No direct fire-safety pillar. The requirements document says FLEX is focused on spacecraft (the words 'fire safety and fire suppression' are on the next printed line, whose ligatures prevent a 1:1 quote) while FLEX-2 returns to the broader objective of improving the fundamental understanding of liquid-fuel combustion (the sentence wraps over the quoted lines, p. 7). The PSI record nevertheless tags the SubResearch Area 'Spacecraft Fire Safety': the two sources differ, not reconciled. Its objective 3 is flame extinction mechanisms and boundaries (ISA), which is context for suppression research, not a suppressant-effectiveness study. Pillar list left empty on purpose; the reviewer should decide.",
+      "status": "inferred",
+      "value": []
+    },
+    "review_status": "draft",
+    "reviewed_by": null,
+    "reviewed_on": null,
+    "sensors": [
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "A near real-time download of the color camera video was employed in order to verify successful droplet deployment, ignition, and overall progress of the experiment.",
+            "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+            "source_url": null
+          },
+          {
+            "locator": "p. 34",
+            "quote": "- Flame view with MDCA color",
+            "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 SRD Final.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "The requirements document table lists 'Flame view with MDCA color' and the word 'camera' is on the next printed line (p. 34).",
+        "status": "verified",
+        "value": {
+          "instrument": "color camera",
+          "measures": "video to verify droplet deployment, ignition and progress"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "Pressure and temperature data of the chamber environment was also recorded in near real time.",
+            "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "The source names the recorded quantity, not the instrument.",
+        "status": "inferred",
+        "value": {
+          "instrument": "pressure sensor",
+          "measures": "chamber pressure"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "Comment[Approach]",
+            "quote": "Pressure and temperature data of the chamber environment was also recorded in near real time.",
+            "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+            "source_url": null
+          }
+        ],
+        "note": "The source names the recorded quantity, not the instrument.",
+        "status": "inferred",
+        "value": {
+          "instrument": "temperature sensor",
+          "measures": "chamber temperature"
+        }
+      },
+      {
+        "evidence": [
+          {
+            "locator": "para 1",
+            "quote": "LCTFWavelengths, Quiescent, RadiometerCalibration, SurrotgateFuel",
+            "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 DoD.docx",
+            "source_url": null
+          },
+          {
+            "locator": "p. 34",
+            "quote": "- wide and narrow band",
+            "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 SRD Final.pdf",
+            "source_url": null
+          }
+        ],
+        "note": "A radiometer-calibration record exists among the test-matrix records (DoD para 1, 'Surrotgate' is a typo in the source). The requirements document plans 'wide and narrow band' radiometers: 'radiometers' is on the next printed line (p. 34).",
+        "status": "inferred",
+        "value": {
+          "instrument": "radiometer",
+          "measures": "wide and narrow band"
+        }
+      }
+    ]
+  },
+  "psi_id": "PSI-68",
+  "record_level": "test_matrix",
+  "source_files": [
+    {
+      "encoding": "utf-8",
+      "path": "knowledgeBase/suppression/FLEX2/PSI-68_Experimental table_Flex2.csv",
+      "sha256": "cc57ad1bd9977aa13e7ac6c3aa618303012686e232b36c052c6a9f1a74e5f528"
+    }
+  ],
+  "source_notes": [],
+  "study_metadata": {
+    "approach": "The chamber was filled with the appropriate atmosphere, which was varied in pressure between 0.5 atm to 3.0 atm and O2 concentration between 0.1 to 0.4 mole fraction with the diluent gas making up the balance. A settling time of approximately 2 minutes elapsed prior to initiating the test in order to ensure that the temperature and pressure of the chamber gases have stabilized. This settling time was followed by the dispensing of a predetermined amount of fuel (based on the target droplet size) onto the support fiber for those tests in which the droplet is not freely deployed. When sufficient fuel has been dispensed the dispensing needles were retracted and a dwell period of at least 10 seconds was allowed for the droplet internal fluid motion induced by deployment to subside. This was then followed by initiating power to the ignitor for a selectable amount of time ranging from 1 second to 5 seconds after which the ignitor was retracted from the field of view. If the flow field is to be generated by translating the droplet then droplet motion would commence at the same time that the ignitor is retracted. A near real-time download of the color camera video was employed in order to verify successful droplet deployment, ignition, and overall progress of the experiment. Pressure and temperature data of the chamber environment was also recorded in near real time. The overall investigation approach can be summarized as: 1. Test parameters are determined, including pressure, temperature, fuel mixture, and humidity. 2. Fill the combustion chamber with the selected gas mixtures. 3. Deploy the droplet(s) carefully controlling the droplet diameter. 4. Allow the droplet to stabilize in the microgravity environment. 5. Ignite the droplet in a uniform and controlled fashion. 6. Monitor combustions and track flame evolution using high speed photography. 7. Monitor and adjust experimental conditions as needed. 8. Analyze data. The independently varied experimental parameters during FLEX-2 experiments were 1) Fuel type 2) Ambient gas composition 3) Ambient Pressure 4) Droplet initial diameter 5) Droplet translation velocity (and acceleration) 6) Droplet spacing and initial size in a binary linear array.",
+    "doi": "10.60555/byp8-h018",
+    "experiment_hardware": "Combustion Integrated Rack (CIR), Multi-user Droplet Combustion Appartatus (MDCA)",
+    "experiment_hardware_link": "https://issnationallab.org/facilities/combustion-integrated-rack/, https://gipoc.grc.nasa.gov/wp/fcf-cir/mdca/",
+    "flight_platform": "International Space Station (ISS)",
+    "funding": "NNX16AR09A",
+    "hypothesis": "Fairly sophisticated numerical simulations of convective droplet combustion have been developed in the last decade where the key contribution is the inclusion of full Navier-Stokes equations for the gas-phase flow field. However, due to the inherent complexity of the problem, varying degrees of approximations have been made in treating the chemistry, radiation, and the coupling between the gas and liquid phases. The validity of the assumptions or the hypothesis used in these simulation have not been confirmed by using benchmark data. By conducting these experiments in a microgravity environment, the effects of buoyancy are minimized, and the droplet can be characterized only as a function of thermocapillary or solutalcapillary stresses allowing for a clear observation of the fundamental combustion processes, The present FLEX-2 experiments using bi-component mixtures. In addition, the microgravity environment allows study of such phenomena as the transitions between radiative and diffusive extension of the flame. The primary goal of the flight experiments is to provide benchmark experimental data on bi-component droplet combustion over a wide range of initial conditions that could be used to validate numerical simulations and to develop new theoretical models.",
+    "investigation_acronym": "FLEX-2",
+    "investigation_end_date": "09-30-2019",
+    "investigation_start_date": "08-12-2016",
+    "managing_nasa_center": "Glenn Research Center (GRC)",
+    "objective": "The primary goal of the FLEX-2 flight experiments is to extend the results of FLEX-1 to fuels and environmental conditions that mimic real combustor conditions, as well as, provide benchmark experimental data on bi-component droplet combustion over a wide range of initial conditions in order to validate numerical simulations and to develop new theoretical models. Detailed experimental objectives can be further itemized as: 1. Investigate the role of liquid-phase mixing on the burning characteristics of bi-component fuel droplets. 2. Examine the steady and unsteady liquid and gas-phase phenomena in pure fuel combustion. 3. Study flame extinction mechanisms and their boundaries. 4. Analyze the soot formation process, including soot volume fraction soot-shell dynamics. 5. Determine the influence of droplet interactions on the flammability limits and extinction behavior of droplet arrays. 6. Validate theoretical models of droplet combustion through comprehensive experimental data collection in microgravity environments.",
+    "project_type": "Microgravity Investigation",
+    "proposal_title": "The Fundamental Studies in Droplet Combustion and Flame Extinguishment in Microgravity",
+    "research_area": "Combustion Science",
+    "research_impacts": "The combustion of liquid fuels is the overwhelming energy source in the transportation sector. Insights gained from these studies can lead to more efficient and cleaner combustion technologies which are crucial for reducing pollution and greenhouse gas emissions. By improving fuel efficiency and developing better fuels, these experiments can contribute to: 1) More sustainable energy production. 2) Future combustor designs with minimal carbon footprint, maximum fuel efficiency and less pollutant emissions. 3) Allow quantitative evaluation of the performance of future fuels in combustors through the development of surrogates (mixtures of pure fuels that simulate the behavior of real fuels). 4) Validation of jet engine models by engine manufacturers with support from prior droplet results.",
+    "space_program": "National Aeronautics and Space Administration (NASA)",
+    "study_file_name": "s_PSI-68.txt",
+    "study_identifier": "PSI-68",
+    "study_public_release_date": "30-Sep-2019",
+    "study_submission_date": "30-Sep-2019",
+    "study_title": "Flame Extinguishment Experiment - 2",
+    "subresearch_area": "Spacecraft Fire Safety"
+  },
+  "study_metadata_source": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+  "test_point_count": 8,
+  "unreported_variables": [
+    "flow_direction"
+  ],
+  "varied_variables": [
+    "fuel_name"
+  ]
+}

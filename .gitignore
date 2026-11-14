@@ -1,0 +1,116 @@
+# ---------------------------------------------------------------------------
+# Secrets and credentials: never commit. Put real values in your environment
+# or in an ignored local file; commit only *.example templates.
+# ---------------------------------------------------------------------------
+.env
+.env.*
+*.env
+!.env.example
+!*.env.example
+.envrc
+.streamlit/secrets.toml
+secrets.toml
+secrets.*
+!secrets.example.*
+*credentials*.json
+*service-account*.json
+*-sa.json
+client_secret*.json
+token.json
+*.token
+.netrc
+.npmrc
+.pypirc
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+*.gpg
+*.asc
+id_rsa*
+id_ed25519*
+id_ecdsa*
+*.ovpn
+.aws/
+.azure/
+.gcloud/
+.config/gcloud/
+.kube/
+.docker/config.json
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# Local AI-assistant state (may hold personal paths, permissions or tokens).
+# The project skill under .claude/skills/ and CLAUDE.md are meant to be shared.
+.claude/settings.local.json
+.claude/*.local.*
+.claude/projects/
+.claude/todos/
+.claude/shell-snapshots/
+.mcp.json
+CLAUDE.local.md
+
+# Headless-browser and UI-test scratch: contains full browser profiles
+# (cookies, trust tokens, local storage).
+.test-tmp/
+*browser-profile*/
+playwright-report/
+test-results/
+.playwright/
+
+# ---------------------------------------------------------------------------
+# Python build and tool caches
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+.venv/
+venv/
+env/
+ENV/
+.python-version
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.nox/
+.ipynb_checkpoints/
+
+# Logs, local databases and dumps (may contain personal or session data)
+*.log
+logs/
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.bak
+*.tmp
+*.swp
+*~
+
+# Editors and OS
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*

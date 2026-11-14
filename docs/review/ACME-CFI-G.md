@@ -1,0 +1,46 @@
+# ACME-CFI-G: review sheet (draft)
+
+Edit `data/manual/ACME-CFI-G.json` to approve: set `review_status` to `reviewed`, `reviewed_by` and `reviewed_on`. Check each box after comparing the quote with the linked page.
+
+- [ ] **Pillars**: `[]` · _inferred_
+  - note: No direct fire-safety pillar. The final report says that one of the six ACME experiments was focused on spacecraft fire safety and that it was BRE, not CFI-G (the sentence wraps over the two quoted lines, p. 68). CFI-G studies cool diffusion flames of gases. It is still relevant to habitat fire safety through its high-O2 microgravity data: ambient O2 up to 39.97 percent in the experimental table (for example the Normal Flames row 140, XO2 before test 0.3997); the 85 percent values are the burner stream of inverse flames (o2_basis oxidizer_stream), not the chamber atmosphere. That is a data property, not a pillar. Pillar list left empty on purpose.
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 68](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=68): `one of the six ACME experiments was focused on spacecraft fire safety and that was`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 68](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=68): `Burning Rate Emulator (BRE), not CFI-G.`
+  - [PSI-159_Experimental table_CFI-G_Normal Flames.csv · row 140](../../knowledgeBase/ACME/CFI-G/PSI-159_Experimental%20table_CFI-G_Normal%20Flames.csv): `Normal,9,30% ethane,21162A1,,0.3997,0.394966671,1.0133,0.3,2.36,No`
+- [ ] **Gravity regime**: `microgravity` · _verified_
+  - note: The word 'Microgravity' is in the project name; the report places the tests on the ISS (the sentence wraps over the two quoted lines, p. 3).
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 3](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=3): `make up the Advanced Combustion via Microgravity Experiments (ACME) project for which the tests were`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 3](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=3): `conducted within the Combustion Integrated Rack (CIR) on the International Space Station (ISS).`
+- [ ] **Hardware**: `Combustion Integrated Rack (CIR) on the ISS; porous spherical burner` · _verified_
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 3](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=3): `conducted within the Combustion Integrated Rack (CIR) on the International Space Station (ISS).`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 29](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=29): `The tests, performed with gaseous fuel and a porous spherical burner, cannot`
+- [ ] **Sensor**: `{'instrument': 'thermocouple'}` · _verified_
+  - note: Two thermocouples nominally 200 mm from the burner centre (p. 14). Thermocouple rakes: the two nearest the burner are type B, the others type K (p. 14). Logged with the other non-imaging data at 125 per second (p. 33). The source does not state here what they measure.
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 23](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=23): `intensified video camera, radiometers, and thermocouples.`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 14](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=14): `The two lone thermocouples, which are both at nominally 200 mm from the center of the spherical`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 14](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=14): `while the others are type K.`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 33](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=33): `The data rate of the non-imaging measurements was 125 per sec.`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 14](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=14): `thermocouple rake are type B,`
+- [ ] **Sensor**: `{'instrument': 'radiometer'}` · _verified_
+  - note: Logged with the other non-imaging data at 125 per second (p. 33). The source does not state here what they measure.
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 23](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=23): `intensified video camera, radiometers, and thermocouples.`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 33](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=33): `(PMTs), gas flow meters, and radiometers`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 33](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=33): `The data rate of the non-imaging measurements was 125 per sec.`
+- [ ] **Sensor**: `{'instrument': 'photomultiplier tube'}` · _verified_
+  - note: Called PMT in the report. Logged with the other non-imaging data at 125 per second (p. 33). The source does not state here what they measure.
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 33](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=33): `such as thermocouples, photomultiplier tubes`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 33](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=33): `The data rate of the non-imaging measurements was 125 per sec.`
+- [ ] **Sensor**: `{'instrument': 'gas flow meter'}` · _verified_
+  - note: Logged with the other non-imaging data at 125 per second (p. 33). The source does not state here what they measure.
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 33](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=33): `(PMTs), gas flow meters, and radiometers`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 33](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=33): `The data rate of the non-imaging measurements was 125 per sec.`
+- [ ] **Sensor**: `{'instrument': 'intensified video camera'}` · _verified_
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 23](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=23): `intensified video camera, radiometers, and thermocouples.`
+- [ ] **Sensor**: `{'instrument': 'color camera'}` · _verified_
+  - note: A CFI-G figure caption says the left image is from a color camera (the word 'camera.' is on the next printed line, p. 55). The ACME paper lists a high-definition color camera as ACME-unique hardware (p. 7).
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 55](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=55): `The left image is from a color`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 7](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=7): `color camera and an avionics package,`
+- [ ] **Earth application**: `Cool-flame knowledge could lead to cleaner, more efficient internal combustion engines.` · _verified_
+  - note: A 'could lead' statement from the Broader Impacts of the proposal text (p. 4).
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 4](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=4): `It should advance the state-of-the-art in cool flame kinetics mechanisms, which in turn could lead`
+  - [PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf · p. 4](../../knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf#page=4): `to cleaner, more efficient internal combustion engines.`

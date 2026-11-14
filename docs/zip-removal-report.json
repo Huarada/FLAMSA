@@ -1,0 +1,363 @@
+{
+ "date": "2026-11-14",
+ "removed": [
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME Gas flow.zip",
+   "sha256": "d6d89c75c7af365ff6631d041fccfa785b36b65c1d88c93f049760de7c950697",
+   "bytes": 2419266,
+   "entries": 7,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME Imaging.zip",
+   "sha256": "a1a0cf1a4b1cf2f8fe233fd79b4e7a384eb44ed089ba1a93d910d349747081d1",
+   "bytes": 5892486,
+   "entries": 4,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME Instruments.zip",
+   "sha256": "e898f8b6fa5221ae003bf6cc1569fe58f07b67b48fd51556cfe28e66ee9e32c2",
+   "bytes": 5603806,
+   "entries": 5,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_analog_camera.zip",
+   "sha256": "bc0a1036f207aef86044d3c471d07bfff8ac27647cc8a5a48f78450ae07e6d5a",
+   "bytes": 3030445,
+   "entries": 7,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_data_camera.zip",
+   "sha256": "c446d1b48abfdf73ce8d50be2fef1757dfb6e8c96218328e126f109954b2c4a5",
+   "bytes": 17381053,
+   "entries": 24,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_diagnostic_system.zip",
+   "sha256": "e02dc8184d203e40bfbeaabc105bd6ff0943a2e2fdabbdd83607ae393f87c9de",
+   "bytes": 9378042,
+   "entries": 34,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_expt_mounting_structure.zip",
+   "sha256": "ef7b97d4588f54fba46d19a1e5b77d64f6017a7d2088e463e82df9da7fc36e32",
+   "bytes": 2911357,
+   "entries": 7,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_gas_supply.zip",
+   "sha256": "22dd3a41ad0d9d5674af150757b4f31e661b6eb5640ad9663e74fd655cb93542",
+   "bytes": 17347535,
+   "entries": 22,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_ground_equipment.zip",
+   "sha256": "642b7f2a202f74eff4bc62d6e194b928e1d47507a15043773edc1910edbe27c7",
+   "bytes": 3736550,
+   "entries": 26,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_igniter.zip",
+   "sha256": "ea7b1783f18dba19e51d7b944bc2ab5912ad7408c744a5cc29a2f5d4feea6890",
+   "bytes": 2943491,
+   "entries": 14,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_measurement_system.zip",
+   "sha256": "0ccc2fd9e4b75d9a883d85bf72e7b603da86a7fda654970f7f92b3cec2c69f3d",
+   "bytes": 5383717,
+   "entries": 31,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_QDs_&_hoses.zip",
+   "sha256": "cc409d0c2e3f6d933733e9784eed8382ecae009d552febc30fd985d99903744c",
+   "bytes": 2412072,
+   "entries": 7,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_trainer.zip",
+   "sha256": "0987dbdeef36e0045f9dfc0499a15fdcb9a5f2b4943e18646f9bcb5228f5dff5",
+   "bytes": 1112713,
+   "entries": 10,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE.zip",
+   "sha256": "f3e85d8acff7a83de65f0974fa60e8b6b9fb07591c56b9749503517280ce0ff9",
+   "bytes": 15061,
+   "entries": 2,
+   "extracted_in": "knowledgeBase/ACME/ACME-BRE/PSI-20_metadata_PSI-96_ACME BRE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/E-FIELDS/ACME Gas flow.zip",
+   "sha256": "d6d89c75c7af365ff6631d041fccfa785b36b65c1d88c93f049760de7c950697",
+   "bytes": 2419266,
+   "entries": 7,
+   "extracted_in": "knowledgeBase/ACME/E-FIELDS",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_common_electrical.zip",
+   "sha256": "e172cda51758ba5cfcf86f7e8934f8540027a1b1d02a988f2451744590a3b4f8",
+   "bytes": 8208858,
+   "entries": 24,
+   "extracted_in": "knowledgeBase/ACME/E-FIELDS",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_data_camera.zip",
+   "sha256": "c446d1b48abfdf73ce8d50be2fef1757dfb6e8c96218328e126f109954b2c4a5",
+   "bytes": 17381053,
+   "entries": 24,
+   "extracted_in": "knowledgeBase/ACME/E-FIELDS",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_diagnostic_system.zip",
+   "sha256": "e02dc8184d203e40bfbeaabc105bd6ff0943a2e2fdabbdd83607ae393f87c9de",
+   "bytes": 9378042,
+   "entries": 34,
+   "extracted_in": "knowledgeBase/ACME/E-FIELDS",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_e-field_system.zip",
+   "sha256": "ea3b6e87855d74c38cefe5a93e142f59b984c23d644812f4d3003abf076618b3",
+   "bytes": 8589689,
+   "entries": 24,
+   "extracted_in": "knowledgeBase/ACME/E-FIELDS",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_gas_supply.zip",
+   "sha256": "22dd3a41ad0d9d5674af150757b4f31e661b6eb5640ad9663e74fd655cb93542",
+   "bytes": 17347535,
+   "entries": 22,
+   "extracted_in": "knowledgeBase/ACME/E-FIELDS",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_ground_equipment.zip",
+   "sha256": "642b7f2a202f74eff4bc62d6e194b928e1d47507a15043773edc1910edbe27c7",
+   "bytes": 3736550,
+   "entries": 26,
+   "extracted_in": "knowledgeBase/ACME/E-FIELDS",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_measurement_system.zip",
+   "sha256": "0ccc2fd9e4b75d9a883d85bf72e7b603da86a7fda654970f7f92b3cec2c69f3d",
+   "bytes": 5383717,
+   "entries": 31,
+   "extracted_in": "knowledgeBase/ACME/E-FIELDS",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_trainer.zip",
+   "sha256": "0987dbdeef36e0045f9dfc0499a15fdcb9a5f2b4943e18646f9bcb5228f5dff5",
+   "bytes": 1112713,
+   "entries": 10,
+   "extracted_in": "knowledgeBase/ACME/E-FIELDS",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME.zip",
+   "sha256": "809127b7c6578263dc829d8ef8b15fa98fd1626dcf9c9d44d832a48974e146c6",
+   "bytes": 13127,
+   "entries": 2,
+   "extracted_in": "knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS.zip",
+   "sha256": "1167ee239db24e7d73508b2d472e9bab9382211b596312167a2a6d24b4bcfc59",
+   "bytes": 11647,
+   "entries": 2,
+   "extracted_in": "knowledgeBase/Flammable/BASS/PSI-26_metadata_PSI-102_BASS",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II.zip",
+   "sha256": "629faf104a8ff0e8d335f2527c019e740380163ea7f74b8ad754ae71f7da2559",
+   "bytes": 13439,
+   "entries": 2,
+   "extracted_in": "knowledgeBase/Flammable/BASS2/PSI-25_metadata_PSI_metadata_PSI-101_BASS-II",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE.zip",
+   "sha256": "2ebc6e168e4f2614e205addfb9d0643b18d0c3f019109e8a75cda73dac935995",
+   "bytes": 9313,
+   "entries": 2,
+   "extracted_in": "knowledgeBase/MSG (SolidAndGas)/SPICE/PSI-107_metadata_PSI-176_SPICE",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI.zip",
+   "sha256": "9fbb9b18160e36dcdd930eb0f19db1f764e7c9d44d804da4fe5c8a8fd936650f",
+   "bytes": 10237,
+   "entries": 2,
+   "extracted_in": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/suppression/FLEX/PSI-69_metadata_PSI-133_FLEX.zip",
+   "sha256": "3ff0e8a61bc58e79756b4a860cdf0616889f95f03fe48536b62e600ced2c0337",
+   "bytes": 24780,
+   "entries": 2,
+   "extracted_in": "knowledgeBase/suppression/FLEX/PSI-69_metadata_PSI-133_FLEX",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/suppression/FLEX2/PSI-68_Calibration_FLEX2 Radiometer Calibration.zip",
+   "sha256": "2bf4692aee5261dc547ad2db66e3fb2712c0e74dbff12e29e6460854d3159cb6",
+   "bytes": 86365016,
+   "entries": 214,
+   "extracted_in": "knowledgeBase/suppression/FLEX2/PSI-68_Calibration_FLEX2 Radiometer Calibration",
+   "check": "every entry present with identical size and CRC32"
+  },
+  {
+   "archive": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2.zip",
+   "sha256": "914253706ecde55d3f497f3f081ecb2f0f0ed1a7a19136b3926d7d37848b8d78",
+   "bytes": 24115,
+   "entries": 2,
+   "extracted_in": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2",
+   "check": "every entry present with identical size and CRC32"
+  }
+ ],
+ "kept_not_fully_extracted": [],
+ "deleted_damaged_archives": [
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_avionics_package.zip",
+   "bytes": 29410176,
+   "damage": "archive is 1 MiB shorter than its central directory describes (truncated transfer)",
+   "intact_entries_already_extracted_identical": true,
+   "missing_from_project_unrecoverable": [
+    "ACME_drawings_avionics_package/s1101mfa3000_C.pdf"
+   ],
+   "sha256": "44c65acb273484cd3ebbf9b3a03b10b6f45fa96b4fd2dd88a2a7d292f9ed9d47",
+   "deleted": "2026-11-14, user-authorized; intact entries already extracted identical"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_burners.zip",
+   "bytes": 13601550,
+   "damage": "archive is 1 MiB shorter than its central directory describes (truncated transfer)",
+   "intact_entries_already_extracted_identical": true,
+   "missing_from_project_unrecoverable": [
+    "ACME_drawings_burners/s1101mfd1237_-.pdf",
+    "ACME_drawings_burners/s1101mfd1238_-.pdf",
+    "ACME_drawings_burners/s1101mfd1239_-.pdf",
+    "ACME_drawings_burners/s1101mfd1240_A.pdf",
+    "ACME_drawings_burners/s1101mfd1241_-.pdf",
+    "ACME_drawings_burners/s1101mfd1242_A.pdf",
+    "ACME_drawings_burners/s1101mfd1247_-.pdf",
+    "ACME_drawings_burners/s1101mfd1248_-.pdf",
+    "ACME_drawings_burners/s1101mfd1249_-.pdf",
+    "ACME_drawings_burners/s1101mfd1250_A.pdf",
+    "ACME_drawings_burners/s1101mfd1251_-.pdf"
+   ],
+   "sha256": "4e64c6ac263f9be73b2e591cbc81ce8eabdac7c6a6dbbf71277112cd2d76848d",
+   "deleted": "2026-11-14, user-authorized; intact entries already extracted identical"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_common_electrical.zip",
+   "bytes": 7160282,
+   "damage": "archive is 1 MiB shorter than its central directory describes (truncated transfer)",
+   "intact_entries_already_extracted_identical": true,
+   "missing_from_project_unrecoverable": [
+    "ACME_drawings_common_electrical/S1101EFL0302_C.pdf",
+    "ACME_drawings_common_electrical/S1101EFL0313_C.pdf"
+   ],
+   "sha256": "8cdc3d359d0e987ad8e59975e2e86a77b8b58fe68a457f4b6e45c3ddd31c617d",
+   "deleted": "2026-11-14, user-authorized; intact entries already extracted identical"
+  },
+  {
+   "archive": "knowledgeBase/ACME/ACME-BRE/ACME_drawings_shipping_containers.zip",
+   "bytes": 4415134,
+   "damage": "archive is 1 MiB shorter than its central directory describes (truncated transfer)",
+   "intact_entries_already_extracted_identical": true,
+   "missing_from_project_unrecoverable": [
+    "ACME_drawings_shipping_containers/s1101mga5000_A.pdf",
+    "ACME_drawings_shipping_containers/s1101mga5004_A.pdf",
+    "ACME_drawings_shipping_containers/s1101mga5009_-.pdf",
+    "ACME_drawings_shipping_containers/s1101mga5016_-.pdf",
+    "ACME_drawings_shipping_containers/s1101mga5017_-.pdf"
+   ],
+   "sha256": "06eafadac7ab1849a33399ee2bc2238e0203da62ff6ca37ee73cd94afb8e4f76",
+   "deleted": "2026-11-14, user-authorized; intact entries already extracted identical"
+  },
+  {
+   "archive": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_expt_mounting_structure.zip",
+   "bytes": 1862781,
+   "damage": "archive is 1 MiB shorter than its central directory describes (truncated transfer)",
+   "intact_entries_already_extracted_identical": true,
+   "missing_from_project_unrecoverable": [],
+   "sha256": "0199440814670a687040d8d0028388b7ae34c52a5a563b332fee054d3183e4e0",
+   "deleted": "2026-11-14, user-authorized; intact entries already extracted identical"
+  },
+  {
+   "archive": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_igniter.zip",
+   "bytes": 1894915,
+   "damage": "archive is 1 MiB shorter than its central directory describes (truncated transfer)",
+   "intact_entries_already_extracted_identical": true,
+   "missing_from_project_unrecoverable": [],
+   "sha256": "27441bcb31b36ec59c593068981726e06bac85c4d441b793e923276e3232a81d",
+   "deleted": "2026-11-14, user-authorized; intact entries already extracted identical"
+  }
+ ],
+ "recovered_from_redownload_2026_11_14": [
+  {
+   "file": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_expt_mounting_structure/s1101mfa1000_A.pdf",
+   "bytes": 1835041,
+   "sha256": "fc0627937d1989fd329b95b5b16670e672d0c67f6acea3a72e8fa247229f1007",
+   "from_archive": "ACME_drawings_expt_mounting_structure.zip",
+   "archive_sha256": "ef7b97d4588f54fba46d19a1e5b77d64f6017a7d2088e463e82df9da7fc36e32"
+  },
+  {
+   "file": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_igniter/s1101mfa1300_C.pdf",
+   "bytes": 665123,
+   "sha256": "996cc9ba108f656af758cacb0e7508f56c8e9d0e964ef1e7cd2d6cfb9bac43dc",
+   "from_archive": "ACME_drawings_igniter.zip",
+   "archive_sha256": "ea7b1783f18dba19e51d7b944bc2ab5912ad7408c744a5cc29a2f5d4feea6890"
+  },
+  {
+   "file": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_igniter/s1101mfa1313_F.pdf",
+   "bytes": 364069,
+   "sha256": "0117ff5d40d064012f89a08b3a7b429698db8ec7589f71d69b3baa39586f3004",
+   "from_archive": "ACME_drawings_igniter.zip",
+   "archive_sha256": "ea7b1783f18dba19e51d7b944bc2ab5912ad7408c744a5cc29a2f5d4feea6890"
+  },
+  {
+   "file": "knowledgeBase/ACME/E-FIELDS/ACME_drawings_igniter/s1101mfa1315_F.pdf",
+   "bytes": 363481,
+   "sha256": "75034c4bc8276758726132e5af24aaf746e8f0beebd88fe5fe93e22229fe459c",
+   "from_archive": "ACME_drawings_igniter.zip",
+   "archive_sha256": "ea7b1783f18dba19e51d7b944bc2ab5912ad7408c744a5cc29a2f5d4feea6890"
+  }
+ ]
+}

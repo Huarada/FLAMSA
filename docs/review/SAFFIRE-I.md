@@ -1,0 +1,42 @@
+# SAFFIRE-I: review sheet (draft)
+
+Edit `data/manual/SAFFIRE-I.json` to approve: set `review_status` to `reviewed`, `reviewed_by` and `reviewed_on`. Check each box after comparing the quote with the linked page.
+
+- [ ] **Pillars**: `['prevention']` · _inferred_
+  - note: The Saffire-I-specific objective is flame spread and growth (paper, p. 4; DoD para 1). The low-g flammability-limit objective is stated for the SAFFIRE series (first sentence of DoD para 1), not for Saffire-I alone; it is the prevention pillar. Pillar is the curator's classification and the weakest one here: the reviewer should decide.
+  - [document.pdf · p. 4](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=4): `The objective of the Saffire-I experiment is to investigate flame spread and growth in low-gravity.`
+  - [SAFFIRE-I and SAFFIRE-III DoD.docx · para 1](../../knowledgeBase/Flammable/SAFFIRE/SAFFIRE-I%20and%20SAFFIRE-III%20DoD.docx): `investigate the low-g flammability limits compared to those obtained in NASA’s normal gravity material flammability screening test`
+- [ ] **Gravity regime**: `microgravity` · _inferred_
+  - note: The sources say 'low-gravity'; mapped to the microgravity regime.
+  - [SAFFIRE-I and SAFFIRE-III DoD.docx · para 1](../../knowledgeBase/Flammable/SAFFIRE/SAFFIRE-I%20and%20SAFFIRE-III%20DoD.docx): `determine how rapidly a large scale fire grows in low-gravity`
+- [ ] **Hardware**: `Saffire experiment unit in the Cygnus vehicle (operated after Cygnus unberths from the ISS)` · _verified_
+  - [SAFFIRE-I Operations.pdf · p. 1](../../knowledgeBase/Flammable/SAFFIRE/SAFFIRE-I%20Operations.pdf#page=1): `The Saffire experiments are conducted in three consecutive flights of the Cygnus vehicle.`
+  - [SAFFIRE-I Operations.pdf · p. 1](../../knowledgeBase/Flammable/SAFFIRE/SAFFIRE-I%20Operations.pdf#page=1): `The Saffire-I experiment begins only after Cygnus is unberthed from the ISS.`
+- [ ] **Nominal atmosphere**: `{'o2_percent_min': 21.0, 'o2_percent_max': 21.0}` · _inferred_
+  - note: O2 only, near 21 percent: a pre-flight expectation for the Saffire-I panel ('will be expected'); the subscript 2 is on the next printed line. The experimental table reports 21.5 to 21.7 percent measured. No source gives the cabin pressure.
+  - [document.pdf · p. 4](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=4): `This material will be expected to burn at the anticipated oxygen mole fraction of the`
+  - [document.pdf · p. 4](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=4): `cabin atmosphere (near 0.21 O`
+  - [PSI-98_Experimental table_SAFFIRE-1.csv · row 2](../../knowledgeBase/Flammable/SAFFIRE/PSI-98_Experimental%20table_SAFFIRE-1.csv): `S1,SIBAL Fabric,0.37,40.6,94,20,21.5 - 21.7,182,8,420,Concurrent,S1C1,S1C2`
+- [ ] **Sensor**: `{'instrument': 'O2 sensor', 'measures': 'oxygen concentration'}` · _inferred_
+  - note: Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the sensor suite is common to Saffire-I, II and III (Table 3, not extractable as text). Measured at the inlet of the avionics bay.
+  - [document.pdf · p. 3](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=3): `The oxygen and CO2 concentrations will be measured at the inlet of the avionics bay so that`
+- [ ] **Sensor**: `{'instrument': 'CO2 sensor', 'measures': 'CO2 concentration'}` · _inferred_
+  - note: Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the sensor suite is common to Saffire-I, II and III (Table 3, not extractable as text). Measured at the inlet of the avionics bay.
+  - [document.pdf · p. 3](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=3): `The oxygen and CO2 concentrations will be measured at the inlet of the avionics bay so that`
+- [ ] **Sensor**: `{'instrument': 'pressure sensor', 'measures': 'pressure'}` · _inferred_
+  - note: Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the suite is common to Saffire-I, II and III (its diagnostics table is an image and cannot be quoted). Called a pressure transducer in the paper.
+  - [document.pdf · p. 3](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=3): `A pressure transducer will also measure the pressure`
+- [ ] **Sensor**: `{'instrument': 'anemometer', 'measures': 'flow velocity in the duct'}` · _inferred_
+  - note: Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the sensor suite is common to Saffire-I, II and III (Table 3, not extractable as text). Two anemometers, one on each side of the sample.
+  - [document.pdf · p. 3](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=3): `Two flow anemometers, one on each side of the sample will quantify the flow velocity in the duct and`
+- [ ] **Sensor**: `{'instrument': 'video camera'}` · _inferred_
+  - note: Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the sensor suite is common to Saffire-I, II and III (Table 3, not extractable as text). Two cameras, located in the avionics bay.
+  - [document.pdf · p. 3](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=3): `Two video cameras located in the avionics bay will provide front`
+- [ ] **Sensor**: `{'instrument': 'radiometer', 'measures': 'broadband radiative emission from the sample'}` · _inferred_
+  - note: Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the sensor suite is common to Saffire-I, II and III (Table 3, not extractable as text). Four radiometers: two viewing the front of the sample, two the back.
+  - [document.pdf · p. 4](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=4): `Four calibrated radiometers, two viewing the front of the sample and two viewing the back, will measure the`
+  - [document.pdf · p. 4](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=4): `broadband radiative emission from the sample to provide an estimate of the radiative flux from the burning zone`
+- [ ] **Sensor**: `{'instrument': 'thermocouple'}` · _inferred_
+  - note: Describes the Saffire experiment package in a pre-flight paper (written 'will be'); the as-flown configuration is not confirmed here. The DoD says the suite is common to Saffire-I, II and III (its diagnostics table is an image and cannot be quoted). Several thermocouples at varying heights above the sample surface, for the larger flame spread samples.
+  - [document.pdf · p. 4](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=4): `will be measured for the larger flame spread samples using several thermocouples placed`
+  - [document.pdf · p. 4](../../data/external/saffire-ii-20170000230/20261114T145744662608Z/document.pdf#page=4): `at varying heights above the sample surface. The thermocouple wires are woven into the sample and then bent`

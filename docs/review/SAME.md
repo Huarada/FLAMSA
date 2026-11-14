@@ -1,0 +1,53 @@
+# SAME: review sheet (draft)
+
+Edit `data/manual/SAME.json` to approve: set `review_status` to `reviewed`, `reviewed_by` and `reviewed_on`. Check each box after comparing the quote with the linked page.
+
+- [ ] **Pillars**: `['detection']` · _inferred_
+  - note: The stated purpose is smoke-detector technology and detector sensitivity to low-gravity smoke: the detection pillar. Pillar is the curator's classification, not a source statement.
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `The SAME experiment will provide technology for an advanced fire detector for future spacecraft`
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `SAME will provide quantitative data on the sensitivity of these detectors to reduced gravity smokes`
+- [ ] **Gravity regime**: `microgravity` · _verified_
+  - [i_Investigation.txt · Comment[Project Type]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `Microgravity Investigation`
+- [ ] **Hardware**: `SAME near-field hardware in the Glovebox with a Far Field Box, on the ISS` · _verified_
+  - note: 'Comparitive' is a typo in the source record.
+  - [i_Investigation.txt · Comment[Experiment Hardware]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `Comparitive Soot Diagnostic Hardware`
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `The crew installed the near field hardware in the Glovebox, attached the Far Field Box to the Glovebox`
+  - [i_Investigation.txt · Comment[Flight Platform]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `International Space Station (ISS)`
+- [ ] **Nominal atmosphere**: `None` · _not_reported_
+  - note: The experimental table carries no O2 or pressure. Read in full for a chamber or cabin atmosphere: the ISA-Tab study record, the Final Science Report (03 18 10), SAME_Operations Manual_007, SAME EIRD Rev 2.00 and the SAME Baseline Concept Description Document: none states one. The pressures found are not test atmospheres: hardware fill pressures such as 13.2 psia in the Operations Manual, and a requirement for the EIRD ambient-pressure measurement range of 0.08 to 0.13 mPa (a typo for MPa), an instrument range. Not searched: the PowerPoint presentations, the ICES papers, the VPRED, the drawings and the wire-test report. Do not assume cabin air.
+  - [SAME EIRD Rev 2.00 02-25-05 HIgh Q.pdf · p. 29](../../knowledgeBase/Detection/SAME/SAME%20EIRD%20Rev%202.00%2002-25-05%20HIgh%20Q.pdf#page=29): `d) Range: Air flow 1-15 cm/s, humidity 10 to 90% RH, pressure 0.08 to 0.13 mPa, temperature 15`
+- [ ] **Sensor**: `{'instrument': 'smoke detector', 'measures': 'detector response to smoke'}` · _verified_
+  - note: Two smoke detectors. Detectors from the ISS and the space shuttle were included for comparison (the sentence wraps from p. 3 to p. 4); the cited lines do not say whether they are the same two.
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `ran the self diagnostic procedures on the two smoke detectors`
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `analyzed to determine the response of the detectors.`
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 3](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=3): `For comparison, smoke detectors from`
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 4](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=4): `also included in the SAME apparatus.`
+- [ ] **Sensor**: `{'instrument': 'thermophoretic soot sampler', 'measures': 'collects smoke particles on TEM grids'}` · _verified_
+  - note: Called a Thermal Precipitator Module in the figure list (p. 8).
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `initiated the thermophoretic soot samplers to sample the smoke`
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 3](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=3): `(TEM) grids for post-flight analysis.`
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 8](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=8): `Figure 6. Thermal Precipitator Module.`
+- [ ] **Sensor**: `{'instrument': 'transmission electron microscope', 'measures': 'primary and aggregate particle dimensions'}` · _verified_
+  - note: A post-flight laboratory instrument used on the particles collected in flight, not a flight sensor.
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `analyzed using a Transmission Electron microscope (TEM) to determine primary and aggregate particle dimensions`
+- [ ] **Sensor**: `{'instrument': 'P-Trak', 'measures': 'zeroth moment of the particle size distribution'}` · _verified_
+  - note: The zeroth-moment instrument is a condensation nuclei counter, the P-Trak (the name is on the next printed line, p. 38). Listed among the calibration figures of the Final Science Report (p. 8).
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 8](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=8): `Figure 7. P-trak Calibration results with Mono disperse DOP droplets.`
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 3](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=3): `aerosol diagnostics that measure different`
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 38](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=38): `The zeroth-moment instrument is a condensation nuclei`
+- [ ] **Sensor**: `{'instrument': 'ion chamber'}` · _verified_
+  - note: Listed among the calibration figures of the Final Science Report (p. 8).
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 8](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=8): `Figure 8. Ion Chamber Calibration results with Mono disperse DOP droplets.`
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 3](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=3): `aerosol diagnostics that measure different`
+- [ ] **Sensor**: `{'instrument': 'DustTrak', 'measures': 'aerosol mass density by 90 degree light scattering'}` · _verified_
+  - note: Two DustTraks, one with a 1 micron impactor and the other with a 10 micron impactor (same page, next printed line). Listed among the calibration figures of the Final Science Report (p. 8).
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 8](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=8): `Figure 9. DustTrak results with Mono disperse DOP droplets.`
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 3](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=3): `aerosol diagnostics that measure different`
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 20](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=20): `The SAME experiment included 2 DustTraks`
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 20](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=20): `90 degree light scattering signal to quantify the aerosol mass density.`
+  - [SAME Final Science report  03 18 10 with papers attached.pdf · p. 20](../../knowledgeBase/Detection/SAME/SAME%20Final%20Science%20report%20%2003%2018%2010%20with%20papers%20attached.pdf#page=20): `one with a 1 μm impactor and the other with a 10 μm impactor.`
+- [ ] **Sensor**: `{'instrument': 'video camera'}` · _verified_
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `positioned the video cameras`
+  - [i_Investigation.txt · Comment[Approach]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `activated the video cameras`
+- [ ] **Earth application**: `Smoke detectors for other extreme environments on Earth, such as submarines or underwater laboratories.` · _verified_
+  - [i_Investigation.txt · Comment[Research Impacts]](../../knowledgeBase/Detection/SAME/PSI-102_metadata_PSI-170_SAME/i_Investigation.txt): `The smoke detectors developed from the results of SAME can also be useful in other extreme environments on Earth, such as submarines or underwater laboratories.`

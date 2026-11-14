@@ -1,0 +1,181 @@
+{
+  "investigation_id": "FLEX",
+  "review_status": "draft",
+  "reviewed_by": null,
+  "reviewed_on": null,
+  "pillars": {
+    "value": [
+      "prevention",
+      "suppression"
+    ],
+    "status": "inferred",
+    "note": "Two stated aims: flammability limits of liquid fuels (prevention) and the effectiveness of gaseous suppressants such as CO2, He and SF6 (suppression). Pillar is the curator's classification, not a source statement.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/suppression/FLEX/PSI-69_metadata_PSI-133_FLEX/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "map the flammability limits of liquid fuels in microgravity environments"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/FLEX/PSI-69_metadata_PSI-133_FLEX/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "measure the effectiveness of various gaseous fire suppressants such as CO2, He, and SF6"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/FLEX/FLEX DoD.docx",
+        "locator": "para 1",
+        "quote": "investigates the effectiveness of fire suppressants in microgravity and quantify the effect of different possible crew exploration atmospheres on fire suppression"
+      }
+    ]
+  },
+  "gravity_regime": {
+    "value": "microgravity",
+    "status": "verified",
+    "note": null,
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/suppression/FLEX/PSI-69_metadata_PSI-133_FLEX/i_Investigation.txt",
+        "locator": "Comment[Project Type]",
+        "quote": "Microgravity Investigation"
+      }
+    ]
+  },
+  "hardware": {
+    "value": "Combustion Integrated Rack (CIR) with the Multi-user Droplet Combustion Apparatus (MDCA), on the ISS",
+    "status": "verified",
+    "note": "'Appartatus' is a typo in the source record.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/suppression/FLEX/PSI-69_metadata_PSI-133_FLEX/i_Investigation.txt",
+        "locator": "Comment[Experiment Hardware]",
+        "quote": "Combustion Integrated Rack (CIR)-Fluids and Combustion Facility (FCF)"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/FLEX/PSI-69_metadata_PSI-133_FLEX/i_Investigation.txt",
+        "locator": "Comment[Experiment Hardware]",
+        "quote": "Multi-user Droplet Combustion Appartatus (MDCA)"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/FLEX/PSI-69_metadata_PSI-133_FLEX/i_Investigation.txt",
+        "locator": "Comment[Flight Platform]",
+        "quote": "International Space Station (ISS)"
+      }
+    ]
+  },
+  "nominal_atmosphere": null,
+  "sensors": [
+    {
+      "value": {
+        "instrument": "multispectral camera",
+        "measures": "backlit droplet image"
+      },
+      "status": "verified",
+      "note": "Called HiBMS in the slides. From a 2012 ASGSR talk on methanol droplet combustion in FLEX (slide 9 lists the instruments of the ISS configuration); the slides do not say whether every FLEX test used each instrument.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX/20130010979.pdf",
+          "locator": "p. 9",
+          "quote": "High Bit Multi-Spectral (HiBMS-1) Camera"
+        },
+        {
+          "source_file": "knowledgeBase/suppression/FLEX/20130010979.pdf",
+          "locator": "p. 9",
+          "quote": "used for backlit droplet image"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "ultraviolet camera",
+        "measures": "OH* chemiluminescence"
+      },
+      "status": "verified",
+      "note": "Low Light Level Ultra Violet, called LLUV in the slides. From a 2012 ASGSR talk on methanol droplet combustion in FLEX (slide 9 lists the instruments of the ISS configuration); the slides do not say whether every FLEX test used each instrument.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX/20130010979.pdf",
+          "locator": "p. 9",
+          "quote": "Low Light Level – Ultra Violet (LLUV) Camera"
+        },
+        {
+          "source_file": "knowledgeBase/suppression/FLEX/20130010979.pdf",
+          "locator": "p. 9",
+          "quote": "used for imaging chemiluminescence from OH* emissions"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "color camera",
+        "measures": "operations monitoring and flame imaging"
+      },
+      "status": "verified",
+      "note": "The MDCA color camera ('Mulit' is a typo in the source). From a 2012 ASGSR talk on methanol droplet combustion in FLEX (slide 9 lists the instruments of the ISS configuration); the slides do not say whether every FLEX test used each instrument.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX/20130010979.pdf",
+          "locator": "p. 9",
+          "quote": "Mulit-User Droplet Combustion Apparatus (MDCA) Color Camera"
+        },
+        {
+          "source_file": "knowledgeBase/suppression/FLEX/20130010979.pdf",
+          "locator": "p. 9",
+          "quote": "operations monitoring and flame imaging"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "radiometer",
+        "measures": null
+      },
+      "status": "verified",
+      "note": "The Data Description lists a radiometer calibration record for FLEX; the cited paragraph does not say what the radiometers measure.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX/FLEX DoD.docx",
+          "locator": "para 5",
+          "quote": "FLEX - Radiometer Calibration"
+        }
+      ]
+    }
+  ],
+  "earth_applications": [
+    {
+      "value": "Fire safety in confined and reduced-gravity environments on Earth, such as submarines or high-altitude aircraft.",
+      "status": "verified",
+      "note": "A 'potential' stated in the Research Impacts text.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX/PSI-69_metadata_PSI-133_FLEX/i_Investigation.txt",
+          "locator": "Comment[Research Impacts]",
+          "quote": "have the potential to advance fire safety in confined and reduced-gravity environments, such as submarines or high-altitude aircraft."
+        }
+      ]
+    },
+    {
+      "value": "More efficient and less harmful fire suppression systems.",
+      "status": "verified",
+      "note": "Stated for the effectiveness findings on suppressants such as CO2, He and SF6.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX/PSI-69_metadata_PSI-133_FLEX/i_Investigation.txt",
+          "locator": "Comment[Research Impacts]",
+          "quote": "can lead to the development of more efficient and less harmful fire suppression systems"
+        }
+      ]
+    },
+    {
+      "value": "Advanced combustion engines with better fuel efficiency and reduced emissions.",
+      "status": "verified",
+      "note": "Stated for the study of cool flames and low-temperature combustion.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX/PSI-69_metadata_PSI-133_FLEX/i_Investigation.txt",
+          "locator": "Comment[Research Impacts]",
+          "quote": "can inform the design of advanced combustion engines, leading to improved fuel efficiency and reduced emissions"
+        }
+      ]
+    }
+  ]
+}

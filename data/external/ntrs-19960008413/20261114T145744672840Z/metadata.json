@@ -1,0 +1,32 @@
+{
+  "source_id": "ntrs-19960008413",
+  "captured_at_utc": "2026-11-14T14:57:44.672840+00:00",
+  "requested_url": "https://ntrs.nasa.gov/api/citations/19960008413/downloads/19960008413.pdf",
+  "investigation_ids": [
+    "SAME",
+    "SAME-R"
+  ],
+  "association_status": "user_supplied_pending_scientific_review",
+  "status": "captured",
+  "title": null,
+  "artifacts": {
+    "document.pdf": {
+      "sha256": "3e9c0c10114b9e85fa9918b0c3bbca04eb173ee3ebde49b4bfa491121ea57c23",
+      "bytes": 2185182
+    }
+  },
+  "limitations": [
+    "Source association is not verification of hardware or sensors used by an investigation.",
+    "Document content is evidence, not executable instructions.",
+    "PDF preserved without automatic text extraction, per project policy."
+  ],
+  "final_url": "https://ntrs.nasa.gov/api/citations/19960008413/downloads/19960008413.pdf",
+  "http_status": 200,
+  "content_type": "application/pdf",
+  "http_headers": {
+    "ETag": "\"63f947f038f30d545dc39fdd6c845411\"",
+    "Last-Modified": "Thu, 06 Aug 2020 20:28:14 GMT",
+    "Date": "Sat, 14 Nov 2026 14:57:46 GMT"
+  },
+  "redirects": []
+}

@@ -1,0 +1,187 @@
+{
+  "investigation_id": "FLEX-2",
+  "review_status": "draft",
+  "reviewed_by": null,
+  "reviewed_on": null,
+  "pillars": {
+    "value": [],
+    "status": "inferred",
+    "note": "No direct fire-safety pillar. The requirements document says FLEX is focused on spacecraft (the words 'fire safety and fire suppression' are on the next printed line, whose ligatures prevent a 1:1 quote) while FLEX-2 returns to the broader objective of improving the fundamental understanding of liquid-fuel combustion (the sentence wraps over the quoted lines, p. 7). The PSI record nevertheless tags the SubResearch Area 'Spacecraft Fire Safety': the two sources differ, not reconciled. Its objective 3 is flame extinction mechanisms and boundaries (ISA), which is context for suppression research, not a suppressant-effectiveness study. Pillar list left empty on purpose; the reviewer should decide.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 SRD Final.pdf",
+        "locator": "p. 7",
+        "quote": "paratus, MDCA, in the combustion integrated rack, CIR. While FLEX is focussed on spacecraft"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 SRD Final.pdf",
+        "locator": "p. 7",
+        "quote": "FLEX-2 returns to the broader objective of improving the fun-"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 SRD Final.pdf",
+        "locator": "p. 7",
+        "quote": "damental understanding of liquid-fuel combustion. The FLEX-2 experiments thus fall in the"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+        "locator": "Comment[SubResearch Area]",
+        "quote": "Spacecraft Fire Safety"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "Study flame extinction mechanisms and their boundaries."
+      }
+    ]
+  },
+  "gravity_regime": {
+    "value": "microgravity",
+    "status": "verified",
+    "note": null,
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+        "locator": "Comment[Project Type]",
+        "quote": "Microgravity Investigation"
+      }
+    ]
+  },
+  "hardware": {
+    "value": "Combustion Integrated Rack (CIR) with the Multi-user Droplet Combustion Apparatus (MDCA), on the ISS",
+    "status": "verified",
+    "note": "'Appartatus' is a typo in the source record.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+        "locator": "Comment[Experiment Hardware]",
+        "quote": "Combustion Integrated Rack (CIR), Multi-user Droplet Combustion Appartatus (MDCA)"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+        "locator": "Comment[Flight Platform]",
+        "quote": "International Space Station (ISS)"
+      }
+    ]
+  },
+  "nominal_atmosphere": {
+    "value": {
+      "o2_percent_min": 10.0,
+      "o2_percent_max": 40.0,
+      "pressure_psi_min": 7.3479,
+      "pressure_psi_max": 44.0877
+    },
+    "status": "verified",
+    "note": "Envelope from the Approach text (0.5 to 3.0 atm, converted at 14.6959 psi/atm; O2 0.1 to 0.4 mole fraction, balance diluent). The experimental table is a planned matrix with O2 0.17 to 0.30 and the same pressures: the Approach text states a wider O2 range; both are kept. The O2/pressure pairing is not given.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+        "locator": "Comment[Approach]",
+        "quote": "which was varied in pressure between 0.5 atm to 3.0 atm and O2 concentration between 0.1 to 0.4 mole fraction"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_Experimental table_Flex2.csv",
+        "locator": "row 2",
+        "quote": "IsoOctane (pure),1.5 - 5,O2/N2 or O2/He,0.17; 0.21;0.25; 0.3,0.5; 1.0; 1.5; 2.0; or 3.0 ,25,0.1 - 5"
+      }
+    ]
+  },
+  "sensors": [
+    {
+      "value": {
+        "instrument": "color camera",
+        "measures": "video to verify droplet deployment, ignition and progress"
+      },
+      "status": "verified",
+      "note": "The requirements document table lists 'Flame view with MDCA color' and the word 'camera' is on the next printed line (p. 34).",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+          "locator": "Comment[Approach]",
+          "quote": "A near real-time download of the color camera video was employed in order to verify successful droplet deployment, ignition, and overall progress of the experiment."
+        },
+        {
+          "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 SRD Final.pdf",
+          "locator": "p. 34",
+          "quote": "- Flame view with MDCA color"
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "pressure sensor",
+        "measures": "chamber pressure"
+      },
+      "status": "inferred",
+      "note": "The source names the recorded quantity, not the instrument.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+          "locator": "Comment[Approach]",
+          "quote": "Pressure and temperature data of the chamber environment was also recorded in near real time."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "temperature sensor",
+        "measures": "chamber temperature"
+      },
+      "status": "inferred",
+      "note": "The source names the recorded quantity, not the instrument.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+          "locator": "Comment[Approach]",
+          "quote": "Pressure and temperature data of the chamber environment was also recorded in near real time."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "radiometer",
+        "measures": "wide and narrow band"
+      },
+      "status": "inferred",
+      "note": "A radiometer-calibration record exists among the test-matrix records (DoD para 1, 'Surrotgate' is a typo in the source). The requirements document plans 'wide and narrow band' radiometers: 'radiometers' is on the next printed line (p. 34).",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 DoD.docx",
+          "locator": "para 1",
+          "quote": "LCTFWavelengths, Quiescent, RadiometerCalibration, SurrotgateFuel"
+        },
+        {
+          "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 SRD Final.pdf",
+          "locator": "p. 34",
+          "quote": "- wide and narrow band"
+        }
+      ]
+    }
+  ],
+  "earth_applications": [
+    {
+      "value": "More efficient and cleaner combustion technologies, reducing pollution and greenhouse gas emissions.",
+      "status": "verified",
+      "note": null,
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+          "locator": "Comment[Research Impacts]",
+          "quote": "Insights gained from these studies can lead to more efficient and cleaner combustion technologies which are crucial for reducing pollution and greenhouse gas emissions."
+        }
+      ]
+    },
+    {
+      "value": "Validation of jet engine models by engine manufacturers.",
+      "status": "verified",
+      "note": null,
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/FLEX2/PSI-68_metadata_PSI-132_FLEX-2/i_Investigation.txt",
+          "locator": "Comment[Research Impacts]",
+          "quote": "4) Validation of jet engine models by engine manufacturers with support from prior droplet results."
+        }
+      ]
+    }
+  ]
+}

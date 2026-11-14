@@ -1,0 +1,16 @@
+investigation_id,experimental_tables,structured_files,registered_isa_tab,hardware_declaration_found,instrument_mentions_in_registered_approach,instrument_columns_in_csv,curated_metadata_exists,curated_test_points_exist,manual_metadata_exists
+BASS,1,7,True,True,False,False,False,False,False
+BASS-II,1,5,True,True,False,True,False,False,False
+SAFFIRE-I,1,2,False,False,False,True,False,False,False
+SAFFIRE-II,1,3,False,False,False,True,False,False,False
+SAFFIRE-III,1,5,True,True,True,True,False,False,False
+SAME,1,5,True,True,True,False,False,False,False
+SAME-R,1,4,False,False,False,False,False,False,False
+FLEX,1,100,True,True,False,False,False,False,False
+FLEX-2,1,203,True,True,True,False,False,False,False
+CFI,1,4,True,True,True,False,False,False,False
+ACME-BRE,1,8,True,True,True,False,False,False,False
+ACME-CFI-G,2,2,False,False,False,False,False,False,False
+ACME-E-FIELD,1,6,False,False,False,False,False,False,False
+SPICE,1,3,True,True,True,False,False,False,False
+SLICE,1,1,False,False,False,False,False,False,False

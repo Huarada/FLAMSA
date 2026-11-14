@@ -1,0 +1,195 @@
+{
+  "investigation_id": "CFI",
+  "review_status": "draft",
+  "reviewed_by": null,
+  "reviewed_on": null,
+  "pillars": {
+    "value": [],
+    "status": "inferred",
+    "note": "No direct fire-safety pillar. The five stated objectives are about cool-flame behavior, helium dilution, extinction and soot; the PSI SubResearch Area is 'Droplets'. The Research Impacts text mentions only a general support for 'the design of safer spacecraft systems', and its main applications are engines and fuels. Helium dilution and flame extinction are context for suppression research, but no cited line studies a suppressant. The folder name 'suppression' in knowledgeBase/ is the project's own grouping, not a source statement. Pillar list left empty on purpose; the reviewer should decide.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "1) Examine the combustion behavior of n-dodecane and mixtures of n-dodecane/iso-dodecane at pressures ranging from 0.25 atm to 5 atm."
+      },
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "2) Analyze the effects of helium dilution on cool flame behavior."
+      },
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[SubResearch Area]",
+        "quote": "Comment[SubResearch Area] Droplets"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[Research Impacts]",
+        "quote": "support the design of safer spacecraft systems by refining knowledge of combustion in microgravity environments."
+      },
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "3) Examine the behavior of combustion characteristics."
+      },
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "4) Investigate the relationship between droplet size, pressure, and flame extinction, and (5) understand the consequence of soot formation during cool flame combustion."
+      },
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[Research Impacts]",
+        "quote": "A basic understanding of cool flames is important for understanding ignition phenomena of practical fuels and fuel additives."
+      }
+    ]
+  },
+  "gravity_regime": {
+    "value": "microgravity",
+    "status": "verified",
+    "note": null,
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[Project Type]",
+        "quote": "Microgravity Investigation"
+      }
+    ]
+  },
+  "hardware": {
+    "value": "Multi-User Droplet Combustion Apparatus (MDCA) in the Combustion Integrated Rack (CIR), on the ISS",
+    "status": "verified",
+    "note": null,
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[Experiment Hardware]",
+        "quote": "Multi-User Droplet Combustion Apparatus (MDCA), Combustion Integrated Rack (CIR)"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[Flight Platform]",
+        "quote": "International Space Station (ISS)"
+      }
+    ]
+  },
+  "nominal_atmosphere": {
+    "value": {
+      "pressure_psi_min": 7.3479,
+      "pressure_psi_max": 73.4795
+    },
+    "status": "verified",
+    "note": "Pressure only, converted at 14.6959 psi/atm. The Science Final Report lists the experiments performed at 0.5 to 5 atm (p. 6). The PSI record is inconsistent: its Objective says 0.25 to 5 atm and its Approach says the gas system delivers mixtures 'ranging from 0.25 to 0.5 atm'; the 0.25 atm bound is an objective that the flown list does not include, so it is not used. The experimental table carries per-test pressure and the O2/N2/He fractions.",
+    "evidence": [
+      {
+        "source_file": "knowledgeBase/suppression/CFI/CFI Science Final Report.pdf",
+        "locator": "p. 6",
+        "quote": "Pure n-dodecane at 0.5, 0.75, 1, 1.25, 2, 3, and 5 atm."
+      },
+      {
+        "source_file": "knowledgeBase/suppression/CFI/CFI Science Final Report.pdf",
+        "locator": "p. 6",
+        "quote": "N-dodecane/Iso-dodecane mixtures: 75/25% and 60/40% by mass at pressures from 0.5 to 5 atm"
+      },
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[Objective]",
+        "quote": "1) Examine the combustion behavior of n-dodecane and mixtures of n-dodecane/iso-dodecane at pressures ranging from 0.25 atm to 5 atm."
+      },
+      {
+        "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+        "locator": "Comment[Approach]",
+        "quote": "ranging from 0.25 to 0.5 atm"
+      }
+    ]
+  },
+  "sensors": [
+    {
+      "value": {
+        "instrument": "black-and-white camera",
+        "measures": "droplet size"
+      },
+      "status": "verified",
+      "note": null,
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+          "locator": "Comment[Approach]",
+          "quote": "Flames were observed with a black-and-white camera for droplet size measurements."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "ultraviolet camera",
+        "measures": "OH* radical emissions and flame size"
+      },
+      "status": "verified",
+      "note": "Called a UV camera in the source.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+          "locator": "Comment[Approach]",
+          "quote": "A UV camera was used for capturing the OH* radical emissions and flame size."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "high-resolution camera",
+        "measures": "monitoring and documentation"
+      },
+      "status": "verified",
+      "note": null,
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+          "locator": "Comment[Approach]",
+          "quote": "Other high resolution cameras were used for monitoring and documentation."
+        }
+      ]
+    },
+    {
+      "value": {
+        "instrument": "radiometer",
+        "measures": "flame radiation"
+      },
+      "status": "verified",
+      "note": "Narrow-band and wide-band radiometers.",
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+          "locator": "Comment[Approach]",
+          "quote": "Narrow-band and wide-band radiometers for analyzed flame radiation."
+        }
+      ]
+    }
+  ],
+  "earth_applications": [
+    {
+      "value": "Cool-flame reactivity and octane and cetane number of fuels for spark-ignition and diesel engines.",
+      "status": "verified",
+      "note": null,
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+          "locator": "Comment[Research Impacts]",
+          "quote": "including an understanding of how cool flame reactivity determines octane and cetane number for fuels in spark ignition and diesel engines."
+        }
+      ]
+    },
+    {
+      "value": "Design of advanced, clean, high-efficiency HCCI engines.",
+      "status": "verified",
+      "note": null,
+      "evidence": [
+        {
+          "source_file": "knowledgeBase/suppression/CFI/PSI-39_metadata_PSI-118_CFI/i_Investigation.txt",
+          "locator": "Comment[Research Impacts]",
+          "quote": "the design of advanced engines such as clean, high-efficiency Homogeneous Charge Compression Ignition (HCCI) engines."
+        }
+      ]
+    }
+  ]
+}

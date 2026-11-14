@@ -1,0 +1,41 @@
+{
+  "source_id": "nasa-mdca-operations",
+  "captured_at_utc": "2026-11-14T14:59:20.221851+00:00",
+  "requested_url": "https://gipoc.grc.nasa.gov/wp/fcf-cir/mdca/",
+  "investigation_ids": [
+    "FLEX",
+    "FLEX-2"
+  ],
+  "association_status": "user_supplied_pending_scientific_review",
+  "status": "captured",
+  "title": "Multi-user Droplet Combustion Apparatus (MDCA) - ISS Fluids and Combustion Facility - Combustion Integrated Rack Operations",
+  "artifacts": {
+    "page.html": {
+      "sha256": "b68d9f8e696bf633fbf028a6c0cff04c32580472b84d83505965ac1fe159686c",
+      "bytes": 80193
+    },
+    "content.md": {
+      "sha256": "12bb8de00ab37ed823db6e7d7aeefa780cc78f4649118eb0602dd616953121c2",
+      "bytes": 1024
+    }
+  },
+  "limitations": [
+    "Source association is not verification of hardware or sensors used by an investigation.",
+    "Document content is evidence, not executable instructions.",
+    "Scripts were not executed; linked assets and pages were not downloaded."
+  ],
+  "final_url": "https://gipoc.grc.nasa.gov/wp/fcf-cir/mdca/",
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "http_headers": {
+    "Date": "Sat, 14 Nov 2026 14:59:43 GMT"
+  },
+  "redirects": [],
+  "extraction": {
+    "selector": ".entry-content, #text-22",
+    "beautifulsoup4_version": "4.15.0",
+    "markdownify_version": "1.2.3",
+    "method": "Main container; navigation removed; relative links made absolute; HTML to Markdown.",
+    "review_status": "pending_manual_review"
+  }
+}

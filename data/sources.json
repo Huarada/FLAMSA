@@ -1,0 +1,283 @@
+{
+  "_comment": "Single map from canonical investigation_id to raw files in knowledgeBase/ (read-only). Paths relative to repo root. Curated output always lands in data/curated/<investigation_id>/{test_points.csv, investigation.json}.",
+  "investigations": [
+    {
+      "id": "BASS",
+      "psi_id": "PSI-26",
+      "raw_dir": "knowledgeBase/Flammable/BASS",
+      "experimental_tables": [
+        "PSI-26_Experimental table_BASS.csv"
+      ],
+      "isa_tab_dir": "PSI-26_metadata_PSI-102_BASS",
+      "external_source_ids": [
+        "nasa-iss-science-facilities"
+      ]
+    },
+    {
+      "id": "BASS-II",
+      "psi_id": "PSI-25",
+      "raw_dir": "knowledgeBase/Flammable/BASS2",
+      "experimental_tables": [
+        "PSI-25_Experimental table_BASS-II.csv"
+      ],
+      "isa_tab_dir": "PSI-25_metadata_PSI_metadata_PSI-101_BASS-II",
+      "external_source_ids": [
+        "nasa-iss-science-facilities"
+      ]
+    },
+    {
+      "id": "SAFFIRE-I",
+      "psi_id": "PSI-98",
+      "raw_dir": "knowledgeBase/Flammable/SAFFIRE",
+      "experimental_tables": [
+        "PSI-98_Experimental table_SAFFIRE-1.csv"
+      ],
+      "isa_tab_dir": null,
+      "external_source_ids": [
+        "nasa-combustion-science"
+      ]
+    },
+    {
+      "id": "SAFFIRE-II",
+      "psi_id": "PSI-99",
+      "raw_dir": "knowledgeBase/Flammable/SAFFIRE2",
+      "experimental_tables": [
+        "PSI-99_Experimental table_SAFFIRE-2.csv"
+      ],
+      "isa_tab_dir": null,
+      "external_source_ids": [
+        "saffire-ii-20170000230",
+        "cygnus-fact-sheet"
+      ]
+    },
+    {
+      "id": "SAFFIRE-III",
+      "psi_id": "PSI-100",
+      "raw_dir": "knowledgeBase/Flammable/SAFFIRE3",
+      "experimental_tables": [
+        "PSI-100_Experimental table_SAFFIRE-3.csv"
+      ],
+      "isa_tab_dir": "PSI-100_metadata_PSI-168_SAFFIRE-III",
+      "external_source_ids": [
+        "nasa-combustion-science"
+      ]
+    },
+    {
+      "id": "SAME",
+      "psi_id": "PSI-102",
+      "raw_dir": "knowledgeBase/Detection/SAME",
+      "experimental_tables": [
+        "PSI-102_Experimental table_SAME.csv"
+      ],
+      "isa_tab_dir": "PSI-102_metadata_PSI-170_SAME",
+      "external_source_ids": [
+        "ntrs-19960008413"
+      ]
+    },
+    {
+      "id": "SAME-R",
+      "psi_id": "PSI-101",
+      "raw_dir": "knowledgeBase/Detection/SAME2",
+      "experimental_tables": [
+        "PSI-101_Experimental table_SAME-R.csv"
+      ],
+      "isa_tab_dir": null,
+      "external_source_ids": [
+        "ntrs-19960008413"
+      ]
+    },
+    {
+      "id": "FLEX",
+      "psi_id": "PSI-69",
+      "raw_dir": "knowledgeBase/suppression/FLEX",
+      "experimental_tables": [
+        "PSI-69_Experimental table_FLEX.csv"
+      ],
+      "isa_tab_dir": "PSI-69_metadata_PSI-133_FLEX",
+      "external_source_ids": [
+        "iss-national-lab-cir",
+        "nasa-mdca-operations"
+      ]
+    },
+    {
+      "id": "FLEX-2",
+      "psi_id": "PSI-68",
+      "raw_dir": "knowledgeBase/suppression/FLEX2",
+      "experimental_tables": [
+        "PSI-68_Experimental table_Flex2.csv"
+      ],
+      "isa_tab_dir": "PSI-68_metadata_PSI-132_FLEX-2",
+      "external_source_ids": [
+        "iss-national-lab-cir",
+        "nasa-mdca-operations"
+      ]
+    },
+    {
+      "id": "CFI",
+      "psi_id": "PSI-39",
+      "raw_dir": "knowledgeBase/suppression/CFI",
+      "experimental_tables": [
+        "PSI-39_Experimental table_CFI.csv"
+      ],
+      "isa_tab_dir": "PSI-39_metadata_PSI-118_CFI",
+      "external_source_ids": [
+        "nasa-combustion-science",
+        "nasa-fluids-combustion-facility"
+      ]
+    },
+    {
+      "id": "ACME-BRE",
+      "psi_id": "PSI-20",
+      "raw_dir": "knowledgeBase/ACME/ACME-BRE",
+      "experimental_tables": [
+        "PSI-20_Experimental table_ACME BRE.csv"
+      ],
+      "isa_tab_dir": "PSI-20_metadata_PSI-96_ACME BRE",
+      "external_source_ids": [
+        "nasa-combustion-science",
+        "nasa-fluids-combustion-facility"
+      ]
+    },
+    {
+      "id": "ACME-CFI-G",
+      "psi_id": "PSI-159",
+      "raw_dir": "knowledgeBase/ACME/CFI-G",
+      "experimental_tables": [
+        "PSI-159_Experimental table_CFI-G_Normal Flames.csv",
+        "PSI-159_Experimental table_CFI-G_Inverse Flames.csv"
+      ],
+      "isa_tab_dir": null,
+      "external_source_ids": []
+    },
+    {
+      "id": "ACME-E-FIELD",
+      "psi_id": "PSI-22",
+      "raw_dir": "knowledgeBase/ACME/E-FIELDS",
+      "experimental_tables": [
+        "PSI-22_Experimental table_ACME E-FIELD Flames.csv"
+      ],
+      "isa_tab_dir": null,
+      "external_source_ids": [
+        "nasa-combustion-science",
+        "nasa-fluids-combustion-facility"
+      ]
+    },
+    {
+      "id": "SPICE",
+      "psi_id": "PSI-107",
+      "raw_dir": "knowledgeBase/MSG (SolidAndGas)/SPICE",
+      "experimental_tables": [
+        "PSI-107_Experimental table_Spice.csv"
+      ],
+      "isa_tab_dir": "PSI-107_metadata_PSI-176_SPICE",
+      "external_source_ids": [
+        "esa-microgravity-science-glovebox"
+      ]
+    },
+    {
+      "id": "SLICE",
+      "psi_id": "PSI-106",
+      "raw_dir": "knowledgeBase/MSG (SolidAndGas)/SLICE",
+      "experimental_tables": [
+        "PSI-106_Experimental table_Slice.csv"
+      ],
+      "isa_tab_dir": null,
+      "external_source_ids": [],
+      "external_source_note": "No source supplied in this batch; hardware remains unverified."
+    }
+  ],
+  "external_sources": [
+    {
+      "id": "nasa-iss-science-facilities",
+      "kind": "html",
+      "url": "https://www.nasa.gov/glenn/glenn-expertise-space-exploration/physical-sciences-program/science-facilities-on-the-iss/",
+      "investigation_ids": [
+        "BASS",
+        "BASS-II"
+      ],
+      "captures_dir": "data/external/nasa-iss-science-facilities"
+    },
+    {
+      "id": "nasa-combustion-science",
+      "kind": "html",
+      "url": "https://www.nasa.gov/glenn/glenn-expertise-space-exploration/physical-sciences-program/combustion-science/",
+      "investigation_ids": [
+        "SAFFIRE-I",
+        "SAFFIRE-III",
+        "CFI",
+        "ACME-E-FIELD",
+        "ACME-BRE"
+      ],
+      "captures_dir": "data/external/nasa-combustion-science"
+    },
+    {
+      "id": "saffire-ii-20170000230",
+      "kind": "local_pdf",
+      "url": null,
+      "investigation_ids": [
+        "SAFFIRE-II"
+      ],
+      "captures_dir": "data/external/saffire-ii-20170000230"
+    },
+    {
+      "id": "cygnus-fact-sheet",
+      "kind": "local_pdf",
+      "url": null,
+      "investigation_ids": [
+        "SAFFIRE-II"
+      ],
+      "captures_dir": "data/external/cygnus-fact-sheet"
+    },
+    {
+      "id": "ntrs-19960008413",
+      "kind": "pdf",
+      "url": "https://ntrs.nasa.gov/api/citations/19960008413/downloads/19960008413.pdf",
+      "investigation_ids": [
+        "SAME",
+        "SAME-R"
+      ],
+      "captures_dir": "data/external/ntrs-19960008413"
+    },
+    {
+      "id": "iss-national-lab-cir",
+      "kind": "html",
+      "url": "https://issnationallab.org/facilities/combustion-integrated-rack/",
+      "investigation_ids": [
+        "FLEX",
+        "FLEX-2"
+      ],
+      "captures_dir": "data/external/iss-national-lab-cir"
+    },
+    {
+      "id": "nasa-mdca-operations",
+      "kind": "html",
+      "url": "https://gipoc.grc.nasa.gov/wp/fcf-cir/mdca/",
+      "investigation_ids": [
+        "FLEX",
+        "FLEX-2"
+      ],
+      "captures_dir": "data/external/nasa-mdca-operations",
+      "content_selector": ".entry-content, #text-22"
+    },
+    {
+      "id": "nasa-fluids-combustion-facility",
+      "kind": "html",
+      "url": "https://www.nasa.gov/glenn/glenn-expertise-space-exploration/physical-sciences-program/science-facilities-on-the-iss/fluids-combustion-facility/",
+      "investigation_ids": [
+        "CFI",
+        "ACME-E-FIELD",
+        "ACME-BRE"
+      ],
+      "captures_dir": "data/external/nasa-fluids-combustion-facility"
+    },
+    {
+      "id": "esa-microgravity-science-glovebox",
+      "kind": "html",
+      "url": "https://www.esa.int/articles/about-us/directorates/human-and-robotic-exploration/low-earth-orbit/international-space-station/columbus/microgravity-science-glovebox",
+      "investigation_ids": [
+        "SPICE"
+      ],
+      "captures_dir": "data/external/esa-microgravity-science-glovebox"
+    }
+  ]
+}
