@@ -767,3 +767,10 @@ Status: `proposed` · `accepted` · `superseded` · `open` · `resolved` · `def
 - Date: 2026-11-14 | Type: DECISION | Status: accepted | Related: ADR-0082
 - Decision: at the user's request, the project was published as a public repository at https://github.com/Huarada/FLAMSA (branch `main`). The initial commit holds 1,325 files, including `knowledgeBase/` (864 MB, no zip archives, no file above 95 MB).
 - Pre-publication checks: `.gitignore` (ADR-0082) excludes secrets, browser-test profiles and caches. The staged set contained no env, secret, cache or local-settings file, and no tracked text file contains the user's e-mail or home path. Commit authorship uses the user's own git identity.
+
+### ADR-0097 - README rewritten as the competition entry point
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted | Supersedes: the README content of ADR-0081
+- Change: `README.md` now presents the problem, the five workspace destinations with current screenshots, the 15-investigation data table (1,615 records), the curation rules, and the physics business rules R1-R8 as GitHub `math` blocks (d-squared law, Spalding transfer number, the FLEX OLS model with its fitting rules and checkpoint slopes, Zst, closed-chamber O2 balance, PMMA stoichiometry, spread rate, ideal-gas density). It also covers the lunar-scenario coverage counts, a Mermaid architecture diagram, quick start and stated limits.
+- New figure: the BASS-II PMMA CO2-produced/O2-consumed slope through the origin is 0.822 (24 burns with an O2 drop above 0.2 points), against the stoichiometric 5/6 = 0.833. Computed from the curated data; not added as a test.
+- Honesty constraints: the stale `research-overview.png` (removed line chart) is not used. The copilot, ranking and export bundle are described as not yet implemented. The lunar count is the exact one (0 tests at or below 10.2 psi, 17 at or below 10.5 psi), not a rounded one.
+- Not verified: GitHub rendering of the math and Mermaid blocks. Only the balance of the LaTeX delimiters was checked mechanically (51 expressions).
