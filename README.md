@@ -351,7 +351,7 @@ flowchart LR
 |---|---|---|
 | `domain` | `Investigation`, `TestPoint`, `Quantity`, `Provenance`, unit conversion, interval matching | pandas, Streamlit, LangGraph, I/O |
 | `application` | Use cases, ports, chart projections, least-squares statistics | pandas, Streamlit |
-| `infrastructure` | Source registry, CSV/ISA-Tab adapters, evidence verifier, repository | — |
+| `infrastructure` | Source registry, CSV/ISA-Tab adapters, evidence verifier, repository | no restriction |
 | `interface` | Streamlit composition root and views | business rules |
 
 Every architectural decision, trade-off, bug and fix is logged in [`docs/ADR.md`](docs/ADR.md).
