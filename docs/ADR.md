@@ -774,3 +774,9 @@ Status: `proposed` · `accepted` · `superseded` · `open` · `resolved` · `def
 - New figure: the BASS-II PMMA CO2-produced/O2-consumed slope through the origin is 0.822 (24 burns with an O2 drop above 0.2 points), against the stoichiometric 5/6 = 0.833. Computed from the curated data; not added as a test.
 - Honesty constraints: the stale `research-overview.png` (removed line chart) is not used. The copilot, ranking and export bundle are described as not yet implemented. The lunar count is the exact one (0 tests at or below 10.2 psi, 17 at or below 10.5 psi), not a rounded one.
 - Not verified: GitHub rendering of the math and Mermaid blocks. Only the balance of the LaTeX delimiters was checked mechanically (51 expressions).
+
+### ADR-0098 - README prose rewritten in a plainer voice; quotes cite their documents
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted | Related: ADR-0095
+- Change: the user asked for README text that reads less like generated copy, and for each PDF quote to name its document. Removed emoji, slogan lines, repeated bold labels ("What the data shows", "Rule applied") and most emphasis. Section titles are now "The dashboard", "Physical consistency rules" and "Known limits".
+- Every quote now gives authors, title and page, with a numbered References section listing the venue or report series and the archived path. Titles and authors were taken from the cover pages of the archived PDFs. Reference 2 (Turns, *An Introduction to Combustion*, 2nd ed., p. 376) is cited by reference 1 and is not archived. The 2012 meeting name is reproduced as printed on that document's cover.
+- Formulas, tables and numbers are unchanged (14 math blocks, LaTeX delimiters re-checked). GitHub rendering is still not verified.
