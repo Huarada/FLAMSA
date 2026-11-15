@@ -1,0 +1,25 @@
+{
+  "tracked_files": 1466,
+  "text_files_scanned": 611,
+  "forbidden_local_files": [],
+  "secret_pattern_findings": [],
+  "local_secret_exact_matches": 0,
+  "runtime_upload": {
+    "runtime_files": 1268,
+    "bytes": 917233849,
+    "all_runtime_files_tracked": true,
+    "local_or_secret_files": 0,
+    "exact_local_secret_matches": 0,
+    "manifest_sha256": "898244aa69d514dde6d5745f316891a85ca9115e8c35f88c721bf7f581ffaf50"
+  },
+  "excluded_local_categories": [
+    "environment secrets",
+    "credentials and keys",
+    "IDE and assistant local state",
+    "virtual environments",
+    "browser profiles",
+    "editable-install metadata",
+    "evaluation dumps"
+  ],
+  "limitations": "Pattern/exact-value and path checks; not a comprehensive secret or binary/history audit."
+}
