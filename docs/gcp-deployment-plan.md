@@ -5,13 +5,19 @@ FLAMSA is publicly deployed at **https://flamsa-398749245371.us-central1.run.app
 ## Current verified release
 
 - Project: `flamsa-514815` (`398749245371`); region/service: `us-central1` / `flamsa`.
-- Revision: `flamsa-00011-gip`, receiving 100% in **latest** traffic mode.
-- Source commit: `cac7f634e79617877565c507ae5be40a1a5f55df`.
-- Build: `5033c908-0ae7-4caa-b74c-74484f8ea91f` (SUCCESS).
-- Image: `us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:57fa96b889951b08896cac1d524c6e4df50705c9bf9d4104942157e35f6b332d`.
+- Revision: `flamsa-00013-tiw`, receiving 100% in **latest** traffic mode.
+- Source commit: `beba8d54e5268130689792347bab85711ad5a53f`.
+- Build: `4aa5eec2-0469-4104-b643-3c17bfd757bc` (SUCCESS).
+- Image: `us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:01b993c0f6c17ea945f4bd0d164ce3d767d24b86d97ea2aa55a79b3f239aae7c`.
 - The temporary candidate tag was removed after hosted verification. Historical snapshots remain under [releases](releases/).
 
 Authoritative release observations: [gcp-release.json](gcp-release.json). A later source/configuration update is a new release; do not assume a local edit or new secret version changed a running instance.
+
+## Browser-title patch release
+
+This revision changes only Streamlit page_title to **FLAMSA**. It uses a three-file incremental build over immutable parent `flamsa-00011-gip` (`us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:57fa96b889951b08896cac1d524c6e4df50705c9bf9d4104942157e35f6b332d`), copying only the reviewed entry point. The inherited image retains scientific files, installed dependencies, permissions, non-root user and startup command. The canonical Dockerfile remains the full-rebuild path for other changes.
+
+One targeted Streamlit test and scoped Ruff passed. Native Chrome verified document.title=FLAMSA on Home, Dashboard, Fire behavior and Investigations at both the candidate and public URLs, without exceptions. No model question was submitted; the fresh process showed four questions remaining. The 301-pass/179-skip full suite and the approved 36.14-second narration check described below belong to the validated parent release; they were not repeated for this literal title change. See [parent metadata](releases/flamsa-00011-gip.json), [candidate checks](gcp-tab-title-validation.json) and [public checks](gcp-tab-title-public-validation.json).
 
 ## Runtime and usage limits
 

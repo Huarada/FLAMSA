@@ -1,0 +1,30 @@
+{
+  "revision": "flamsa-00013-tiw",
+  "cases": [
+    {
+      "page": "Home",
+      "title": "FLAMSA",
+      "exceptions": 0,
+      "quota": false
+    },
+    {
+      "page": "Dashboard",
+      "title": "FLAMSA",
+      "exceptions": 0,
+      "quota": true
+    },
+    {
+      "page": "Fire behavior",
+      "title": "FLAMSA",
+      "exceptions": 0,
+      "quota": true
+    },
+    {
+      "page": "Investigations",
+      "title": "FLAMSA",
+      "exceptions": 0,
+      "quota": true
+    }
+  ],
+  "modelRequests": 0
+}

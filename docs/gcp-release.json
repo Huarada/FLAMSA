@@ -6,13 +6,13 @@
   "service": "flamsa",
   "public_url": "https://flamsa-398749245371.us-central1.run.app",
   "canonical_url": "https://flamsa-acrktkn45q-uc.a.run.app",
-  "revision": "flamsa-00011-gip",
+  "revision": "flamsa-00013-tiw",
   "traffic_percent": 100,
   "traffic_mode": "latest",
-  "image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:57fa96b889951b08896cac1d524c6e4df50705c9bf9d4104942157e35f6b332d",
-  "build_id": "5033c908-0ae7-4caa-b74c-74484f8ea91f",
-  "source_commit": "cac7f634e79617877565c507ae5be40a1a5f55df",
-  "previous_runtime_revision": "flamsa-00008-viv",
+  "image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:01b993c0f6c17ea945f4bd0d164ce3d767d24b86d97ea2aa55a79b3f239aae7c",
+  "build_id": "4aa5eec2-0469-4104-b643-3c17bfd757bc",
+  "source_commit": "beba8d54e5268130689792347bab85711ad5a53f",
+  "previous_runtime_revision": "flamsa-00011-gip",
   "public_invocation_verified": true,
   "runtime": {
     "cpu": 1,
@@ -34,16 +34,15 @@
       "00:00 UTC",
       "process restart including new deployment/instance recycling"
     ],
-    "hosted_remaining_before_question": 4,
-    "hosted_remaining_after_question": 3
+    "hosted_remaining_before_question": 4
   },
-  "source_file_count": 1269,
-  "source_bytes": 917250760,
-  "tested_source_manifest_sha256": "43d683d691bc356fa3ffc997bb9d5e4797631428fdac13c701895f34196b0de3",
+  "source_file_count": 3,
+  "source_bytes": 15206,
   "local_tests": {
-    "passed": 301,
-    "skipped": 179,
-    "skipped_reason": "Poppler-dependent source-line checks"
+    "current_patch_passed": 1,
+    "parent_suite_passed": 301,
+    "parent_suite_skipped": 179,
+    "parent_skip_reason": "Poppler-dependent source-line checks"
   },
   "built_package_versions": [
     "MarkupSafe-3.0.4",
@@ -124,40 +123,24 @@
     "zstandard-0.25.0"
   ],
   "hosted_validation": {
-    "http_root": 200,
-    "http_health": 200,
-    "desktop_views": [
-      "Home",
-      "Dashboard",
-      "Fire behavior",
-      "Investigations"
-    ],
-    "brand_title": "FLAMSA",
-    "brand_subtitle": "NASA PSI combustion data. Clearer evidence.",
-    "records": 1615,
-    "scalar_oxygen_pressure_records": 693,
-    "coverage_visualization": "Count bubbles; chamber-only and habitat-pressure zoom by default",
-    "source_download_sha256_matches_original": true,
-    "mobile_home_no_overflow": true,
+    "browser_title": "FLAMSA on all four candidate and public views",
     "rendered_exceptions": 0,
-    "copilot_request": {
-      "case": "copilot-single-click-with-draft-edit",
-      "seconds": 36.14,
-      "pending_button_disabled": true,
-      "language_model_label": true,
-      "approved": true,
-      "partial": false,
-      "provider_unavailable": false,
-      "insufficient_evidence": false,
-      "quota_after_one_question": true,
-      "raw_text": "Retained only in ignored local verification artifacts."
-    },
-    "public_browser_report": "gcp-brand-public-browser.json"
+    "model_requests_for_patch": 0,
+    "quota_remaining_after_fresh_process": 4,
+    "candidate_browser_report": "gcp-tab-title-validation.json",
+    "public_browser_report": "gcp-tab-title-public-validation.json",
+    "parent_validation": "releases/flamsa-00011-gip.json"
   },
   "limitations": [
-    "The full test suite was not executed inside the Linux image.",
-    "Per-network-visitor quotas are not authenticated per-person quotas; shared addresses share allowance and instance recycling resets counters.",
-    "Only one hosted model request and one network visitor were exercised; no answer-quality rate or production-load guarantee is inferred.",
-    "Dependencies use version ranges; recorded build versions describe this image."
-  ]
+    "This patch changes only the browser tab title; the full parent suite and hosted narrator checks are recorded in the parent release.",
+    "No paid model request was made for this title-only patch.",
+    "The image inherits its scientific data and dependencies from the recorded immutable parent; use the canonical Dockerfile for dependency/scientific-input changes."
+  ],
+  "build_mode": "incremental entry-point patch over immutable verified base",
+  "base_image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:57fa96b889951b08896cac1d524c6e4df50705c9bf9d4104942157e35f6b332d",
+  "base_revision": "flamsa-00011-gip",
+  "app_sha256": "373deb0afa881039e8d7044858a6c48aef2de87c5cd2d0123ee4ce70db0bd94c",
+  "browser_title": "FLAMSA",
+  "inherited_runtime_input_file_count": 1269,
+  "built_package_versions_source": "Inherited unchanged from immutable parent image; no dependencies were installed in the patch build."
 }
