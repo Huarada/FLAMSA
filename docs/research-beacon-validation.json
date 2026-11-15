@@ -1,50 +1,50 @@
 {
-  "url": "http://127.0.0.1:18508",
+  "url": "http://127.0.0.1:18509",
   "results": [
     {
       "active": [
         {
           "selector": ".st-key-guide_step_1",
-          "name": "research-guide-beacon",
+          "name": "research-guide-beacon-2",
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 1437.0259999999994,
-          "phase": 1437.0259999999994,
-          "shadow": "rgba(48, 102, 211, 0.11) 0px 0px 0px 4.25241px, rgba(48, 102, 211, 0.318) 0px 4.60749px 23.2899px 0px",
+          "time": 151.44800000219226,
+          "phase": 1323.4480000021922,
+          "shadow": "rgba(48, 102, 211, 0.14) 0px 0px 0px 5.47276px, rgba(48, 102, 211, 0.365) 0px 4.78182px 25.3819px 0px",
           "border": "6px"
         },
         {
           "selector": ".st-key-guide_step_2",
-          "name": "research-guide-beacon",
+          "name": "research-guide-beacon-2",
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 183.28299999679308,
-          "phase": 183.28299999679308,
-          "shadow": "rgba(133, 62, 196, 0.01) 0px 0px 0px 0.477686px, rgba(133, 62, 196, 0.18) 0px 4.06824px 16.8189px 0px",
+          "time": 151.44800000219226,
+          "phase": 1323.4480000021922,
+          "shadow": "rgba(133, 62, 196, 0.14) 0px 0px 0px 5.47276px, rgba(133, 62, 196, 0.365) 0px 4.78182px 25.3819px 0px",
           "border": "6px"
         },
         {
           "selector": ".st-key-guide_step_3",
-          "name": "research-guide-beacon",
+          "name": "research-guide-beacon-2",
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 183.28299999679308,
-          "phase": 183.28299999679308,
-          "shadow": "rgba(23, 116, 71, 0.01) 0px 0px 0px 0.477686px, rgba(23, 116, 71, 0.18) 0px 4.06824px 16.8189px 0px",
+          "time": 66.66399999999939,
+          "phase": 1238.6639999999993,
+          "shadow": "rgba(23, 116, 71, 0.16) 0px 0px 0px 6.17797px, rgba(23, 116, 71, 0.39) 0px 4.88257px 26.5908px 0px",
           "border": "6px"
         },
         {
           "selector": ".st-key-copilot_question_bubble",
-          "name": "copilot-question-beacon",
+          "name": "copilot-question-beacon-2",
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 183.28299999679308,
-          "phase": 183.28299999679308,
-          "shadow": "rgba(181, 109, 255, 0.016) 0px 0px 0px 0.614167px, rgba(102, 48, 170, 0.267) 0px 5.59056px 22.9554px 0.81889px",
+          "time": 151.44800000219226,
+          "phase": 1323.4480000021922,
+          "shadow": "rgba(181, 109, 255, 0.196) 0px 0px 0px 7.0364px, rgba(146, 63, 229, 0.424) 0px 1.30907px 32.9455px 9.38187px",
           "border": "2px"
         }
       ]
@@ -54,15 +54,15 @@
     },
     {
       "clockAfterRerun": {
-        "time": 3354.3229999967934,
-        "phase": 3354.3229999967934
+        "time": 67.87000000000099,
+        "phase": 5474.870000000001
       }
     },
     {
       "finished": [
         {
           "selector": ".st-key-guide_step_1",
-          "name": "research-guide-beacon",
+          "name": "research-guide-beacon-5",
           "duration": "2s",
           "iterations": "10",
           "phase": null,
@@ -71,7 +71,7 @@
         },
         {
           "selector": ".st-key-guide_step_2",
-          "name": "research-guide-beacon",
+          "name": "research-guide-beacon-5",
           "duration": "2s",
           "iterations": "10",
           "phase": null,
@@ -80,7 +80,7 @@
         },
         {
           "selector": ".st-key-guide_step_3",
-          "name": "research-guide-beacon",
+          "name": "research-guide-beacon-5",
           "duration": "2s",
           "iterations": "10",
           "phase": null,
@@ -89,7 +89,7 @@
         },
         {
           "selector": ".st-key-copilot_question_bubble",
-          "name": "copilot-question-beacon",
+          "name": "copilot-question-beacon-5",
           "duration": "2s",
           "iterations": "10",
           "phase": null,
@@ -102,46 +102,46 @@
       "reentry": [
         {
           "selector": ".st-key-guide_step_1",
-          "name": "research-guide-beacon",
+          "name": "research-guide-beacon-7",
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 987.4580000000002,
-          "phase": 987.4580000000002,
-          "shadow": "rgba(48, 102, 211, 0.18) 0px 0px 0px 6.99791px, rgba(48, 102, 211, 0.42) 0px 4.9997px 27.9964px 0px",
+          "time": 149.99399999999952,
+          "phase": 1009.9939999999995,
+          "shadow": "rgba(48, 102, 211, 0.18) 0px 0px 0px 6.99867px, rgba(48, 102, 211, 0.42) 0px 4.99981px 27.9977px 0px",
           "border": "6px"
         },
         {
           "selector": ".st-key-guide_step_2",
-          "name": "research-guide-beacon",
+          "name": "research-guide-beacon-7",
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 166.66000000000025,
-          "phase": 166.66000000000025,
-          "shadow": "rgba(133, 62, 196, 0.01) 0px 0px 0px 0.392883px, rgba(133, 62, 196, 0.176) 0px 4.05613px 16.6735px 0px",
+          "time": 149.99399999999952,
+          "phase": 1009.9939999999995,
+          "shadow": "rgba(133, 62, 196, 0.18) 0px 0px 0px 6.99867px, rgba(133, 62, 196, 0.42) 0px 4.99981px 27.9977px 0px",
           "border": "6px"
         },
         {
           "selector": ".st-key-guide_step_3",
-          "name": "research-guide-beacon",
+          "name": "research-guide-beacon-7",
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 166.66000000000025,
-          "phase": 166.66000000000025,
-          "shadow": "rgba(23, 116, 71, 0.01) 0px 0px 0px 0.392883px, rgba(23, 116, 71, 0.176) 0px 4.05613px 16.6735px 0px",
+          "time": 149.99399999999952,
+          "phase": 1009.9939999999995,
+          "shadow": "rgba(23, 116, 71, 0.18) 0px 0px 0px 6.99867px, rgba(23, 116, 71, 0.42) 0px 4.99981px 27.9977px 0px",
           "border": "6px"
         },
         {
           "selector": ".st-key-copilot_question_bubble",
-          "name": "copilot-question-beacon",
+          "name": "copilot-question-beacon-7",
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 166.66000000000025,
-          "phase": 166.66000000000025,
-          "shadow": "rgba(181, 109, 255, 0.016) 0px 0px 0px 0.505136px, rgba(101, 47, 168, 0.263) 0px 5.66324px 22.7858px 0.673514px",
+          "time": 149.99399999999952,
+          "phase": 1009.9939999999995,
+          "shadow": "rgba(181, 109, 255, 0.25) 0px 0px 0px 8.99829px, rgba(154, 66, 239, 0.47) 0px 0.00113755px 35.9973px 11.9977px",
           "border": "2px"
         }
       ]

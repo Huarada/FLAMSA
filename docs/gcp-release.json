@@ -6,13 +6,13 @@
   "service": "flamsa",
   "public_url": "https://flamsa-398749245371.us-central1.run.app",
   "canonical_url": "https://flamsa-acrktkn45q-uc.a.run.app",
-  "revision": "flamsa-00015-jay",
+  "revision": "flamsa-00018-vuh",
   "traffic_percent": 100,
   "traffic_mode": "latest",
-  "image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:5d8277ae4af254d97e00f61647947a8a5c1fcdf077caf9d1cfa0fc3c7bab80bd",
-  "build_id": "97cc6ea7-7c3b-4e72-9d4c-eb7890ff38ab",
-  "source_commit": "2181d8e99199fb21d186fa98c3d4d0620f91e5e5",
-  "previous_runtime_revision": "flamsa-00013-tiw",
+  "image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:14d1f41a17ab3e96dca694311971201e4775cf892111e9d9734795e71ee0e531",
+  "build_id": "d0bf8d6d-f5f6-459f-8cf2-ef7b1643eb14",
+  "source_commit": "3ef02bb8d65739f81c4aa01ee588b57aa518e0fd",
+  "previous_runtime_revision": "flamsa-00015-jay",
   "public_invocation_verified": true,
   "runtime": {
     "cpu": 1,
@@ -36,15 +36,13 @@
     ],
     "hosted_remaining_before_question": 4
   },
-  "source_file_count": 10,
-  "source_bytes": 85693,
+  "source_file_count": 5,
+  "source_bytes": 17780,
   "local_tests": {
-    "full_run_passed": 301,
-    "full_run_skipped": 179,
-    "full_run_failure": "One obsolete tooltip assertion, updated and passing in the affected follow-up",
-    "affected_followup_passed": 3,
+    "current_patch_passed": 3,
     "ruff": "passed",
-    "domain_mypy": "passed"
+    "domain_mypy": "passed",
+    "inherited_validation": "releases/flamsa-00015-jay.json"
   },
   "built_package_versions": [
     "MarkupSafe-3.0.4",
@@ -125,41 +123,26 @@
     "zstandard-0.25.0"
   ],
   "hosted_validation": {
-    "four_views": "native Chrome; title FLAMSA; emerald Investigations; no rendered exceptions",
-    "dashboard": "three guide steps, bold scroll instruction, in-page link, hide/show preserves conditions",
-    "mobile_widths": [
-      390,
-      320
-    ],
-    "reduced_motion": "Dashboard animation disabled",
+    "candidate": "four timed attention cues, completion after twenty seconds, re-entry, no renewed attention budget on rerun, steady typing focus, reduced motion and mobile widths",
+    "public": "four views, guide visibility, anchor, no exceptions, mobile widths 390/320",
+    "timing_report": "gcp-beacon-timing-validation.json",
+    "public_browser_report": "gcp-beacon-public-validation.json",
     "model_requests_for_patch": 0,
-    "quota_remaining_after_fresh_process": 4,
-    "candidate_browser_report": "gcp-research-journey-candidate-validation.json",
-    "public_browser_report": "gcp-research-journey-public-validation.json",
-    "http_status": {
-      "/": 200,
-      "/_stcore/health": 200
-    }
+    "http_root_and_health": 200
   },
   "limitations": [
-    "No paid model request, original-file byte-integrity recheck, load test or full accessibility audit was repeated for this interface patch.",
-    "Local offline Chrome verified actual map selection, answer rendering and source-inspection download availability.",
-    "The image inherits scientific data and dependencies from the recorded immutable parent; no full Linux-container test suite was run."
+    "No paid model call, source-byte download recheck, full test-suite rerun, load test or full accessibility audit was performed for this interface presentation patch.",
+    "Scientific data, dependencies, ranking and citation behavior are inherited from the recorded immutable parent."
   ],
-  "build_mode": "incremental interface patch over immutable verified base",
-  "base_image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:01b993c0f6c17ea945f4bd0d164ce3d767d24b86d97ea2aa55a79b3f239aae7c",
-  "base_revision": "flamsa-00013-tiw",
+  "build_mode": "incremental interface attention/deadline patch over immutable verified base",
+  "base_image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:5d8277ae4af254d97e00f61647947a8a5c1fcdf077caf9d1cfa0fc3c7bab80bd",
+  "base_revision": "flamsa-00015-jay",
   "browser_title": "FLAMSA",
   "inherited_runtime_input_file_count": 1269,
   "built_package_versions_source": "Inherited unchanged from immutable parent image; no dependencies were installed in the patch build.",
   "patch_sha256": {
-    "analytics_views.py": "1b5d9ce4f25f6691f10eaf625a19e62336bf6f5ff9215a2f72a0e026685455e3",
-    "app.py": "7f0af02e2189faad2ee0d5991fe4e9d754e8827e88a9a873d429594cff1f989b",
-    "copilot_evidence.py": "7956328fe460dc6dba9733f4344289b1431673a85e57e40db540ec2b52eb3ac7",
-    "copilot_panel.py": "d586656375497adbde301ea07156a55f18303d3c145bfe4d7a4dd0e026316e76",
-    "reference_dashboard.py": "a0b4d2c00b72b477f77f685d3fee3f44cb948bd980dfb050a93ce8d977490cdf",
-    "workspace_navigation.py": "0df472c38aa383a570e6e3f2509de539ae1ed2d59635ea8f21a5b388efa8820c",
-    "workspace_style.py": "432e1cd8314a01eeac6f9fcb72662be0cdc3dba8f34cb15c8ca71bb5bd3a5059",
-    "research_guide.py": "7e9ccd7cb1bf3eb21636836f780dbfa29983afbc0462a9f508d4b8dadea8da99"
+    "workspace_style.py": "5599a17a64db4cbed3112859208e116494b90d994f92f8a8e762a4861ec460f2",
+    "research_guide.py": "d082a3a782bc851fad93cb536f0ac6317923d4dc6d7130692e62df74dfe8fb32",
+    "workspace_navigation.py": "dc233b67ebe2a549472eacc9eafe1f451bf1f4b60cc87725425d8f16c257b928"
   }
 }

@@ -5,15 +5,19 @@ FLAMSA is publicly deployed at **https://flamsa-398749245371.us-central1.run.app
 ## Current verified release
 
 - Project: `flamsa-514815` (`398749245371`); region/service: `us-central1` / `flamsa`.
-- Revision: `flamsa-00015-jay`, receiving 100% in **latest** traffic mode.
-- Source commit: `2181d8e99199fb21d186fa98c3d4d0620f91e5e5`.
-- Build: `97cc6ea7-7c3b-4e72-9d4c-eb7890ff38ab` (SUCCESS).
-- Image: `us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:5d8277ae4af254d97e00f61647947a8a5c1fcdf077caf9d1cfa0fc3c7bab80bd`.
+- Revision: `flamsa-00018-vuh`, receiving 100% in **latest** traffic mode.
+- Source commit: `3ef02bb8d65739f81c4aa01ee588b57aa518e0fd`.
+- Build: `d0bf8d6d-f5f6-459f-8cf2-ef7b1643eb14` (SUCCESS).
+- Image: `us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:14d1f41a17ab3e96dca694311971201e4775cf892111e9d9734795e71ee0e531`.
 - The temporary candidate tag was removed after hosted verification. Historical snapshots remain under [releases](releases/).
 
 Authoritative release observations: [gcp-release.json](gcp-release.json). A later source/configuration update is a new release; do not assume a local edit or new secret version changed a running instance.
 
-## Research-journey interface release
+## Twenty-second attention-cue patch
+
+This interface revision strengthens the guide bubbles and purple question field and adds finite halo pulses (ten two-second cycles). Typing focus is steady; reduced motion disables the cues. Native Chrome checked timing, completion, re-entry and attention-budget preservation on the candidate, and all four public views plus mobile layouts. The three existing guide/navigation tests, Ruff and domain mypy passed. No paid question or full suite rerun was needed. The five-file build inherits immutable parent `flamsa-00015-jay`; the style hash and parent digest are recorded in [patch audit](research-beacon-release-audit.json). See [timing checks](gcp-beacon-timing-validation.json), [public checks](gcp-beacon-public-validation.json) and [local checks](research-beacon-validation.json).
+
+## Previous research-journey interface release
 
 This revision highlights Investigations in emerald, gives Dashboard a motion-aware shadow pulse, and adds an optional three-step guide from map selection to questions and cited answers. The bold scroll instruction and View source/download explanation sit next to the response. The eight-module patch inherits immutable parent `flamsa-00013-tiw` (`us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:01b993c0f6c17ea945f4bd0d164ce3d767d24b86d97ea2aa55a79b3f239aae7c`), retaining all scientific data, dependencies and runtime configuration.
 

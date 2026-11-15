@@ -1,0 +1,25 @@
+{
+  "base_revision": "flamsa-00015-jay",
+  "base_image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:5d8277ae4af254d97e00f61647947a8a5c1fcdf077caf9d1cfa0fc3c7bab80bd",
+  "base_source_commit": "2181d8e99199fb21d186fa98c3d4d0620f91e5e5",
+  "patch_sha256": {
+    "workspace_style.py": "5599a17a64db4cbed3112859208e116494b90d994f92f8a8e762a4861ec460f2",
+    "research_guide.py": "d082a3a782bc851fad93cb536f0ac6317923d4dc6d7130692e62df74dfe8fb32",
+    "workspace_navigation.py": "dc233b67ebe2a549472eacc9eafe1f451bf1f4b60cc87725425d8f16c257b928"
+  },
+  "source_file_count": 5,
+  "source_bytes": 17780,
+  "secret_matches": 0,
+  "replaces_failed_candidate": "flamsa-00017-jam",
+  "expected_service_revision": "flamsa-00017-jam",
+  "expected_service_image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:699471ab333391b3a42ee7d3012077c3a3682d1e4a211a878b9d7c6eca8f4fde",
+  "source_commit": "3ef02bb8d65739f81c4aa01ee588b57aa518e0fd",
+  "url": "https://beaconcandidate---flamsa-acrktkn45q-uc.a.run.app",
+  "revision": "flamsa-00018-vuh",
+  "image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:14d1f41a17ab3e96dca694311971201e4775cf892111e9d9734795e71ee0e531",
+  "build_id": "d0bf8d6d-f5f6-459f-8cf2-ef7b1643eb14",
+  "build_status": "SUCCESS",
+  "per_visitor_limit": 4,
+  "global_limit": 100,
+  "secret_reference": "flamsa-openai-api-key:latest"
+}
