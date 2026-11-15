@@ -1,0 +1,20 @@
+{
+  "revision": "flamsa-00008-viv",
+  "traffic": [
+    {
+      "latestRevision": true,
+      "percent": 100,
+      "revisionName": "flamsa-00008-viv"
+    }
+  ],
+  "image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:f391ebfb656da82b9011bc68f8ca43e2d22ff313be30dda297b6f2d657d843ef",
+  "model": "openai:gpt-4.1-mini",
+  "per_visitor_limit": "4",
+  "global_limit": "100",
+  "secret_reference": {
+    "secretKeyRef": {
+      "key": "latest",
+      "name": "flamsa-openai-api-key"
+    }
+  }
+}

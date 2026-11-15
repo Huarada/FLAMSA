@@ -1,0 +1,22 @@
+{
+  "revision": "flamsa-00011-gip",
+  "traffic": [
+    {
+      "latestRevision": true,
+      "percent": 100,
+      "revisionName": "flamsa-00011-gip"
+    }
+  ],
+  "traffic_mode": "latest",
+  "public_url": "https://flamsa-398749245371.us-central1.run.app",
+  "http": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/_stcore/health",
+      "status": 200
+    }
+  ]
+}

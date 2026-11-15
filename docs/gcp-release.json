@@ -6,12 +6,13 @@
   "service": "flamsa",
   "public_url": "https://flamsa-398749245371.us-central1.run.app",
   "canonical_url": "https://flamsa-acrktkn45q-uc.a.run.app",
-  "revision": "flamsa-00002-lis",
+  "revision": "flamsa-00011-gip",
   "traffic_percent": 100,
-  "image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:58d55e98ebb1aaccec7172948a06181a014b1bbe6252def382bc202c7832c61e",
-  "build_id": "0c6f8fda-4c7b-4ef0-9cd9-e9c3ab524313",
-  "source_commit": "6f745552ab3c549959768b27bfed5211ac7dc97a",
-  "previous_release": "releases/flamsa-00001-kk6.json",
+  "traffic_mode": "latest",
+  "image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:57fa96b889951b08896cac1d524c6e4df50705c9bf9d4104942157e35f6b332d",
+  "build_id": "5033c908-0ae7-4caa-b74c-74484f8ea91f",
+  "source_commit": "cac7f634e79617877565c507ae5be40a1a5f55df",
+  "previous_runtime_revision": "flamsa-00008-viv",
   "public_invocation_verified": true,
   "runtime": {
     "cpu": 1,
@@ -24,12 +25,23 @@
     "service_account": "flamsa-runtime@flamsa-514815.iam.gserviceaccount.com"
   },
   "model": "openai:gpt-4.1-mini",
-  "secret_reference": "flamsa-openai-api-key:1",
-  "source_file_count": 1268,
-  "source_bytes": 917233849,
-  "tested_source_manifest_sha256": "898244aa69d514dde6d5745f316891a85ca9115e8c35f88c721bf7f581ffaf50",
+  "secret_reference": "flamsa-openai-api-key:latest",
+  "usage_limits": {
+    "per_network_visitor_per_utc_day": 4,
+    "global_per_utc_day": 100,
+    "storage": "process memory",
+    "resets": [
+      "00:00 UTC",
+      "process restart including new deployment/instance recycling"
+    ],
+    "hosted_remaining_before_question": 4,
+    "hosted_remaining_after_question": 3
+  },
+  "source_file_count": 1269,
+  "source_bytes": 917250760,
+  "tested_source_manifest_sha256": "43d683d691bc356fa3ffc997bb9d5e4797631428fdac13c701895f34196b0de3",
   "local_tests": {
-    "passed": 290,
+    "passed": 301,
     "skipped": 179,
     "skipped_reason": "Poppler-dependent source-line checks"
   },
@@ -68,7 +80,7 @@
     "langgraph-sdk-0.4.14",
     "langsmith-0.14.17",
     "narwhals-2.28.0",
-    "numpy-2.5.4",
+    "numpy-2.5.5",
     "openai-3.51.0",
     "orjson-3.13.0",
     "ormsgpack-1.13.1",
@@ -120,31 +132,32 @@
       "Fire behavior",
       "Investigations"
     ],
+    "brand_title": "FLAMSA",
+    "brand_subtitle": "NASA PSI combustion data. Clearer evidence.",
     "records": 1615,
-    "coverage_dots": 693,
+    "scalar_oxygen_pressure_records": 693,
+    "coverage_visualization": "Count bubbles; chamber-only and habitat-pressure zoom by default",
     "source_download_sha256_matches_original": true,
     "mobile_home_no_overflow": true,
     "rendered_exceptions": 0,
     "copilot_request": {
       "case": "copilot-single-click-with-draft-edit",
-      "seconds": 20.39,
+      "seconds": 36.14,
       "pending_button_disabled": true,
-      "language_model_label": false,
-      "approved": false,
+      "language_model_label": true,
+      "approved": true,
       "partial": false,
-      "insufficient_evidence": true,
-      "provider_status": "credits_exhausted",
-      "http_error_code": 429,
-      "generated_explanation_verified": false,
-      "ranking_fallback_visible": true,
-      "raw_provider_output": "Retained only in ignored local verification artifacts."
+      "provider_unavailable": false,
+      "insufficient_evidence": false,
+      "quota_after_one_question": true,
+      "raw_text": "Retained only in ignored local verification artifacts."
     },
-    "public_browser_report": "gcp-release-public-browser.json"
+    "public_browser_report": "gcp-brand-public-browser.json"
   },
   "limitations": [
-    "No full test suite was run inside the Linux image.",
-    "The configured model provider reported exhausted credits (HTTP 429); generated narration was not verified. Deterministic ranking fallback remains available.",
-    "Changes created after the frozen source snapshot are outside this revision.",
-    "Dependency ranges remain unlocked; recorded build versions describe this image."
+    "The full test suite was not executed inside the Linux image.",
+    "Per-network-visitor quotas are not authenticated per-person quotas; shared addresses share allowance and instance recycling resets counters.",
+    "Only one hosted model request and one network visitor were exercised; no answer-quality rate or production-load guarantee is inferred.",
+    "Dependencies use version ranges; recorded build versions describe this image."
   ]
 }

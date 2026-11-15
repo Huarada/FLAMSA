@@ -1,110 +1,69 @@
 # GCP deployment and operations
 
-FLAMSA is deployed publicly on Cloud Run. The latest verified frozen-source release is described below.
+FLAMSA is publicly deployed at **https://flamsa-398749245371.us-central1.run.app**.
 
-- Public URL: https://flamsa-398749245371.us-central1.run.app
-- Project: `flamsa-514815` (`398749245371`); billing and project access verified.
-- Region/service: `us-central1` / `flamsa`.
-- Revision: `flamsa-00002-lis`, serving 100% of traffic.
-- Build: `0c6f8fda-4c7b-4ef0-9cd9-e9c3ab524313` (SUCCESS).
-- Image: `us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:58d55e98ebb1aaccec7172948a06181a014b1bbe6252def382bc202c7832c61e`.
+## Current verified release
 
-Machine-readable release settings: [gcp-release.json](gcp-release.json).
+- Project: `flamsa-514815` (`398749245371`); region/service: `us-central1` / `flamsa`.
+- Revision: `flamsa-00011-gip`, receiving 100% in **latest** traffic mode.
+- Source commit: `cac7f634e79617877565c507ae5be40a1a5f55df`.
+- Build: `5033c908-0ae7-4caa-b74c-74484f8ea91f` (SUCCESS).
+- Image: `us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:57fa96b889951b08896cac1d524c6e4df50705c9bf9d4104942157e35f6b332d`.
+- The temporary candidate tag was removed after hosted verification. Historical snapshots remain under [releases](releases/).
 
-## Runtime and session behavior
+Authoritative release observations: [gcp-release.json](gcp-release.json). A later source/configuration update is a new release; do not assume a local edit or new secret version changed a running instance.
 
-The service uses 1 vCPU, 2 GiB memory, concurrency 10, minimum instances 0, maximum instances 1, a 3,600-second request timeout and session affinity. Public invocation was verified through the service IAM policy and unauthenticated HTTP requests. These settings are capacity controls, not a hard monetary budget.
+## Runtime and usage limits
 
-Cloud Run supports WebSockets, with request timeout and reconnection constraints. Affinity is best effort. Streamlit session state and background Future jobs survive presentation reruns, but are not durable across instance replacement or a new session. Verify changes in the actual hosted environment; local AppTest results alone do not establish cloud behavior.
+The service uses 1 vCPU, 2 GiB memory, concurrency 10, min 0/max 1 instances, session affinity and a 3,600-second timeout. These are capacity controls, not a hard monetary budget. Cloud Run WebSocket reconnection and best-effort affinity constraints still apply.
 
-References: [WebSockets](https://docs.cloud.google.com/run/docs/triggering/websockets), [session affinity](https://docs.cloud.google.com/run/docs/configuring/session-affinity), [container contract](https://docs.cloud.google.com/run/docs/container-contract).
+Hosted environment settings are `PSI_DAILY_MODEL_LIMIT=4` and `PSI_DAILY_GLOBAL_LIMIT=100`. Each submitted question consumes one allowance; internal narration retries remain within that question. The visitor key is derived from the forwarded network address, not a login. People sharing a network address share an allowance. Counters live in process memory and reset at 00:00 UTC or process/instance restart, including a new deployment. Idle instance recycling can also reset them; this is a demonstration cost guard rather than persistent per-person accounting.
 
-## Identity and model configuration
+The hosted smoke check observed four remaining questions initially and three after one completed request. The blocked fifth question, independent visitor keys, global ceiling, UTC rollover, fresh-process reset and concurrency are covered by local tests. The real hosted test used one visitor and one model question, not a multi-network abuse test.
 
-The project-access account was authorized through Google's browser flow; the original SDK identity did not have access. The SDK now selects `flamsa-514815`. No static Google service-account key was created or copied into the application.
+Streamlit session state and background Future jobs survive presentation reruns but are not durable across instance replacement. References: [WebSockets](https://docs.cloud.google.com/run/docs/triggering/websockets), [session affinity](https://docs.cloud.google.com/run/docs/configuring/session-affinity), [container contract](https://docs.cloud.google.com/run/docs/container-contract).
 
-- Build identity: `flamsa-build@flamsa-514815.iam.gserviceaccount.com`, with `roles/run.builder` on this project.
-- Runtime identity: `flamsa-runtime@flamsa-514815.iam.gserviceaccount.com`, without broad project roles.
-- Model: `openai:gpt-4.1-mini`, preserving the existing provider.
-- Runtime secret binding: `OPENAI_API_KEY=flamsa-openai-api-key:1`.
+## Identity and secrets
 
-The existing provider key was sent directly through stdin into Secret Manager. Its value was not printed, saved to source, put into an image layer or included in build arguments. Only the runtime identity was granted accessor rights on this specific secret. Cloud Run injects it at startup. A new secret version requires updating the pinned runtime binding.
+- Build identity: `flamsa-build@flamsa-514815.iam.gserviceaccount.com`, with `roles/run.builder`.
+- Runtime identity: `flamsa-runtime@flamsa-514815.iam.gserviceaccount.com`, with accessor rights only on its designated secret.
+- Model: `openai:gpt-4.1-mini`.
+- Runtime secret binding: **`OPENAI_API_KEY=flamsa-openai-api-key:latest`**.
 
-Reference: [Secret Manager integration](https://docs.cloud.google.com/run/docs/configuring/services/secrets).
+The secret value is not a source file, build argument or image environment value. Cloud Run injects it at instance startup. Adding a Secret Manager version does not refresh an already running process: create a fresh revision after rotation, and verify that production traffic reaches it. Use a unique revision suffix if necessary to force a new revision.
 
-## Scientific files and the build snapshot
+Preserve **latest traffic mode** after the update. A source release may temporarily stage with no traffic, but its final promotion must return to latest after confirming that latest-ready/latest-created is the reviewed candidate. Pinning an older named revision caused the revoked-key incident recorded in ADR-0154. Do not reapply the historical version-1 binding from old release records.
 
-The image includes registered original documents, curated investigation JSON/CSV pairs, archived external evidence, the corpus manifest, derived passage index, solution catalog, theme and packaged artwork. Source evidence is read-only under the non-root runtime user; the derived passage-index directory can be rebuilt. Source paths and scientific values were not rewritten for deployment.
+Reference: [Secret Manager integration](https://docs.cloud.google.com/run/docs/configuring/services/secrets). Google CLI access uses browser-authorized credentials; no static Google service-account key was created for this workflow.
 
-The first release used a separate source copy: 1,267 files, 917,197,413 bytes. The tested source-manifest SHA-256 is `c7a3c53c59a4bcaf1c88366766866a63854a823f23d52f9ca5e4c2b53ed2ca04`. Relevant source/curated/deployment hashes were unchanged before and after the copy. This preserves the tested package even if the shared working directory changes while a build runs.
+## Review, freeze and rebuild
 
-The native gcloud upload check exposed directory-pruning differences from the earlier Python Git-style matcher. The shared `.dockerignore`/`.gcloudignore` policy was simplified and the native check repeated successfully: required runtime inputs present; `.env`, Git metadata, browser scratch, tests and unrelated audit assets excluded. All 54 checked science-source references have exact case-sensitive paths for Linux. Do not deploy only the curated tables: that would remove the original-source download and report-backed answering capability.
+Run project checks, inspect both Git's intended payload and `gcloud meta list-files-for-upload`, and build from an isolated source snapshot. The current package has 1,269 runtime files and 917,250,760 bytes, preserving registered original sources, curated records, captured external evidence, corpus/passages, catalog, theme and artwork. The scientific archive is read-only for the non-root container user; only the derived passage cache is writable.
 
-The complete original archive is about 864 MiB, so source upload and first image construction are substantial. Optimize packaging only with a verified source-access contract. The built image installs dependency versions allowed by pyproject.toml; selected actual versions are retained in the release JSON. The image digest is the immutable release artifact; future rebuilds must be tested because dependency ranges can resolve differently.
+The native upload list excludes environment secrets, credentials, virtualenvs, IDE/assistant local state, browser profiles, editable-install metadata and evaluation dumps. The focused pattern/exact-value audit found no matching local secret in the intended payload; this is not proof against every possible secret in binary/history content. See [security preflight](release-security-preflight.json).
 
-## Local CLI access and inspection
-
-Reopen the VS Code terminal after installing Google Cloud CLI if gcloud is not on PATH. The installed Windows CLI is under the user's `AppData/Local/Google/Cloud SDK/google-cloud-sdk/bin/` directory.
+Existing-service rebuild, preserving its reviewed environment, quota and secret bindings:
 
 ```powershell
-gcloud auth list
-gcloud config set project flamsa-514815
-gcloud run services describe flamsa --region us-central1
-gcloud builds describe 0c6f8fda-4c7b-4ef0-9cd9-e9c3ab524313 --region us-central1
+gcloud run deploy flamsa --source . --project flamsa-514815 --region us-central1 --build-service-account projects/flamsa-514815/serviceAccounts/flamsa-build@flamsa-514815.iam.gserviceaccount.com --allow-unauthenticated --no-traffic --tag releasecandidate
 ```
 
-This execution environment required a process-scoped custom CA bundle derived from existing Windows-trusted roots plus certifi. HTTPS verification was kept enabled; the machine-local bundle is ignored and is not part of the build. Do not disable TLS verification to work around a certificate problem. If necessary, follow Google's [custom CA configuration](https://docs.cloud.google.com/sdk/docs/proxy-settings).
-
-## Rebuild and redeploy
-
-First run the required project checks and inspect `gcloud meta list-files-for-upload`. Confirm the active account/project and freeze the intended source snapshot before building. The existing dedicated identities, API enablement and secret are already provisioned. A source rebuild can use:
+Verify the tagged candidate's pages, source integrity, quotas and secret reference before promotion. Check that no newer concurrent revision appeared; then:
 
 ```powershell
-gcloud run deploy flamsa --source . --project flamsa-514815 --region us-central1 --build-service-account projects/flamsa-514815/serviceAccounts/flamsa-build@flamsa-514815.iam.gserviceaccount.com --service-account flamsa-runtime@flamsa-514815.iam.gserviceaccount.com --port 8080 --cpu 1 --memory 2Gi --concurrency 10 --timeout 3600 --min-instances 0 --max-instances 1 --session-affinity --allow-unauthenticated --set-env-vars PSI_LLM_MODEL=openai:gpt-4.1-mini --set-secrets OPENAI_API_KEY=flamsa-openai-api-key:1
+gcloud run services update-traffic flamsa --project flamsa-514815 --region us-central1 --to-latest --remove-tags releasecandidate
 ```
 
-This command creates a new image/revision and can incur build, storage, runtime and provider usage charges. It does not need a local Docker daemon; Cloud Build constructs the Linux image. Keep secret values out of the command line and review the image/revision and actual hosted behavior after each release.
+Recheck the public endpoint, revision, traffic mode and runtime settings. A build/source update incurs normal cloud usage; this procedure does not require a local Docker daemon. Source packaging is large because the original archive is retained. Dependencies still use version ranges, so the immutable image digest and recorded built versions identify the release.
 
-References: [source deployment](https://docs.cloud.google.com/run/docs/deploying-source-code), [custom build identity](https://docs.cloud.google.com/run/docs/configuring/services/build-service-account), [upload exclusions](https://docs.cloud.google.com/sdk/gcloud/reference/topic/gcloudignore).
+This local SDK environment used a process-scoped bundle derived from Windows-trusted roots plus certifi, with HTTPS verification enabled. That ignored local trust bundle is not part of the source/image. Do not disable TLS verification. References: [custom CA configuration](https://docs.cloud.google.com/sdk/docs/proxy-settings), [source deployment](https://docs.cloud.google.com/run/docs/deploying-source-code), [upload exclusions](https://docs.cloud.google.com/sdk/gcloud/reference/topic/gcloudignore).
 
-## Validation and remaining limits
+## Verification and limits
 
-Source commit: `6f745552ab3c549959768b27bfed5211ac7dc97a`. Build `0c6f8fda-4c7b-4ef0-9cd9-e9c3ab524313` succeeded. The candidate was tested with zero production traffic, then promoted to 100 percent; the temporary releasecandidate tag was removed. The previous image/revision remains recorded in [release history](releases/flamsa-00001-kk6.json).
+Pre-release checks: **301 passed / 179 skipped**, Ruff and domain mypy passed. Skips require local Poppler-dependent source-line checks. The Linux image installs Poppler, but the full suite was not rerun inside the image.
 
-Pre-release checks: 290 passed, 179 skipped for local Poppler-dependent source-line checks; Ruff and domain mypy passed. The Linux image includes Poppler, but the full suite was not repeated inside that image. Both candidate and public root/health endpoints returned HTTP 200. Native Chrome verified Home, Dashboard (1,615 records and 693 scalar oxygen/pressure dots), Fire behavior and Investigations without rendered exceptions. Research filters appeared only on Dashboard. A downloaded BASS-II source CSV matched its original SHA-256, and mobile Home had no horizontal overflow.
+Candidate and public checks confirmed Home, Dashboard, Fire behavior and Investigations without rendered exceptions. Home displays FLAMSA as its dominant fire-gradient title, with the former headline as subtitle; local visual checks covered 1440/390/320-pixel widths, pause and reduced-motion preference. Dashboard retains its research filters and updated count-bubble map; full-study views remain independent. Public root and health returned HTTP 200. A BASS-II source CSV matched its original SHA-256; mobile Home had no horizontal overflow.
 
-The single-click copilot request survived an edit of the draft input, disabled/re-enabled submission and displayed the deterministic ranking after 20.39 seconds. However, the model provider returned HTTP 429 because its credits were exhausted. No generated answer was obtained; this is provider availability, not a scientific evidence-validation rejection. Restore provider credits separately to test live narration. Do not change evidence rules, model configuration or keys merely to manufacture a successful smoke result. Raw provider details and its screenshot remain in ignored local verification files, outside GitHub/build publication.
+One real hosted copilot request completed in **36.14 seconds**, with a language-model label and an **approved** answer under application checks. Submission was disabled while pending, the submitted question survived a draft edit, and the allowance decreased from four to three. This supersedes the earlier unavailable-provider observation for the old secret/revision; it does not establish a general model-quality rate or scientific correctness beyond the implemented checks.
 
-Security preflight reviewed tracked text and exact local-secret matches, plus the native gcloud upload list: no prohibited local inputs or matching secret values were detected. Excluded editable-install .egg-info metadata along with environment files, credentials, virtualenvs, IDE/assistant state, browser profiles and evaluation dumps. The 1,268-file/917,233,849-byte source snapshot was hash-verified. This is a focused publication audit, not proof against every possible secret in binary/history content.
-
-Evidence: [sanitized security review](release-security-preflight.json), [HTTP checks](gcp-release-http-validation.json), [candidate browser results](gcp-release-browser-validation.json), [public browser results](gcp-release-public-browser.json), [current release metadata](gcp-release.json). Screenshots: docs/screenshots/gcp-release-*. No production load, physical-device or full accessibility audit was performed. Build size, dependency locking, model funding and durable session storage remain operational follow-ups. Work created after the frozen snapshot is not part of this release.
-
-## Daily question limit (cost guard)
-
-The deployment sets `PSI_DAILY_MODEL_LIMIT=4`: at most 4 copilot questions per UTC day in total, across all visitors. The count lives in the memory of the server process, so it starts again at 0 whenever a new revision is released (and also if Cloud Run recycles an idle instance, because `min-instances` is 0). Unset or `0` means no limit (local use). When the limit is spent the "Ask copilot" button is disabled and the panel says when it resets; the previous answer, charts and filters stay visible.
-
-## Rotating the model key (Secret Manager)
-
-The key is never in source, an image or a command line. To store a new key, run this in PowerShell on the machine where gcloud is logged in; it asks for the key without echoing it and writes it without a trailing newline:
-
-```powershell
-$secure = Read-Host "New OpenAI key" -AsSecureString
-$key = [System.Net.NetworkCredential]::new('', $secure).Password
-$file = New-TemporaryFile
-[IO.File]::WriteAllText($file, $key)
-gcloud secrets versions add flamsa-openai-api-key --data-file="$file" --project flamsa-514815
-Remove-Item $file -Force; Remove-Variable key, secure
-```
-
-Then point the service at the newest version and retire the revoked one:
-
-```powershell
-gcloud run services update flamsa --region us-central1 --project flamsa-514815 --update-secrets OPENAI_API_KEY=flamsa-openai-api-key:latest
-gcloud secrets versions disable 1 --secret flamsa-openai-api-key --project flamsa-514815
-```
-
-`latest` is resolved when an instance starts, so a new version needs a new revision (the `services update` above creates one). Use a key from a separate provider project with its own monthly budget for the public site.
-
-### Update: the limit is per visitor (ADR-0153)
-
-`PSI_DAILY_MODEL_LIMIT=4` is now **per visitor** per UTC day, where the visitor is the network address Cloud Run appended to `X-Forwarded-For` (the last entry; entries written by the client are ignored). `PSI_DAILY_GLOBAL_LIMIT=100` is a ceiling for all visitors together, so many addresses cannot exhaust the account. Both reset at 00:00 UTC and whenever a new revision starts. Visitors behind one shared address (an office or a campus) share one allowance; a visitor who changes network gets a fresh one, which the global ceiling bounds.
+Evidence: [candidate browser results](gcp-brand-browser-validation.json), [public browser results](gcp-brand-public-browser.json), [public HTTP/traffic checks](gcp-brand-http-validation.json), [branding checks](flamsa-brand-home-validation.json), [release metadata](gcp-release.json). Raw model text remains in ignored local verification files; published observations contain status/counts. No production load, full accessibility, physical-device or multi-network quota audit was performed. Persistent quotas/jobs, dependency locking and more efficient archive packaging remain follow-ups.
