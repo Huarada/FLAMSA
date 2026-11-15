@@ -5,17 +5,23 @@ FLAMSA is publicly deployed at **https://flamsa-398749245371.us-central1.run.app
 ## Current verified release
 
 - Project: `flamsa-514815` (`398749245371`); region/service: `us-central1` / `flamsa`.
-- Revision: `flamsa-00013-tiw`, receiving 100% in **latest** traffic mode.
-- Source commit: `beba8d54e5268130689792347bab85711ad5a53f`.
-- Build: `4aa5eec2-0469-4104-b643-3c17bfd757bc` (SUCCESS).
-- Image: `us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:01b993c0f6c17ea945f4bd0d164ce3d767d24b86d97ea2aa55a79b3f239aae7c`.
+- Revision: `flamsa-00015-jay`, receiving 100% in **latest** traffic mode.
+- Source commit: `2181d8e99199fb21d186fa98c3d4d0620f91e5e5`.
+- Build: `97cc6ea7-7c3b-4e72-9d4c-eb7890ff38ab` (SUCCESS).
+- Image: `us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:5d8277ae4af254d97e00f61647947a8a5c1fcdf077caf9d1cfa0fc3c7bab80bd`.
 - The temporary candidate tag was removed after hosted verification. Historical snapshots remain under [releases](releases/).
 
 Authoritative release observations: [gcp-release.json](gcp-release.json). A later source/configuration update is a new release; do not assume a local edit or new secret version changed a running instance.
 
-## Browser-title patch release
+## Research-journey interface release
 
-This revision changes only Streamlit page_title to **FLAMSA**. It uses a three-file incremental build over immutable parent `flamsa-00011-gip` (`us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:57fa96b889951b08896cac1d524c6e4df50705c9bf9d4104942157e35f6b332d`), copying only the reviewed entry point. The inherited image retains scientific files, installed dependencies, permissions, non-root user and startup command. The canonical Dockerfile remains the full-rebuild path for other changes.
+This revision highlights Investigations in emerald, gives Dashboard a motion-aware shadow pulse, and adds an optional three-step guide from map selection to questions and cited answers. The bold scroll instruction and View source/download explanation sit next to the response. The eight-module patch inherits immutable parent `flamsa-00013-tiw` (`us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:01b993c0f6c17ea945f4bd0d164ce3d767d24b86d97ea2aa55a79b3f239aae7c`), retaining all scientific data, dependencies and runtime configuration.
+
+Local validation: 301 passed and 179 Poppler-dependent skips in the full run, with one outdated tooltip assertion fixed; all three affected follow-up tests passed. Ruff and domain mypy passed. Local Chrome verified actual map selection, an offline answer and source-download availability. Candidate and public Chrome checked all four views, 390/320 px layouts, guide visibility, anchor navigation and reduced motion. No paid model question was submitted; the fresh allowance remained four. [Local checks](research-journey-validation.json), [candidate checks](gcp-research-journey-candidate-validation.json), [public checks](gcp-research-journey-public-validation.json) and [patch audit](research-journey-release-audit.json) record the scope.
+
+## Previous browser-title patch release
+
+The previous revision flamsa-00013-tiw changed only Streamlit page_title to **FLAMSA**. It uses a three-file incremental build over immutable parent `flamsa-00011-gip` (`us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:57fa96b889951b08896cac1d524c6e4df50705c9bf9d4104942157e35f6b332d`), copying only the reviewed entry point. The inherited image retains scientific files, installed dependencies, permissions, non-root user and startup command. The canonical Dockerfile remains the full-rebuild path for other changes.
 
 One targeted Streamlit test and scoped Ruff passed. Native Chrome verified document.title=FLAMSA on Home, Dashboard, Fire behavior and Investigations at both the candidate and public URLs, without exceptions. No model question was submitted; the fresh process showed four questions remaining. The 301-pass/179-skip full suite and the approved 36.14-second narration check described below belong to the validated parent release; they were not repeated for this literal title change. See [parent metadata](releases/flamsa-00011-gip.json), [candidate checks](gcp-tab-title-validation.json) and [public checks](gcp-tab-title-public-validation.json).
 

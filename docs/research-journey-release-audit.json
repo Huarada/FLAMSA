@@ -1,0 +1,28 @@
+{
+  "base_revision": "flamsa-00013-tiw",
+  "base_image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:01b993c0f6c17ea945f4bd0d164ce3d767d24b86d97ea2aa55a79b3f239aae7c",
+  "base_source_commit": "beba8d54e5268130689792347bab85711ad5a53f",
+  "patch_sha256": {
+    "analytics_views.py": "1b5d9ce4f25f6691f10eaf625a19e62336bf6f5ff9215a2f72a0e026685455e3",
+    "app.py": "7f0af02e2189faad2ee0d5991fe4e9d754e8827e88a9a873d429594cff1f989b",
+    "copilot_evidence.py": "7956328fe460dc6dba9733f4344289b1431673a85e57e40db540ec2b52eb3ac7",
+    "copilot_panel.py": "d586656375497adbde301ea07156a55f18303d3c145bfe4d7a4dd0e026316e76",
+    "reference_dashboard.py": "a0b4d2c00b72b477f77f685d3fee3f44cb948bd980dfb050a93ce8d977490cdf",
+    "workspace_navigation.py": "0df472c38aa383a570e6e3f2509de539ae1ed2d59635ea8f21a5b388efa8820c",
+    "workspace_style.py": "432e1cd8314a01eeac6f9fcb72662be0cdc3dba8f34cb15c8ca71bb5bd3a5059",
+    "research_guide.py": "7e9ccd7cb1bf3eb21636836f780dbfa29983afbc0462a9f508d4b8dadea8da99"
+  },
+  "source_file_count": 10,
+  "source_bytes": 85693,
+  "secret_matches": 0,
+  "source_commit": "2181d8e99199fb21d186fa98c3d4d0620f91e5e5",
+  "url": "https://journeycandidate---flamsa-acrktkn45q-uc.a.run.app",
+  "revision": "flamsa-00015-jay",
+  "image": "us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:5d8277ae4af254d97e00f61647947a8a5c1fcdf077caf9d1cfa0fc3c7bab80bd",
+  "build_id": "97cc6ea7-7c3b-4e72-9d4c-eb7890ff38ab",
+  "build_status": "SUCCESS",
+  "per_visitor_limit": 4,
+  "global_limit": 100,
+  "secret_reference": "flamsa-openai-api-key:latest",
+  "upload_policy": "Default deny; Dockerfile, .gcloudignore and eight interface Python modules only."
+}

@@ -1,0 +1,72 @@
+{
+  "revision": "flamsa-00015-jay",
+  "url": "https://flamsa-398749245371.us-central1.run.app",
+  "cases": [
+    {
+      "page": "Home",
+      "title": "FLAMSA",
+      "green": "rgb(17, 116, 67)",
+      "pulse": "dashboard-nav-pulse",
+      "steps": 0,
+      "exceptions": 0,
+      "quota": false
+    },
+    {
+      "page": "Investigations",
+      "title": "FLAMSA",
+      "green": "rgb(17, 116, 67)",
+      "pulse": "dashboard-nav-pulse",
+      "steps": 0,
+      "exceptions": 0,
+      "quota": true
+    },
+    {
+      "page": "Fire behavior",
+      "title": "FLAMSA",
+      "green": "rgb(17, 116, 67)",
+      "pulse": "dashboard-nav-pulse",
+      "steps": 0,
+      "exceptions": 0,
+      "quota": true
+    },
+    {
+      "page": "Dashboard",
+      "title": "FLAMSA",
+      "green": "rgb(17, 116, 67)",
+      "pulse": "dashboard-nav-pulse",
+      "steps": 3,
+      "exceptions": 0,
+      "quota": true
+    },
+    {
+      "reduced": "none"
+    },
+    {
+      "bold": true,
+      "link": {
+        "hash": "#research-copilot",
+        "target": true
+      }
+    },
+    {
+      "hidden": {
+        "steps": 0,
+        "conditions": [
+          "30.00",
+          "10.20"
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "stepWidth": 316
+    },
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "stepWidth": 246
+    }
+  ],
+  "modelRequests": 0
+}
