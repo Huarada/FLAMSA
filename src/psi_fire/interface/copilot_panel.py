@@ -1,5 +1,9 @@
 """Research copilot: asks the answering pipeline (SPEC-003) and shows the validated result next to its evidence."""
 
+from __future__ import annotations
+
+from pathlib import Path
+
 import pandas as pd
 import streamlit as st
 
@@ -7,14 +11,18 @@ from psi_fire.application.answer_types import AnswerResult, AnswerStatus
 from psi_fire.domain.manual import GravityRegime
 from psi_fire.domain.model import Investigation
 from psi_fire.domain.ranking import LUNAR_BASE, HabitatScenario
-from psi_fire.infrastructure.answering_factory import AnsweringPipeline
 from psi_fire.interface.copilot_evidence import EvidenceContext, render_citation, render_figures
+from psi_fire.interface.copilot_job import CopilotJob
+from psi_fire.interface.deferred_pipeline import PipelineHandle
 
 EARTH_CABIN = HabitatScenario("Earth cabin", 21.0, 14.7, GravityRegime.NORMAL)
 PRESETS = {"Lunar base": LUNAR_BASE, "Earth cabin": EARTH_CABIN}
 CUSTOM = "Custom"
 DEFAULT_QUESTION = "Which investigations are most relevant to this scenario, and why?"
 RESULT_KEY = "copilot_result"
+JOB_KEY = "copilot_job"
+LABEL_KEY = "copilot_narrator_label"
+REQUEST_KEY = "copilot_completed_request"
 
 
 def scenario_point() -> tuple[float, float]:
@@ -33,8 +41,7 @@ def pick_scenario(o2_percent: float, pressure_psi: float) -> None:
 
 
 def _scenario() -> HabitatScenario:
-    st.caption("**1.** Choose conditions (click the coverage chart or type them). **2.** Ask. "
-               "**3.** Check each citation and the score breakdown.")
+    st.caption("Set the conditions, ask a question, then check the sources.")
     preset = st.selectbox("Habitat scenario", [*PRESETS, CUSTOM], key="copilot_preset",
                           help="Lunar base: 30% O₂, 10.2 psi. Earth cabin: 21% O₂, 14.7 psi. Clicking the chart "
                                "switches to Custom.")
@@ -49,6 +56,21 @@ def _scenario() -> HabitatScenario:
     if preset == CUSTOM:
         gravity = GravityRegime(st.selectbox("Gravity", [g.value for g in GravityRegime], index=2, key="copilot_g"))
     return HabitatScenario(preset if preset != CUSTOM else "Custom scenario", o2, pressure, gravity)
+
+
+def _submit(pipeline: PipelineHandle, investigations: tuple[Investigation, ...]) -> None:
+    """Capture the click before charts render: a queued rerun must not consume a transient button value."""
+    if JOB_KEY in st.session_state:
+        return
+    preset = st.session_state.get("copilot_preset", "Lunar base")
+    base = PRESETS.get(preset, EARTH_CABIN)
+    o2, pressure = scenario_point()
+    gravity = GravityRegime(st.session_state.get("copilot_g", base.gravity.value)) if preset == CUSTOM else base.gravity
+    scenario = HabitatScenario(preset if preset != CUSTOM else "Custom scenario", o2, pressure, gravity)
+    job = CopilotJob.prepare(scenario, st.session_state.get("copilot_question", DEFAULT_QUESTION))
+    st.session_state[JOB_KEY] = job
+    st.session_state.pop("copilot_request_error", None)
+    job.start(pipeline, investigations)
 
 
 def _breakdown_table(result: AnswerResult) -> pd.DataFrame:
@@ -97,18 +119,61 @@ def _render(result: AnswerResult, narrator_label: str, context: EvidenceContext)
                 st.json(a.draft.model_dump(mode="json"), expanded=False)
 
 
-def copilot(pipeline: AnsweringPipeline, investigations: tuple[Investigation, ...],
+@st.fragment(run_every=0.5)
+def _pending_answer() -> None:
+    job = st.session_state.get(JOB_KEY)
+    if job is None:
+        return
+    if not job.future.done():
+        st.info("Preparing the copilot, ranking, retrieving passages and validating…", icon=":material/hourglass_top:")
+        st.caption("Your submitted request continues while you edit the view. No second click is needed.")
+        return
+    try:
+        completed = job.future.result()
+    except Exception:  # noqa: BLE001 - do not expose provider errors, credentials or response bodies in the UI
+        st.session_state["copilot_request_error"] = "The copilot request could not finish. Please try again. Any previous answer is preserved."
+    else:
+        st.session_state[RESULT_KEY] = completed.result
+        st.session_state[LABEL_KEY] = completed.narrator_label
+        st.session_state[REQUEST_KEY] = (job.scenario, job.question)
+        st.session_state.pop("copilot_request_error", None)
+    st.session_state.pop(JOB_KEY, None)
+    # Commit first: the single full rerun updates chart highlights and enables submission without resending work.
+    st.rerun()
+
+
+def copilot(pipeline: PipelineHandle, investigations: tuple[Investigation, ...],
             context: EvidenceContext | None = None) -> None:
     context = context or EvidenceContext(None, frozenset())
-    scenario = _scenario()
-    question = st.text_area("Ask about this scenario", DEFAULT_QUESTION, height=90, key="copilot_question",
-                            help="Examples: how does oxygen change flame spread? Which fuels were tested near "
-                                 "these conditions? The answer is limited to the curated records and report passages.")
-    st.caption("The ranking covers all curated investigations, not only the filtered view. Scores are computed by the "
-               "application; the language model only explains them and is rejected if it cites anything unverified.")
-    if st.button("Ask copilot", icon=":material/auto_awesome:", width="stretch",
-                  help="Ranks investigations for these conditions, retrieves report passages and validates the text."):
-        with st.spinner("Ranking, retrieving passages and validating..."):
-            st.session_state[RESULT_KEY] = pipeline.answerer(investigations, scenario, question)
+    _scenario()
+    with st.container(key="copilot_question_bubble"):
+        st.text_area("Ask about this scenario", DEFAULT_QUESTION, height=110, key="copilot_question",
+                                placeholder="Compare the studies at these oxygen and pressure conditions…",
+                                help="Examples: how does oxygen change flame spread? Which fuels were tested near "
+                                     "these conditions? The answer is limited to the curated records and report passages.")
+    with st.container(horizontal=True, vertical_alignment="center", gap="small", key="copilot_mascot"):
+        st.image(str(Path(__file__).parent / "assets/flamsa-copilot.svg"), width=76)
+        with st.container(width="stretch"):
+            st.markdown("**Let's explore the evidence.**")
+            st.caption("Compare studies. Follow the sources.")
+    st.button("Ask copilot", key="ask_copilot", icon=":material/auto_awesome:", type="primary", width="stretch",
+                  disabled=JOB_KEY in st.session_state,
+                  on_click=_submit, args=(pipeline, investigations),
+                  help="Ranks investigations for these conditions, retrieves report passages and validates the text.")
+    st.caption("Ranks all curated studies, including those outside the chart filters.")
+    with st.expander("How the copilot works"):
+        st.write("The application computes the ranking scores. A connected language model or offline template "
+                 "explains them using cited records and report passages. Answers must pass citation and number "
+                 "checks; insufficient evidence can prevent an explanation from being shown.")
+        st.caption("Check the source and review status of each claim. Automated checks do not establish scientific certainty.")
+    if JOB_KEY in st.session_state:
+        _pending_answer()
+    if st.session_state.get("copilot_request_error"):
+        st.error(st.session_state["copilot_request_error"])
     if RESULT_KEY in st.session_state:
-        _render(st.session_state[RESULT_KEY], pipeline.narrator_label, context)
+        submitted = st.session_state.get(REQUEST_KEY)
+        if submitted:
+            answered_scenario, answered_question = submitted
+            st.caption(f"Answer for {answered_scenario.o2_percent:g}% oxygen / {answered_scenario.pressure_psi:g} psi: "
+                       f"{answered_question}")
+        _render(st.session_state[RESULT_KEY], st.session_state.get(LABEL_KEY, "Previously completed request"), context)

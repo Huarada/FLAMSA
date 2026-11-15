@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">FLAMSA research copilot mascot</title>
+  <desc id="desc">A friendly amber flame with a navy visor, waving beside a small research notebook.</desc>
+  <defs>
+    <linearGradient id="ember" x1="0" y1="0" x2="0.8" y2="1">
+      <stop stop-color="#FFE6B0"/><stop offset=".5" stop-color="#F4BD61"/><stop offset="1" stop-color="#CB8732"/>
+    </linearGradient>
+  </defs>
+  <circle cx="80" cy="82" r="68" fill="#EDF4FA"/>
+  <ellipse cx="79" cy="142" rx="38" ry="5" fill="#D6E1EB"/>
+  <path d="M48 105c-12 0-20-9-19-22" fill="none" stroke="#CB8732" stroke-width="8" stroke-linecap="round"/>
+  <path d="m23 78 2-8m4 8 3-8m2 11 5-5" fill="none" stroke="#F4BD61" stroke-width="5" stroke-linecap="round"/>
+  <path d="M84 14c6 23-15 29-14 44-9-8-8-16-5-24-29 22-31 59-14 82 12 17 41 21 58 6 25-22 14-56 4-73-1 13-6 19-13 23 9-25-1-45-16-58Z" fill="url(#ember)"/>
+  <path d="M57 128v8m42-8v8" stroke="#203747" stroke-width="8" stroke-linecap="round"/>
+  <rect x="49" y="75" width="63" height="38" rx="18" fill="#203747"/>
+  <path d="M58 82c11-5 29-5 42 0" stroke="#617D91" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M64 92v4m30-4v4" stroke="#DBF2F2" stroke-width="5" stroke-linecap="round"/>
+  <path d="M74 102q6 5 12 0" stroke="#F4BD61" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <rect x="111" y="98" width="29" height="35" rx="5" fill="#FFF" stroke="#8EA6B8" stroke-width="2"/>
+  <path d="M118 108h13m-13 7h13m-13 7h7" stroke="#6788D4" stroke-width="2" stroke-linecap="round"/>
+  <path d="M109 113h6" stroke="#CB8732" stroke-width="7" stroke-linecap="round"/>
+  <path d="M130 37v10m-5-5h10" stroke="#6788D4" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="35" cy="45" r="3" fill="#8DBFBA"/>
+</svg>

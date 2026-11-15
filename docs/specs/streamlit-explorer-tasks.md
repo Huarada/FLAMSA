@@ -162,3 +162,38 @@ No snapshot, source-access or UI acceptance is considered passed by this documen
 
 - AC-88/89: tests/interface/test_explorer_app.py::test_home_explains_current_capabilities_and_opens_behavior_without_replacing_filters checks current capability copy, snapshot-derived review count and query-preserving Fire behavior navigation.
 - Existing tests/application/test_home.py covers only-loaded thematic links, actual counters, empty Earth-application claims and unknown topics. Audit: docs/home-content-audit.md.
+
+## Navigation performance contracts
+
+- AC-90/91/93: tests/infrastructure/test_dashboard_performance_contracts.py checks actual plot-count equivalence, no row construction for counts, cache partitioning/copy isolation and bounded interaction geometry.
+- AC-92: tests/interface/test_deferred_pipeline.py verifies construction only on demand and navigation without initializing the real engine. Existing copilot tests cover actual template answering and evidence flow.
+- Existing reload/filter tests cover preserved byte-based freshness, retained queries and failed publication recovery. Chrome checks/screenshot, observed timings and the repeatable benchmark command are recorded in docs/performance-audit.md.
+
+
+## Friendly copilot presentation
+
+- AC-94: packaged SVG and Chrome desktop/mobile captures verify mascot order, loaded asset and no horizontal overflow.
+- AC-95: existing explorer/copilot, scenario-marker, deferred engine and source dialog tests preserve behavior; native 44 px primary action and accessible scope/help remain. Evidence: docs/dashboard.md and the ADR verification entry.
+
+## Research filter remediation
+
+- AC-96/97/99/100: tests/interface/test_filter_chart_regressions.py covers scope reconciliation, intentional emptiness, valid refinements, reset, automatic stream basis, positive-count axes, explicit inactive-input errors, cleared defaults and summary/missing-pressure explanations.
+- AC-96/97/98: scripts/audit_research_filter_ui.py checks all 225 ordered study transitions, 378 widget states and actual Arrow record identities. Chrome additionally checks visible selected quantity text/counts against the rendered comparison; backend-only assertions cannot establish frontend label correctness.
+- AC-99: existing invalid-range, rehydration and reload tests preserve transactionality. The independent CSV oracle retains the query-engine contract across 9,659 queries.
+- Before/after audit artifacts and remaining validation limits are documented in docs/research-filter-remediation-2026-11-15.md; historical pre-remediation findings remain unchanged.
+
+## Copilot request lifecycle
+
+- AC-101: tests/interface/test_copilot_request_lifecycle.py interrupts a chart render immediately after submission, blocks cold engine initialization, changes the question and reruns the view. The same job must survive and invoke the answerer once without a second click. A separate assertion checks current batched widget values in the submit callback.
+- AC-102/103: lifecycle tests check disabled pending submission, completed result/narrator persistence, explicit retry after an operational error and preservation of the prior answer without exposing provider details. Existing explorer/source tests await the real offline job and preserve citation/source behavior.
+- Native Chrome reproduced loss before the fix and completion after the fix with one click and a textarea edit during a delayed offline request. Evidence, setup and remaining limits: docs/copilot-first-click-fix.md.
+
+## Focused Investigations browser
+
+- AC-104: tests/interface/test_explorer_app.py checks the absence of research controls, full-study selection under an empty Dashboard query, complete BASS-II record inspection, correctly named export and committed-filter restoration on returning to Dashboard. Existing Home links still focus related research and existing source/navigation tests remain applicable.
+- Chrome desktop/mobile observations and captures: docs/investigations-focused-validation.json and docs/screenshots/investigations-focused-1440.png / investigations-focused-390.png.
+
+## Focused Fire behavior analyses
+
+- AC-105: tests/interface/test_fire_behavior_app.py checks restrictive and empty Dashboard queries, no general research controls, all three source actions/analyses available, preserved local settings behavior, study-record export naming and restoration of the committed Dashboard filters. Existing scientific application tests retain fit/exclusion contracts.
+- Chrome desktop/mobile evidence: docs/fire-behavior-focused-validation.json and docs/screenshots/fire-behavior-focused-1440.png / fire-behavior-focused-390.png.

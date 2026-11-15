@@ -64,6 +64,9 @@ def filters(options: dict[str, tuple[str, ...]]) -> None:
                                      key=prefix + "basis")
                 st.caption("Reported oxygen basis filters records without numeric bounds. For an oxygen range, "
                            "choose its single measurement basis; clear or align the reported-basis selection.")
+                st.caption("Enable each numeric filter before entering bounds or including unreported values. "
+                           "Apply rejects inactive inputs instead of ignoring them. "
+                           "A cleared oxygen measurement basis defaults to ambient.")
                 # Bounds are built after submission so a draft invalid range does not replace results.
                 oxygen_enabled = st.checkbox("Filter oxygen", key=prefix + "oxygen_enabled")
                 ol = st.number_input("Oxygen minimum (%)", min_value=0.0, max_value=100.0,
@@ -80,6 +83,7 @@ def filters(options: dict[str, tuple[str, ...]]) -> None:
                 fu = st.number_input("Flow maximum (cm/s)", min_value=0.0, value=None, key=prefix + "fu")
                 fm = st.checkbox("Include unreported flow", key=prefix + "fm")
             with metadata.expander("Evidence and metadata"):
+                st.caption("Cleared selections use defaults: Manual review = all; Curation notes = any.")
                 review = st.selectbox("Manual review", ["all", "draft", "reviewed", "unavailable"],
                                       index=None, key=prefix + "review")
                 lineage = st.multiselect("Row lineage", options["provenance_status"], key=prefix + "lineage")
@@ -92,11 +96,18 @@ def filters(options: dict[str, tuple[str, ...]]) -> None:
             submitted = action.form_submit_button("Apply filters", type="primary", width="stretch")
         if submitted:
             try:
+                for enabled, low, high, missing, label in (
+                    (oxygen_enabled, ol, ou, om, "oxygen"),
+                    (pressure_enabled, pl, pu, pm, "pressure"),
+                    (flow_enabled, fl, fu, fm, "flow speed"),
+                ):
+                    if not enabled and (low is not None or high is not None or missing):
+                        raise ValueError(f"Enable Filter {label} or clear its inactive bounds and include-unreported option.")
                 st.session_state["candidate_query"] = ExplorationQuery(
                     search=search, ids=tuple(ids), levels=tuple(levels), phases=tuple(phases), fuels=tuple(fuels),
-                    directions=tuple(directions), lineage=tuple(lineage), review=review, hardware=tuple(hardware),
-                    sensors=tuple(sensors), pillars=tuple(pillars), gravity=tuple(gravity), note=note,
-                    oxygen=ConditionRange(ol, ou, om) if oxygen_enabled else None, basis=O2Basis(basis),
+                    directions=tuple(directions), lineage=tuple(lineage), review=review or "all", hardware=tuple(hardware),
+                    sensors=tuple(sensors), pillars=tuple(pillars), gravity=tuple(gravity), note=note or "any",
+                    oxygen=ConditionRange(ol, ou, om) if oxygen_enabled else None, basis=O2Basis(basis or "ambient"),
                     pressure=ConditionRange(pl, pu, pm) if pressure_enabled else None,
                     flow=ConditionRange(fl, fu, fm) if flow_enabled else None, bases=tuple(bases),
                 )

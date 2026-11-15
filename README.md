@@ -124,7 +124,7 @@ Here $`d_0`$ is the initial diameter, $`d_e`$ the reported diameter at flame ext
 FLEX reports $`d_0`$, $`d_e`$, $`K`$ and $`t_b`$ in separate columns, so the law can be tested directly against the table:
 
 ```math
-\operatorname{median}\!\left(\frac{t_b^{\text{reported}}}{(d_0^{2}-d_e^{2})/K}\right) = 1.0492
+\mathrm{median}\!\left(\frac{t_b^{\text{reported}}}{(d_0^{2}-d_e^{2})/K}\right) = 1.0492
 \qquad (n = 155,\ \text{IQR } 1.0292\text{–}1.0773)
 ```
 
@@ -157,7 +157,7 @@ On the *Fire behavior → FLEX* tab, eligible fuel/diluent-blend groups near 1 a
 ```math
 K_i \;=\; \beta_0 \;+\; \beta_{O_2}\,X_{O_2,i} \;+\; \beta_P\,P_i \;+\; \beta_d\,d_{0,i} \;+\; \varepsilon_i,
 \qquad
-\hat\beta_{O_2} \;\pm\; t_{0.975,\;n-p}\;\operatorname{SE}\!\big(\hat\beta_{O_2}\big)
+\hat\beta_{O_2} \;\pm\; t_{0.975,\;n-p}\;\mathrm{SE}\!\big(\hat\beta_{O_2}\big)
 ```
 
 Pressure and initial diameter are included only when they vary within the group. A group is fitted when it has at least 6 tests, 3 distinct O₂ levels, 3 residual degrees of freedom, full design rank and a standardized condition number no higher than 10⁴. Here n counts observations and p counts fitted parameters, including the intercept. The 95% interval assumes independent, homoskedastic, normally distributed errors; it omits calibration and model-form uncertainty. With the current data:

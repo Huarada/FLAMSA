@@ -566,6 +566,8 @@ Acceptance additions:
 - AC-84: The introduction identifies evidence/assumption boundaries and the existing deterministic calculation/source path, with no new fabricated proof or safety score.
 - AC-85: Browser checks confirm header hover help, readable introduction/equations, keyboard navigation and narrow-screen wrapping.
 
+Laptop/desktop navigation buttons stretch across their allotted header space with larger text, padding and targets: 56 px minimum height at 1200 px and above, 52 px at 1024–1199 px with a reduced gap so all four destinations remain on one row. Narrow layouts retain at least 44 px targets and native wrapping. Preserve the existing blue/amber palette, help, keys and navigation callbacks; Dataset controls remains a separate action with a desktop target aligned in size.
+
 ## 23. Consolidate source inspection within Investigations
 
 Remove Evidence from primary navigation. Keep the Investigations catalog, scientific context, experimental records/raw values and Citations & source downloads. Source-reader ports, registered file/checksum checks, stored evidence and existing Fire behavior/source callbacks remain available. This section supersedes earlier references to Evidence as a workspace destination, including AC-61 and section 17; it does not remove evidence as a domain concept or scientific requirement.
@@ -585,3 +587,75 @@ Provide a native Open Fire behavior action alongside Dashboard and Investigation
 
 - AC-88: Home describes current ranking, CSV/source access and all three research pillars, without the retired no-scores claim; counters retain snapshot-derived review status.
 - AC-89: Home opens Fire behavior without replacing research filters, and its copy distinguishes source-bounded analysis from prediction or habitat certification.
+
+## 25. Navigation latency and bounded read projections
+
+Clear Home-only styles and decorations through a stable placeholder at the beginning of a navigation rerun, before slow analysis. Preserve its visual design and reduced-motion controls. Main analysis must render before an answering-engine initialization; merely visiting the Dashboard or toggling Research copilot must not initialize the model/orchestration engine. Build the cached real pipeline only for an explicit question (or rendering a pre-existing answer needing its actual narrator label). Leave first-answer feedback and all validation/citation behavior intact.
+
+Reuse the validated parsed snapshot within its session when the cached revision is unchanged. Keep the existing byte-based curated freshness check, transactional reload/error behavior and global serialized snapshot cache; do not share mutable Pydantic aggregates across sessions or treat file timestamps as scientific revision evidence.
+
+Bound chart projection/axis-option caches to 32 entries and filtered CSV caches to eight entries. Keys include dataset revision and the exact retained investigation/TestPoint identities, plus relevant axes, chart ids and oxygen basis. The excluded heavy Match argument is covered by these explicit keys. Cached outputs are copied by Streamlit so one consumer cannot corrupt another. Compute axis counts without constructing unused plot rows; counts must equal actual eligibility for ranges, missing values, summaries and measurement basis.
+
+Cap the scenario-picker's interaction mesh at 4,000 synthetic marks (16 cached geometries). These invisible marks are UI controls, never scientific observations; source dots and manual scenario precision remain unchanged. Explain that clicks snap to a display grid and exact conditions can be typed. Construct the mesh only when copilot picking is enabled. Fire behavior scientific dependencies load only when that view is used. No numerical validation, source checksum check or record is removed to gain speed.
+
+- AC-90: optimized partner counts equal production plot counts for current scalar axes/bases without allocating plot rows.
+- AC-91: cache boundaries separate revisions, retained row identities, axes, selected chart studies and oxygen bases; mutable returned rows do not contaminate cache hits.
+- AC-92: navigation removes Home decoration/styles early; Dashboard/copilot controls remain usable without constructing an answering pipeline or sending a model request.
+- AC-93: the interaction mesh stays within its mark budget; registered source access, filter reload/error behavior and exact typed scenario values remain available.
+
+## 26. Friendly Research copilot presentation
+
+Add a compact static flame mascot directly below Ask about this scenario and above Ask copilot. Extend the existing amber/slate FLAMSA vector identity using a packaged SVG, without a remote asset request, animation, fictional scientific readings or simulated connection state. The mascot is decorative guidance, not an authority or a validation indicator.
+
+Give the right panel approximately 30% of the Dashboard's comparison area on wide screens, with native responsive layout. Shorten introductory instructions, increase the question field to 110 px and make Ask copilot a primary action. Keep the visible statement that ranking covers all curated studies, including those outside chart filters; place the longer explanation of deterministic scores, narration, citation checks and uncertainty in an optional How the copilot works disclosure.
+
+Preserve scenario/input keys, defaults, chart selection synchronization, deferred engine initialization, actual question submission, answer/status/breakdown/limitation rendering and View source actions. Interface text remains English. Visual friendliness must not imply that a model is connected, evidence is human-reviewed or a result is guaranteed.
+
+- AC-94: the mascot is rendered between the question and submit action, with readable native controls at desktop/mobile widths and no new horizontal overflow.
+- AC-95: the primary submit action, scenario/marker state, deferred initialization and validated-answer/source flows retain their behavior; scope and uncertainty explanations remain accessible.
+
+The question field uses a scoped dark-purple speech-bubble container with a small decorative tail pointing toward the FLAMSA mascot below it. Keep the native editable textarea, its label/help/key and keyboard interaction. Use light text, a visible focus treatment and a contrasting placeholder; do not restyle the scenario inputs, generated answers or the rest of the workspace. The tail is CSS-only and non-interactive. This presentation does not turn the user's editable question into a generated mascot response.
+
+## 27. Research filters and comparison controls remain consistent
+
+Research filtering remains transactional and uses the existing application query contract. The comparison may refine that result, but a research change must reconcile its local selection before rendering widgets: preserve a valid subset; extend an all-studies selection to the new result; when a nonempty selection loses every member, select the retained studies and announce recovery. An intentionally cleared local selection stays empty until the user selects studies or resets filters. Reset restores default chart choices as well as the research query.
+
+Use the numeric query's oxygen basis, or a single explicitly selected reported basis, for an oxygen comparison. Otherwise offer bases actually reported in the retained records and preserve a valid local choice. Never combine burner-stream oxygen with ambient oxygen. Show this relationship near the chart controls.
+
+Keep logical chart choices separate from native widget identities. Refresh a widget when its available choices, displayed quantity labels/counts or committed research context changes. Visible selected labels, units and counts must describe the current chart, including after an axis disappears. Only positive-count vertical partners may be selected. With no partners, disable that selector and explain whether records are summaries, no studies were selected, or measurements cannot form pairs; provide retained-record access.
+
+Keep the batched research form. Reject a submitted draft with bounds or include-unreported enabled for an inactive numeric filter, with an actionable enable-or-clear message; do not silently discard it. A cleared optional select means its documented default (oxygen numeric basis: ambient, review: all, notes: any), while invalid active ranges still preserve the previous valid query. Explain defaults and inactive input behavior within the form.
+
+- AC-96: all ordered study changes preserve valid refinements or recover invalidated nonempty local selections; intentional emptiness and reset have distinct behavior.
+- AC-97: stream-only research automatically uses stream oxygen in comparisons; numeric oxygen basis is honored and incompatible research bases remain rejected.
+- AC-98: native-browser quantity labels/units/counts agree with rendered chart axes after research and basis changes; zero-count vertical axes cannot be selected.
+- AC-99: inactive bounds are rejected explicitly, cleared selects use documented defaults, and invalid drafts preserve committed results.
+- AC-100: each chart's empty state names its missing requirements and retained records; summaries remain summaries, with no invented pressure or scalar midpoint.
+
+## 28. A copilot request survives presentation reruns
+
+An explicit Ask copilot click captures the question, scenario and loaded investigations once in its callback, before charts or other presentation code can be interrupted. Read current widget state rather than stale callback argument values. Store its job in session state before starting work. Engine initialization and answering run without Streamlit UI calls on a worker thread; fragment polling owns progress and commits completed results on the UI thread. Presentation reruns or draft edits must neither discard nor repeat the pending request. Disable submission while pending. On completion, preserve the result and actual narrator label before refreshing the charts; showing an existing answer must not initialize another engine. Identify the submitted question/scenario separately from later edits.
+
+An operational exception clears pending state, displays an actionable error without provider secrets, and preserves any previous completed answer. Retry requires an explicit click. This contract is per live session, not a durable cross-process queue. Citation checks, deterministic scoring and scientific limits remain unchanged; no automatic extra model request is added.
+
+- AC-101: one first click completes despite a widget rerun during initialization/answering, with exactly one answerer call and visible output without another click.
+- AC-102: pending requests disable submission; approved and insufficient-evidence results, source access and chart highlighting survive completion; rerendering does not call the engine again.
+- AC-103: an operational failure releases the pending state, preserves the prior answer and permits an explicit retry without exposing exception details.
+
+## 29. Investigations is a focused full-study browser
+
+Remove Research filters and its applied-filter summary from Investigations. Use the study picker, catalog and existing detail/source tabs to browse all loaded studies and each study's full records, independently of the committed Dashboard/Fire behavior filters. Explain that scope briefly. Preserve the committed query while entering, selecting studies and leaving this view, including when that query has no matching records. Dashboard filters rehydrate on return.
+
+This supersedes earlier descriptions of shared filter controls and matching-only study records in Investigations. Dashboard and Fire behavior retain their existing filtering contracts. Home theme links continue to focus a related study when opening this full-study browser.
+
+The Investigations CSV action exports the selected study's complete records and is labelled accordingly; other views retain their matching-record export. Scientific scope remains available without presenting an irrelevant applied-filter JSON panel. Source navigation, study selection, reload integrity and corpus-wide copilot ranking remain available.
+
+- AC-104: Investigations has no Research filters controls and remains usable under an empty or restrictive Dashboard query; browsing/exporting full studies does not replace that query.
+
+## 30. Fire behavior uses study-specific analysis controls
+
+Remove Research filters, its summary/error display and applied Dashboard-query disclosure from Fire behavior. Analyze complete FLEX, BASS-II and SAFFIRE-II records regardless of the stored Dashboard query, including when that query matches nothing. Preserve that query for returning to Dashboard. Keep the educational introduction, local analysis controls, scientific exclusions, deterministic fits/intervals, paired observations, source actions, copilot and analysis export. This supersedes earlier shared-filter behavior for Fire behavior.
+
+The header CSV exports all source records of those three studies and is labelled Download study records (CSV); analysis JSON retains the effective study scope and local settings, never the unrelated Dashboard query. Investigations and Fire behavior describe Dashboard as the owner of Research filters. No missing measurements or summary rows become individual observations.
+
+- AC-105: Fire behavior has no Research filters panel, retains all three analyses under restrictive/empty Dashboard queries, preserves local controls and source navigation, and restores the Dashboard query on return.

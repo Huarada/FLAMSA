@@ -20,10 +20,15 @@ from psi_fire.domain.answering import (
     numbers_in,
     plausibility_issues,
 )
-from psi_fire.domain.model import TestPoint
+from psi_fire.domain.model import Investigation, TestPoint
 from psi_fire.domain.ranking import RankedInvestigation
 
 MIN_QUOTE_CHARS = 20  # shorter strings match too many places to identify a sentence
+
+
+def available_metadata_fields(inv: Investigation) -> tuple[str, ...]:
+    """The metadata fields a claim may cite for this investigation (single source for validator and prompt)."""
+    return METADATA_FIELDS if inv.manual_metadata is not None else ()
 
 
 def _flat(text: str) -> str:
@@ -35,6 +40,52 @@ def _flat(text: str) -> str:
 
 def _close(a: float, b: float) -> bool:
     return isclose(a, b, rel_tol=NUMBER_RELATIVE_TOLERANCE, abs_tol=NUMBER_ABSOLUTE_TOLERANCE)
+
+
+RANGED_UNITS = {"o2_percent": "percent", "pressure_psi": "psi", "flow_speed_cm_s": "cm/s"}
+
+
+def record_values(point: TestPoint) -> list[tuple[str, float, str | None]]:
+    """(column, value, unit) for every number a record states: range ends and numeric extra columns."""
+    values: list[tuple[str, float, str | None]] = []
+    for column, unit in RANGED_UNITS.items():
+        for end in ("min", "max"):
+            value = getattr(point, f"{column}_{end}")
+            if value is not None:
+                values.append((column, float(value), unit))
+    values += [(c, float(v), None) for c, v in point.extras.items() if isinstance(v, int | float) and not isinstance(v, bool)]
+    return values
+
+
+def _tested_range(points: tuple[TestPoint, ...], column: str) -> list[float]:
+    ends = [getattr(p, f"{column}_{end}") for p in points for end in ("min", "max")]
+    return [float(v) for v in ends if v is not None]
+
+
+def system_facts(inv: RankedInvestigation) -> tuple[list[float], list[float]]:
+    """Numbers the application itself computed or counted for this investigation: (counts/ranges, scores).
+    A claim may state them without declaring a figure; any other digit still needs a source."""
+    points = inv.investigation.test_points
+    exact = [float(inv.rank), float(len(points)),
+             float(sum(p.provenance_status.value == "verified" for p in points))]
+    for column in RANGED_UNITS:
+        values = _tested_range(points, column)
+        exact += [min(values), max(values)] if values else []
+    scores = [inv.score] + [v for s in inv.breakdown.scores for v in (s.value, s.weight, s.contribution)]
+    return exact, scores
+
+
+def unbacked_numbers(claim: Claim, ranked: dict[str, RankedInvestigation], scenario_numbers: list[float]) -> list[float]:
+    """Numbers in the text that no figure, scenario input or system fact of a cited investigation backs."""
+    exact = [f.value for f in claim.figures] + scenario_numbers
+    scores: list[float] = []
+    for inv_id in {c.investigation_id for c in claim.citations} | {f.investigation_id for f in claim.figures}:
+        if inv_id in ranked:
+            more_exact, more_scores = system_facts(ranked[inv_id])
+            exact += more_exact
+            scores += more_scores
+    return [n for n in numbers_in(claim.text)
+            if not any(_close(n, v) for v in exact) and not any(abs(n - v) <= SCORE_ABSOLUTE_TOLERANCE + 1e-9 for v in scores)]
 
 
 def _issue(code: IssueCode, message: str, index: int) -> ValidationIssue:
@@ -71,12 +122,12 @@ class RuleBasedValidator:
             issues.extend(self._citation_issues(citation, index, ranked, context))
         for figure in claim.figures:
             issues.extend(self._figure_issues(figure, claim, index, ranked))
-        declared = [f.value for f in claim.figures]
-        for number in numbers_in(claim.text):
-            if not any(_close(number, value) for value in declared):
-                issues.append(_issue(IssueCode.UNDECLARED_NUMBER,
-                                     f"The number {number:g} in the text is not declared as a figure: declare it in figures with its "
-                                     "source, or rewrite the sentence without digits.", index))
+        # the scenario's own oxygen and pressure are inputs the user typed, not claims about evidence
+        scenario_numbers = [context.scenario.o2_percent, context.scenario.pressure_psi]
+        for number in unbacked_numbers(claim, ranked, scenario_numbers):
+            issues.append(_issue(IssueCode.UNDECLARED_NUMBER,
+                                 f"The number {number:g} in the text is not declared as a figure: declare it in "
+                                 "figures with its source, or rewrite the sentence without digits.", index))
         cited = {c.investigation_id for c in claim.citations}
         offered = {s.technology.casefold() for inv_id in cited for s in self._catalog.lookup(inv_id)}
         for technology in claim.technologies:
@@ -103,10 +154,11 @@ class RuleBasedValidator:
             if citation.field not in METADATA_FIELDS:
                 return [_issue(IssueCode.MALFORMED_CITATION,
                                f"Metadata field must be one of {METADATA_FIELDS}.", index)]
-            if citation.field != "objective" and inv.manual_metadata is None:
-                return [_issue(IssueCode.UNKNOWN_CITATION, f"{inv.id} has no curated metadata.", index)]
-            if citation.field == "objective" and "objective" not in inv.study_metadata:
-                return [_issue(IssueCode.UNKNOWN_CITATION, f"{inv.id} reports no objective.", index)]
+            if citation.field not in available_metadata_fields(inv):
+                allowed = ", ".join(available_metadata_fields(inv)) or "none (cite a record instead)"
+                return [_issue(IssueCode.UNKNOWN_CITATION,
+                               f"{inv.id} has no '{citation.field}' metadata. Metadata fields you may cite for "
+                               f"{inv.id}: {allowed}.", index)]
         else:
             return self._passage_issues(citation, index, context)
         return []

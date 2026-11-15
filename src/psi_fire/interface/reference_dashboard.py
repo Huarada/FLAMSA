@@ -1,6 +1,7 @@
 """Reference-led chart grid using reported data and existing application projections."""
 
 from collections import Counter
+from math import ceil, sqrt
 from typing import Any
 
 import altair as alt
@@ -10,14 +11,20 @@ import streamlit as st
 from psi_fire.application.chart_data import (
     LUNAR_OXYGEN_MIN,
     LUNAR_PRESSURE_MAX,
-    BuildChartData,
     InvestigationPlotCoverage,
     PlotExclusion,
     condition_map,
 )
 from psi_fire.application.explore import Match
 from psi_fire.domain.model import O2Basis
+from psi_fire.interface.chart_controls import quantity_choice, reconcile, widget_key
 from psi_fire.interface.copilot_panel import RESULT_KEY, pick_scenario, scenario_point
+from psi_fire.interface.dashboard_cache import (
+    chart_variables,
+    comparison_projection,
+    partner_counts,
+    record_scope,
+)
 
 
 def show_chart(chart: alt.Chart | alt.LayerChart, **chart_options: Any) -> Any:
@@ -77,17 +84,30 @@ FADED_DOT_OPACITY = 0.12
 COVERAGE_KEY = "coverage_chart"
 PICK_GRID_O2_STEP = 0.5  # matches the copilot's oxygen input step
 PICK_GRID_PSI_STEP = 1.0  # shortcut: coarse pressure grid keeps the chart light; refine with a custom click handler
+MAX_PICK_GRID_POINTS = 4_000
 NEAR_O2_PERCENT = 5.0   # "near" window around the scenario marker, in the same units as the axes
 NEAR_PRESSURE_PSI = 2.0
 SCENARIO_MARKER_COLOR = "#008B8B"  # dark cyan, distinct from the teal data series
 
 
+@st.cache_data(max_entries=16, show_spinner=False)
+def pick_grid(right: float, top_psi: float) -> pd.DataFrame:
+    """Bound interaction-only marks; source observations and exact scenario inputs are unchanged."""
+    width = max(0.0, right - 10)
+    count = (int(width / PICK_GRID_O2_STEP) + 1) * (int(top_psi / PICK_GRID_PSI_STEP) + 2)
+    stride = max(1, ceil(sqrt(count / MAX_PICK_GRID_POINTS)))
+    while True:
+        oxygen = [10 + i * PICK_GRID_O2_STEP * stride for i in range(int(width / (PICK_GRID_O2_STEP * stride)) + 1)]
+        pressure = [i * PICK_GRID_PSI_STEP * stride for i in range(int(top_psi / (PICK_GRID_PSI_STEP * stride)) + 2)]
+        if len(oxygen) * len(pressure) <= MAX_PICK_GRID_POINTS:
+            return pd.DataFrame([{"o2": o, "psi": p} for o in oxygen for p in pressure])
+        stride += 1
+
+
 def _pick_layers(right: float, top_psi: float, oxygen_axis: alt.Scale) -> tuple[alt.Chart, alt.Chart]:
     """Invisible grid so a click on empty space selects the nearest (oxygen, pressure); plus the scenario marker."""
-    o2_values = [10 + i * PICK_GRID_O2_STEP for i in range(int((right - 10) / PICK_GRID_O2_STEP) + 1)]
-    psi_values = [i * PICK_GRID_PSI_STEP for i in range(int(top_psi / PICK_GRID_PSI_STEP) + 2)]
     pick = alt.selection_point(name="pick", fields=["o2", "psi"], on="click", nearest=True, clear=False)
-    grid = alt.Chart(pd.DataFrame([{"o2": o, "psi": p} for o in o2_values for p in psi_values])).mark_point(
+    grid = alt.Chart(pick_grid(right, top_psi)).mark_point(
         opacity=0, size=60).encode(x=alt.X("o2:Q", title="Oxygen (%)", scale=oxygen_axis), y=alt.Y("psi:Q", title="Pressure (psi)")).add_params(pick)
     o2, psi = scenario_point()
     marker = alt.Chart(pd.DataFrame([{"o2": o2, "psi": psi}])).mark_point(
@@ -131,6 +151,7 @@ def coverage_map(matches: tuple[Match, ...]) -> None:
                    "conditions with no test data, so any conclusion there would be an extrapolation. The shaded box is "
                    f"the lunar-habitat reference: at least {LUNAR_OXYGEN_MIN:g}% O₂ at or below {LUNAR_PRESSURE_MAX:g} psi.")
         if st.session_state.get("show_copilot"):
+            st.caption("Chart clicks snap to a display grid. Type oxygen and pressure in the copilot for exact conditions.")
             st.info("**How to use it with the copilot:** click anywhere on the chart to choose a habitat condition "
                     "(the dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click; you can "
                     "also type the values). Then press **Ask copilot**: the application ranks the investigations "
@@ -153,7 +174,6 @@ def coverage_map(matches: tuple[Match, ...]) -> None:
             label = box.mark_text(align="left", baseline="bottom", dx=6, dy=-6, color="#8A5A12", fontWeight=600).encode(
                 x=alt.X("x:Q", scale=oxygen_axis), y="y2:Q", text=alt.value("Lunar habitat scenario"))
             copilot_on = bool(st.session_state.get("show_copilot"))
-            grid, marker = _pick_layers(right, float(frame["Pressure"].max()), oxygen_axis)
             dots = alt.Chart(frame).mark_point(filled=True, size=52, stroke="#FFFFFF", strokeWidth=.5).encode(
                 opacity=alt.condition(f"!{len(ranks)} || datum['{ANSWER_RANK}'] != '{NOT_IN_ANSWER}'",
                                       alt.value(DOT_OPACITY), alt.value(FADED_DOT_OPACITY)),
@@ -168,9 +188,10 @@ def coverage_map(matches: tuple[Match, ...]) -> None:
                          alt.Tooltip("O2:Q", title="O₂ (%)"),
                          alt.Tooltip("Pressure:Q", title="Pressure (psi)", format=".2f")],
             )
-            layers = grid + scenario + label + dots if copilot_on else scenario + label + dots
+            layers = scenario + label + dots
             if copilot_on:
-                layers += marker
+                grid, marker = _pick_layers(right, float(frame["Pressure"].max()), oxygen_axis)
+                layers = grid + layers + marker
             show_chart(layers.properties(height=540).interactive(),
                        **({"on_select": _apply_pick, "key": COVERAGE_KEY} if copilot_on else {}))
             if copilot_on:
@@ -185,7 +206,10 @@ def coverage_map(matches: tuple[Match, ...]) -> None:
                        f"and {conditions.scenario_stream} inverse flames (triangles) whose O₂ is the gas leaving the "
                        "burner, not the atmosphere a crew would breathe.")
         else:
-            st.info("No test that passes the filters reports both oxygen and pressure.")
+            retained = sum(len(m.points) for m in matches)
+            st.info(f"This oxygen–pressure map has no eligible points; {retained:,} records remain in the research results. "
+                    "A dot requires an individual test with both a scalar oxygen value and a scalar pressure value. "
+                    "Use the comparison below for other reported quantities or open the retained records.")
         if conditions.without_pair:
             st.caption("No test reporting both values: " + ", ".join(conditions.without_pair)
                        + f". Their records stay in the filtered result. {conditions.summaries} daily or matrix "
@@ -251,10 +275,10 @@ def availability_details(reports: tuple[InvestigationPlotCoverage, ...], ids: tu
                   key="open_chart_availability_records", icon=":material/table_chart:")
 
 
-def chart_grid(matches: tuple[Match, ...]) -> dict[str, object]:
+def chart_grid(matches: tuple[Match, ...], revision: str) -> dict[str, object]:
     coverage_map(matches)
-    builder = BuildChartData()
-    variables = builder.variables(matches)
+    scope = record_scope(matches)
+    variables = chart_variables(revision, scope, matches)
     context: dict[str, object] = {}
     data = None
     labels = {v.key: v.label for v in variables}
@@ -263,43 +287,64 @@ def chart_grid(matches: tuple[Match, ...]) -> dict[str, object]:
     reports: tuple[InvestigationPlotCoverage, ...] = ()
     ids: list[str] = []
     st.markdown("#### Compare reported quantities")
+    available_ids, basis_options, control_context = reconcile(matches)
     with st.expander("Chart settings · axes and investigation scope"):
         if len(variables) >= 2:
-            ids = st.multiselect("Investigations in comparison charts", [m.investigation.id for m in matches],
-                                 default=[m.investigation.id for m in matches], key="chart_investigations")
+            ids = st.multiselect("Investigations in comparison charts", available_ids,
+                                 default=st.session_state["chart_investigations"],
+                                 key=widget_key("chart_studies", (control_context, available_ids)))
+            st.session_state["chart_investigations"] = ids
             controls = st.columns(3)
             keys = list(labels)
-            x = controls[0].selectbox("Horizontal quantity", keys, index=keys.index("o2_percent")
-                                      if "o2_percent" in keys else 0, format_func=labels.get, key="chart_x")
-            basis = controls[2].selectbox("Oxygen basis for plotted O₂", ["ambient", "oxidizer_stream"], key="chart_basis")
+            with controls[0]:
+                x = quantity_choice("Horizontal quantity", keys, "chart_x", labels, control_context, "o2_percent")
+            with controls[2]:
+                basis = quantity_choice("Oxygen basis for plotted O₂", basis_options, "chart_basis",
+                                        {b: b for b in basis_options}, control_context, "ambient")
             # Offer only vertical quantities that have plottable pairs with x, most records first.
-            pair_counts = builder.partners(matches, x, tuple(ids), O2Basis(basis))
-            y_keys = sorted((k for k, n in pair_counts.items() if n), key=lambda k: (-pair_counts[k], k)) or [
-                key for key in keys if key != x]
-            if st.session_state.get("chart_y") not in y_keys:  # options shrink with x and filters: drop a stale pick
-                st.session_state.pop("chart_y", None)
-            y = controls[1].selectbox("Vertical quantity", y_keys,
-                                      index=y_keys.index("burn_time_s") if "burn_time_s" in y_keys else 0,
-                                      format_func=lambda k: f"{labels[k]} · {pair_counts.get(k, 0)} records", key="chart_y")
-            data = builder(matches, x, y, tuple(ids), O2Basis(basis))
-            reports = builder.coverage(matches, x, y, tuple(ids), O2Basis(basis))
-            plotted = Counter(str(row["Investigation"]) for row in data.rows)
-            absent = [i for i in ids if i not in plotted]
-            st.caption("Plotted records: " + (" · ".join(f"{i} {n}" for i, n in sorted(plotted.items())) or "none")
-                       + (f". No plottable pair for these axes: {', '.join(absent)}." if absent else "."))
+            pair_counts = partner_counts(revision, scope, x, tuple(ids), O2Basis(basis), matches)
+            y_keys = sorted((k for k, n in pair_counts.items() if n), key=lambda k: (-pair_counts[k], k))
+            with controls[1]:
+                y = quantity_choice("Vertical quantity", y_keys, "chart_y",
+                                    {k: f"{labels[k]} · {pair_counts[k]} records" for k in y_keys},
+                                    (control_context, scope, ids, x, basis), "burn_time_s")
+            st.caption(f"Comparison oxygen basis: {basis}. This follows the research basis when restricted; "
+                       "burner-stream oxygen and chamber-atmosphere oxygen are never combined.")
+            if y:
+                data, reports = comparison_projection(revision, scope, x, y, tuple(ids), O2Basis(basis), matches)
+                plotted = Counter(str(row["Investigation"]) for row in data.rows)
+                absent = [i for i in ids if i not in plotted]
+                st.caption("Plotted records: " + (" · ".join(f"{i} {n}" for i, n in sorted(plotted.items())) or "none")
+                           + (f". No plottable pair for these axes: {', '.join(absent)}." if absent else "."))
             context = {"investigations": ids, "horizontal_quantity": x, "vertical_quantity": y,
-                       "oxygen_basis": basis, "plotted_records": len(data.rows), "excluded_records": data.excluded,
-                       "summary_records_not_plotted": data.summaries,
+                       "oxygen_basis": basis, "plotted_records": len(data.rows) if data else 0,
+                       "excluded_records": data.excluded if data else None,
+                       "summary_records_not_plotted": sum(p.record_level.value != "test" for m in matches for p in m.points),
                        "availability": [{"investigation": r.investigation_id, "records": r.records,
                                          "plotted": r.plotted, "exclusions": dict(r.exclusions)} for r in reports]}
             st.caption("Chart settings refine the profile chart only. Individual tests with paired scalar values are used; "
                        "daily summaries, matrices, missing values and interval midpoints are not plotted as observations.")
     with st.container(border=True, key="profiles_card"):
         if data is None:
-            st.info("At least two reported scalar quantities are needed for comparison.")
+            if not ids and len(variables) >= 2:
+                st.info("No investigations selected for this comparison. Choose investigations in Chart settings; "
+                        "the research-filter results remain available.")
+            elif not any(p.record_level.value == "test" for m in matches for p in m.points):
+                st.info("The retained records are daily or matrix summaries, not individual tests. "
+                        "They cannot supply scatter-plot observations; inspect the records and reported ranges instead.")
+            elif len(variables) < 2:
+                st.info("At least two reported scalar quantities are needed for comparison.")
+            else:
+                st.info(f"No individual tests in the chart selection report a compatible scalar partner for {labels[x]}. "
+                        "Choose another horizontal quantity or inspect the retained records. "
+                        "Missing values and interval midpoints are not substituted.")
             st.caption("Retained investigations: " + "; ".join(
                 f"{match.investigation.id} ({len(match.points)} records)" for match in matches)
                 + ". Open an investigation below to inspect its records and sources.")
+            inspection_id = st.selectbox("Inspect retained investigation", available_ids,
+                                         key="chart_availability_investigation")
+            st.button("Open retained records", on_click=open_retained_records, args=(inspection_id,),
+                      key="open_chart_availability_records", icon=":material/table_chart:")
         elif not data.rows:
             st.info("No compatible scalar pairs for these axes. Broaden Chart settings.")
         else:

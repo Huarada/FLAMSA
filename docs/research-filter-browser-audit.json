@@ -1,0 +1,323 @@
+{
+  "date": "2026-11-15",
+  "cases": [
+    {
+      "metrics": [
+        {
+          "label": "Investigations",
+          "value": "15 / 15"
+        },
+        {
+          "label": "Reported records",
+          "value": "1,615"
+        },
+        {
+          "label": "Tests with O₂ and pressure",
+          "value": "693"
+        },
+        {
+          "label": "Lunar-scenario tests",
+          "value": "20"
+        },
+        {
+          "label": "Tests near the marker",
+          "value": "23"
+        },
+        {
+          "label": "Investigations near",
+          "value": "1"
+        },
+        {
+          "label": "Coverage",
+          "value": "Tested nearby"
+        }
+      ],
+      "errors": 0,
+      "profile": "Burn time (s) by Oxygen concentration (%)\n\nShowing 4 of 15 chart-selected investigations for these axes. No dots for: ACME-BRE, ACME-E-FIELD, BASS, BASS-II, CFI, FLEX-2, SAFFIRE-III, SAME, SAME-R, SLICE, SPICE. They remain in the filtered records and in the CSV download.\n\nkeyboard_arrow_right\n\nData availability · why selected investigations have no dots\n\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\nOxygen concentration (%)\n0\n50\n100\n150\n200\n250\n300\n350\nBurn time (s)\nACME-CFI-G\nFLEX\nSAFFIRE-I\nSAFFIRE-II\n\n447 plotted · 1109 tests without a plottable pair · 59 daily/matrix summary records never plotted. Each dot is one reported test; other conditions (pressure, flow, fuel fraction) may differ between dots, so this shows no trend or causal model.",
+      "coverage": "Experimental coverage · oxygen and pressure\n\nWhat it shows: which oxygen and pressure conditions PSI experiments actually tested. Each dot is one test (color = investigation, triangle = O₂ measured in the burner stream). Empty areas are conditions with no test data, so any conclusion there would be an extrapolation. The shaded box is the lunar-habitat reference: at least 30% O₂ at or below 10.2 psi.\n\nChart clicks snap to a display grid. Type oxygen and pressure in the copilot for exact conditions.\n\ntouch_app\n\nHow to use it with the copilot: click anywhere on the chart to choose a habitat condition (the dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click; you can also type the values). Then press Ask copilot: the application ranks the investigations closest to that point, and the language model explains the ranking using only cited records and report passages. Dots near the marker mean well-covered conditions; a marker in an empty area means the answer rests on distant tests. The ranking is not only distance: it weighs five criteria (O₂ closeness, pressure closeness, fire-safety pillar, fuel type, data richness), so a study can rank high with few dots near the marker. After you ask, the studies in the answer stay highlighted and the rest fade.\n\n10\n15\n20\n25\n30\n35\n40\n45\n50\n55\n60\n65\n70\n75\n80\n85\nOxygen (%)\n0\n10\n20\n30\n40\n50\n60\n70\n80\nPressure (psi)\nLunar habitat scenario\nACME-CFI-G\nCFI\nFLEX\nChamber atmosphere\nBurner stream\nO₂ measured in\n\nTests near the marker\n\n23\n\nInvestigations near\n\n1\n\nCoverage\n\nTested nearby\n\ninside lunar box\n\n693 of 1,556 individual tests report both values. Inside the box: 20 tests with O₂ measured in the chamber atmosphere, and 28 inverse flames (triangles) whose O₂ is the gas leaving the burner, not the atmosphere a crew would breathe.\n\nNo test reporting both values: ACME-BRE, ACME-E-FIELD, BASS, BASS-II, FLEX-2, SAFFIRE-I, SAFFIRE-II, SAFFIRE-III, SAME, SAME-R, SLICE, SPICE. Their records stay in the filtered result. 59 daily or matrix records are not individual tests and are not plotted.\n\nA dot inside the box matches the scenario's atmosphere, not its gravity: the PSI has no partial-gravity data.",
+      "chartScope": "",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "baseline",
+      "expected_records": 1615,
+      "expected_map": 693,
+      "passed": true
+    },
+    {
+      "metrics": [
+        {
+          "label": "Investigations",
+          "value": "1 / 15"
+        },
+        {
+          "label": "Reported records",
+          "value": "274"
+        },
+        {
+          "label": "Tests with O₂ and pressure",
+          "value": "273"
+        },
+        {
+          "label": "Lunar-scenario tests",
+          "value": "0"
+        },
+        {
+          "label": "Tests near the marker",
+          "value": "23"
+        },
+        {
+          "label": "Investigations near",
+          "value": "1"
+        },
+        {
+          "label": "Coverage",
+          "value": "Tested nearby"
+        }
+      ],
+      "errors": 0,
+      "profile": "Burn time (s) by Oxygen concentration (%)\n\nAll 1 chart-selected investigations have reported pairs for these axes.\n\nkeyboard_arrow_right\n\nData availability · why selected investigations have no dots\n\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\nOxygen concentration (%)\n0\n10\n20\n30\n40\nBurn time (s)\nFLEX\n\n268 plotted · 6 tests without a plottable pair · 0 daily/matrix summary records never plotted. Each dot is one reported test; other conditions (pressure, flow, fuel fraction) may differ between dots, so this shows no trend or causal model.",
+      "coverage": "Experimental coverage · oxygen and pressure\n\nWhat it shows: which oxygen and pressure conditions PSI experiments actually tested. Each dot is one test (color = investigation, triangle = O₂ measured in the burner stream). Empty areas are conditions with no test data, so any conclusion there would be an extrapolation. The shaded box is the lunar-habitat reference: at least 30% O₂ at or below 10.2 psi.\n\nChart clicks snap to a display grid. Type oxygen and pressure in the copilot for exact conditions.\n\ntouch_app\n\nHow to use it with the copilot: click anywhere on the chart to choose a habitat condition (the dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click; you can also type the values). Then press Ask copilot: the application ranks the investigations closest to that point, and the language model explains the ranking using only cited records and report passages. Dots near the marker mean well-covered conditions; a marker in an empty area means the answer rests on distant tests. The ranking is not only distance: it weighs five criteria (O₂ closeness, pressure closeness, fire-safety pillar, fuel type, data richness), so a study can rank high with few dots near the marker. After you ask, the studies in the answer stay highlighted and the rest fade.\n\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\nOxygen (%)\n0\n5\n10\n15\n20\n25\n30\n35\n40\n45\nPressure (psi)\nLunar habitat scenario\nFLEX\nChamber atmosphere\nBurner stream\nO₂ measured in\n\nTests near the marker\n\n23\n\nInvestigations near\n\n1\n\nCoverage\n\nTested nearby\n\ninside lunar box\n\n273 of 274 individual tests report both values. Inside the box: 0 tests with O₂ measured in the chamber atmosphere, and 0 inverse flames (triangles) whose O₂ is the gas leaving the burner, not the atmosphere a crew would breathe.\n\nA dot inside the box matches the scenario's atmosphere, not its gravity: the PSI has no partial-gravity data.",
+      "chartScope": "",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "flex",
+      "expected_records": 274,
+      "expected_map": 273,
+      "passed": true
+    },
+    {
+      "metrics": [
+        {
+          "label": "Investigations",
+          "value": "1 / 15"
+        },
+        {
+          "label": "Reported records",
+          "value": "129"
+        },
+        {
+          "label": "Tests with O₂ and pressure",
+          "value": "0"
+        },
+        {
+          "label": "Lunar-scenario tests",
+          "value": "0"
+        }
+      ],
+      "errors": 0,
+      "profile": "No compatible scalar pairs for these axes. Broaden Chart settings.\n\nNo investigations selected for this chart. Choose investigations in Chart settings; the research-filter results remain available.\n\nkeyboard_arrow_right\n\nData availability · why selected investigations have no dots",
+      "coverage": "Experimental coverage · oxygen and pressure\n\nWhat it shows: which oxygen and pressure conditions PSI experiments actually tested. Each dot is one test (color = investigation, triangle = O₂ measured in the burner stream). Empty areas are conditions with no test data, so any conclusion there would be an extrapolation. The shaded box is the lunar-habitat reference: at least 30% O₂ at or below 10.2 psi.\n\nChart clicks snap to a display grid. Type oxygen and pressure in the copilot for exact conditions.\n\ntouch_app\n\nHow to use it with the copilot: click anywhere on the chart to choose a habitat condition (the dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click; you can also type the values). Then press Ask copilot: the application ranks the investigations closest to that point, and the language model explains the ranking using only cited records and report passages. Dots near the marker mean well-covered conditions; a marker in an empty area means the answer rests on distant tests. The ranking is not only distance: it weighs five criteria (O₂ closeness, pressure closeness, fire-safety pillar, fuel type, data richness), so a study can rank high with few dots near the marker. After you ask, the studies in the answer stay highlighted and the rest fade.\n\nNo test that passes the filters reports both oxygen and pressure.\n\nNo test reporting both values: BASS-II. Their records stay in the filtered result. 0 daily or matrix records are not individual tests and are not plotted.\n\nA dot inside the box matches the scenario's atmosphere, not its gravity: the PSI has no partial-gravity data.",
+      "chartScope": "Investigations in comparison charts\n\nChoose options",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "flex-to-bass-empty",
+      "expected_records": 129,
+      "expected_map": 0,
+      "passed": true,
+      "screenshot": "docs/screenshots/filter-audit-flex-to-bass-empty.png"
+    },
+    {
+      "metrics": [
+        {
+          "label": "Investigations",
+          "value": "1 / 15"
+        },
+        {
+          "label": "Reported records",
+          "value": "129"
+        },
+        {
+          "label": "Tests with O₂ and pressure",
+          "value": "0"
+        },
+        {
+          "label": "Lunar-scenario tests",
+          "value": "0"
+        }
+      ],
+      "errors": 0,
+      "profile": "Co2 initial (%) by Oxygen concentration (%)\n\nAll 1 chart-selected investigations have reported pairs for these axes.\n\nkeyboard_arrow_right\n\nData availability · why selected investigations have no dots\n\n13.0\n13.5\n14.0\n14.5\n15.0\n15.5\n16.0\n16.5\n17.0\n17.5\n18.0\n18.5\n19.0\n19.5\n20.0\n20.5\n21.0\n21.5\n22.0\n22.5\n23.0\nOxygen concentration (%)\n0.0\n0.5\n1.0\n1.5\n2.0\nCo2 initial (%)\nBASS-II\n\n127 plotted · 2 tests without a plottable pair · 0 daily/matrix summary records never plotted. Each dot is one reported test; other conditions (pressure, flow, fuel fraction) may differ between dots, so this shows no trend or causal model.",
+      "coverage": "Experimental coverage · oxygen and pressure\n\nWhat it shows: which oxygen and pressure conditions PSI experiments actually tested. Each dot is one test (color = investigation, triangle = O₂ measured in the burner stream). Empty areas are conditions with no test data, so any conclusion there would be an extrapolation. The shaded box is the lunar-habitat reference: at least 30% O₂ at or below 10.2 psi.\n\nChart clicks snap to a display grid. Type oxygen and pressure in the copilot for exact conditions.\n\ntouch_app\n\nHow to use it with the copilot: click anywhere on the chart to choose a habitat condition (the dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click; you can also type the values). Then press Ask copilot: the application ranks the investigations closest to that point, and the language model explains the ranking using only cited records and report passages. Dots near the marker mean well-covered conditions; a marker in an empty area means the answer rests on distant tests. The ranking is not only distance: it weighs five criteria (O₂ closeness, pressure closeness, fire-safety pillar, fuel type, data richness), so a study can rank high with few dots near the marker. After you ask, the studies in the answer stay highlighted and the rest fade.\n\nNo test that passes the filters reports both oxygen and pressure.\n\nNo test reporting both values: BASS-II. Their records stay in the filtered result. 0 daily or matrix records are not individual tests and are not plotted.\n\nA dot inside the box matches the scenario's atmosphere, not its gravity: the PSI has no partial-gravity data.",
+      "chartScope": "Investigations in comparison charts\n\nBASS-II",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "bass-restored-via-existing-chart-control",
+      "expected_records": 129,
+      "expected_map": 0,
+      "passed": true,
+      "screenshot": "docs/screenshots/filter-audit-bass-restored-via-existing-chart-control.png"
+    },
+    {
+      "metrics": [
+        {
+          "label": "Investigations",
+          "value": "7 / 15"
+        },
+        {
+          "label": "Reported records",
+          "value": "389"
+        },
+        {
+          "label": "Tests with O₂ and pressure",
+          "value": "0"
+        },
+        {
+          "label": "Lunar-scenario tests",
+          "value": "0"
+        }
+      ],
+      "errors": 0,
+      "profile": "Co2 initial (%) by Oxygen concentration (%)\n\nAll 1 chart-selected investigations have reported pairs for these axes.\n\nkeyboard_arrow_right\n\nData availability · why selected investigations have no dots\n\n13.0\n13.5\n14.0\n14.5\n15.0\n15.5\n16.0\n16.5\n17.0\n17.5\n18.0\n18.5\n19.0\n19.5\n20.0\n20.5\n21.0\n21.5\n22.0\n22.5\n23.0\nOxygen concentration (%)\n0.0\n0.5\n1.0\n1.5\n2.0\nCo2 initial (%)\nBASS-II\n\n127 plotted · 2 tests without a plottable pair · 0 daily/matrix summary records never plotted. Each dot is one reported test; other conditions (pressure, flow, fuel fraction) may differ between dots, so this shows no trend or causal model.",
+      "coverage": "Experimental coverage · oxygen and pressure\n\nWhat it shows: which oxygen and pressure conditions PSI experiments actually tested. Each dot is one test (color = investigation, triangle = O₂ measured in the burner stream). Empty areas are conditions with no test data, so any conclusion there would be an extrapolation. The shaded box is the lunar-habitat reference: at least 30% O₂ at or below 10.2 psi.\n\nChart clicks snap to a display grid. Type oxygen and pressure in the copilot for exact conditions.\n\ntouch_app\n\nHow to use it with the copilot: click anywhere on the chart to choose a habitat condition (the dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click; you can also type the values). Then press Ask copilot: the application ranks the investigations closest to that point, and the language model explains the ranking using only cited records and report passages. Dots near the marker mean well-covered conditions; a marker in an empty area means the answer rests on distant tests. The ranking is not only distance: it weighs five criteria (O₂ closeness, pressure closeness, fire-safety pillar, fuel type, data richness), so a study can rank high with few dots near the marker. After you ask, the studies in the answer stay highlighted and the rest fade.\n\nNo test that passes the filters reports both oxygen and pressure.\n\nNo test reporting both values: BASS, BASS-II, SAFFIRE-I, SAFFIRE-II, SAFFIRE-III, SAME, SAME-R. Their records stay in the filtered result. 0 daily or matrix records are not individual tests and are not plotted.\n\nA dot inside the box matches the scenario's atmosphere, not its gravity: the PSI has no partial-gravity data.",
+      "chartScope": "",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "solid",
+      "expected_records": 389,
+      "expected_map": 0,
+      "passed": true,
+      "screenshot": "docs/screenshots/filter-audit-solid.png"
+    },
+    {
+      "metrics": [
+        {
+          "label": "Investigations",
+          "value": "1 / 15"
+        },
+        {
+          "label": "Reported records",
+          "value": "154"
+        },
+        {
+          "label": "Tests with O₂ and pressure",
+          "value": "154"
+        },
+        {
+          "label": "Lunar-scenario tests",
+          "value": "0"
+        },
+        {
+          "label": "Tests near the marker",
+          "value": "0"
+        },
+        {
+          "label": "Investigations near",
+          "value": "0"
+        },
+        {
+          "label": "Coverage",
+          "value": "Extrapolated"
+        }
+      ],
+      "errors": 0,
+      "profile": "No compatible scalar pairs for these axes. Broaden Chart settings.\n\nShowing 0 of 1 chart-selected investigations for these axes. No dots for: ACME-CFI-G. They remain in the filtered records and in the CSV download.\n\nkeyboard_arrow_right\n\nData availability · why selected investigations have no dots",
+      "coverage": "Experimental coverage · oxygen and pressure\n\nWhat it shows: which oxygen and pressure conditions PSI experiments actually tested. Each dot is one test (color = investigation, triangle = O₂ measured in the burner stream). Empty areas are conditions with no test data, so any conclusion there would be an extrapolation. The shaded box is the lunar-habitat reference: at least 30% O₂ at or below 10.2 psi.\n\nChart clicks snap to a display grid. Type oxygen and pressure in the copilot for exact conditions.\n\ntouch_app\n\nHow to use it with the copilot: click anywhere on the chart to choose a habitat condition (the dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click; you can also type the values). Then press Ask copilot: the application ranks the investigations closest to that point, and the language model explains the ranking using only cited records and report passages. Dots near the marker mean well-covered conditions; a marker in an empty area means the answer rests on distant tests. The ranking is not only distance: it weighs five criteria (O₂ closeness, pressure closeness, fire-safety pillar, fuel type, data richness), so a study can rank high with few dots near the marker. After you ask, the studies in the answer stay highlighted and the rest fade.\n\n10\n15\n20\n25\n30\n35\n40\n45\n50\n55\n60\n65\n70\n75\n80\n85\nOxygen (%)\n0\n5\n10\n15\n20\n25\n30\n35\n40\n45\n50\nPressure (psi)\nLunar habitat scenario\nACME-CFI-G\nChamber atmosphere\nBurner stream\nO₂ measured in\n\nTests near the marker\n\n0\n\nInvestigations near\n\n0\n\nCoverage\n\nExtrapolated\n\ninside lunar box\n\n154 of 154 individual tests report both values. Inside the box: 0 tests with O₂ measured in the chamber atmosphere, and 28 inverse flames (triangles) whose O₂ is the gas leaving the burner, not the atmosphere a crew would breathe.\n\nA dot inside the box matches the scenario's atmosphere, not its gravity: the PSI has no partial-gravity data.",
+      "chartScope": "Investigations in comparison charts\n\nACME-CFI-G",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "stream-basis-conflict",
+      "expected_records": 154,
+      "expected_map": 154,
+      "passed": true,
+      "screenshot": "docs/screenshots/filter-audit-stream-basis-conflict.png"
+    },
+    {
+      "metrics": [
+        {
+          "label": "Investigations",
+          "value": "1 / 15"
+        },
+        {
+          "label": "Reported records",
+          "value": "154"
+        },
+        {
+          "label": "Tests with O₂ and pressure",
+          "value": "154"
+        },
+        {
+          "label": "Lunar-scenario tests",
+          "value": "0"
+        },
+        {
+          "label": "Tests near the marker",
+          "value": "0"
+        },
+        {
+          "label": "Investigations near",
+          "value": "0"
+        },
+        {
+          "label": "Coverage",
+          "value": "Extrapolated"
+        }
+      ],
+      "errors": 0,
+      "profile": "Burn time (s) by Oxygen concentration (%)\n\nAll 1 chart-selected investigations have reported pairs for these axes.\n\nkeyboard_arrow_right\n\nData availability · why selected investigations have no dots\n\n10\n15\n20\n25\n30\n35\n40\n45\n50\n55\n60\n65\n70\n75\n80\n85\n90\nOxygen concentration (%)\n0\n100\n50\n150\nBurn time (s)\nACME-CFI-G\n\n154 plotted · 0 tests without a plottable pair · 0 daily/matrix summary records never plotted. Each dot is one reported test; other conditions (pressure, flow, fuel fraction) may differ between dots, so this shows no trend or causal model.",
+      "coverage": "Experimental coverage · oxygen and pressure\n\nWhat it shows: which oxygen and pressure conditions PSI experiments actually tested. Each dot is one test (color = investigation, triangle = O₂ measured in the burner stream). Empty areas are conditions with no test data, so any conclusion there would be an extrapolation. The shaded box is the lunar-habitat reference: at least 30% O₂ at or below 10.2 psi.\n\nChart clicks snap to a display grid. Type oxygen and pressure in the copilot for exact conditions.\n\ntouch_app\n\nHow to use it with the copilot: click anywhere on the chart to choose a habitat condition (the dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click; you can also type the values). Then press Ask copilot: the application ranks the investigations closest to that point, and the language model explains the ranking using only cited records and report passages. Dots near the marker mean well-covered conditions; a marker in an empty area means the answer rests on distant tests. The ranking is not only distance: it weighs five criteria (O₂ closeness, pressure closeness, fire-safety pillar, fuel type, data richness), so a study can rank high with few dots near the marker. After you ask, the studies in the answer stay highlighted and the rest fade.\n\n10\n15\n20\n25\n30\n35\n40\n45\n50\n55\n60\n65\n70\n75\n80\n85\nOxygen (%)\n0\n5\n10\n15\n20\n25\n30\n35\n40\n45\n50\nPressure (psi)\nLunar habitat scenario\nACME-CFI-G\nChamber atmosphere\nBurner stream\nO₂ measured in\n\nTests near the marker\n\n0\n\nInvestigations near\n\n0\n\nCoverage\n\nExtrapolated\n\ninside lunar box\n\n154 of 154 individual tests report both values. Inside the box: 0 tests with O₂ measured in the chamber atmosphere, and 28 inverse flames (triangles) whose O₂ is the gas leaving the burner, not the atmosphere a crew would breathe.\n\nA dot inside the box matches the scenario's atmosphere, not its gravity: the PSI has no partial-gravity data.",
+      "chartScope": "Investigations in comparison charts\n\nACME-CFI-G",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "stream-basis-aligned",
+      "expected_records": 154,
+      "expected_map": 154,
+      "passed": true,
+      "screenshot": "docs/screenshots/filter-audit-stream-basis-aligned.png"
+    },
+    {
+      "metrics": [],
+      "errors": 0,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "reviewed-empty",
+      "expected_records": 0,
+      "expected_map": 0,
+      "passed": true,
+      "screenshot": "docs/screenshots/filter-audit-reviewed-empty.png"
+    },
+    {
+      "metrics": [
+        {
+          "label": "Investigations",
+          "value": "15 / 15"
+        },
+        {
+          "label": "Reported records",
+          "value": "1,615"
+        },
+        {
+          "label": "Tests with O₂ and pressure",
+          "value": "693"
+        },
+        {
+          "label": "Lunar-scenario tests",
+          "value": "20"
+        },
+        {
+          "label": "Tests near the marker",
+          "value": "23"
+        },
+        {
+          "label": "Investigations near",
+          "value": "1"
+        },
+        {
+          "label": "Coverage",
+          "value": "Tested nearby"
+        }
+      ],
+      "errors": 0,
+      "profile": "Burn time (s) by Oxygen concentration (%)\n\nShowing 4 of 15 chart-selected investigations for these axes. No dots for: ACME-BRE, ACME-E-FIELD, BASS, BASS-II, CFI, FLEX-2, SAFFIRE-III, SAME, SAME-R, SLICE, SPICE. They remain in the filtered records and in the CSV download.\n\nkeyboard_arrow_right\n\nData availability · why selected investigations have no dots\n\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\nOxygen concentration (%)\n0\n50\n100\n150\n200\n250\n300\n350\nBurn time (s)\nACME-CFI-G\nFLEX\nSAFFIRE-I\nSAFFIRE-II\n\n447 plotted · 1109 tests without a plottable pair · 59 daily/matrix summary records never plotted. Each dot is one reported test; other conditions (pressure, flow, fuel fraction) may differ between dots, so this shows no trend or causal model.",
+      "coverage": "Experimental coverage · oxygen and pressure\n\nWhat it shows: which oxygen and pressure conditions PSI experiments actually tested. Each dot is one test (color = investigation, triangle = O₂ measured in the burner stream). Empty areas are conditions with no test data, so any conclusion there would be an extrapolation. The shaded box is the lunar-habitat reference: at least 30% O₂ at or below 10.2 psi.\n\nChart clicks snap to a display grid. Type oxygen and pressure in the copilot for exact conditions.\n\ntouch_app\n\nHow to use it with the copilot: click anywhere on the chart to choose a habitat condition (the dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click; you can also type the values). Then press Ask copilot: the application ranks the investigations closest to that point, and the language model explains the ranking using only cited records and report passages. Dots near the marker mean well-covered conditions; a marker in an empty area means the answer rests on distant tests. The ranking is not only distance: it weighs five criteria (O₂ closeness, pressure closeness, fire-safety pillar, fuel type, data richness), so a study can rank high with few dots near the marker. After you ask, the studies in the answer stay highlighted and the rest fade.\n\n10\n15\n20\n25\n30\n35\n40\n45\n50\n55\n60\n65\n70\n75\n80\n85\nOxygen (%)\n0\n10\n20\n30\n40\n50\n60\n70\n80\nPressure (psi)\nLunar habitat scenario\nACME-CFI-G\nCFI\nFLEX\nChamber atmosphere\nBurner stream\nO₂ measured in\n\nTests near the marker\n\n23\n\nInvestigations near\n\n1\n\nCoverage\n\nTested nearby\n\ninside lunar box\n\n693 of 1,556 individual tests report both values. Inside the box: 20 tests with O₂ measured in the chamber atmosphere, and 28 inverse flames (triangles) whose O₂ is the gas leaving the burner, not the atmosphere a crew would breathe.\n\nNo test reporting both values: ACME-BRE, ACME-E-FIELD, BASS, BASS-II, FLEX-2, SAFFIRE-I, SAFFIRE-II, SAFFIRE-III, SAME, SAME-R, SLICE, SPICE. Their records stay in the filtered result. 59 daily or matrix records are not individual tests and are not plotted.\n\nA dot inside the box matches the scenario's atmosphere, not its gravity: the PSI has no partial-gravity data.",
+      "chartScope": "",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "final-reset",
+      "expected_records": 1615,
+      "expected_map": 693,
+      "passed": true
+    }
+  ],
+  "no_production_changes": true,
+  "no_model_request": true
+}

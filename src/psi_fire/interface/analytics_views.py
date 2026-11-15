@@ -1,5 +1,7 @@
 """Business-intelligence chart workspace and explicit future-assistant surface."""
 
+from __future__ import annotations
+
 from dataclasses import asdict
 
 import streamlit as st
@@ -8,13 +10,13 @@ from psi_fire.application.evidence import InvestigationSources
 from psi_fire.application.explore import ExplorationQuery, Match
 from psi_fire.application.source_access import ResolveCitationSource
 from psi_fire.domain.model import Investigation
-from psi_fire.infrastructure.answering_factory import AnsweringPipeline
 from psi_fire.interface.copilot_evidence import EvidenceContext
 from psi_fire.interface.copilot_panel import copilot
+from psi_fire.interface.deferred_pipeline import PipelineHandle
 
 
 def assistant_panel(revision: str, query: ExplorationQuery, matches: tuple[Match, ...],
-                    chart_context: dict[str, object], pipeline: AnsweringPipeline | None = None,
+                    chart_context: dict[str, object], pipeline: PipelineHandle | None = None,
                     investigations: tuple[Investigation, ...] = (),
                     sources: InvestigationSources | None = None) -> None:
     with st.container(border=True, key="copilot_panel"):

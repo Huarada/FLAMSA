@@ -4,6 +4,8 @@
 loop (reference implementation); `infrastructure.answer_graph` wires the same steps into LangGraph.
 """
 
+from math import isclose
+
 from psi_fire.application.answer_types import (
     AnswerResult,
     AnswerState,
@@ -15,8 +17,18 @@ from psi_fire.application.answer_types import (
     TraceEntry,
     ValidationContext,
 )
+from psi_fire.application.answer_validation import record_values, unbacked_numbers
 from psi_fire.application.ports import AnswerValidator, Narrator, PassageSearch, SolutionCatalog
-from psi_fire.domain.answering import Citation, CitationKind, Draft, IssueCode, ValidationIssue
+from psi_fire.domain.answering import (
+    NUMBER_ABSOLUTE_TOLERANCE,
+    NUMBER_RELATIVE_TOLERANCE,
+    Citation,
+    CitationKind,
+    Draft,
+    Figure,
+    IssueCode,
+    ValidationIssue,
+)
 from psi_fire.domain.model import Investigation
 from psi_fire.domain.ranking import HabitatScenario, RankedInvestigation, RelevanceRanker, limitations
 
@@ -39,10 +51,14 @@ def settings_for(attempt: int) -> RetrievalSettings:
     return STRICT_SETTINGS if attempt <= 1 else RELAXED_SETTINGS
 
 
+QUESTION_WEIGHT = 3  # stress test: scenario words alone drowned specific questions (hardware hit rate 0.2 -> 0.6)
+
+
 def retrieval_query(question: str, scenario: HabitatScenario) -> str:
-    """Generic questions ("which studies are relevant?") carry no content words, so add the scenario's own."""
-    return (f"{question} oxygen concentration {scenario.o2_percent:g}% pressure {scenario.pressure_psi:g} psi "
-            "flame spread burning fire safety microgravity")
+    """Generic questions ("which studies are relevant?") carry no content words, so add the scenario's own,
+    but repeat the question so its words still outweigh the added ones."""
+    return (f"{' '.join([question] * QUESTION_WEIGHT)} oxygen concentration {scenario.o2_percent:g}% pressure "
+            f"{scenario.pressure_psi:g} psi flame spread burning fire safety microgravity")
 
 
 def breakdown_text(shortlist: tuple[RankedInvestigation, ...]) -> str:
@@ -81,9 +97,7 @@ def _status_of(citation: Citation, inv: Investigation) -> str:
         return f"Curated experimental record; provenance {tp.provenance_status.value}"
     if citation.kind == CitationKind.METADATA:
         manual = inv.manual_metadata
-        if manual is not None and citation.field != "objective":
-            return f"Curated metadata; review status {manual.review_status.value}"
-        return "Curated study metadata extracted from the archived ISA-Tab record"
+        return f"Curated metadata; review status {manual.review_status.value}" if manual else "Curated metadata"
     return PASSAGE_STATUS
 
 
@@ -103,6 +117,33 @@ def with_figure_citations(draft: Draft, shortlist: tuple[RankedInvestigation, ..
                 cited.add(key)
         claims.append(claim.model_copy(update={"citations": (*claim.citations, *added)}) if added else claim)
     return draft.model_copy(update={"claims": tuple(claims)})
+
+
+def with_declared_figures(draft: Draft, shortlist: tuple[RankedInvestigation, ...],
+                          scenario: HabitatScenario) -> Draft:
+    """A number in the text that equals a value of a record the claim cites is declared as that record's figure.
+    The validator then checks it like any figure; a number matching no cited record stays undeclared and is rejected."""
+    ranked = {r.investigation.id: r for r in shortlist}
+    scenario_numbers = [scenario.o2_percent, scenario.pressure_psi]
+    claims = []
+    for claim in draft.claims:
+        cited = [(c.investigation_id, c.test_point_id) for c in claim.citations if c.kind == CitationKind.RECORD]
+        added: list[Figure] = []
+        for number in unbacked_numbers(claim, ranked, scenario_numbers):
+            for inv_id, point_id in cited:
+                point = next((tp for tp in ranked[inv_id].investigation.test_points if tp.test_point_id == point_id),
+                             None) if inv_id in ranked else None
+                match = next(((c, u) for c, v, u in record_values(point) if _same(number, v)), None) if point else None
+                if match:
+                    added.append(Figure(source="record", investigation_id=inv_id, column=match[0], value=number,
+                                        unit=match[1], test_point_id=point_id))
+                    break
+        claims.append(claim.model_copy(update={"figures": (*claim.figures, *added)}) if added else claim)
+    return draft.model_copy(update={"claims": tuple(claims)})
+
+
+def _same(a: float, b: float) -> bool:
+    return isclose(a, b, rel_tol=NUMBER_RELATIVE_TOLERANCE, abs_tol=NUMBER_ABSOLUTE_TOLERANCE)
 
 
 def figure_traces(draft: Draft, shortlist: tuple[RankedInvestigation, ...]) -> tuple[FigureTrace, ...]:
@@ -132,7 +173,7 @@ def _source_of(citation: Citation, inv: Investigation) -> tuple[str | None, str 
         evidence = claim.evidence[0] if claim is not None and claim.evidence else None
         if evidence is not None:
             return evidence.source_file, evidence.locator, None
-        return inv.study_metadata_source, citation.field, None
+        return None, citation.field, None  # no evidence recorded for this field: reported as missing, never guessed
     return citation.source_file, citation.locator, None
 
 
@@ -177,7 +218,8 @@ class AnsweringSteps:
         if draft is None:
             issues = state["issues"]
         else:
-            draft = with_figure_citations(draft, state["shortlist"])
+            draft = with_declared_figures(with_figure_citations(draft, state["shortlist"]), state["shortlist"],
+                                          state["scenario"])
             issues = self._validator.validate(
                 draft, ValidationContext(state["scenario"], state["shortlist"], state["passages"]))
         record = AttemptRecord(state["attempt"], state["settings"],

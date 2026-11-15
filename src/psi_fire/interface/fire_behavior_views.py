@@ -40,20 +40,38 @@ def _record_action(study: str, available: bool) -> None:
               key=f"behavior_open_{study}", icon=":material/arrow_forward:")
 
 
+def slope_sentence(slope: float, lower: float, upper: float) -> str:
+    """Plain-language reading of an adjusted slope; direction and whether the interval includes no change."""
+    direction = "raises" if slope > 0 else "lowers"
+    verdict = ("The interval includes zero, so these data cannot rule out no change."
+               if lower <= 0 <= upper else "The interval excludes zero, so the association is distinguishable from no change.")
+    return (f"Within this group, each extra percentage point of oxygen {direction} K by about {abs(slope):.4f} mm²/s "
+            f"(95% interval {lower:.4f} to {upper:.4f}). {verdict} This describes these tests, not a cause.")
+
+
+HOW_TO_READ = (
+    "**How to read this chart.** Each dot is one reported test: oxygen on the horizontal axis, burning-rate constant K "
+    "on the vertical axis. The solid line is a *trend adjusted for pressure and droplet size*, so it can sit away from "
+    "the dots; the shaded band is the 95% interval for that trend. A line rising to the right means K was larger at "
+    "higher oxygen in these tests. It is drawn only inside the oxygen range that was actually tested.")
+CHART_KEY = "● dots: reported tests   ━ solid line: adjusted trend   ▒ shaded band: 95% interval   colors: diluent gas"
+
+
 def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: str) -> None:
     with st.container(border=True, key="behavior_flex"):
         st.subheader("FLEX · Oxygen and droplet burning rate")
         st.write("How does the reported droplet burning-rate constant change with oxygen?")
         low = ATM_TO_PSI * (1 - settings.pressure_tolerance_fraction)
         high = ATM_TO_PSI * (1 + settings.pressure_tolerance_fraction)
-        st.caption(f"{len(evidence.observations)} analyzed / {evidence.matched_records} research-filter records · "
+        st.caption(f"{len(evidence.observations)} analyzed / {evidence.matched_records} study records · "
                    f"{len(evidence.excluded)} excluded · Pressure band {low:.3f}–{high:.3f} psi")
         st.caption("K is a droplet burning-rate constant in mm²/s. It is not the burning speed of an entire fire.")
         if not evidence.matched_records:
-            st.info("FLEX is outside the applied research filters. Include it above to see this analysis.")
+            st.info("No FLEX records are available for this analysis.")
         elif not evidence.observations:
             st.info("No reported scalar records meet these FLEX analysis settings.")
         else:
+            st.info(HOW_TO_READ, icon=":material/school:")
             estimated = [group for group in evidence.groups if group.estimate]
             if estimated:
                 summary_columns = st.columns(min(2, len(estimated)))
@@ -61,9 +79,15 @@ def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: 
                     fit = group.estimate
                     assert fit is not None
                     with summary_columns[index % len(summary_columns)], st.container(border=True):
-                        st.metric(f"{group.fuel} · {group.diluent}", f"{fit.slope_mm2_s_per_o2_point:.5f}", help=group.label)
-                        st.caption("Adjusted mm²/s per O₂ percentage point")
-                        st.caption(f"95% model CI {fit.lower_slope:.5f}–{fit.upper_slope:.5f} · n={fit.observations}")
+                        st.metric(f"{group.fuel} · {group.diluent}", f"{fit.slope_mm2_s_per_o2_point:.5f}",
+                                  help=f"{group.label}. Slope = how much K changes per extra point of oxygen, after "
+                                       "accounting for pressure and initial droplet size.")
+                        st.caption("Adjusted mm²/s per O₂ percentage point", help="Adjusted: the effect of oxygen "
+                                   "with reported pressure and initial diameter held at the group average.")
+                        st.caption(f"95% model interval {fit.lower_slope:.5f}–{fit.upper_slope:.5f} · n={fit.observations}",
+                                   help="Interval: the range of slopes the model considers plausible given the scatter "
+                                        "in the data. n: number of tests used in this fit.")
+                        st.write(slope_sentence(fit.slope_mm2_s_per_o2_point, fit.lower_slope, fit.upper_slope))
             rows = [{"kind": "observation", "Fuel": point.fuel, "Diluent": point.diluent, "Group": point.group,
                      "Oxygen": point.oxygen_percent, "K": point.k_mm2_s, "Lower": None, "Upper": None,
                      "Pressure (psi)": point.pressure_psi, "Diameter (mm)": point.diameter_mm,
@@ -90,6 +114,7 @@ def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: 
             band = fits.mark_area(opacity=.13).encode(y="Lower:Q", y2="Upper:Q", detail="Group:N")
             lines = fits.mark_line(strokeWidth=2).encode(y="K:Q", detail="Group:N",
                                                         tooltip=["Group:N", "Oxygen:Q", "K:Q"])
+            st.caption(CHART_KEY)
             for fuel in sorted({point.fuel for point in evidence.observations}):
                 st.markdown(f"**Fuel: {fuel}**")
                 show_chart((band + lines + points).transform_filter(alt.datum.Fuel == fuel).properties(height=260))
@@ -108,7 +133,16 @@ def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: 
                               "Raw Spearman rho": fit.raw_spearman_rho if fit else None,
                               "Fit status": "Estimated" if fit else group.unavailable_reason})
             with st.expander("Slopes, tested ranges and groups without an identifiable fit"):
-                st.dataframe(pd.DataFrame(table), hide_index=True)
+                st.dataframe(pd.DataFrame(table), hide_index=True, column_config={
+                    "n": st.column_config.NumberColumn(help="Tests used in the fit."),
+                    "Adjusted slope (mm²/s per O₂ point)": st.column_config.NumberColumn(
+                        help="Change of K per extra oxygen point, with pressure and diameter held at the group mean."),
+                    "95% lower": st.column_config.NumberColumn(help="Lower end of the 95% model interval."),
+                    "95% upper": st.column_config.NumberColumn(help="Upper end of the 95% model interval."),
+                    "Raw Spearman rho": st.column_config.NumberColumn(
+                        help="Rank correlation of K with oxygen before any adjustment: +1 always rising together, "
+                             "-1 always opposite, 0 no monotonic relation. It does not measure fit quality of the line."),
+                    "Fit status": st.column_config.TextColumn(help="Why a group has no fitted line, if it has none.")})
                 fits_by_label = {group.label: group for group in evidence.groups if group.estimate}
                 if fits_by_label:
                     label = st.selectbox("Inspect fitted stratum", list(fits_by_label), key="behavior_fit_inspection")
@@ -129,8 +163,9 @@ def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: 
                 st.dataframe(frame, hide_index=True)
                 _csv_download(frame, "FLEX")
         st.warning("These conditional associations do not establish a universal law or a fire-safety limit. "
-                   "Intervals assume independent, homoskedastic, approximately normal errors; calibration error, "
-                   "model-form uncertainty and unreported conditions are not resolved. "
+                   "Intervals assume the scatter around the trend is similar at every oxygen level, roughly bell-shaped and "
+                   "independent between tests; instrument calibration error, the choice of model and unreported "
+                   "conditions are not captured. "
                    "Do not transfer near-1-atm slopes to lower pressure, other blends or lunar gravity.")
         st.markdown("**FLEX at lunar-habitat conditions (not part of the fit)**")
         st.write(f"FLEX tests with O₂ ≥30% and pressure ≤10.2 psi: **{len(evidence.strict_scenario_records)}**. "
@@ -138,7 +173,7 @@ def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: 
         comparison = evidence.comparison_pressure_range
         st.caption(f"For the separately labelled ≤10.5 psi comparison: {len(evidence.comparison_records)} tests"
                    + (f", reported pressures {_range(comparison, 'psi')}." if comparison else ".")
-                   + " Counts use the applied research filters and exact stored bounds, not rounded labels.")
+                   + " Counts use the source-study records and exact stored bounds, not rounded labels.")
         _record_action("FLEX", bool(evidence.matched_records))
 
 
@@ -146,7 +181,7 @@ def _bass_card(evidence: BassEvidence) -> None:
     with st.container(border=True, key="behavior_bass"):
         st.subheader("BASS-II · Oxygen decrease and CO₂ increase")
         st.write("How do reported gas concentrations change during the same burn?")
-        st.caption(f"{len(evidence.observations)} complete pairs / {evidence.matched_records} research-filter records · "
+        st.caption(f"{len(evidence.observations)} complete pairs / {evidence.matched_records} study records · "
                    f"{len(evidence.excluded)} excluded")
         if evidence.observations:
             frame = pd.DataFrame([{**asdict(point), **asdict(point.reference),
@@ -172,7 +207,7 @@ def _bass_card(evidence: BassEvidence) -> None:
                 st.dataframe(frame, hide_index=True)
                 _csv_download(frame, "BASS-II")
         else:
-            st.info("No complete BASS-II concentration pairs remain in the applied research filters.")
+            st.info("No complete BASS-II concentration pairs are available for this analysis.")
         st.caption("These are concentration changes in percentage points, not CO₂ mass, emitted volume or a calibrated "
                    "emission yield. No cabin-exposure or detector-performance limit is inferred.")
         _record_action("BASS-II", bool(evidence.matched_records))
@@ -182,7 +217,7 @@ def _saffire_card(evidence: SaffireEvidence) -> None:
     with st.container(border=True, key="behavior_saffire"):
         st.subheader("SAFFIRE-II · Microgravity versus 1 g")
         st.write("Does the reported 1 g screening outcome agree with the microgravity sample outcome?")
-        st.caption(f"{len(evidence.observations)} paired sample rows / {evidence.matched_records} research-filter records · "
+        st.caption(f"{len(evidence.observations)} paired sample rows / {evidence.matched_records} study records · "
                    f"{len(evidence.excluded)} excluded")
         if evidence.observations:
             cells = []
@@ -229,7 +264,7 @@ def _saffire_card(evidence: SaffireEvidence) -> None:
                 st.dataframe(table, hide_index=True)
             _csv_download(table, "SAFFIRE-II")
         else:
-            st.info("SAFFIRE-II has no matching sample rows in the applied research filters.")
+            st.info("No SAFFIRE-II sample rows are available for this analysis.")
         st.caption("Complete and Acceleratory remain source labels, not invented numeric lengths or rates. "
                    "Approximately zero is retained as reported; missing spread rate is not replaced with zero. "
                    "Material, thickness, atmosphere and flow differ between samples. These paired outcomes do not "
@@ -238,7 +273,8 @@ def _saffire_card(evidence: SaffireEvidence) -> None:
 
 
 def fire_behavior(matches: tuple[Match, ...], revision: str, query: ExplorationQuery) -> dict[str, object]:
-    st.caption("Experimental associations with traceable records. The applied research filters govern every card.")
+    st.caption("Full FLEX, BASS-II and SAFFIRE-II records support these analyses. "
+               "Use the local analysis controls below; Dashboard filters are preserved and do not restrict this view.")
     flex = next((match for match in matches if match.investigation.id == "FLEX"), None)
     fuels = sorted({point.fuel_name for point in flex.points if point.fuel_name}) if flex else []
     with st.expander("FLEX analysis settings · local to this section"):
@@ -250,7 +286,7 @@ def fire_behavior(matches: tuple[Match, ...], revision: str, query: ExplorationQ
                             "2–3 mm": ConditionRange(2, 3), "3–4 mm": ConditionRange(3, 4)}
         diameter = controls[2].selectbox("Initial diameter scope", list(diameter_options), key="behavior_diameter_scope")
         st.caption("Fits separate fuel and fixed He/CO₂ fractions; pressure and initial diameter are adjustment covariates. "
-                   "Other unreported conditions are not established as controlled. Settings do not change research filters.")
+                   "Other unreported conditions are not established as controlled. Settings do not change Dashboard filters.")
     settings = BehaviorSettings(tuple(selected_fuels), tolerance / 100, diameter_options[diameter])
     try:
         report = BuildFireBehavior()(revision, matches, settings)

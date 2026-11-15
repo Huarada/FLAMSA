@@ -1,0 +1,207 @@
+[
+  {
+    "width": 1920,
+    "scrollWidth": 1920,
+    "nav": {
+      "x": 544.484375,
+      "y": 43.390625,
+      "width": 842.921875,
+      "height": 56
+    },
+    "buttons": [
+      {
+        "text": "Home",
+        "x": 544.484375,
+        "y": 43.390625,
+        "width": 138.96875,
+        "height": 56
+      },
+      {
+        "text": "dashboard\n\nDashboard",
+        "x": 715.453125,
+        "y": 43.390625,
+        "width": 198.75,
+        "height": 56
+      },
+      {
+        "text": "local_fire_department\n\nFire behavior",
+        "x": 946.203125,
+        "y": 43.390625,
+        "width": 214.609375,
+        "height": 56
+      },
+      {
+        "text": "Investigations",
+        "x": 1192.8125,
+        "y": 43.390625,
+        "width": 194.59375,
+        "height": 56
+      }
+    ],
+    "exceptions": 0
+  },
+  {
+    "width": 1440,
+    "scrollWidth": 1440,
+    "nav": {
+      "x": 307.65625,
+      "y": 43.390625,
+      "width": 836.421875,
+      "height": 56
+    },
+    "buttons": [
+      {
+        "text": "Home",
+        "x": 307.65625,
+        "y": 43.390625,
+        "width": 137.34375,
+        "height": 56
+      },
+      {
+        "text": "dashboard\n\nDashboard",
+        "x": 477,
+        "y": 43.390625,
+        "width": 197.125,
+        "height": 56
+      },
+      {
+        "text": "local_fire_department\n\nFire behavior",
+        "x": 706.125,
+        "y": 43.390625,
+        "width": 212.984375,
+        "height": 56
+      },
+      {
+        "text": "Investigations",
+        "x": 951.109375,
+        "y": 43.390625,
+        "width": 192.96875,
+        "height": 56
+      }
+    ],
+    "exceptions": 0
+  },
+  {
+    "width": 1280,
+    "scrollWidth": 1280,
+    "nav": {
+      "x": 278.3125,
+      "y": 43.390625,
+      "width": 732.421875,
+      "height": 56
+    },
+    "buttons": [
+      {
+        "text": "Home",
+        "x": 278.3125,
+        "y": 43.390625,
+        "width": 111.34375,
+        "height": 56
+      },
+      {
+        "text": "dashboard\n\nDashboard",
+        "x": 421.65625,
+        "y": 43.390625,
+        "width": 171.125,
+        "height": 56
+      },
+      {
+        "text": "local_fire_department\n\nFire behavior",
+        "x": 624.78125,
+        "y": 43.390625,
+        "width": 186.984375,
+        "height": 56
+      },
+      {
+        "text": "Investigations",
+        "x": 843.765625,
+        "y": 43.390625,
+        "width": 166.96875,
+        "height": 56
+      }
+    ],
+    "exceptions": 0
+  },
+  {
+    "width": 1024,
+    "scrollWidth": 1024,
+    "nav": {
+      "x": 231.375,
+      "y": 46.21875,
+      "width": 566.03125,
+      "height": 52
+    },
+    "buttons": [
+      {
+        "text": "Home",
+        "x": 231.375,
+        "y": 46.21875,
+        "width": 83.484375,
+        "height": 52
+      },
+      {
+        "text": "dashboard\n\nDashboard",
+        "x": 330.859375,
+        "y": 46.21875,
+        "width": 141.578125,
+        "height": 52
+      },
+      {
+        "text": "local_fire_department\n\nFire behavior",
+        "x": 488.4375,
+        "y": 46.21875,
+        "width": 156.640625,
+        "height": 52
+      },
+      {
+        "text": "Investigations",
+        "x": 661.078125,
+        "y": 46.21875,
+        "width": 136.328125,
+        "height": 52
+      }
+    ],
+    "exceptions": 0
+  },
+  {
+    "width": 390,
+    "scrollWidth": 390,
+    "nav": {
+      "x": 29.796875,
+      "y": 138.671875,
+      "width": 320.40625,
+      "height": 120
+    },
+    "buttons": [
+      {
+        "text": "Home",
+        "x": 29.796875,
+        "y": 138.671875,
+        "width": 104.921875,
+        "height": 44
+      },
+      {
+        "text": "dashboard\n\nDashboard",
+        "x": 166.71875,
+        "y": 138.671875,
+        "width": 183.484375,
+        "height": 44
+      },
+      {
+        "text": "local_fire_department\n\nFire behavior",
+        "x": 29.796875,
+        "y": 214.671875,
+        "width": 166.75,
+        "height": 44
+      },
+      {
+        "text": "Investigations",
+        "x": 228.546875,
+        "y": 214.671875,
+        "width": 121.65625,
+        "height": 44
+      }
+    ],
+    "exceptions": 0
+  }
+]

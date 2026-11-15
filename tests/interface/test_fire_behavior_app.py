@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import pytest
 from streamlit.testing.v1 import AppTest
 
 APP = Path(__file__).resolve().parents[2] / "src/psi_fire/interface/app.py"
@@ -26,15 +27,28 @@ def test_behavior_cards_local_settings_copilot_and_source_navigation_preserve_qu
     assert app.session_state["selected_investigation"] == "BASS-II"
 
 
-def test_behavior_studies_removed_by_research_filters_stay_empty() -> None:
+@pytest.mark.parametrize("empty_dashboard", [False, True])
+def test_behavior_ignores_dashboard_filters_and_restores_them_on_return(empty_dashboard) -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
-    app.button(key="nav_fire_behavior").click().run()
+    app.button(key="nav_dashboard").click().run()
     next(m for m in app.multiselect if m.label == "Investigation").set_value(["BASS-II"])
+    if empty_dashboard:
+        next(t for t in app.text_input if t.label == "Search investigations").set_value("no-such-investigation")
     next(b for b in app.button if b.label == "Apply filters").click().run()
+    query = app.session_state["applied_query"]
+    app.button(key="nav_fire_behavior").click().run()
     assert not app.exception
-    assert app.session_state["applied_query"].ids == ("BASS-II",)
-    assert any("FLEX is outside" in item.value for item in app.info)
-    assert any("SAFFIRE-II has no matching" in item.value for item in app.info)
-    assert next(b for b in app.button if b.label == "Open FLEX source records").disabled
-    assert next(b for b in app.button if b.label == "Open SAFFIRE-II source records").disabled
-    assert not next(b for b in app.button if b.label == "Open BASS-II source records").disabled
+    assert not any(b.label in ("Apply filters", "Reset filters") for b in app.button)
+    assert not any(m.label == "Investigation" for m in app.multiselect)
+    assert not any(e.label == "Applied filters and scientific scope" for e in app.expander)
+    assert app.get("download_button")[0].proto.label == "Download study records (CSV)"
+    for study in ("FLEX", "BASS-II", "SAFFIRE-II"):
+        assert not next(b for b in app.button if b.label == f"Open {study} source records").disabled
+    assert len(app.tabs) == 3
+    next(s for s in app.selectbox if s.label == "Near-1-atm pressure tolerance (%)").set_value(1).run()
+    assert not app.exception and app.session_state["applied_query"] == query
+    app.button(key="nav_dashboard").click().run()
+    assert not app.exception and app.session_state["applied_query"] == query
+    assert next(m for m in app.multiselect if m.label == "Investigation").value == ["BASS-II"]
+    if empty_dashboard:
+        assert any("No records match" in item.value for item in app.info)

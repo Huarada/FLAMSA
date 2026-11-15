@@ -28,6 +28,16 @@ def apply_style() -> None:
       backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
       padding: .8rem 1rem; margin-bottom: 1rem; }
     .st-key-header_navigation button { min-height: 44px; border-radius: 9px; }
+    @media (min-width: 1024px) {
+      .st-key-header_navigation button { min-height: 56px; padding: .85rem 1.15rem; }
+      .st-key-header_navigation button p { font-size: 1rem; font-weight: 600; white-space: nowrap; }
+      .st-key-topbar [data-testid="stPopoverButton"] { min-height: 56px; }
+    }
+    @media (min-width: 1024px) and (max-width: 1199px) {
+      .st-key-header_navigation { column-gap: 1rem; }
+      .st-key-header_navigation button { min-height: 52px; padding: .7rem .65rem; }
+      .st-key-header_navigation button p { font-size: .95rem; }
+    }
     .st-key-nav_dashboard button { background: #3563b9; border: 1px solid #2c54a0; color: #fff;
       box-shadow: 0 3px 10px #3563b91c; font-weight: 600; }
     .st-key-nav_dashboard button p { color: #fff !important; }
@@ -74,6 +84,25 @@ def apply_style() -> None:
     button, input, textarea, [data-baseweb="select"] > div { transition: border-color .15s, box-shadow .15s; }
     button:focus-visible, input:focus-visible { outline: 2px solid #6788d4 !important; outline-offset: 2px; }
     .st-key-filter_panel [data-testid="stForm"] { border: 0; padding: 0; }
+    .st-key-copilot_mascot { padding: .5rem .6rem; border-radius: 12px;
+      border-left: 3px solid #F4BD61; background: #F5F8FC; }
+    .st-key-copilot_panel button[kind="primary"] { min-height: 44px; }
+    .st-key-copilot_question_bubble { position: relative; overflow: visible; padding: .85rem;
+      background: #342649; border: 1px solid #786194; border-radius: 18px 18px 18px 6px;
+      margin-bottom: .45rem; box-shadow: 0 4px 14px #34264914; }
+    .st-key-copilot_question_bubble::after { content: ''; position: absolute; left: 24px; bottom: -11px;
+      width: 20px; height: 12px; background: #342649; clip-path: polygon(0 0, 100% 0, 25% 100%);
+      pointer-events: none; }
+    .st-key-copilot_question_bubble label p,
+    .st-key-copilot_question_bubble [data-testid="stTooltipIcon"] { color: #FCF7FF !important; }
+    .st-key-copilot_question_bubble [data-testid="stTooltipHoverTarget"] span { color: #D9C3F0 !important; }
+    .st-key-copilot_question_bubble [data-testid="stTextAreaRootElement"] { background: #241B34;
+      border: 1px solid #A58CBF; border-radius: 12px; overflow: hidden; }
+    .st-key-copilot_question_bubble textarea { background: #241B34 !important; color: #FCF7FF !important;
+      border: 0 !important; border-radius: 11px; -webkit-text-fill-color: #FCF7FF; caret-color: #F4BD61; }
+    .st-key-copilot_question_bubble textarea::placeholder { color: #C8BADA; -webkit-text-fill-color: #C8BADA; opacity: 1; }
+    .st-key-copilot_question_bubble [data-testid="stTextAreaRootElement"]:focus-within {
+      border-color: #D9C3F0; box-shadow: 0 0 0 2px #D9C3F066; }
     @supports not (backdrop-filter: blur(1px)) {
       .st-key-topbar, .st-key-filter_panel, .st-key-profiles_card, .st-key-volume_card,
       .st-key-composition_card, .st-key-coverage_card, .st-key-investigation_preview,

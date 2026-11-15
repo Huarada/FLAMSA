@@ -10,6 +10,12 @@ from psi_fire.infrastructure.explorer import FileSnapshotProvider
 APP = Path(__file__).resolve().parents[2] / "src/psi_fire/interface/app.py"
 
 
+def finish_copilot(app) -> None:
+    if "copilot_job" in app.session_state:
+        app.session_state["copilot_job"].future.result(timeout=90)
+    app.run()
+
+
 def test_explorer_navigation_filters_and_reset() -> None:
     app = AppTest.from_file(str(APP), default_timeout=30).run()
     app.button(key="nav_dashboard").click().run()
@@ -23,6 +29,8 @@ def test_explorer_navigation_filters_and_reset() -> None:
                                               "Citations & source downloads"]
     assert any(s.label == "Inspect a record" for s in app.selectbox)
     assert any(s.label == "Source document" for s in app.selectbox)
+    assert not any(b.label == "Apply filters" for b in app.button)
+    app.button(key="nav_dashboard").click().run()
     next(t for t in app.text_input if t.label == "Search investigations").set_value("no-such-investigation")
     next(b for b in app.button if b.label == "Apply filters").click().run()
     assert not app.exception
@@ -47,7 +55,7 @@ def test_chart_selection_and_connected_assistant() -> None:
     selection = next(m for m in app.multiselect if m.label == "Investigations in comparison charts")
     selection.set_value([]).run()
     assert not app.exception
-    assert any("No compatible scalar pairs" in item.value for item in app.info)
+    assert any("No investigations selected" in item.value for item in app.info)
     next(t for t in app.toggle if t.label == "Research copilot").set_value(False).run()
     assert not app.exception
     assert not any(b.label == "Ask copilot" for b in app.button)
@@ -63,9 +71,7 @@ def test_english_homepage_and_research_navigation() -> None:
     assert not app.exception
     assert app.session_state["workspace_navigation"] == "Investigations"
     assert set(app.session_state["applied_query"].ids) <= {"FLEX", "FLEX-2", "CFI"}
-    assert next(m for m in app.multiselect if m.label == "Investigation").value == list(
-        app.session_state["applied_query"].ids
-    )
+    assert next(s for s in app.selectbox if s.label == "Open investigation").value in app.session_state["applied_query"].ids
 
 
 def test_home_explains_current_capabilities_and_opens_behavior_without_replacing_filters() -> None:
@@ -222,9 +228,31 @@ def test_home_topics_preserve_applied_filters_until_opening_related_research() -
     next(b for b in app.button if b.label == "Open related research").click().run()
     assert not app.exception
     assert set(app.session_state["applied_query"].ids) == {"SAME", "SAME-R", "ACME-CFI-G", "SPICE"}
-    assert next(m for m in app.multiselect if m.label == "Investigation").value == list(
-        app.session_state["applied_query"].ids
-    )
+    assert next(s for s in app.selectbox if s.label == "Open investigation").value in app.session_state["applied_query"].ids
+
+
+def test_investigations_browses_full_studies_without_changing_empty_dashboard_filters():
+    app = AppTest.from_file(str(APP), default_timeout=45).run()
+    app.button(key="nav_dashboard").click().run()
+    next(t for t in app.text_input if t.label == "Search investigations").set_value("no-such-investigation")
+    next(b for b in app.button if b.label == "Apply filters").click().run()
+    query = app.session_state["applied_query"]
+    app.button(key="nav_investigations").click().run()
+    assert not app.exception
+    assert not any(t.label == "Search investigations" for t in app.text_input)
+    assert not any(b.label in ("Apply filters", "Reset filters") for b in app.button)
+    picker = next(s for s in app.selectbox if s.label == "Open investigation")
+    assert len(picker.options) == 15
+    picker.set_value("BASS-II").run()
+    assert not app.exception
+    assert len(next(s for s in app.selectbox if s.label == "Inspect a record").options) == 129
+    assert app.get("download_button")[0].proto.label == "Download investigation records (CSV)"
+    assert app.session_state["applied_query"] == query
+    app.button(key="nav_dashboard").click().run()
+    assert not app.exception
+    assert app.session_state["applied_query"] == query
+    assert next(t for t in app.text_input if t.label == "Search investigations").value == query.search
+    assert any("No records match" in item.value for item in app.info)
 
 
 def test_copilot_answers_with_validated_citations_and_the_score_breakdown(monkeypatch) -> None:
@@ -234,6 +262,7 @@ def test_copilot_answers_with_validated_citations_and_the_score_breakdown(monkey
     app.button(key="nav_dashboard").click().run()
     next(t for t in app.toggle if t.label == "Research copilot").set_value(True).run()
     next(b for b in app.button if b.label == "Ask copilot").click().run()
+    finish_copilot(app)
     assert not app.exception
     text = " ".join(c.value for c in app.caption)
     assert "no partial-gravity data" in text and "Text written by: Template" in text
@@ -275,6 +304,7 @@ def test_answer_citations_offer_view_source_and_opening_it_keeps_the_answer(monk
     app = AppTest.from_file(str(APP), default_timeout=90).run()
     app.button(key="nav_dashboard").click().run()
     next(b for b in app.button if b.label == "Ask copilot").click().run()
+    finish_copilot(app)
     buttons = [b for b in app.button if b.label == "View source"]
     assert buttons and not app.exception
     filters_before = _applied(app)
@@ -292,3 +322,12 @@ def test_the_page_survives_a_new_session_through_the_url(monkeypatch) -> None:
     app.run()
     assert app.session_state["workspace_navigation"] == "Dashboard"
     assert app.query_params["page"] == ["Dashboard"] or app.query_params["page"] == "Dashboard"
+
+
+def test_slope_sentence_states_direction_and_whether_the_interval_includes_zero() -> None:
+    from psi_fire.interface.fire_behavior_views import slope_sentence
+
+    up = slope_sentence(0.002, 0.001, 0.003)
+    assert "raises K by about 0.0020" in up and "excludes zero" in up and "not a cause" in up
+    down = slope_sentence(-0.004, -0.009, 0.001)
+    assert "lowers K by about 0.0040" in down and "includes zero" in down

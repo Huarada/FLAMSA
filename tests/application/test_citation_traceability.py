@@ -131,9 +131,7 @@ def test_a_registered_but_unreadable_source_is_reported_not_hidden():
 def test_a_record_figure_without_its_citation_is_completed_but_never_trusted(investigations):
     inv, point = top_with_ranged_o2(investigations)
     value = point.o2_percent_min
-    meta = Citation(kind=CitationKind.METADATA, investigation_id=inv.id, field="objective") \
-        if "objective" in inv.study_metadata else Citation(kind=CitationKind.METADATA, investigation_id=inv.id,
-                                                          field="pillars")
+    meta = Citation(kind=CitationKind.METADATA, investigation_id=inv.id, field="pillars")
 
     def draft(figure_value: float) -> Draft:
         return Draft(claims=(Claim(text=f"[{inv.id}] was tested at {figure_value:g}% oxygen.", citations=(meta,),
@@ -144,3 +142,74 @@ def test_a_record_figure_without_its_citation_is_completed_but_never_trusted(inv
     assert good.status == AnswerStatus.APPROVED
     assert any(e.citation.test_point_id == point.test_point_id for e in good.traceability)
     assert answer(investigations, draft(value + 50)).status == AnswerStatus.INSUFFICIENT_EVIDENCE
+
+
+def test_the_scenarios_own_oxygen_and_pressure_may_appear_in_the_text_but_other_digits_may_not(investigations):
+    inv = RelevanceRanker().rank(investigations, LUNAR_BASE)[0].investigation
+    cite = (Citation(kind=CitationKind.METADATA, investigation_id=inv.id, field="pillars"),)
+    if inv.manual_metadata is None:
+        pytest.skip("top investigation has no manual metadata")
+    ok = Claim(text=f"[{inv.id}] is closest to {LUNAR_BASE.o2_percent:g}% oxygen at {LUNAR_BASE.pressure_psi:g} psi.",
+               citations=cite)
+    bad = Claim(text=f"[{inv.id}] burned at 77.7% oxygen.", citations=cite)
+    assert answer(investigations, Draft(claims=(ok,))).status == AnswerStatus.APPROVED
+    assert answer(investigations, Draft(claims=(bad,))).status == AnswerStatus.INSUFFICIENT_EVIDENCE
+
+
+def test_the_isa_tab_objective_is_not_citable_and_missing_metadata_is_rejected_with_the_allowed_fields(investigations):
+    inv = next(i for i in investigations if i.manual_metadata is not None)
+    objective = Claim(text=f"[{inv.id}] has an objective.", citations=(
+        Citation(kind=CitationKind.METADATA, investigation_id=inv.id, field="objective"),))
+    (issue, *_) = RuleBasedValidator(NoCatalog()).validate(Draft(claims=(objective,)), _context(inv))
+    assert issue.code.value == "malformed_citation" and "pillars" in issue.message
+    bare = next((i for i in investigations if i.manual_metadata is None), None)
+    if bare is not None:
+        claim = Claim(text=f"[{bare.id}] has pillars.", citations=(
+            Citation(kind=CitationKind.METADATA, investigation_id=bare.id, field="pillars"),))
+        (issue, *_) = RuleBasedValidator(NoCatalog()).validate(Draft(claims=(claim,)), _context(bare))
+        assert "Metadata fields you may cite" in issue.message
+
+
+def _context(inv):
+    from psi_fire.application.answer_types import ValidationContext
+
+    ranked = next(r for r in RelevanceRanker().rank((inv,), LUNAR_BASE))
+    return ValidationContext(LUNAR_BASE, (ranked,), ())
+
+
+def _record_claim(inv, point, text: str) -> Claim:
+    return Claim(text=text, citations=(Citation(kind=CitationKind.RECORD, investigation_id=inv.id,
+                                                test_point_id=point.test_point_id),))
+
+
+def test_numbers_the_system_itself_computed_need_no_figure_but_other_numbers_do(investigations):
+    ranked = RelevanceRanker().rank(investigations, LUNAR_BASE)
+    top = ranked[0]
+    point = top.investigation.test_points[0]
+    count = len(top.investigation.test_points)
+    ok = _record_claim(top.investigation, point, f"[{top.investigation.id}] ranks {top.rank} and has {count} tests.")
+    wrong = _record_claim(top.investigation, point, f"[{top.investigation.id}] has {count + 1000} tests.")
+    assert answer(investigations, Draft(claims=(ok,))).status == AnswerStatus.APPROVED
+    assert answer(investigations, Draft(claims=(wrong,))).status == AnswerStatus.INSUFFICIENT_EVIDENCE
+
+
+def test_a_number_equal_to_a_cited_record_value_is_declared_automatically_and_still_checked(investigations):
+    from psi_fire.application.answer_validation import record_values, unbacked_numbers
+    from psi_fire.application.answering import with_declared_figures
+
+    ranked = RelevanceRanker().rank(investigations, LUNAR_BASE)[:5]
+    by_id = {r.investigation.id: r for r in ranked}
+    scenario_numbers = [LUNAR_BASE.o2_percent, LUNAR_BASE.pressure_psi]
+    for item in ranked:
+        for point in item.investigation.test_points:
+            for column, value, _ in record_values(point):
+                claim = _record_claim(item.investigation, point, f"[{item.investigation.id}] shows {value:g}.")
+                if unbacked_numbers(claim, by_id, scenario_numbers):
+                    declared = with_declared_figures(Draft(claims=(claim,)), tuple(ranked), LUNAR_BASE).claims[0]
+                    assert declared.figures and declared.figures[0].test_point_id == point.test_point_id
+                    result = answer(investigations, Draft(claims=(claim,)))
+                    assert result.status == AnswerStatus.APPROVED and result.figure_traces
+                    bad = _record_claim(item.investigation, point, f"[{item.investigation.id}] shows 77.7.")
+                    assert answer(investigations, Draft(claims=(bad,))).status == AnswerStatus.INSUFFICIENT_EVIDENCE
+                    return
+    pytest.skip("no record value outside the system facts in the shortlist")

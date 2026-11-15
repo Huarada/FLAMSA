@@ -160,7 +160,11 @@ class BuildChartData:
     def partners(self, matches: tuple[Match, ...], x: str, ids: tuple[str, ...],
                  basis: O2Basis) -> dict[str, int]:
         """Plottable record count against `x` for every other quantity, so empty axis pairs are never offered."""
-        return {v.key: len(self._collect(matches, x, v.key, ids, basis).rows)
+        points = [point for match in matches if match.investigation.id in ids for point in match.points
+                  if point.record_level.value == "test" and scalar(point, x) is not None
+                  and (not x.startswith("o2_") or point.o2_basis == basis)]
+        return {v.key: sum(scalar(point, v.key) is not None
+                           and (not v.key.startswith("o2_") or point.o2_basis == basis) for point in points)
                 for v in self.variables(matches) if v.key != x}
 
     def coverage(self, matches: tuple[Match, ...], x: str, y: str, ids: tuple[str, ...],

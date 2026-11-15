@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-15",
+  "code_hashes": {
+    "application/explore.py": "cc38e95bfca06e05eaca49c248ea2631f84ec85cee51a4f8eb6034e01eb121db",
+    "domain/exploration.py": "ee9e8b0947e59fd0e8c0dbe4bf3b32c0a128ff1fe961ac9a24217a49c592e68c",
+    "application/chart_data.py": "cca70f0b9f7b14c4200c6c2525c2bfad8ac58fa15c532c8c75f9c2bdd50f875d",
+    "interface/app.py": "4a142450accfb2953e28495bcc614e7e81eee691c19b4dee29fe865dd3fd8325",
+    "interface/explorer_views.py": "e04f22e6bc3e54fc2451f99d7acdeef46c29d75eedebc2bc67fee0ccb89a26e4",
+    "interface/reference_dashboard.py": "b8a60817a052dc2e0c497c3de40eed4de78e587be64dc91c68ba2daaf78f07af",
+    "interface/dashboard_cache.py": "736f6cb86354e3a7ed730e98416d2ad212c0d6439c299382d1bfa16453b01560",
+    "interface/chart_controls.py": "59fdacf717452a5e91b1ea369add6c41df9f25794c6001990cba17c738c78fb5"
+  },
+  "note": "Final equivalent lint normalization combined identical helper branches after the matrix. Four focused regressions and static checks passed again."
+}

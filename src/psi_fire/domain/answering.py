@@ -15,7 +15,9 @@ class CitationKind(StrEnum):
     PASSAGE = "passage"    # a page of an archived source document
 
 
-METADATA_FIELDS = ("pillars", "hardware", "gravity_regime", "sensors", "earth_applications", "objective")
+# `objective` is deliberately not citable: it comes from the ISA-Tab i_Investigation.txt, a raw metadata file that is
+# not useful evidence for a reader (ADR-0136). It stays visible on the Investigations page.
+METADATA_FIELDS = ("pillars", "hardware", "gravity_regime", "sensors", "earth_applications")
 
 
 class Citation(BaseModel):

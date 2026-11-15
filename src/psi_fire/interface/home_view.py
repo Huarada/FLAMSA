@@ -4,7 +4,7 @@ import streamlit as st
 
 from psi_fire.application.explore import ExplorationQuery, Snapshot
 from psi_fire.application.home import GetHomeSummary
-from psi_fire.interface.home_style import apply_home_style, hero_image_uri
+from psi_fire.interface.home_style import hero_image_uri
 from psi_fire.interface.research_scene import research_scene
 
 HOME_THEMES = {"1 · Flame behavior": "flame", "2 · Earth applications": "earth",
@@ -17,6 +17,8 @@ def navigate(page: str, ids: tuple[str, ...] | None = None) -> None:
         st.session_state["applied_query"] = ExplorationQuery(ids=ids)
         st.session_state["filter_generation"] = st.session_state.get("filter_generation", 0) + 1
         st.session_state.pop("selected_investigation", None)
+        if page == "Investigations" and ids:
+            st.session_state["selected_investigation"] = ids[0]
         st.session_state.pop("filter_error", None)
 
 
@@ -35,7 +37,6 @@ def keep_selected_topic() -> None:
 
 def home(snapshot: Snapshot) -> None:
     image_uri = hero_image_uri()
-    apply_home_style(image_uri)
     with st.container(key="home_workspace"):
         home_content(snapshot, image_uri)
 
@@ -46,9 +47,11 @@ def home_content(snapshot: Snapshot, image_uri: str) -> None:
     with st.container(key="home_hero"):
         st.caption("// Intelligence for fire safety")
         st.title("NASA PSI combustion data. :orange[Clearer evidence.]")
-        st.write("Compare combustion studies, rank investigations for a habitat scenario, and inspect the sources "
-                 "behind the explanations. Explore research relevant to fire prevention, detection and suppression "
-                 "in spacecraft, stations, surface habitats and pressurized rovers.")
+        st.write("Explore NASA PSI combustion research for fire prevention, detection and suppression in crewed "
+                 "environments. Compare experimental conditions, identify relevant investigations, and trace "
+                 "findings to the original data and sources.")
+        st.write("Use Research copilot to rank investigations for selected oxygen and pressure conditions, "
+                 "with cited explanations and a transparent score breakdown.")
         st.caption("Select a point in the conceptual chamber or use the research themes below.")
 
     theme = HOME_THEMES.get(st.session_state["home_theme"], "flame")
