@@ -338,3 +338,44 @@ def test_flex_chart_headline_states_the_trend_without_calling_it_a_risk_class() 
     assert "no identifiable trend" in fuel_headline("methanol", [])
     assert set(SIGNAL_LABELS) == {rising, "Lower K associated with higher oxygen", "Trend interval includes zero"}
     assert "not a risk classification" in " ".join(CHART_SUBTITLE)
+
+
+def test_coverage_bubbles_group_nearby_tests_per_study_and_oxygen_basis() -> None:
+    import pandas as pd
+
+    from psi_fire.interface.reference_dashboard import ANSWER_RANK, bubbles_of
+
+    rows = [{"Investigation": "A", "Oxygen basis": "Chamber atmosphere", "O2": o2, "Pressure": psi, "Fuel": "x",
+             ANSWER_RANK: "not in answer"}
+            for o2, psi in [(21.0, 14.7), (21.2, 14.6), (20.9, 14.7), (30.0, 10.2)]]
+    rows.append({**rows[0], "Oxygen basis": "Burner stream"})  # same place, different basis: its own bubble
+    result = bubbles_of(pd.DataFrame(rows)).sort_values(["Oxygen basis", "O2"])
+    assert sorted(result["n"]) == [1, 1, 3] and result["n"].sum() == 5
+    assert result.loc[result["n"] == 3, "psi_min"].iloc[0] == 14.6 and result.loc[result["n"] == 3, "psi_max"].iloc[0] == 14.7
+
+
+def test_coverage_map_defaults_to_the_habitat_zoom_without_burner_stream_tests(monkeypatch) -> None:
+    monkeypatch.setenv("PSI_LLM_MODEL", "")
+    app = AppTest.from_file(str(APP), default_timeout=90).run()
+    app.button(key="nav_dashboard").click().run()
+    assert not app.exception
+    labels = {t.label: t.value for t in app.toggle}
+    assert labels["Include oxygen measured in the burner stream"] is False and labels["Show all pressures"] is False
+    app.toggle(key="coverage_full").set_value(True).run()
+    app.toggle(key="coverage_stream").set_value(True).run()
+    assert not app.exception
+
+
+def test_provider_failures_are_reported_as_such_and_not_as_missing_evidence() -> None:
+    from psi_fire.domain.answering import IssueCode, ValidationIssue
+    from psi_fire.interface.copilot_panel import narrator_failure_message
+
+    def issue(message: str) -> tuple[ValidationIssue, ...]:
+        return (ValidationIssue(code=IssueCode.EMPTY_DRAFT, message=message),)
+
+    quota = narrator_failure_message(issue("Narrator failed: RateLimitError: Error code: 429 - {'code': 'insufficient_quota'}"))
+    assert quota and "no credits" in quota and "deterministic ranking" in quota
+    assert "rate limiting" in narrator_failure_message(issue("Narrator failed: RateLimitError: 429 too many requests"))
+    assert "key was rejected" in narrator_failure_message(issue("Narrator failed: AuthenticationError: 401 invalid api key"))
+    assert narrator_failure_message(issue("The draft contains no claims.")) is None
+    assert narrator_failure_message(()) is None

@@ -18,7 +18,7 @@ from psi_fire.application.chart_data import (
 from psi_fire.application.explore import Match
 from psi_fire.domain.model import O2Basis
 from psi_fire.interface.chart_controls import quantity_choice, reconcile, widget_key
-from psi_fire.interface.copilot_panel import RESULT_KEY, pick_scenario, scenario_point
+from psi_fire.interface.copilot_panel import EARTH_CABIN, RESULT_KEY, pick_scenario, scenario_point
 from psi_fire.interface.dashboard_cache import (
     chart_variables,
     comparison_projection,
@@ -88,6 +88,12 @@ MAX_PICK_GRID_POINTS = 4_000
 NEAR_O2_PERCENT = 5.0   # "near" window around the scenario marker, in the same units as the axes
 NEAR_PRESSURE_PSI = 2.0
 SCENARIO_MARKER_COLOR = "#008B8B"  # dark cyan, distinct from the teal data series
+BIN_O2_PERCENT = 1.0     # tests this close in oxygen and pressure share one bubble
+BIN_PRESSURE_PSI = 0.5
+PRESSURE_FOCUS_PSI = 20.0  # default zoom: the habitat-relevant band; a few high-pressure tests stretched the axis
+MIN_LABELLED_TESTS = 5     # bubbles with fewer tests show their count only in the tooltip
+BUBBLE_SIZE_RANGE = [40, 900]
+STREAM_BASIS = "Burner stream"
 
 
 @st.cache_data(max_entries=16, show_spinner=False)
@@ -104,15 +110,18 @@ def pick_grid(right: float, top_psi: float) -> pd.DataFrame:
         stride += 1
 
 
-def _pick_layers(right: float, top_psi: float, oxygen_axis: alt.Scale) -> tuple[alt.Chart, alt.Chart]:
+def _pick_layers(right: float, top_psi: float, oxygen_axis: alt.Scale,
+                 pressure_axis: alt.Scale) -> tuple[alt.Chart, alt.Chart]:
     """Invisible grid so a click on empty space selects the nearest (oxygen, pressure); plus the scenario marker."""
     pick = alt.selection_point(name="pick", fields=["o2", "psi"], on="click", nearest=True, clear=False)
     grid = alt.Chart(pick_grid(right, top_psi)).mark_point(
-        opacity=0, size=60).encode(x=alt.X("o2:Q", title="Oxygen (%)", scale=oxygen_axis), y=alt.Y("psi:Q", title="Pressure (psi)")).add_params(pick)
+        opacity=0, size=60).encode(x=alt.X("o2:Q", title="Oxygen (%)", scale=oxygen_axis),
+        y=alt.Y("psi:Q", title="Pressure (psi)", scale=pressure_axis)).add_params(pick)
     o2, psi = scenario_point()
     marker = alt.Chart(pd.DataFrame([{"o2": o2, "psi": psi}])).mark_point(
         filled=True, size=300, color=SCENARIO_MARKER_COLOR, stroke="#FFFFFF", strokeWidth=2, opacity=1).encode(
-        x=alt.X("o2:Q", title="Oxygen (%)", scale=oxygen_axis), y=alt.Y("psi:Q", title="Pressure (psi)"),
+        x=alt.X("o2:Q", title="Oxygen (%)", scale=oxygen_axis),
+        y=alt.Y("psi:Q", title="Pressure (psi)", scale=pressure_axis),
         tooltip=[alt.Tooltip("o2:Q", title="Scenario O₂ (%)", format=".1f"),
                  alt.Tooltip("psi:Q", title="Scenario pressure (psi)", format=".1f")])
     return grid, marker
@@ -142,69 +151,72 @@ def _apply_pick() -> None:
         pick_scenario(float(picked[0]["o2"]), float(picked[0]["psi"]))
 
 
+def bubbles_of(frame: pd.DataFrame) -> pd.DataFrame:
+    """One row per (study, oxygen basis, nearby conditions): the number of tests is the point of the chart."""
+    keyed = frame.assign(o2_bin=(frame["O2"] / BIN_O2_PERCENT).round() * BIN_O2_PERCENT,
+                         psi_bin=(frame["Pressure"] / BIN_PRESSURE_PSI).round() * BIN_PRESSURE_PSI)
+    grouped = keyed.groupby(["Investigation", "Oxygen basis", "o2_bin", "psi_bin", ANSWER_RANK], as_index=False).agg(
+        n=("O2", "size"), O2=("O2", "mean"), Pressure=("Pressure", "mean"),
+        O2_min=("O2", "min"), O2_max=("O2", "max"), psi_min=("Pressure", "min"), psi_max=("Pressure", "max"),
+        Fuels=("Fuel", lambda s: ", ".join(sorted({str(v) for v in s})[:3])))
+    return grouped.drop(columns=["o2_bin", "psi_bin"])
+
+
+def _coverage_controls(frame: pd.DataFrame) -> tuple[pd.DataFrame, bool]:
+    """Study picker, burner-stream switch and zoom switch. Returns the frame to draw and whether all pressures show."""
+    studies = sorted(frame["Investigation"].unique())
+    previous = [s for s in st.session_state.get("coverage_studies", studies) if s in studies]
+    st.session_state["coverage_studies"] = previous or studies  # filters can remove a study the user had selected
+    chosen = st.multiselect("Studies shown", studies, key="coverage_studies",
+                            help="Each study measured something different (droplets of liquid fuel in FLEX and CFI, "
+                                 "gas flames in ACME-CFI-G). Show one at a time to read a single story.")
+    stream = st.toggle("Include oxygen measured in the burner stream", key="coverage_stream",
+                       help="Some ACME-CFI-G tests report the oxygen of the gas leaving the burner, not the "
+                            "atmosphere a crew would breathe. They are hidden unless you switch this on.")
+    full = st.toggle("Show all pressures", key="coverage_full",
+                     help=f"By default the chart zooms on 0-{PRESSURE_FOCUS_PSI:g} psi, where habitat conditions "
+                          "are. A few high-pressure tests would otherwise flatten that band.")
+    shown = frame[frame["Investigation"].isin(chosen)]
+    if not stream:
+        shown = shown[shown["Oxygen basis"] != STREAM_BASIS]
+    return shown, full
+
+
 def coverage_map(matches: tuple[Match, ...]) -> None:
     conditions = condition_map(matches)
     with st.container(border=True, key="coverage_card"):
         st.markdown("#### Experimental coverage · oxygen and pressure")
-        st.caption("**What it shows:** which oxygen and pressure conditions PSI experiments actually tested. Each dot is "
-                   "one test (color = investigation, triangle = O₂ measured in the burner stream). Empty areas are "
-                   "conditions with no test data, so any conclusion there would be an extrapolation. The shaded box is "
-                   f"the lunar-habitat reference: at least {LUNAR_OXYGEN_MIN:g}% O₂ at or below {LUNAR_PRESSURE_MAX:g} psi.")
-        if st.session_state.get("show_copilot"):
-            st.caption("Chart clicks snap to a display grid. Type oxygen and pressure in the copilot for exact conditions.")
-            st.info("**How to use it with the copilot:** click anywhere on the chart to choose a habitat condition "
-                    "(the dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click; you can "
-                    "also type the values). Then press **Ask copilot**: the application ranks the investigations "
-                    "closest to that point, and the language model explains the ranking using only cited records "
-                    "and report passages. Dots near the marker mean well-covered conditions; a marker in an empty "
-                    "area means the answer rests on distant tests. The ranking is not only distance: it weighs five criteria "
-                    "(O₂ closeness, pressure closeness, fire-safety pillar, fuel type, data richness), so a study can "
-                    "rank high with few dots near the marker. After you ask, the studies in the answer stay "
-                    "highlighted and the rest fade.", icon=":material/touch_app:")
+        st.caption("**What it shows:** which oxygen and pressure conditions PSI experiments actually tested. Each "
+                   "bubble groups tests with nearly the same conditions: **its size and number are how many tests**, "
+                   "color is the study. Empty areas have no test data, so any conclusion there is an extrapolation. "
+                   f"The shaded box is the lunar-habitat reference ({LUNAR_OXYGEN_MIN:g}% O₂ or more at "
+                   f"{LUNAR_PRESSURE_MAX:g} psi or less); the amber ring is Earth air.")
+        copilot_on = bool(st.session_state.get("show_copilot"))
+        if copilot_on:
+            st.caption("Click the chart to set the copilot's scenario. Clicks snap to a display grid; type the values "
+                       "in the copilot for exact conditions.")
+            with st.expander("How the chart and the copilot work together"):
+                st.write("The dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click. "
+                         "**Ask copilot** then ranks the investigations closest to that point and the language "
+                         "model explains the ranking using only cited records and report passages. Bubbles near "
+                         "the marker mean well-covered conditions; a marker in an empty area means the answer rests "
+                         "on distant tests. The ranking weighs five criteria (O₂ closeness, pressure closeness, "
+                         "fire-safety pillar, fuel type, data richness), so a study can rank high with few bubbles "
+                         "near the marker. After you ask, the studies in the answer stay highlighted and the rest fade.")
         if conditions.rows:
-            frame = pd.DataFrame(conditions.rows)
-            answered = st.session_state.get(RESULT_KEY) if st.session_state.get("show_copilot") else None
+            frame, full_range = _coverage_controls(pd.DataFrame(conditions.rows))
+            answered = st.session_state.get(RESULT_KEY) if copilot_on else None
             ranks = {r.investigation.id: r.rank for r in answered.shortlist} if answered else {}
-            frame[ANSWER_RANK] = frame["Investigation"].map(lambda i: f"#{ranks[i]}" if i in ranks else NOT_IN_ANSWER)
-            right = max(float(frame["O2"].max()), LUNAR_OXYGEN_MIN) + 3
-            box = alt.Chart(pd.DataFrame([{"x": LUNAR_OXYGEN_MIN, "x2": right, "y": 0.0, "y2": LUNAR_PRESSURE_MAX}]))
-            oxygen_axis = alt.Scale(domain=[10, right], nice=False)  # no test reports less than ~12% O2
-            scenario = box.mark_rect(color="#F2B33D", opacity=.18, stroke="#C58B36", strokeDash=[5, 4]).encode(
-                x=alt.X("x:Q", scale=oxygen_axis), x2="x2:Q", y="y:Q", y2="y2:Q")
-            label = box.mark_text(align="left", baseline="bottom", dx=6, dy=-6, color="#8A5A12", fontWeight=600).encode(
-                x=alt.X("x:Q", scale=oxygen_axis), y="y2:Q", text=alt.value("Lunar habitat scenario"))
-            copilot_on = bool(st.session_state.get("show_copilot"))
-            dots = alt.Chart(frame).mark_point(filled=True, size=52, stroke="#FFFFFF", strokeWidth=.5).encode(
-                opacity=alt.condition(f"!{len(ranks)} || datum['{ANSWER_RANK}'] != '{NOT_IN_ANSWER}'",
-                                      alt.value(DOT_OPACITY), alt.value(FADED_DOT_OPACITY)),
-                x=alt.X("O2:Q", title="Oxygen (%)", scale=oxygen_axis),
-                y=alt.Y("Pressure:Q", title="Pressure (psi)", scale=alt.Scale(zero=True, nice=True)),
-                color=alt.Color("Investigation:N", legend=alt.Legend(orient="top", title=None),
-                                scale=alt.Scale(range=["#00847F", "#3563B9", "#C26A1B", "#879EAD"])),
-                shape=alt.Shape("Oxygen basis:N", scale=alt.Scale(domain=["Chamber atmosphere", "Burner stream"],
-                                                                  range=["circle", "triangle-up"]),
-                                legend=alt.Legend(orient="top", title="O₂ measured in")),
-                tooltip=["Investigation:N", f"{ANSWER_RANK}:N", "Record:N", "Fuel:N", "Oxygen basis:N", "Source row:N",
-                         alt.Tooltip("O2:Q", title="O₂ (%)"),
-                         alt.Tooltip("Pressure:Q", title="Pressure (psi)", format=".2f")],
-            )
-            layers = scenario + label + dots
-            if copilot_on:
-                grid, marker = _pick_layers(right, float(frame["Pressure"].max()), oxygen_axis)
-                layers = grid + layers + marker
-            show_chart(layers.properties(height=540).interactive(),
-                       **({"on_select": _apply_pick, "key": COVERAGE_KEY} if copilot_on else {}))
-            if copilot_on:
-                scenario_indicators(frame)
-            absent = [i for i in ranks if i not in set(frame["Investigation"])]
-            if absent:
-                st.caption(f"Ranked in the last answer but with no dots here: {', '.join(absent)}. No plotted test of "
-                           "these studies reports both oxygen and pressure (or the filters exclude them); the ranking "
-                           "still uses their other records and metadata.")
+            frame = frame.assign(**{ANSWER_RANK: frame["Investigation"].map(
+                lambda i: f"#{ranks[i]}" if i in ranks else NOT_IN_ANSWER)})
+            if frame.empty:
+                st.info("No test remains with these study and oxygen-basis choices.")
+            else:
+                _draw_coverage(frame, ranks, full_range, copilot_on)
             st.caption(f"{len(conditions.rows):,} of {conditions.tests:,} individual tests report both values. "
                        f"Inside the box: {conditions.scenario_ambient} tests with O₂ measured in the chamber atmosphere, "
-                       f"and {conditions.scenario_stream} inverse flames (triangles) whose O₂ is the gas leaving the "
-                       "burner, not the atmosphere a crew would breathe.")
+                       f"and {conditions.scenario_stream} inverse flames (triangles when shown) whose O₂ is the gas "
+                       "leaving the burner, not the atmosphere a crew would breathe.")
         else:
             retained = sum(len(m.points) for m in matches)
             st.info(f"This oxygen–pressure map has no eligible points; {retained:,} records remain in the research results. "
@@ -214,8 +226,69 @@ def coverage_map(matches: tuple[Match, ...]) -> None:
             st.caption("No test reporting both values: " + ", ".join(conditions.without_pair)
                        + f". Their records stay in the filtered result. {conditions.summaries} daily or matrix "
                        "records are not individual tests and are not plotted.")
-        st.caption("A dot inside the box matches the scenario's atmosphere, not its gravity: the PSI has no "
+        st.caption("A bubble inside the box matches the scenario's atmosphere, not its gravity: the PSI has no "
                    "partial-gravity data.")
+
+
+def _draw_coverage(frame: pd.DataFrame, ranks: dict[str, int], full_range: bool, copilot_on: bool) -> None:
+    scenario_o2, scenario_psi = scenario_point()
+    top = float(frame["Pressure"].max()) + 5 if full_range else max(PRESSURE_FOCUS_PSI, scenario_psi + 2)
+    pressure_axis = alt.Scale(domain=[0, top], nice=False, clamp=True)
+    right = max(float(frame["O2"].max()), LUNAR_OXYGEN_MIN, scenario_o2) + 3
+    oxygen_axis = alt.Scale(domain=[10, right], nice=False)  # no test reports less than ~12% O2
+    x_enc = alt.X("O2:Q", title="Oxygen (%)", scale=oxygen_axis)
+    y_enc = alt.Y("Pressure:Q", title="Pressure (psi)", scale=pressure_axis)
+    bubbles = bubbles_of(frame)
+    visible = bubbles[bubbles["Pressure"] <= top]
+
+    box = alt.Chart(pd.DataFrame([{"x": LUNAR_OXYGEN_MIN, "x2": right, "y": 0.0, "y2": LUNAR_PRESSURE_MAX}]))
+    zone = box.mark_rect(color="#F2B33D", opacity=.18, stroke="#C58B36", strokeDash=[5, 4], clip=True).encode(
+        x=alt.X("x:Q", scale=oxygen_axis), x2="x2:Q", y=alt.Y("y:Q", scale=pressure_axis), y2="y2:Q")
+    zone_label = box.mark_text(align="right", baseline="top", dx=-6, dy=4, color="#8A5A12", fontWeight=600,
+                               clip=True).encode(x=alt.X("x2:Q", scale=oxygen_axis),
+                                                 y=alt.Y("y2:Q", scale=pressure_axis),
+                                                 text=alt.value("Lunar habitat reference"))
+    earth = alt.Chart(pd.DataFrame([{"O2": EARTH_CABIN.o2_percent, "Pressure": EARTH_CABIN.pressure_psi,
+                                     "Label": f"Earth air ({EARTH_CABIN.o2_percent:g}%, "
+                                              f"{EARTH_CABIN.pressure_psi:g} psi)"}]))
+    earth_ring = earth.mark_point(shape="circle", filled=False, size=420, stroke="#C58B36", strokeWidth=2.5,
+                                  clip=True).encode(x=x_enc, y=y_enc)
+    earth_text = earth.mark_text(align="left", dx=14, dy=-14, color="#8A5A12", fontWeight=600, clip=True).encode(
+        x=x_enc, y=y_enc, text="Label:N")
+    dots = alt.Chart(visible).mark_point(filled=True, stroke="#FFFFFF", strokeWidth=.6, clip=True).encode(
+        opacity=alt.condition(f"!{len(ranks)} || datum['{ANSWER_RANK}'] != '{NOT_IN_ANSWER}'",
+                              alt.value(.85), alt.value(FADED_DOT_OPACITY)),
+        x=x_enc, y=y_enc,
+        size=alt.Size("n:Q", scale=alt.Scale(type="sqrt", range=BUBBLE_SIZE_RANGE),
+                      legend=alt.Legend(orient="bottom", title="Tests per bubble")),
+        color=alt.Color("Investigation:N", legend=alt.Legend(orient="top", title=None),
+                        scale=alt.Scale(range=["#00847F", "#3563B9", "#C26A1B", "#879EAD"])),
+        shape=alt.Shape("Oxygen basis:N", scale=alt.Scale(domain=["Chamber atmosphere", STREAM_BASIS],
+                                                          range=["circle", "triangle-up"]),
+                        legend=alt.Legend(orient="top", title="O₂ measured in")),
+        tooltip=["Investigation:N", f"{ANSWER_RANK}:N", alt.Tooltip("n:Q", title="Tests here"), "Fuels:N",
+                 "Oxygen basis:N", alt.Tooltip("O2_min:Q", title="O₂ min (%)", format=".1f"),
+                 alt.Tooltip("O2_max:Q", title="O₂ max (%)", format=".1f"),
+                 alt.Tooltip("psi_min:Q", title="Pressure min (psi)", format=".2f"),
+                 alt.Tooltip("psi_max:Q", title="Pressure max (psi)", format=".2f")])
+    counts = alt.Chart(visible[visible["n"] >= MIN_LABELLED_TESTS]).mark_text(
+        fontSize=10, fontWeight=700, color="#12304A", dx=11, dy=-11, clip=True).encode(x=x_enc, y=y_enc, text="n:Q")
+    layers = zone + zone_label + dots + counts + earth_ring + earth_text
+    if copilot_on:
+        grid, marker = _pick_layers(right, top, oxygen_axis, pressure_axis)
+        layers = grid + layers + marker
+    show_chart(layers.properties(height=540).interactive(),
+               **({"on_select": _apply_pick, "key": COVERAGE_KEY} if copilot_on else {}))
+    hidden = int(bubbles.loc[bubbles["Pressure"] > top, "n"].sum())
+    if hidden:
+        st.caption(f"{hidden:,} tests above {top:g} psi are outside this zoom. Switch on **Show all pressures** to see them.")
+    if copilot_on:
+        scenario_indicators(frame)
+    absent = [i for i in ranks if i not in set(frame["Investigation"])]
+    if absent:
+        st.caption(f"Ranked in the last answer but with no bubble here: {', '.join(absent)}. No plotted test of "
+                   "these studies reports both oxygen and pressure (or the filters exclude them); the ranking "
+                   "still uses their other records and metadata.")
 
 
 def open_retained_records(investigation_id: str) -> None:

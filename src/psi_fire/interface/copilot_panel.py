@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 
 from psi_fire.application.answer_types import AnswerResult, AnswerStatus
+from psi_fire.domain.answering import CitationKind, IssueCode, ValidationIssue
 from psi_fire.domain.manual import GravityRegime
 from psi_fire.domain.model import Investigation
 from psi_fire.domain.ranking import LUNAR_BASE, HabitatScenario
@@ -80,6 +81,24 @@ def _breakdown_table(result: AnswerResult) -> pd.DataFrame:
         for r in result.shortlist for s in r.breakdown.scores])
 
 
+def narrator_failure_message(issues: tuple[ValidationIssue, ...]) -> str | None:
+    """A provider failure (no credits, bad key, rate limit) is not a validation failure: say so in plain words."""
+    failure = next((i.message for i in issues if i.code == IssueCode.EMPTY_DRAFT and "Narrator failed" in i.message), None)
+    if failure is None:
+        return None
+    lowered = failure.lower()
+    if "insufficient_quota" in lowered or "no credits" in lowered or "credit_balance" in lowered:
+        reason = ("The language-model account has no credits left. Add credits in the provider's billing page, "
+                  "or clear PSI_LLM_MODEL in .env to use the offline template narrator.")
+    elif "429" in lowered or "ratelimit" in lowered or "rate limit" in lowered:
+        reason = "The language-model provider is rate limiting requests. Wait a moment and ask again."
+    elif "401" in lowered or "authentication" in lowered or "api key" in lowered:
+        reason = "The language-model API key was rejected. Check OPENAI_API_KEY in .env."
+    else:
+        reason = "The language-model call failed before it produced text."
+    return f"{reason} No text was generated, so nothing was validated; the deterministic ranking below is unaffected."
+
+
 def _render(result: AnswerResult, narrator_label: str, context: EvidenceContext) -> None:
     if result.status in (AnswerStatus.APPROVED, AnswerStatus.PARTIAL) and result.draft:
         if result.status == AnswerStatus.PARTIAL:
@@ -94,16 +113,28 @@ def _render(result: AnswerResult, narrator_label: str, context: EvidenceContext)
         for index, claim in enumerate(result.draft.claims):
             st.markdown(claim.text)
             render_figures(tuple(f for f in result.figure_traces if f.claim_index == index))
-            for position, entry in enumerate(e for e in result.traceability if e.claim_index == index):
+            entries = [e for e in result.traceability if e.claim_index == index]
+            documents = [e for e in entries if e.citation.kind in (CitationKind.PASSAGE, CitationKind.RECORD)]
+            context_only = [e for e in entries if e not in documents]
+            for position, entry in enumerate(documents):
                 render_citation(entry, result, f"{index}_{position}", context)
+            if context_only:  # ranking and curated metadata support the claim but are not documents to read
+                with st.expander(f"Ranking and curated metadata used ({len(context_only)})"):
+                    for position, entry in enumerate(context_only):
+                        render_citation(entry, result, f"{index}_c{position}", context)
         if result.solutions:
             st.markdown("**Derived technologies (catalog)**")
             for s in result.solutions:
                 label = "illustrative, not evidence" if s.status == "illustrative" else f"source: {s.source_file}"
                 st.caption(f"{s.investigation_id}: {s.technology} ({label})")
     else:
-        st.badge("Insufficient evidence", color="orange", icon=":material/rule:")
-        st.write("No answer passed validation, so no generated text is shown. The deterministic ranking follows.")
+        unavailable = narrator_failure_message(result.issues)
+        if unavailable:
+            st.badge("Language model unavailable", color="red", icon=":material/cloud_off:")
+            st.error(unavailable)
+        else:
+            st.badge("Insufficient evidence", color="orange", icon=":material/rule:")
+            st.write("No answer passed validation, so no generated text is shown. The deterministic ranking follows.")
         for issue in result.issues:
             st.caption(f"{issue.code.value}: {issue.message}")
         st.code(result.breakdown_text, language=None)

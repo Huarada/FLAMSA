@@ -359,3 +359,18 @@ def test_a_criterion_cited_as_metadata_is_relabelled_as_a_breakdown_citation_but
     good = answer(investigations, draft(criterion))
     assert good.status == AnswerStatus.APPROVED and good.traceability[0].citation.kind == CitationKind.BREAKDOWN
     assert answer(investigations, draft("made_up_criterion")).status == AnswerStatus.INSUFFICIENT_EVIDENCE
+
+
+def test_technology_questions_get_an_application_written_scope_note_and_others_do_not(investigations):
+    from psi_fire.application.answering import TECHNOLOGY_NOTICE
+
+    top = RelevanceRanker().rank(investigations, LUNAR_BASE)[0].investigation
+    good = Draft(claims=(_good_claim(top, top.test_points[0], "a"),))
+
+    def run(question: str):
+        catalog = NoCatalog()
+        steps = AnsweringSteps(RelevanceRanker(), Passages(), FixedNarrator(good), RuleBasedValidator(catalog), catalog)
+        return AnswerScenarioQuestion(steps)(investigations, LUNAR_BASE, question)
+
+    assert TECHNOLOGY_NOTICE in run("Which technology should I choose to protect against fire?").limitations
+    assert TECHNOLOGY_NOTICE not in run("What oxygen range was tested in FLEX?").limitations

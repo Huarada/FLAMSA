@@ -48,6 +48,11 @@ Answer ONLY with the structured Draft. Rules, all machine-checked (a violation r
    records and passages show about burning behavior at the scenario's oxygen and pressure.
 4. PSI has no partial-gravity data; if you mention partial gravity, say so (E-FIELD only emulates it).
 5. Do not restate the limitations list; it is shown separately. Be concise: at most one claim per investigation.
+6. A citation must support what the claim says. Never add a citation only to satisfy rule 1 (for example hardware
+   metadata under a sentence about recommendations). A statement that something is absent from the data cites only
+   the ranking (kind "breakdown"), not unrelated metadata.
+7. When you say a record is near the scenario, state the record's own oxygen and pressure as figures so the reader can
+   see the distance; do not call a record near if either value differs a lot from the scenario.
 Refer to investigations as [ID]. If previous_issues is not empty, fix exactly those problems."""
 
 

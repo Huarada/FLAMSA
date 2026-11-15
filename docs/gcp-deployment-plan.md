@@ -1,13 +1,13 @@
 # GCP deployment and operations
 
-The first FLAMSA release is deployed publicly on Cloud Run.
+FLAMSA is deployed publicly on Cloud Run. The latest verified frozen-source release is described below.
 
 - Public URL: https://flamsa-398749245371.us-central1.run.app
 - Project: `flamsa-514815` (`398749245371`); billing and project access verified.
 - Region/service: `us-central1` / `flamsa`.
-- Revision: `flamsa-00001-kk6`, serving 100% of traffic.
-- Build: `6e5be84e-1eba-4414-84f5-a17713a4c218` (SUCCESS).
-- Image: `us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:defb2817f35ff42411e0185e86f154f108542d1c41044d89da57e3348e1c7843`.
+- Revision: `flamsa-00002-lis`, serving 100% of traffic.
+- Build: `0c6f8fda-4c7b-4ef0-9cd9-e9c3ab524313` (SUCCESS).
+- Image: `us-central1-docker.pkg.dev/flamsa-514815/cloud-run-source-deploy/flamsa@sha256:58d55e98ebb1aaccec7172948a06181a014b1bbe6252def382bc202c7832c61e`.
 
 Machine-readable release settings: [gcp-release.json](gcp-release.json).
 
@@ -50,7 +50,7 @@ Reopen the VS Code terminal after installing Google Cloud CLI if gcloud is not o
 gcloud auth list
 gcloud config set project flamsa-514815
 gcloud run services describe flamsa --region us-central1
-gcloud builds describe 6e5be84e-1eba-4414-84f5-a17713a4c218 --region us-central1
+gcloud builds describe 0c6f8fda-4c7b-4ef0-9cd9-e9c3ab524313 --region us-central1
 ```
 
 This execution environment required a process-scoped custom CA bundle derived from existing Windows-trusted roots plus certifi. HTTPS verification was kept enabled; the machine-local bundle is ignored and is not part of the build. Do not disable TLS verification to work around a certificate problem. If necessary, follow Google's [custom CA configuration](https://docs.cloud.google.com/sdk/docs/proxy-settings).
@@ -69,10 +69,12 @@ References: [source deployment](https://docs.cloud.google.com/run/docs/deploying
 
 ## Validation and remaining limits
 
-Pre-build local suite: 270 passed, 179 skipped for local Poppler-dependent visual-line checks. Ruff and domain mypy passed. Cloud Build completed successfully with Poppler installed in the Linux image.
+Source commit: `6f745552ab3c549959768b27bfed5211ac7dc97a`. Build `0c6f8fda-4c7b-4ef0-9cd9-e9c3ab524313` succeeded. The candidate was tested with zero production traffic, then promoted to 100 percent; the temporary releasecandidate tag was removed. The previous image/revision remains recorded in [release history](releases/flamsa-00001-kk6.json).
 
-Unauthenticated root and health endpoints returned HTTP 200. Native Chrome verified Home, Dashboard (1,615 records and 693 oxygen/pressure dots), Fire behavior, Investigations, the intended filter visibility, source download and a mobile Home viewport without rendered exceptions or horizontal page overflow. A downloaded BASS-II experimental CSV had the same SHA-256 as its original.
+Pre-release checks: 290 passed, 179 skipped for local Poppler-dependent source-line checks; Ruff and domain mypy passed. The Linux image includes Poppler, but the full suite was not repeated inside that image. Both candidate and public root/health endpoints returned HTTP 200. Native Chrome verified Home, Dashboard (1,615 records and 693 scalar oxygen/pressure dots), Fire behavior and Investigations without rendered exceptions. Research filters appeared only on Dashboard. A downloaded BASS-II source CSV matched its original SHA-256, and mobile Home had no horizontal overflow.
 
-A single-click copilot request survived a draft edit while pending and completed in 34.94 seconds. The generic-question test produced an insufficient-evidence outcome due to `quote_mismatch`, with a visible deterministic ranking; no narrator transport error was observed. This is an enforced evidence constraint, not a successful generated explanation. The record-focused question completed in 7.03 seconds with an undeclared-number rejection for 25 and a visible ranking, again without a narrator transport error. No approved model-generated answer was observed in these two samples; model-output validation quality remains a separate follow-up. The strict checks were not relaxed to obtain a passing demonstration.
+The single-click copilot request survived an edit of the draft input, disabled/re-enabled submission and displayed the deterministic ranking after 20.39 seconds. However, the model provider returned HTTP 429 because its credits were exhausted. No generated answer was obtained; this is provider availability, not a scientific evidence-validation rejection. Restore provider credits separately to test live narration. Do not change evidence rules, model configuration or keys merely to manufacture a successful smoke result. Raw provider details and its screenshot remain in ignored local verification files, outside GitHub/build publication.
 
-Evidence: [HTTP smoke](gcp-public-http-smoke.json), [hosted browser observations](gcp-hosted-browser-validation.json), [record-question result](gcp-hosted-record-answer.json), [release metadata](gcp-release.json), screenshots under `docs/screenshots/gcp-*`. No production load, physical-device or full accessibility audit was performed. Build upload size, cold starts, dependency pinning and durable session storage remain considerations before broader production use.
+Security preflight reviewed tracked text and exact local-secret matches, plus the native gcloud upload list: no prohibited local inputs or matching secret values were detected. Excluded editable-install .egg-info metadata along with environment files, credentials, virtualenvs, IDE/assistant state, browser profiles and evaluation dumps. The 1,268-file/917,233,849-byte source snapshot was hash-verified. This is a focused publication audit, not proof against every possible secret in binary/history content.
+
+Evidence: [sanitized security review](release-security-preflight.json), [HTTP checks](gcp-release-http-validation.json), [candidate browser results](gcp-release-browser-validation.json), [public browser results](gcp-release-public-browser.json), [current release metadata](gcp-release.json). Screenshots: docs/screenshots/gcp-release-*. No production load, physical-device or full accessibility audit was performed. Build size, dependency locking, model funding and durable session storage remain operational follow-ups. Work created after the frozen snapshot is not part of this release.

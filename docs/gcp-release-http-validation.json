@@ -1,0 +1,26 @@
+{
+  "candidate_revision": "flamsa-00002-lis",
+  "candidate_results": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/_stcore/health",
+      "status": 200
+    }
+  ],
+  "public_url": "https://flamsa-398749245371.us-central1.run.app",
+  "published_revision": "flamsa-00002-lis",
+  "public_results": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/_stcore/health",
+      "status": 200
+    }
+  ],
+  "traffic_percent": 100
+}

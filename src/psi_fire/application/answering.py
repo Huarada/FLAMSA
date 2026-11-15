@@ -218,6 +218,21 @@ def _source_of(citation: Citation, inv: Investigation) -> tuple[str | None, str 
     return citation.source_file, citation.locator, None
 
 
+TECHNOLOGY_WORDS = ("technolog", "recommend", "implement", "install", "extinguish", "suppression system", "protect")
+TECHNOLOGY_NOTICE = ("This copilot does not recommend protection technologies: the curated PSI data describe combustion "
+                     "behavior, not evaluations of safety technologies, and the solutions catalog is empty.")
+
+
+def answer_limitations(scenario: HabitatScenario, shortlist: tuple[RankedInvestigation, ...], question: str,
+                       catalog: SolutionCatalog) -> tuple[str, ...]:
+    """Domain limitations plus, from the application itself, the honest scope note for technology questions."""
+    notes = limitations(scenario, shortlist)
+    asks_for_technology = any(w in question.casefold() for w in TECHNOLOGY_WORDS)
+    if asks_for_technology and not any(catalog.lookup(r.investigation.id) for r in shortlist):
+        notes = (*notes, TECHNOLOGY_NOTICE)
+    return notes
+
+
 MIN_PARTIAL_CLAIMS = 2    # a partial answer needs at least this many validated claims ...
 MIN_PARTIAL_SHARE = 0.5   # ... and at least this share of the draft, else the strict fallback applies
 
@@ -311,7 +326,8 @@ class AnsweringSteps:
         return AnswerState(result=AnswerResult(
             status=status, scenario=state["scenario"], question=state["question"], shortlist=shortlist,
             draft=shown, solutions=solutions, issues=() if status == AnswerStatus.APPROVED else issues,
-            limitations=limitations(state["scenario"], shortlist), breakdown_text=breakdown_text(shortlist),
+            limitations=answer_limitations(state["scenario"], shortlist, state["question"], self._catalog),
+            breakdown_text=breakdown_text(shortlist),
             attempts=state.get("attempts", ()),
             traceability=traceability(shown, shortlist) if shown else (),
             figure_traces=figure_traces(shown, shortlist) if shown else (),

@@ -15,9 +15,9 @@
 
 </div>
 
-![FLAMSA research workspace](docs/screenshots/gcp-home-desktop.png)
+![FLAMSA research workspace](docs/screenshots/gcp-release-home-desktop.png)
 
-This README describes the local implementation reviewed on **2026-11-15**. The public demonstration is a separately deployed snapshot: later local improvements, including partial-answer handling and safety-evidence labels, require a new release. See [release metadata](docs/gcp-release.json).
+The public demonstration was updated on **2026-11-15** to revision `flamsa-00002-lis`, built from commit `6f74555`. It includes the guarded partial-answer policy and safety-evidence labels. Local work created after the frozen release snapshot is not automatically deployed. See [release metadata](docs/gcp-release.json). The latest hosted model request encountered exhausted provider credits; deterministic ranking and the research views remain available.
 
 ## Contents
 

@@ -1,0 +1,140 @@
+{
+  "url": "https://releasecandidate---flamsa-acrktkn45q-uc.a.run.app",
+  "observations": [
+    {
+      "url": "https://releasecandidate---flamsa-acrktkn45q-uc.a.run.app/?page=Home",
+      "exceptions": [],
+      "filterPanel": false,
+      "metrics": [
+        {
+          "label": "Curated investigations",
+          "value": "15"
+        },
+        {
+          "label": "Reported records",
+          "value": "1,615"
+        }
+      ],
+      "tabs": [],
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "home-desktop"
+    },
+    {
+      "url": "https://releasecandidate---flamsa-acrktkn45q-uc.a.run.app/?page=Dashboard",
+      "exceptions": [],
+      "filterPanel": true,
+      "metrics": [
+        {
+          "label": "Investigations",
+          "value": "15 / 15"
+        },
+        {
+          "label": "Reported records",
+          "value": "1,615"
+        },
+        {
+          "label": "Tests with O₂ and pressure",
+          "value": "693"
+        },
+        {
+          "label": "Lunar-scenario tests",
+          "value": "20"
+        },
+        {
+          "label": "Tests near the marker",
+          "value": "23"
+        },
+        {
+          "label": "Investigations near",
+          "value": "1"
+        },
+        {
+          "label": "Coverage",
+          "value": "Tested nearby"
+        }
+      ],
+      "tabs": [],
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "dashboard"
+    },
+    {
+      "url": "https://releasecandidate---flamsa-acrktkn45q-uc.a.run.app/?page=Fire+behavior",
+      "exceptions": [],
+      "filterPanel": false,
+      "metrics": [
+        {
+          "label": "heptane · N2",
+          "value": "0.01847"
+        },
+        {
+          "label": "methanol · N2",
+          "value": "0.01832"
+        }
+      ],
+      "tabs": [
+        "FLEX · Burning rate",
+        "BASS-II · Gas changes",
+        "SAFFIRE-II · Gravity"
+      ],
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "fire-behavior"
+    },
+    {
+      "url": "https://releasecandidate---flamsa-acrktkn45q-uc.a.run.app/?page=Investigations",
+      "exceptions": [],
+      "filterPanel": false,
+      "metrics": [],
+      "tabs": [
+        "Research & scientific context",
+        "Experimental records & raw values",
+        "Citations & source downloads"
+      ],
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "investigations"
+    },
+    {
+      "case": "source-download",
+      "filename": "PSI-25_Experimental table_BASS-II.csv",
+      "bytes": 16590,
+      "sha256": "71e792bf6b5fb5ea620c5dd70fbbac05515992e12aefcf5dff47312caa48c042",
+      "matches_original": true
+    },
+    {
+      "case": "copilot-single-click-with-draft-edit",
+      "seconds": 20.39,
+      "pending_button_disabled": true,
+      "language_model_label": false,
+      "approved": false,
+      "partial": false,
+      "insufficient_evidence": true,
+      "provider_status": "credits_exhausted",
+      "http_error_code": 429,
+      "generated_explanation_verified": false,
+      "ranking_fallback_visible": true,
+      "raw_provider_output": "Retained only in ignored local verification artifacts."
+    },
+    {
+      "url": "https://releasecandidate---flamsa-acrktkn45q-uc.a.run.app/?page=Home",
+      "exceptions": [],
+      "filterPanel": false,
+      "metrics": [
+        {
+          "label": "Curated investigations",
+          "value": "15"
+        },
+        {
+          "label": "Reported records",
+          "value": "1,615"
+        }
+      ],
+      "tabs": [],
+      "width": 390,
+      "scrollWidth": 390,
+      "case": "home-mobile"
+    }
+  ]
+}
