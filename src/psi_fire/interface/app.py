@@ -34,7 +34,7 @@ from psi_fire.interface.reference_dashboard import chart_grid, filtered_records_
 from psi_fire.interface.workspace_navigation import workspace_navigation
 from psi_fire.interface.workspace_style import apply_style
 
-st.set_page_config(page_title="FLAMSA / Research workspace", page_icon=":material/local_fire_department:", layout="wide")
+st.set_page_config(page_title="FLAMSA", page_icon=":material/local_fire_department:", layout="wide")
 apply_style()
 
 @st.cache_data(max_entries=2, show_spinner="Validating curated investigations...")
