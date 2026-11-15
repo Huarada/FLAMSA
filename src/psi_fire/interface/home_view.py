@@ -46,7 +46,8 @@ def home_content(snapshot: Snapshot, image_uri: str) -> None:
     summary = GetHomeSummary(snapshot)(HOME_THEMES.get(st.session_state["home_theme"], "flame"))
     with st.container(key="home_hero"):
         st.caption("// Intelligence for fire safety")
-        st.title("NASA PSI combustion data. :orange[Clearer evidence.]")
+        st.title("FLAMSA", anchor=False)
+        st.subheader("NASA PSI combustion data. Clearer evidence.", anchor=False)
         st.write("Explore NASA PSI combustion research for fire prevention, detection and suppression in crewed "
                  "environments. Compare experimental conditions, identify relevant investigations, and trace "
                  "findings to the original data and sources.")

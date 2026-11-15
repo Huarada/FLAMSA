@@ -46,10 +46,23 @@ def apply_home_style(image_uri: str) -> None:
     .st-key-home_workspace { gap: 1.8rem; color: #e9f0f5; }
     .st-key-home_workspace .st-key-home_hero { max-width: none; padding: 5.5rem 0 1.8rem; }
     .st-key-home_workspace .st-key-home_hero h1 { font-family: 'Sora', sans-serif;
-      font-size: clamp(3.2rem, 7.5vw, 7rem) !important; font-weight: 800; line-height: 1.05;
-      letter-spacing: -.045em; color: #e9f0f5 !important; max-width: 1240px; padding: 0 0 1.5rem !important; }
-    .st-key-home_hero h1 .stMarkdownColoredText { background: linear-gradient(90deg, #ff782b, #eebd2b);
-      background-clip: text; -webkit-background-clip: text; color: transparent !important; }
+      display: inline-block; font-size: clamp(4rem, 14vw, 12rem) !important;
+      font-weight: 800; line-height: 1.08; letter-spacing: -.045em; color: #ff7936 !important;
+      padding: 0 0 .15em !important; max-width: 100%;
+      filter: drop-shadow(0 0 16px #ff572830);
+      animation: home-brand-pulse 4s ease-in-out infinite; }
+    @supports ((background-clip: text) or (-webkit-background-clip: text)) {
+      .st-key-home_workspace .st-key-home_hero h1 {
+        background-image: radial-gradient(ellipse at 25% 80%, #fff2b5 0%, #ffb43b 24%, transparent 60%),
+          radial-gradient(ellipse at 80% 90%, #ffeb9b 0%, #ff782b 32%, transparent 66%),
+          linear-gradient(0deg, #cf321d 0%, #ff5328 35%, #ff9238 70%, #ffe29b 100%);
+        background-size: 85% 180%, 65% 200%, 100% 100%;
+        background-position: 0% 100%, 100% 75%, 0% 0%;
+        background-clip: text; -webkit-background-clip: text; color: transparent !important;
+        animation: home-brand-fire 6s ease-in-out infinite, home-brand-pulse 4s ease-in-out infinite; }
+    }
+    .st-key-home_workspace .st-key-home_hero h3 { font-size: clamp(1.25rem, 2.7vw, 2.4rem) !important;
+      font-weight: 600; line-height: 1.35; letter-spacing: -.025em; max-width: 1050px; }
     .stApp:has(.st-key-home_workspace) .st-key-topbar img { filter: brightness(0) invert(1); }
     .stApp:has(.st-key-home_workspace) .st-key-topbar [data-testid="stPopoverButton"] {
       color: #e9f0f5; background: #101c2cbb; border: 1px solid #289dd066; }
@@ -84,12 +97,23 @@ def apply_home_style(image_uri: str) -> None:
     @keyframes home-gridmove { to { background-position: 0 60px; } }
     @keyframes home-rise { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: .7; }
       100% { transform: translateY(-120vh); opacity: 0; } }
+    @keyframes home-brand-fire {
+      0%,100% { background-position: 0% 100%, 100% 75%, 0% 0%; }
+      50% { background-position: 70% 25%, 20% 100%, 0% 0%; }
+    }
+    @keyframes home-brand-pulse {
+      0%,100% { filter: drop-shadow(0 0 12px #ff522b35); opacity: .94; }
+      50% { filter: drop-shadow(0 0 25px #ff522b65); opacity: 1; }
+    }
     .motion-paused *, .motion-paused { animation-play-state: paused !important; }
-    @media (prefers-reduced-motion: reduce) { .home-backdrop, .home-backdrop * { animation: none !important; } }
+    .stApp:has(.home-backdrop.motion-paused) .st-key-home_hero h1 { animation: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .home-backdrop, .home-backdrop *, .st-key-home_workspace .st-key-home_hero h1 { animation: none !important; }
+    }
     @media (max-width: 800px) {
       .stApp:has(.st-key-home_workspace) .stMainBlockContainer { padding: 1rem; }
       .st-key-home_workspace .st-key-home_hero { padding: 2.5rem 0 1rem; }
-      .st-key-home_workspace .st-key-home_hero h1 { font-size: clamp(2.6rem, 8vw, 4.5rem) !important; }
+      .st-key-home_workspace .st-key-home_hero h1 { font-size: clamp(3.8rem, 17vw, 6rem) !important; }
       .st-key-home_workspace .st-key-home_hero [data-testid="stCaptionContainer"] p { font-size: .65rem; letter-spacing: .15em; }
       .stApp:has(.st-key-home_workspace) .st-key-topbar { border-radius: 24px; padding: .8rem; }
     }

@@ -65,7 +65,8 @@ def test_english_homepage_and_research_navigation() -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
     assert not app.exception
     assert app.session_state["workspace_navigation"] == "Home"
-    assert any("Clearer evidence" in t.value for t in app.title)
+    assert any(t.value == "FLAMSA" for t in app.title)
+    assert any("Clearer evidence" in item.value for item in app.subheader)
     assert not any(m.label == "Relevance score" for m in app.metric)
     next(b for b in app.button if b.label == "Open related research").click().run()
     assert not app.exception
@@ -76,7 +77,8 @@ def test_english_homepage_and_research_navigation() -> None:
 
 def test_home_explains_current_capabilities_and_opens_behavior_without_replacing_filters() -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
-    assert any("NASA PSI combustion data" in title.value for title in app.title)
+    assert any(title.value == "FLAMSA" for title in app.title)
+    assert any("NASA PSI combustion data" in item.value for item in app.subheader)
     copy = " ".join(item.value for item in app.markdown)
     assert "prevention, detection and suppression" in copy
     assert "Download matching records as CSV" in copy

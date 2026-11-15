@@ -15,9 +15,9 @@
 
 </div>
 
-![FLAMSA research workspace](docs/screenshots/gcp-release-home-desktop.png)
+![FLAMSA research workspace](docs/screenshots/flamsa-brand-home-1440.png)
 
-The public demonstration was updated on **2026-11-15** to revision `flamsa-00002-lis`, built from commit `6f74555`. It includes the guarded partial-answer policy and safety-evidence labels. Local work created after the frozen release snapshot is not automatically deployed. See [release metadata](docs/gcp-release.json). The latest hosted model request encountered exhausted provider credits; deterministic ranking and the research views remain available.
+This README describes the workspace reviewed on **2026-11-15**. The current public Cloud Run revision, source commit and hosted checks are recorded in [release metadata](docs/gcp-release.json). Local changes are deployed only after a frozen-source review and hosted verification; live narration also depends on the configured provider's availability.
 
 ## Contents
 
@@ -121,6 +121,12 @@ Remove the last line or set it to `0` for the default guarded partial-answer pol
 
 Restart the process after changing `.env`, model configuration or domain contracts. Streamlit reruns do not reliably replace an already imported enum/schema or cached pipeline. If dependencies were changed manually, run the launcher with `--reinstall`. Live narration incurs provider latency and charges; the deterministic ranking does not call a provider.
 
+### Public copilot usage limits
+
+The hosted configuration uses `PSI_DAILY_MODEL_LIMIT=4` and `PSI_DAILY_GLOBAL_LIMIT=100`. Each submitted question consumes one allowance, including provider failures; retries within that question do not consume another allowance. Without login, the visitor key is derived from the trusted forwarded network address, so shared IPs share a quota; this is not authenticated per-person enforcement.
+
+Counters are in process memory, shared by sessions, and reset at 00:00 UTC or a process/instance restart, including a new deployment. Cloud Run recycling also resets them. They are demonstration cost guards, not a persistent billing cap. Zero/unset limits disable the corresponding guard locally. A new provider secret version requires a fresh revision to load it; preserve the configured Secret Manager reference and verify that the intended revision receives traffic.
+
 ### Optional container
 
 With a working Docker engine:
@@ -136,7 +142,7 @@ The Dockerfile installs Python dependencies and Poppler, copies scientific sourc
 
 | Destination | Current role and scope |
 |---|---|
-| **Home** | Research entry points, thematic links, curated investigation and reported-record counts |
+| **Home** | FLAMSA fire-gradient wordmark, research entry points, thematic links and live archive counts; motion can be paused |
 | **Dashboard** | Research filters, same-record chart eligibility, oxygen/pressure coverage, descriptive comparisons and scenario-linked copilot |
 | **Fire behavior** | Full FLEX, BASS-II and SAFFIRE-II studies, with local FLEX fuel/pressure/diameter controls and source-bounded safety-evidence labels |
 | **Investigations** | Full-study catalog, metadata status, hardware/sensors, test tables, raw values, provenance, citations and source downloads |
@@ -404,7 +410,7 @@ The full review is in [`docs/DATA_QUALITY_REVIEW.md`](docs/DATA_QUALITY_REVIEW.m
 
 > *"Which microgravity evidence is relevant to a lunar base at ≥ 30% O₂ and ≤ 10.2 psi?"*
 
-Before anything else, the data has to say how much of it applies. The *Dashboard* opens on this map: every test that reports both oxygen and pressure, with the scenario drawn as a box.
+Before anything else, the data has to say how much of it applies. The *Dashboard* opens on a coverage map with tests grouped into count bubbles in 1-percentage-point O2 and 0.5-psi bins, separately by investigation and oxygen basis. The default shows chamber oxygen and a 0-20 psi habitat zoom; controls reveal burner-stream oxygen and the full pressure range. Bubble sizes/counts describe test density, not risk. The lunar scenario is a reference box, and Earth cabin air is a reference marker. Counts below describe all eligible records, including those hidden by the default presentation controls.
 
 ```math
 \#\big\{\,\text{tests} : X_{O_2} \ge 30\%\ \wedge\ P \le 10.2\ \text{psi}\,\big\}

@@ -1,0 +1,38 @@
+[
+  {
+    "width": 1440,
+    "scrollWidth": 1440,
+    "title": "FLAMSA",
+    "subtitle": "NASA PSI combustion data. Clearer evidence.",
+    "titleSize": 192,
+    "subtitleSize": 38.4,
+    "animation": "home-brand-fire, home-brand-pulse",
+    "exceptions": 0
+  },
+  {
+    "width": 390,
+    "scrollWidth": 390,
+    "title": "FLAMSA",
+    "subtitle": "NASA PSI combustion data. Clearer evidence.",
+    "titleSize": 66.3,
+    "subtitleSize": 20,
+    "animation": "home-brand-fire, home-brand-pulse",
+    "exceptions": 0
+  },
+  {
+    "width": 320,
+    "scrollWidth": 320,
+    "title": "FLAMSA",
+    "subtitle": "NASA PSI combustion data. Clearer evidence.",
+    "titleSize": 60.8,
+    "subtitleSize": 20,
+    "animation": "home-brand-fire, home-brand-pulse",
+    "exceptions": 0
+  },
+  {
+    "reducedMotionAnimation": "none"
+  },
+  {
+    "pausedTitleAnimation": "none"
+  }
+]
