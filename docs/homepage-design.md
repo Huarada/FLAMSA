@@ -2,6 +2,8 @@
 
 The Home view uses the supplied Lovable JPEG and reproduces the supplied screenshot's dark full-page chamber background, oversized white headline with an orange-to-gold phrase, blue glass borders, full-width interactive chamber, orange numbered points and rising embers. Copy stays in English to match the existing workspace. The context panel follows the image, matching the supplied wide scene screenshot rather than shrinking the scene beside a sidebar.
 
+Current product copy is reviewed in [the Home content audit](home-content-audit.md). Home now describes the implemented archive-wide scenario ranking and cited explanations, filtered CSV export and source inspection, with direct access to Fire behavior. Its scientific/review limitations remain visible; the copy no longer describes ranking as unimplemented.
+
 ## Reference and motion
 
 The supplied React route renders an `img` with CSS `kenburns` animation, not a video. `vitest.config.ts` and `setup.ts` configure tests. No video was attached. The user confirmed CSS animation is appropriate after this was explained. Home therefore uses the reference's 22-second background zoom, animated grid, 24 rising particles and pulsing points. A subtle blue glow and rotating light layer add motion over the spherical flame without changing the supplied artwork. No scientific recording is represented by these effects.

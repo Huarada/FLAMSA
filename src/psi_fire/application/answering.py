@@ -9,6 +9,7 @@ from psi_fire.application.answer_types import (
     AnswerState,
     AnswerStatus,
     AttemptRecord,
+    FigureTrace,
     NarrationRequest,
     RetrievalSettings,
     TraceEntry,
@@ -38,6 +39,12 @@ def settings_for(attempt: int) -> RetrievalSettings:
     return STRICT_SETTINGS if attempt <= 1 else RELAXED_SETTINGS
 
 
+def retrieval_query(question: str, scenario: HabitatScenario) -> str:
+    """Generic questions ("which studies are relevant?") carry no content words, so add the scenario's own."""
+    return (f"{question} oxygen concentration {scenario.o2_percent:g}% pressure {scenario.pressure_psi:g} psi "
+            "flame spread burning fire safety microgravity")
+
+
 def breakdown_text(shortlist: tuple[RankedInvestigation, ...]) -> str:
     """The deterministic fallback: the ranking rendered as plain text, no LLM involved."""
     if not shortlist:
@@ -61,8 +68,58 @@ def traceability(draft: Draft, shortlist: tuple[RankedInvestigation, ...]) -> tu
     for index, claim in enumerate(draft.claims):
         for citation in claim.citations:
             inv = by_id[citation.investigation_id]
-            entries.append(TraceEntry(index, citation, *_source_of(citation, inv)))
+            entries.append(TraceEntry(index, citation, *_source_of(citation, inv), _status_of(citation, inv)))
     return tuple(entries)
+
+
+PASSAGE_STATUS = "Document passage; the quote matched the retrieved text mechanically and is not human-reviewed"
+
+
+def _status_of(citation: Citation, inv: Investigation) -> str:
+    if citation.kind == CitationKind.RECORD:
+        tp = next(tp for tp in inv.test_points if tp.test_point_id == citation.test_point_id)
+        return f"Curated experimental record; provenance {tp.provenance_status.value}"
+    if citation.kind == CitationKind.METADATA:
+        manual = inv.manual_metadata
+        if manual is not None and citation.field != "objective":
+            return f"Curated metadata; review status {manual.review_status.value}"
+        return "Curated study metadata extracted from the archived ISA-Tab record"
+    return PASSAGE_STATUS
+
+
+def with_figure_citations(draft: Draft, shortlist: tuple[RankedInvestigation, ...]) -> Draft:
+    """A record figure that names an existing test point cites it by definition: add that citation.
+    The number is still checked against the record, so this only completes traceability, never evidence."""
+    known = {(r.investigation.id, tp.test_point_id) for r in shortlist for tp in r.investigation.test_points}
+    claims = []
+    for claim in draft.claims:
+        cited = {(c.investigation_id, c.test_point_id) for c in claim.citations if c.kind == CitationKind.RECORD}
+        added = []
+        for f in claim.figures:
+            key = (f.investigation_id, f.test_point_id)
+            if f.source == "record" and key in known and key not in cited:
+                added.append(Citation(kind=CitationKind.RECORD, investigation_id=f.investigation_id,
+                                      test_point_id=f.test_point_id))
+                cited.add(key)
+        claims.append(claim.model_copy(update={"citations": (*claim.citations, *added)}) if added else claim)
+    return draft.model_copy(update={"claims": tuple(claims)})
+
+
+def figure_traces(draft: Draft, shortlist: tuple[RankedInvestigation, ...]) -> tuple[FigureTrace, ...]:
+    """Record figures only: breakdown figures are computed by the application, not read from a source."""
+    by_id = {r.investigation.id: r.investigation for r in shortlist}
+    traces = []
+    for index, claim in enumerate(draft.claims):
+        for figure in claim.figures:
+            if figure.source != "record":
+                continue
+            point = next(tp for tp in by_id[figure.investigation_id].test_points
+                         if tp.test_point_id == figure.test_point_id)
+            raw = getattr(point, f"{figure.column}_raw", None) or point.extras.get(f"{figure.column}_raw")
+            traces.append(FigureTrace(index, point.investigation_id, point.test_point_id, figure.column, figure.value,
+                                      figure.unit, None if raw is None else str(raw), point.source_file,
+                                      point.source_row, point.provenance_status.value))
+    return tuple(traces)
 
 
 def _source_of(citation: Citation, inv: Investigation) -> tuple[str | None, str | None, str | None]:
@@ -102,7 +159,8 @@ class AnsweringSteps:
 
     def search(self, state: AnswerState) -> AnswerState:
         ids = tuple(r.investigation.id for r in state["shortlist"])
-        found = self._passages.search(state["question"], ids, state["settings"].passages_per_investigation)
+        found = self._passages.search(retrieval_query(state["question"], state["scenario"]), ids,
+                                      state["settings"].passages_per_investigation)
         return AnswerState(passages=found)
 
     def answer(self, state: AnswerState) -> AnswerState:
@@ -119,12 +177,13 @@ class AnsweringSteps:
         if draft is None:
             issues = state["issues"]
         else:
+            draft = with_figure_citations(draft, state["shortlist"])
             issues = self._validator.validate(
                 draft, ValidationContext(state["scenario"], state["shortlist"], state["passages"]))
         record = AttemptRecord(state["attempt"], state["settings"],
                                tuple(r.investigation.id for r in state["shortlist"]),
-                               len(state["passages"]), issues)
-        return AnswerState(issues=issues, attempts=(*state["attempts"], record))
+                               len(state["passages"]), issues, draft, state["passages"])
+        return AnswerState(draft=draft, issues=issues, attempts=(*state["attempts"], record))
 
     def route_after_validate(self, state: AnswerState) -> str:
         if not state["issues"]:
@@ -146,7 +205,8 @@ class AnsweringSteps:
             draft=draft if approved else None, solutions=solutions, issues=() if approved else issues,
             limitations=limitations(state["scenario"], shortlist), breakdown_text=breakdown_text(shortlist),
             attempts=state.get("attempts", ()),
-            traceability=traceability(draft, shortlist) if approved and draft else ()))
+            traceability=traceability(draft, shortlist) if approved and draft else (),
+            figure_traces=figure_traces(draft, shortlist) if approved and draft else ()))
 
 
 def merge(state: AnswerState, update: AnswerState) -> AnswerState:

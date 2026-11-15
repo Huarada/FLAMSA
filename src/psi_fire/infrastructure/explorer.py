@@ -88,6 +88,9 @@ class RegisteredSources:
         self._root = root.resolve()
         self._registry = json.loads((root / "data/sources.json").read_text(encoding="utf-8"))
         self._snapshot = snapshot
+        corpus = root / "data/rag_corpus.json"
+        self._reports = json.loads(corpus.read_text(encoding="utf-8"))["documents"] if corpus.is_file() else []
+        self._digests: dict[str, str] = {}
 
     def list_for(self, investigation_id: str) -> tuple[dict[str, str], ...]:
         inv = next(i for i in self._snapshot.investigations if i.id == investigation_id)
@@ -106,6 +109,13 @@ class RegisteredSources:
             for evidence in inv.manual_metadata.all_evidence():
                 if not any(s["path"] == evidence.source_file for s in sources.values()):
                     add(evidence.source_file, evidence.locator)
+        for report in (d for d in self._reports if d["investigation_id"] == investigation_id):
+            existing = next((s for s in sources.values() if s["path"] == report["source_file"]), None)
+            if existing is None:
+                add(report["source_file"], digest=self._digest(report["source_file"]),
+                    label=f"{report['kind']} (document cited by copilot passages)")
+            elif not existing["digest"]:
+                existing["digest"] = self._digest(report["source_file"])  # pin the version the passages came from
         for source in self._registry.get("external_sources", []):
             if investigation_id not in source["investigation_ids"]:
                 continue
@@ -125,6 +135,15 @@ class RegisteredSources:
             else:
                 add(metadata_paths[-1].relative_to(self._root).as_posix(), label=label)
         return tuple(sources.values())
+
+    def _digest(self, path: str) -> str:
+        """Pins the archived version; a missing file stays unpinned and is reported when read."""
+        if path not in self._digests:
+            try:
+                self._digests[path] = hashlib.sha256((self._root / path).read_bytes()).hexdigest()
+            except OSError:
+                self._digests[path] = ""
+        return self._digests[path]
 
     def read(self, investigation_id: str, handle: str) -> tuple[bytes, str, str]:
         matches = [s for s in self.list_for(investigation_id) if s["handle"] == handle]

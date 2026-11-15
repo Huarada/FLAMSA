@@ -16,7 +16,7 @@ def test_explorer_navigation_filters_and_reset() -> None:
     count = len(FileSnapshotProvider(APP.parents[3]).load().investigations)
     assert not app.exception
     assert app.metric[0].value == f"{count} / {count}"
-    assert not any(b.label == "Ask copilot" for b in app.button)
+    assert any(b.label == "Ask copilot" for b in app.button)
     app.button(key="nav_investigations").click().run()
     assert not app.exception
     assert [tab.label for tab in app.tabs] == ["Research & scientific context", "Experimental records & raw values",
@@ -66,6 +66,35 @@ def test_english_homepage_and_research_navigation() -> None:
     assert next(m for m in app.multiselect if m.label == "Investigation").value == list(
         app.session_state["applied_query"].ids
     )
+
+
+def test_home_explains_current_capabilities_and_opens_behavior_without_replacing_filters() -> None:
+    app = AppTest.from_file(str(APP), default_timeout=45).run()
+    assert any("NASA PSI combustion data" in title.value for title in app.title)
+    copy = " ".join(item.value for item in app.markdown)
+    assert "prevention, detection and suppression" in copy
+    assert "Download matching records as CSV" in copy
+    assert "Research copilot" in copy and "The application computes the scores" in copy
+    assert "No relevance scores are computed yet" not in copy
+    assert "Planned: a deterministic ranking" not in copy
+    assert any("no direct lunar or Martian partial-gravity measurements" in c.value for c in app.caption)
+    snapshot = app.session_state["last_snapshot"]
+    expected_reviewed = sum(inv.manual_metadata is not None
+                            and inv.manual_metadata.review_status.value == "reviewed"
+                            for inv in snapshot.investigations)
+    assert next(m for m in app.metric if m.label == "Human-reviewed metadata").value == (
+        f"{expected_reviewed} / {len(snapshot.investigations)}"
+    )
+    app.button(key="home_dashboard").click().run()
+    app.multiselect(key="filters_0_ids").set_value(["FLEX"])
+    next(button for button in app.button if button.label == "Apply filters").click().run()
+    query = app.session_state["applied_query"]
+    app.button(key="nav_home").click().run()
+    app.button(key="home_behavior").click().run()
+    assert not app.exception
+    assert app.session_state["workspace_navigation"] == "Fire behavior"
+    assert app.session_state["applied_query"] == query
+    assert [tab.label for tab in app.tabs] == ["FLEX · Burning rate", "BASS-II · Gas changes", "SAFFIRE-II · Gravity"]
 
 
 def test_selected_investigations_are_retained_when_profile_quantities_are_missing() -> None:
@@ -198,7 +227,9 @@ def test_home_topics_preserve_applied_filters_until_opening_related_research() -
     )
 
 
-def test_copilot_answers_with_validated_citations_and_the_score_breakdown() -> None:
+def test_copilot_answers_with_validated_citations_and_the_score_breakdown(monkeypatch) -> None:
+    monkeypatch.setenv("PSI_LLM_MODEL", "")  # a developer's .env must not turn this offline test into a paid API call
+    st.cache_resource.clear()  # the cached pipeline may have been built with that model
     app = AppTest.from_file(str(APP), default_timeout=90).run()
     app.button(key="nav_dashboard").click().run()
     next(t for t in app.toggle if t.label == "Research copilot").set_value(True).run()
@@ -208,3 +239,56 @@ def test_copilot_answers_with_validated_citations_and_the_score_breakdown() -> N
     assert "no partial-gravity data" in text and "Text written by: Template" in text
     assert "passed citation, number and plausibility checks" in text
     assert any("Score breakdown" in e.label for e in app.expander)
+    app.run()  # the chart now highlights the studies of the answer
+    assert not app.exception
+
+
+def test_a_picked_chart_point_fills_the_copilot_inputs(monkeypatch) -> None:
+    monkeypatch.setenv("PSI_LLM_MODEL", "")
+    app = AppTest.from_file(str(APP), default_timeout=90).run()
+    app.button(key="nav_dashboard").click().run()
+    # what pick_scenario() writes when the user clicks the coverage chart
+    app.session_state["copilot_preset"] = "Custom"
+    app.session_state["o2_Custom"] = 33.5
+    app.session_state["psi_Custom"] = 8.0
+    app.run()
+    assert not app.exception
+    values = {n.label: n.value for n in app.number_input}
+    assert values["Oxygen (% of the atmosphere)"] == 33.5 and values["Pressure (psi)"] == 8.0
+
+
+def _applied(app):
+    return app.session_state["applied_query"] if "applied_query" in app.session_state else None  # noqa: SIM401 - AppTest state has no safe get
+
+
+def test_view_source_labels_a_study_outside_the_filters_without_touching_them() -> None:
+    from psi_fire.interface.copilot_evidence import inspection_scope
+
+    assert inspection_scope(frozenset({"FLEX"}), "FLEX") is None
+    label = inspection_scope(frozenset({"FLEX"}), "BASS-II")
+    assert label and "BASS-II is outside the dashboard filters" in label and "unchanged" in label
+
+
+def test_answer_citations_offer_view_source_and_opening_it_keeps_the_answer(monkeypatch) -> None:
+    monkeypatch.setenv("PSI_LLM_MODEL", "")
+    st.cache_resource.clear()
+    app = AppTest.from_file(str(APP), default_timeout=90).run()
+    app.button(key="nav_dashboard").click().run()
+    next(b for b in app.button if b.label == "Ask copilot").click().run()
+    buttons = [b for b in app.button if b.label == "View source"]
+    assert buttons and not app.exception
+    filters_before = _applied(app)
+    buttons[0].click().run()
+    assert not app.exception
+    assert any(b.label == "View source" for b in app.button)  # the answer is still on screen
+    after = _applied(app)
+    assert after == filters_before
+
+
+def test_the_page_survives_a_new_session_through_the_url(monkeypatch) -> None:
+    monkeypatch.setenv("PSI_LLM_MODEL", "")
+    app = AppTest.from_file(str(APP), default_timeout=90)
+    app.query_params["page"] = "Dashboard"
+    app.run()
+    assert app.session_state["workspace_navigation"] == "Dashboard"
+    assert app.query_params["page"] == ["Dashboard"] or app.query_params["page"] == "Dashboard"

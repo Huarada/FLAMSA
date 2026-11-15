@@ -1,5 +1,6 @@
 """Deterministic validation of a draft against the retrieved evidence (SPEC-003 section 3.5). No LLM."""
 
+import unicodedata
 from math import isclose
 
 from psi_fire.application.answer_types import ValidationContext
@@ -26,7 +27,10 @@ MIN_QUOTE_CHARS = 20  # shorter strings match too many places to identify a sent
 
 
 def _flat(text: str) -> str:
-    return " ".join(text.replace("­", "").split())
+    """Compare quotes the way a reader would: PDF ligatures (fi), soft hyphens, replacement characters and
+    letter case are not differences. Words and numbers must still match exactly."""
+    cleaned = unicodedata.normalize("NFKC", text).replace("­", "").replace("�", "")
+    return " ".join(cleaned.casefold().split())
 
 
 def _close(a: float, b: float) -> bool:
@@ -71,7 +75,8 @@ class RuleBasedValidator:
         for number in numbers_in(claim.text):
             if not any(_close(number, value) for value in declared):
                 issues.append(_issue(IssueCode.UNDECLARED_NUMBER,
-                                     f"The number {number:g} in the text is not declared as a figure.", index))
+                                     f"The number {number:g} in the text is not declared as a figure: declare it in figures with its "
+                                     "source, or rewrite the sentence without digits.", index))
         cited = {c.investigation_id for c in claim.citations}
         offered = {s.technology.casefold() for inv_id in cited for s in self._catalog.lookup(inv_id)}
         for technology in claim.technologies:
@@ -117,7 +122,9 @@ class RuleBasedValidator:
         if not pages:
             return [_issue(IssueCode.UNKNOWN_CITATION, "The cited passage was not retrieved in this attempt.", index)]
         if not any(quote in _flat(p.text) for p in pages):
-            return [_issue(IssueCode.QUOTE_MISMATCH, "The quote does not appear in the cited passage.", index)]
+            return [_issue(IssueCode.QUOTE_MISMATCH,
+                           f"The quote {quote[:70]!r} does not appear verbatim in the cited passage "
+                           f"({citation.source_file} {citation.locator}); copy one contiguous span exactly.", index)]
         return []
 
     def _figure_issues(self, figure: Figure, claim: Claim, index: int,
@@ -130,9 +137,14 @@ class RuleBasedValidator:
             return self._breakdown_issues(figure, target, index)
         cited = {c.test_point_id for c in claim.citations if c.kind == CitationKind.RECORD}
         point = next((tp for tp in target.investigation.test_points if tp.test_point_id == figure.test_point_id), None)
-        if point is None or point.test_point_id not in cited:
+        if figure.test_point_id is None or point is None:
             return [_issue(IssueCode.UNKNOWN_CITATION,
-                           "A record figure must name a test point that the claim cites.", index)]
+                           f"Record figure {figure.column} needs the test_point_id of an existing "
+                           f"{figure.investigation_id} record.", index)]
+        if point.test_point_id not in cited:
+            return [_issue(IssueCode.UNKNOWN_CITATION,
+                           f"Record figure {figure.column} names test point {point.test_point_id}, but the claim has "
+                           "no record citation for it: add that citation or drop the figure.", index)]
         bounds = record_range(point, figure.column)
         if bounds is None:
             return [_issue(IssueCode.NUMBER_MISMATCH,

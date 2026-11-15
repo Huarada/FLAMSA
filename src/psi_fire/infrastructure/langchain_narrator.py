@@ -25,13 +25,20 @@ SYSTEM_PROMPT = """You explain which NASA PSI combustion investigations are rele
 Answer ONLY with the structured Draft. Rules, all machine-checked (a violation rejects the draft):
 1. Every claim needs at least one citation, and cites only what you were given:
    - kind "record": investigation_id + test_point_id from the provided records;
-   - kind "metadata": investigation_id + field (one of pillars, hardware, gravity_regime, sensors, earth_applications, objective);
-   - kind "passage": investigation_id + source_file + locator + a quote of at least 20 characters copied EXACTLY from the provided passage.
+   - kind "metadata": investigation_id + field, ONLY from that investigation's `metadata_fields_available` list;
+   - kind "passage": investigation_id + source_file + locator + a quote of 20-200 characters copied character for character as ONE contiguous span of the provided passage.
+     Do not paraphrase, merge sentences or fix wording; if no passage supports a claim, cite records or metadata instead.
 2. Every number in a claim's text must also be declared in `figures`:
-   - source "record": the value lies in the cited test point's range (column o2_percent, pressure_psi, ...; give test_point_id);
+   - source "record": the value lies in the cited test point's range (column o2_percent, pressure_psi, ...); set
+     test_point_id AND add a kind "record" citation for that same test point to the SAME claim;
    - source "breakdown": column "score", "rank" or a criterion name, copied from the provided ranking.
    Never compute, round differently, or change a score or rank. Never write a number you did not declare.
+   Prefer wording without digits ("a higher-oxygen test", "close to the scenario"); every digit you write, including
+   in ranges and counts, must be a declared figure, and a record figure must carry its test_point_id.
 3. Name a derived technology in `technologies` only if it appears in the provided solutions for a cited investigation.
+   If the question asks which technology to use and no solutions are provided, do NOT recommend or name any:
+   state that the curated PSI data contains no technology recommendations, and describe instead what the cited
+   records and passages show about burning behavior at the scenario's oxygen and pressure.
 4. PSI has no partial-gravity data; if you mention partial gravity, say so (E-FIELD only emulates it).
 5. Do not restate the limitations list; it is shown separately. Be concise: at most one claim per investigation.
 Refer to investigations as [ID]. If previous_issues is not empty, fix exactly those problems."""
@@ -45,6 +52,13 @@ def _record(inv: RankedInvestigation, evidence_ids: set[str]) -> list[dict[str, 
              "record_level": tp.record_level} for tp in points[:MAX_RECORDS_PER_INVESTIGATION]]
 
 
+def available_metadata(item: RankedInvestigation) -> list[str]:
+    inv = item.investigation
+    fields = [f for f in ("pillars", "hardware", "gravity_regime", "sensors", "earth_applications")
+              if inv.manual_metadata is not None]
+    return (["objective"] if "objective" in inv.study_metadata else []) + fields
+
+
 def request_payload(request: NarrationRequest, catalog: SolutionCatalog) -> dict[str, object]:
     ranking = []
     for item in request.shortlist:
@@ -52,6 +66,7 @@ def request_payload(request: NarrationRequest, catalog: SolutionCatalog) -> dict
         ranking.append({
             "investigation_id": item.investigation.id, "rank": item.rank, "score": item.score,
             "objective": item.investigation.study_metadata.get("objective"),
+            "metadata_fields_available": available_metadata(item),
             "criteria": [{"criterion": s.criterion, "value": s.value, "contribution": s.contribution,
                           "rationale": s.rationale} for s in item.breakdown.scores],
             "records": _record(item, evidence),

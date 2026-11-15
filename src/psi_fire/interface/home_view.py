@@ -45,9 +45,11 @@ def home_content(snapshot: Snapshot, image_uri: str) -> None:
     summary = GetHomeSummary(snapshot)(HOME_THEMES.get(st.session_state["home_theme"], "flame"))
     with st.container(key="home_hero"):
         st.caption("// Intelligence for fire safety")
-        st.title("ISS combustion data, :orange[Clearer evidence.]")
-        st.write("Explore the interactive chamber: select a point to discover combustion research "
-                 "for spacecraft, stations, habitats and rovers.")
+        st.title("NASA PSI combustion data. :orange[Clearer evidence.]")
+        st.write("Compare combustion studies, rank investigations for a habitat scenario, and inspect the sources "
+                 "behind the explanations. Explore research relevant to fire prevention, detection and suppression "
+                 "in spacecraft, stations, surface habitats and pressurized rovers.")
+        st.caption("Select a point in the conceptual chamber or use the research themes below.")
 
     theme = HOME_THEMES.get(st.session_state["home_theme"], "flame")
     with st.container(border=True, key="home_scene"):
@@ -60,14 +62,16 @@ def home_content(snapshot: Snapshot, image_uri: str) -> None:
     theme = HOME_THEMES.get(selected, "flame")
     summary = GetHomeSummary(snapshot)(theme)
     titles = {"flame": "Flame behavior and experimental conditions",
-              "earth": "Documented applications on Earth",
+              "earth": "Curated connections to Earth applications",
               "habitats": "Research for exploration habitats",
               "detection": "Detection, diagnostics and measurement"}
     descriptions = {
-        "flame": "Inspect droplet-combustion records, reported conditions and source documents. "
-                 "Compare available quantities without turning sparse coverage into a predictive model.",
-        "earth": "Find Earth-application claims that have actually been curated. "
-                 "Each application retains its evidence and review status; shared hardware alone does not establish a benefit.",
+        "flame": "Inspect droplet burning and extinction research, reported conditions and source documents. "
+                 "Open Fire behavior for the FLEX burning-rate analysis, BASS-II gas changes and SAFFIRE-II "
+                 "ground-versus-flight comparison. These analyses describe tested conditions, not a universal predictive model.",
+        "earth": "Explore curated Earth-application claims and their supporting sources. "
+                 "Check whether each claim is inferred and whether its metadata has been human-reviewed; "
+                 "a research connection alone does not establish a proven technology benefit.",
         "habitats": "Explore material and atmosphere studies as starting points for habitat research. "
                     "Lunar or Martian applicability requires explicit assumptions: this dataset does not contain direct partial-gravity measurements.",
         "detection": "Inspect smoke-generation studies and combustion measurement context. "
@@ -91,6 +95,8 @@ def home_content(snapshot: Snapshot, image_uri: str) -> None:
     with st.container(horizontal=True):
         st.button("Explore the dashboard", type="primary", icon=":material/arrow_forward:",
                   on_click=navigate, args=("Dashboard",), key="home_dashboard")
+        st.button("Open Fire behavior", icon=":material/local_fire_department:",
+                  on_click=navigate, args=("Fire behavior",), key="home_behavior")
         st.button("Browse investigations", on_click=navigate, args=("Investigations",), key="home_browse")
     with st.container(key="home_metrics"):
         columns = st.columns(3)
@@ -98,16 +104,21 @@ def home_content(snapshot: Snapshot, image_uri: str) -> None:
         columns[1].metric("Reported records", f"{summary.records:,}")
         columns[2].metric("Human-reviewed metadata", f"{summary.reviewed_metadata} / {summary.investigations}")
 
-    st.subheader("From records to traceable decisions")
+    st.subheader("From reported measurements to cited explanations")
     columns = st.columns(3)
     for index, (column, title, text) in enumerate(zip(columns, ("Explore conditions", "Inspect the evidence", "Explain relevance"), (
-        "Filter reported oxygen, pressure, fuel and flow. Keep experimental tests, daily summaries and planned matrices distinct.",
-        "Open raw values, transformations, exact quotes and source locators. Draft, inferred and unreported claims remain visible.",
-        "Planned: a deterministic ranking with a visible criterion breakdown and validated citations. No relevance scores are computed yet.",
+        ("Filter reported oxygen, pressure, fuel and flow. Download matching records as CSV for your own analysis. "
+         "Individual tests, daily summaries and planned matrices remain distinct."),
+        ("In Investigations, inspect raw values, units, transformations and source locators. "
+         "Citations & source downloads keeps archived documents accessible. Draft, inferred and unreported claims remain visible."),
+        ("Use the Dashboard's Research copilot to rank the full archive for a habitat scenario. "
+         "The application computes the scores; a connected AI model or offline template explains them. "
+         "Review the criterion breakdown, citations and limitations; insufficient evidence can prevent an explanation."),
     ), strict=True), start=1):
         with column, st.container(border=True, key=f"home_step_{index}"):
             st.caption(f"0{index}")
             st.markdown(f"**{title}**")
             st.write(text)
     st.caption("Research scope: combustion and fire safety in crewed environments. Rockets and propellants are outside scope. "
-               "Record count is not scientific relevance; this explorer does not certify habitat safety.")
+               "The PSI archive used here has no direct lunar or Martian partial-gravity measurements. "
+               "Record count is not scientific relevance, and a scenario ranking does not certify habitat safety.")

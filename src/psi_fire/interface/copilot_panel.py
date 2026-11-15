@@ -8,6 +8,7 @@ from psi_fire.domain.manual import GravityRegime
 from psi_fire.domain.model import Investigation
 from psi_fire.domain.ranking import LUNAR_BASE, HabitatScenario
 from psi_fire.infrastructure.answering_factory import AnsweringPipeline
+from psi_fire.interface.copilot_evidence import EvidenceContext, render_citation, render_figures
 
 EARTH_CABIN = HabitatScenario("Earth cabin", 21.0, 14.7, GravityRegime.NORMAL)
 PRESETS = {"Lunar base": LUNAR_BASE, "Earth cabin": EARTH_CABIN}
@@ -16,11 +17,34 @@ DEFAULT_QUESTION = "Which investigations are most relevant to this scenario, and
 RESULT_KEY = "copilot_result"
 
 
-def _scenario() -> HabitatScenario:
-    preset = st.selectbox("Habitat scenario", [*PRESETS, CUSTOM], key="copilot_preset")
+def scenario_point() -> tuple[float, float]:
+    """Oxygen and pressure currently set in the copilot; the coverage chart draws its marker here."""
+    preset = st.session_state.get("copilot_preset", "Lunar base")
     base = PRESETS.get(preset, EARTH_CABIN)
-    o2 = st.number_input("Oxygen (% of the atmosphere)", 0.0, 100.0, base.o2_percent, 0.5, key=f"o2_{preset}")
-    pressure = st.number_input("Pressure (psi)", 0.0, 100.0, base.pressure_psi, 0.1, key=f"psi_{preset}")
+    return (float(st.session_state.get(f"o2_{preset}", base.o2_percent)),
+            float(st.session_state.get(f"psi_{preset}", base.pressure_psi)))
+
+
+def pick_scenario(o2_percent: float, pressure_psi: float) -> None:
+    """Called before the copilot widgets are created in the same run, so Streamlit accepts the new values."""
+    st.session_state["copilot_preset"] = CUSTOM
+    st.session_state[f"o2_{CUSTOM}"] = o2_percent
+    st.session_state[f"psi_{CUSTOM}"] = pressure_psi
+
+
+def _scenario() -> HabitatScenario:
+    st.caption("**1.** Choose conditions (click the coverage chart or type them). **2.** Ask. "
+               "**3.** Check each citation and the score breakdown.")
+    preset = st.selectbox("Habitat scenario", [*PRESETS, CUSTOM], key="copilot_preset",
+                          help="Lunar base: 30% O₂, 10.2 psi. Earth cabin: 21% O₂, 14.7 psi. Clicking the chart "
+                               "switches to Custom.")
+    base = PRESETS.get(preset, EARTH_CABIN)
+    st.session_state.setdefault(f"o2_{preset}", base.o2_percent)  # state, not value=, so chart picks raise no warning
+    st.session_state.setdefault(f"psi_{preset}", base.pressure_psi)
+    o2 = st.number_input("Oxygen (% of the atmosphere)", 0.0, 100.0, step=0.5, key=f"o2_{preset}",
+                         help="Share of oxygen in the habitat air. Moves the dark-cyan marker on the chart.")
+    pressure = st.number_input("Pressure (psi)", 0.0, 100.0, step=0.1, key=f"psi_{preset}",
+                               help="Total cabin pressure. Sea level is 14.7 psi.")
     gravity = base.gravity
     if preset == CUSTOM:
         gravity = GravityRegime(st.selectbox("Gravity", [g.value for g in GravityRegime], index=2, key="copilot_g"))
@@ -34,17 +58,16 @@ def _breakdown_table(result: AnswerResult) -> pd.DataFrame:
         for r in result.shortlist for s in r.breakdown.scores])
 
 
-def _render(result: AnswerResult, narrator_label: str) -> None:
+def _render(result: AnswerResult, narrator_label: str, context: EvidenceContext) -> None:
     if result.status == AnswerStatus.APPROVED and result.draft:
         st.badge("Validated answer", color="green", icon=":material/verified:")
         st.caption(f"Text written by: {narrator_label}. Ranking and scores are computed by the application, "
                    "not by the model. Every claim below passed citation, number and plausibility checks.")
         for index, claim in enumerate(result.draft.claims):
             st.markdown(claim.text)
-            for entry in (e for e in result.traceability if e.claim_index == index):
-                c = entry.citation
-                where = f"{entry.source_file or 'n/a'} / {entry.locator or 'n/a'}"
-                st.caption(f"{c.kind.value}: {c.investigation_id} {c.test_point_id or c.field or ''} → {where}")
+            render_figures(tuple(f for f in result.figure_traces if f.claim_index == index))
+            for position, entry in enumerate(e for e in result.traceability if e.claim_index == index):
+                render_citation(entry, result, f"{index}_{position}", context)
         if result.solutions:
             st.markdown("**Derived technologies (catalog)**")
             for s in result.solutions:
@@ -62,18 +85,30 @@ def _render(result: AnswerResult, narrator_label: str) -> None:
     st.markdown("**Limitations**")
     for note in result.limitations:
         st.caption(note)
-    with st.expander("Run trace"):
+    with st.expander("Run trace and retrieved passages (for debugging)"):
         for a in result.attempts:
             st.caption(f"Attempt {a.attempt}: top {a.settings.top_k}, minimum score {a.settings.min_score}, "
                        f"{a.passage_count} passages, {len(a.issues)} issues → {', '.join(a.shortlist_ids) or 'none'}")
+            for p in a.passages:
+                st.caption(f"retrieved {p.investigation_id} {p.source_file.rsplit('/', 1)[-1]} {p.locator}: "
+                           f"{' '.join(p.text.split())[:140]}")
+            if a.issues and a.draft is not None:
+                st.caption("Rejected draft (not validated, not an answer):")
+                st.json(a.draft.model_dump(mode="json"), expanded=False)
 
 
-def copilot(pipeline: AnsweringPipeline, investigations: tuple[Investigation, ...]) -> None:
+def copilot(pipeline: AnsweringPipeline, investigations: tuple[Investigation, ...],
+            context: EvidenceContext | None = None) -> None:
+    context = context or EvidenceContext(None, frozenset())
     scenario = _scenario()
-    question = st.text_area("Ask about this scenario", DEFAULT_QUESTION, height=90, key="copilot_question")
-    st.caption("The ranking covers all curated investigations, not only the filtered view.")
-    if st.button("Ask copilot", icon=":material/auto_awesome:", width="stretch"):
+    question = st.text_area("Ask about this scenario", DEFAULT_QUESTION, height=90, key="copilot_question",
+                            help="Examples: how does oxygen change flame spread? Which fuels were tested near "
+                                 "these conditions? The answer is limited to the curated records and report passages.")
+    st.caption("The ranking covers all curated investigations, not only the filtered view. Scores are computed by the "
+               "application; the language model only explains them and is rejected if it cites anything unverified.")
+    if st.button("Ask copilot", icon=":material/auto_awesome:", width="stretch",
+                  help="Ranks investigations for these conditions, retrieves report passages and validates the text."):
         with st.spinner("Ranking, retrieving passages and validating..."):
             st.session_state[RESULT_KEY] = pipeline.answerer(investigations, scenario, question)
     if RESULT_KEY in st.session_state:
-        _render(st.session_state[RESULT_KEY], pipeline.narrator_label)
+        _render(st.session_state[RESULT_KEY], pipeline.narrator_label, context)

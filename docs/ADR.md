@@ -927,3 +927,130 @@ Status: `proposed` · `accepted` · `superseded` · `open` · `resolved` · `def
 - Decision: `.env` (already blocked by .gitignore) holds `OPENAI_API_KEY` and `PSI_LLM_MODEL`; `.env.example` is the committed template. The Streamlit composition root loads it with python-dotenv, and real environment variables take precedence. Default model `openai:gpt-4.1-mini` (structured-output capable, low cost); changing it is a one-line edit.
 - Decision: if the setting is present but unusable (empty key, missing provider package, bad name), `build_answering_pipeline` uses the template narrator and the UI label says "Template (model unavailable: ...; check .env)" instead of crashing.
 - Consequences: the pipeline is cached per process, so `.env` changes need an app restart. The default model name was chosen from general knowledge and was not checked against the current provider catalog.
+
+### ADR-0120 - BUG: real-model drafts rejected; retrieval worked but the validator feedback was unusable
+- Date: 2026-11-14 | Type: BUG | Status: fixed (ADR-0121) | Related: ADR-0114, ADR-0115
+- Symptom: first run with a real OpenAI model showed "Insufficient evidence" for the default question, with issues `unknown_citation: ACME-CFI-G reports no objective`, `quote_mismatch`, and five `A record figure must name a test point that the claim cites`. It looked like "RAG retrieved nothing".
+- Root cause: retrieval did return passages. The model (a) cited metadata field `objective` for an investigation without one, (b) quoted passages with paraphrase/ligature/hyphen/case differences, (c) declared record figures without a matching record citation in the same claim. Validator messages did not say what to fix, so the retry repeated the errors. The generic question also had no content words for TF-IDF.
+- Impact: no model answer could pass; the user could not see what the model produced or what was retrieved.
+
+### ADR-0121 - FIX for ADR-0120: actionable validation, tolerant quote matching, scenario-enriched retrieval, debug trace
+- Date: 2026-11-14 | Type: FIX | Status: accepted | Related: ADR-0120
+- Quotes are compared after NFKC normalisation, casefold, soft-hyphen/replacement-char removal and whitespace collapse (words and numbers still must match). Messages now name the failing quote, the figure column and the missing record citation.
+- The payload lists `metadata_fields_available` per investigation and the prompt demands a contiguous 20-200 character quote, and a record citation for every record figure.
+- Passage search query = question + scenario O2/pressure + fixed fire-safety terms (`retrieval_query`).
+- `AttemptRecord` keeps the draft and passages; the UI "Run trace and retrieved passages" expander shows them, labelled as rejected and not an answer.
+- TRADEOFF: case/ligature-insensitive matching is slightly more permissive than the one-line rule of manual evidence (see ADR-0118).
+- Test fix: the copilot UI test clears the Streamlit resource cache and blanks `PSI_LLM_MODEL` so a developer's `.env` cannot turn it into a paid API call.
+- Not verified: behaviour against the real OpenAI model after these changes (needs the user's key).
+
+### ADR-0122 - ENHANCEMENT: citations show the quoted excerpt, the source document name and a DOI link
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: done | Related: ADR-0121
+- Each validated citation now renders the passage quote as a blockquote and a caption `<investigation> - <document file name>, <locator>`, linked to `https://doi.org/<doi>` when the investigation's `study_metadata` has a DOI (9 of the curated investigations do).
+- DEBT: the link points to the investigation's NASA PSI record, not to the exact PDF page (archived PDFs are local read-only files with no public URL), and the "book name" is the PDF file name; `data/rag_corpus.json` has no titles. Payback: add `title` and `url` per document to the corpus manifest and pass them through `Passage`. ACME-CFI-G and other investigations without a DOI show no link.
+
+### ADR-0123 - ENHANCEMENT: click the coverage chart to set the copilot scenario; copilot on by default
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: done | Related: ADR-0114
+- The "Research copilot" toggle defaults to on. Clicking the oxygen/pressure coverage chart sets the copilot's Custom scenario to the nearest grid point (O2 step 0.5 %, pressure step 1 psi), and a dark-cyan marker shows the scenario; editing the inputs by hand moves the marker. Mechanism: an invisible point grid layer with a nearest click selection (`st.altair_chart(on_select="rerun")`); the chart key changes after each pick so the same cell can be clicked again.
+- Copilot inputs now use session state instead of `value=` so a chart pick raises no Streamlit warning.
+- DEBT: picks snap to a 1 psi grid (not the exact click) and the grid layer sits under the data dots, so a click exactly on a dot may not register. Payback: custom component or finer grid if users need exact coordinates.
+- Not verified: the real browser click (only the state path is tested by AppTest; AppTest cannot click a chart).
+
+### ADR-0124 - FIX: chart pick used two reruns and remounted the chart (supersedes the key-bump of ADR-0123)
+- Date: 2026-11-14 | Type: FIX | Status: accepted | Related: ADR-0123
+- Symptom: after each click the chart refreshed visibly and lost its zoom/pan. Cause: Streamlit delivers chart events only by rerunning the script (platform limit), but ADR-0123 added a second `st.rerun()` and a new chart key per pick, which remounted the chart.
+- Fix: `on_select` takes a callback that writes the copilot state; one rerun, stable chart key.
+- TRADEOFF: with a stable key the selection persists, so re-clicking the same grid cell after editing the inputs by hand fires no event; click a neighbouring cell. Not verified in a real browser (zoom retention is expected, not confirmed).
+
+### ADR-0125 - ENHANCEMENT: explanatory text, coverage indicators and help tooltips for the chart + copilot step
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: done | Related: ADR-0123
+- The coverage chart caption now says what it shows and how to read empty areas; with the copilot on, a "how to use" note explains click -> marker -> Ask copilot. Three indicators sit under the chart: tests near the marker, investigations near, and Coverage (Tested nearby / Extrapolated, inside/outside the lunar box). "Near" = +-5% O2 and +-2 psi (named constants `NEAR_O2_PERCENT`, `NEAR_PRESSURE_PSI`; initial values, not calibrated). Help tooltips added to the toggle, scenario inputs, question box and Ask button, plus a 3-step hint.
+- DEBT: the "near" window is a presentation heuristic, not a scientific validity limit; the domain ranking is unchanged. Payback: calibrate with domain experts.
+
+### ADR-0126 - BUG: the oxygen/pressure map empty state hides distinct data-coverage causes
+- Date: 2026-11-14 | Type: BUG | Status: open
+- Finding: The user reported repeated No test that passes the filters reports both oxygen and pressure messages. The message is local to coverage_map, not a failed research query. At revision a1c03c208ea7, solid-fuel filtering correctly retains 389 rows across seven studies but no scalar O2/pressure pair. FLEX-2 retains eight matrix summaries and zero individual tests. ConditionMap lacks an exclusion-reason breakdown, so the same empty message obscures missing conditions versus summary-only scope. Proposed fix: counts and map-specific reasons, retaining all query records and the existing no-imputation policy.
+
+### ADR-0127 - BUG: inactive numeric filter inputs accept values that Apply filters ignores
+- Date: 2026-11-14 | Type: BUG | Status: open
+- Finding: Reproduced in AppTest: enter Oxygen minimum 90 with Filter oxygen unchecked, then Apply. oxygen remains None, with 1615 records and 693 map dots; no error is displayed. Pressure and flow use the same pattern. This follows current activation semantics but is a usability defect: active-looking editable bounds can be silently ignored. Proposed fix: explicit activation/disabled-state guidance or a submission warning; do not change missing-value or basis semantics implicitly.
+
+### ADR-0128 - BUG: chart scope can be emptied by a valid research-filter change
+- Date: 2026-11-14 | Type: BUG | Status: open
+- Finding: Reproduced: select only FLEX in Investigations in comparison charts, then apply Research filters Investigation=BASS-II. The query retains 129 rows but the local chart selection becomes empty when Streamlit drops invalid options. No reconciliation distinguishes this from intentional empty selection. Proposed fix: preserve valid choices and announce/offer recovery after automatic invalidation. Independently the O2/pressure map is empty because BASS-II lacks pressure; these are separate causes. Reset research filters restored the full chart scope in the tested sequence.
+
+### ADR-0129 - BUG: README oxygen/pressure coverage list omits CFI
+- Date: 2026-11-14 | Type: BUG | Status: open
+- Finding: The lunar-habitat section says only FLEX and ACME-CFI-G report both conditions per test. CFI has 87 scalar pairs, traced to the source Pressure column in atm. At the audited revision, 693 map dots comprise ACME-CFI-G 333, CFI 87 and FLEX 273. Pair availability is distinct from the strict lunar-scenario match. Proposed fix: include CFI in the coverage statement. This finding supplements the earlier formula audit.
+
+### ADR-0130 - Verify Dashboard research filters and document the distinction between records and chart eligibility
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted
+- Finding: Audit artifact: docs/dashboard-filter-audit.md includes all 15 study counts, reproducible cases, four issues and proposed fixes. Focused explorer/chart/application/interface suite: 29 passed in 22.52 s. AppTest probes reproduced baseline, inactive numeric bound, solid scope, matrix-only scope, stale chart selection and reset with no exception. Dataset total 1615 records = 1556 tests + 59 summaries; 693 scalar map pairs. Default scenario counts are 20 chamber-atmosphere and 28 burner-stream tests, kept distinct. No production code, curated/raw data or live-model call was changed. The exact user browser selection and physical browser rendering were not verified. Findings are open, not claimed fixed. Use the existing append-only docs/ADR.md; no separate ADR4 file exists in the project.
+
+### ADR-0131 - Review primary navigation against the challenge and the implemented copilot
+- Date: 2026-11-14 | Type: ENHANCEMENT / TRADEOFF | Status: proposed, not implemented
+- Context: the user asked whether Investigations and Evidence remain essential given the expanded project and a preference for a simpler interface. Re-read the complete supplied challenge and reviewed current specs, architecture, composition root, study/source views and the implemented ranking/RAG/copilot contracts.
+- Finding: the challenge requires summarizing, ranking and interpreting investigations; it does not require those two named pages. Investigations provides valuable study context, hardware/sensors, review state, raw rows and column definitions across all 15 studies. Fire behavior analyzes only FLEX, BASS-II and SAFFIRE-II. Evidence currently calls the same detail component and mainly changes its default tab to source downloads, so it has low independent navigation value.
+- Recommendation: remove Evidence from primary navigation once contextual source access is complete; retain Sources within study detail and beside chart/copilot claims. Keep Studies discoverable as a secondary catalog/inspector rather than deleting the capability. Suggested primary destinations: Home, Dashboard, Fire behavior. A smaller first step keeps Investigations and removes only the duplicate Evidence header entry.
+- Preconditions: preserve source-record callbacks, original values/units/provenance, review status, downloads, query/return behavior and access to all 15 studies. Copilot DOI links currently target investigation records rather than exact PDF pages. Its corpus-wide ranking can cite a study outside Dashboard filters, so contextual inspection needs an explicit labelled path rather than silently changing the query.
+- Tradeoff: lower primary-menu complexity at the cost of a secondary inspection step; no measured usability improvement is claimed. Progressive disclosure guidance: https://www.nngroup.com/articles/progressive-disclosure/. Full analysis: docs/navigation-scope-review.md.
+- Scope: recommendation only. No navigation, production code, source archive or scientific data was changed. Specs and interface tests must be updated if the user chooses implementation; no new runtime test was needed for this documentary review.
+
+### ADR-0126 - BUG/FIX: coverage chart lost its Y axis title after the pick layers were added
+- Date: 2026-11-14 | Type: BUG | Status: fixed | Related: ADR-0123
+- Symptom: the pressure axis no longer read "Pressure (psi)". Root cause: the invisible grid and marker layers encoded `psi`/`o2` without titles, and the shared axis took the first layer's untitled field. Impact: users could not tell what the vertical axis meant.
+- FIX: both layers set `title="Pressure (psi)"` and `title="Oxygen (%)"`. Not verified visually in a browser; the compiled spec shows the titles on all layers.
+
+### ADR-0132 - Consolidate Evidence into Investigations source inspection
+- Date: 2026-11-14 | Type: DECISION / ENHANCEMENT | Status: accepted
+- Change: Supersedes: the standalone Evidence navigation in ADR-0099; implements the smaller approved step of ADR-0131. The user authorized removing Evidence while retaining evidence in copilot answers. Remove its header button and dedicated render branch; retain Home, Dashboard, Fire behavior and Investigations. Existing Evidence session values migrate to Investigations and initially open Citations & source downloads without replacing query or investigation selection. Preserve registered sources/downloads, domain evidence, RAG and all Fire behavior source-record actions. Updated README, Dashboard guide, SPEC-001 AC-82/86/87 and acceptance traceability. The orchestration handoff is docs/copilot-evidence-handoff.md; no copilot/orchestration code was edited in this increment.
+
+### ADR-0133 - Concurrent appenders reused ADR-0126
+- Date: 2026-11-14 | Type: BUG | Status: open
+- Change: The append-only log contains two ADR-0126 headings: the Dashboard coverage-map empty-state finding and the later coverage-chart Y-axis fix. Concurrent writers read different latest states and reused an identifier. Historical entries were preserved; distinguish these references by title until an append-only disambiguation or shared allocation policy is agreed. New entries in this session use the maximum identifier observed at write time; do not rewrite another contributor's entries.
+
+### ADR-0127 - ENHANCEMENT: the copilot answer is linked to the coverage chart
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: done | Related: ADR-0123, ADR-0125
+- Problem reported: the chart (individual tests by O2/pressure) and the copilot (ranking of whole investigations on five criteria) looked unrelated, e.g. BASS-II ranked with no dots nearby.
+- Change: after an answer, dots of the ranked investigations stay highlighted and others fade; tooltips show "Rank in last answer"; investigations ranked without any plotted dot are listed with the reason; the how-to note states that the ranking weighs five criteria, not only distance.
+- Not verified visually. The ranking itself is unchanged; per-criterion weights remain uncalibrated (ADR-0118).
+
+### ADR-0134 - Verify Evidence navigation removal and preserved source access
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted | Related: ADR-0132
+- Verification: full suite 224 passed, 179 skipped in 71.44 seconds. Skipped tests require pdftotext/Poppler for PDF visual-line checks. Ruff passed and mypy passed for eight domain files. AppTest asserts that no Evidence header button is rendered, query state survives navigation, Investigations still offers the source tab and prepares a registered download, and an old Evidence session redirects without losing filters. Existing Fire behavior and copilot flows pass.
+- Limits: no new physical-browser screenshot/accessibility review, no independent PDF-quotation review, and no real-model call. PSI_LLM_MODEL was blank for the test process. Contextual exact-document copilot actions remain the separate orchestration handoff, not an implementation claim of this change.
+
+### ADR-0128 - Copilot answers keep claim-level evidence, with "View source" and out-of-filter inspection
+- Date: 2026-11-14 | Type: DECISION | Status: accepted | Related: ADR-0114, ADR-0122, docs/copilot-evidence-handoff.md
+- Context: Evidence left the main navigation; scientific traceability must live in the answers. Ranking covers the whole corpus, so a cited study can be outside the dashboard filters.
+- Decision: `TraceEntry` gains `status`; new `FigureTrace` (TestPoint, column, unit, raw text, source row, provenance) on `AnswerResult`; new application use case `ResolveCitationSource` over the existing `SourceReader` port; `RegisteredSources` now also registers the RAG corpus PDFs of each investigation and pins them by SHA-256 (an already-registered PDF without a digest is pinned too). The interface adds `copilot_evidence.py`: citation excerpt/locator/status lines, figure lines and a "View source" dialog. The dialog is a modal inspection context, so filters, scenario and answer are untouched and closing it is the return path. `assistant_panel` receives the `InvestigationSources` built once in `app.py`. No Evidence menu entry was recreated.
+- Safety: the model supplies only a path string; it is opened only if it equals a registered file of that investigation (tested with None, unregistered, `../` and absolute paths). Unreadable or changed files are reported as unavailable, not hidden.
+- TRADEOFF: passage status says "not human-reviewed" instead of inheriting a verified label; the DOI link stays investigation-level (ADR-0122 debt remains).
+- DEBT: no exact-page link or in-app PDF rendering; the PDF is downloaded and opened at the printed locator. Hashing report PDFs happens per app run (cached per instance); revisit if the corpus grows large. Scanned PDFs without text (CFI, SAFFIRE-I/III, ADR-0118) still produce few citable passages.
+- Not verified: the dialog in a real browser (AppTest only checks that the click raises no error and leaves the answer and filters in place); a real model answer through the new UI.
+
+### ADR-0129 - BUG (cause not reproduced) and defensive FIX: page lost after Apply filters / Ask copilot
+- Date: 2026-11-14 | Type: BUG | Status: mitigated | Related: ADR-0123
+- Symptom reported: clicking Apply filters or Ask copilot returned to Home and lost progress. AppTest (nav to Dashboard, Apply filters, Ask copilot) keeps `workspace_navigation` = Dashboard with no exception, so the cause was not reproduced in code. The likely trigger is a new Streamlit session in the browser (reconnect or page reload), which starts with empty session state and therefore Home.
+- FIX (mitigation): the current page is mirrored in the URL (`?page=`) and read back when a session starts, so a reload or reconnect returns to the same page. Filters, scenario and the last answer still live in session state and are lost if the session itself is recreated.
+- DEBT: persist filters and the last answer across sessions if the root cause is confirmed to be session loss. Server output is now logged to a file in the scratchpad to catch the real cause on the next occurrence.
+
+### ADR-0135 - Home still described implemented ranking as future work
+- Date: 2026-11-14 | Type: BUG / FIX | Status: accepted
+- Change: The user requested a Home content review against the challenge, ADRs, business rules and implementation. The Home workflow said ranking was Planned and No relevance scores are computed yet, contradicting domain/ranking.py, SPEC-003 and the current copilot. Replaced the stale text with archive-wide scenario ranking, application-computed scores, connected-model or offline-template explanations, criterion breakdown, citations, limits and possible insufficient-evidence output. Supersedes the planned-ranking copy policy of ADR-0065; thematic links remain navigation aids rather than computed rankings.
+
+### ADR-0136 - Align Home purpose, source access and scientific scope with the current challenge workflow
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted
+- Change: Home now names NASA PSI rather than limiting the entire archive to ISS experiments; explains comparison, scenario relevance and sources; names prevention/detection/suppression; advertises existing filtered CSV export; and provides Open Fire behavior using the existing query-preserving callback. Earth-application claims are qualified by inference/review status, not presented as proven technology benefits. Replace traceable decisions with cited explanations and make partial-gravity/certification limits common to all themes. Keep the conceptual scene, English copy, source-bounded thematic ids and live counters. At this revision: 15 studies, 1615 records, 0/15 manual metadata files human-reviewed. No ranking weights, scientific calculations, source data, curation or visual design were changed. SPEC-001 section 24 AC-88/89 and task traceability updated; analysis: docs/home-content-audit.md.
+
+### ADR-0137 - Verify Home content alignment and preserved navigation
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted
+- Change: Full pytest suite: 238 passed, 179 skipped in 81.25 seconds. Skipped tests require pdftotext/Poppler for PDF visual-line checks. Ruff and domain mypy passed (eight files). The new AppTest covers implemented capability wording, live review counts, scope limitations and Home-to-Fire behavior query preservation; existing theme/source/copilot tests passed. Independently loaded the current snapshot to verify counts and all four thematic link lists. No real model call, new physical-browser/layout review or independent scientific/PDF quote revalidation was performed; PSI_LLM_MODEL was blank for tests. This copy/navigation increment does not claim improved scientific certainty or measured usability performance.
+
+### ADR-0130 - FIX: real-model drafts rejected for figures without citation and undeclared digits; technology questions
+- Date: 2026-11-14 | Type: FIX | Status: accepted | Related: ADR-0120, ADR-0121, ADR-0128
+- Symptom: the question "which technology should I implement..." ended in insufficient_evidence: record figures named test point 17 without a record citation for it, and the text held digits (29, 39.5, 5) not declared as figures.
+- Fix 1 (deterministic completion): before validation, `with_figure_citations` adds the record citation that a record figure's own test_point_id implies, when that test point exists in the shortlist. The number is still checked against the record range, so a wrong value is still rejected (tested). It only completes traceability.
+- Fix 2: the undeclared-number message says what to do (declare it with a source, or rewrite without digits); the prompt prefers wording without digits and tells the model that every digit, including counts and ranges, must be a declared figure.
+- Fix 3 (honesty): the solutions catalog is empty (ADR-0113), so for "which technology" questions the prompt now forbids naming technologies and asks the model to say the curated PSI data holds no technology recommendations, describing instead what the records show at the scenario's oxygen and pressure. Unbacked technologies stay rejected by the validator.
+- DEBT: undeclared digits remain strict by design; a real model may still trip on them. Payback: run the proposed eval set (`data/eval/questions.json`) against the real model and tune from the failure counts. Not verified against the real model after this change.

@@ -1,6 +1,7 @@
 """Reference-led chart grid using reported data and existing application projections."""
 
 from collections import Counter
+from typing import Any
 
 import altair as alt
 import pandas as pd
@@ -16,14 +17,15 @@ from psi_fire.application.chart_data import (
 )
 from psi_fire.application.explore import Match
 from psi_fire.domain.model import O2Basis
+from psi_fire.interface.copilot_panel import RESULT_KEY, pick_scenario, scenario_point
 
 
-def show_chart(chart: alt.Chart | alt.LayerChart) -> None:
+def show_chart(chart: alt.Chart | alt.LayerChart, **chart_options: Any) -> Any:
     chart = chart.configure(background="transparent", font="sans-serif").configure_view(stroke=None).configure_axis(
         gridColor="#DFE7F0", domainColor="#CFDBE6", labelColor="#526E83", titleColor="#526E83",
         labelFontSize=10, titleFontSize=11, titleFontWeight="normal",
     ).configure_range(category=["#00847F", "#6788D4", "#8DBFBA", "#879EAD", "#C58B36"])
-    st.altair_chart(chart, theme=None, width="stretch")
+    return st.altair_chart(chart, theme=None, width="stretch", **chart_options)
 
 
 def metrics(matches: tuple[Match, ...], total: int) -> None:
@@ -68,14 +70,81 @@ def filtered_records_csv(matches: tuple[Match, ...]) -> str:
     return pd.DataFrame(rows).to_csv(index=False)
 
 
+ANSWER_RANK = "Rank in last answer"
+NOT_IN_ANSWER = "not in answer"
+DOT_OPACITY = 0.62
+FADED_DOT_OPACITY = 0.12
+COVERAGE_KEY = "coverage_chart"
+PICK_GRID_O2_STEP = 0.5  # matches the copilot's oxygen input step
+PICK_GRID_PSI_STEP = 1.0  # shortcut: coarse pressure grid keeps the chart light; refine with a custom click handler
+NEAR_O2_PERCENT = 5.0   # "near" window around the scenario marker, in the same units as the axes
+NEAR_PRESSURE_PSI = 2.0
+SCENARIO_MARKER_COLOR = "#008B8B"  # dark cyan, distinct from the teal data series
+
+
+def _pick_layers(right: float, top_psi: float, oxygen_axis: alt.Scale) -> tuple[alt.Chart, alt.Chart]:
+    """Invisible grid so a click on empty space selects the nearest (oxygen, pressure); plus the scenario marker."""
+    o2_values = [10 + i * PICK_GRID_O2_STEP for i in range(int((right - 10) / PICK_GRID_O2_STEP) + 1)]
+    psi_values = [i * PICK_GRID_PSI_STEP for i in range(int(top_psi / PICK_GRID_PSI_STEP) + 2)]
+    pick = alt.selection_point(name="pick", fields=["o2", "psi"], on="click", nearest=True, clear=False)
+    grid = alt.Chart(pd.DataFrame([{"o2": o, "psi": p} for o in o2_values for p in psi_values])).mark_point(
+        opacity=0, size=60).encode(x=alt.X("o2:Q", title="Oxygen (%)", scale=oxygen_axis), y=alt.Y("psi:Q", title="Pressure (psi)")).add_params(pick)
+    o2, psi = scenario_point()
+    marker = alt.Chart(pd.DataFrame([{"o2": o2, "psi": psi}])).mark_point(
+        filled=True, size=300, color=SCENARIO_MARKER_COLOR, stroke="#FFFFFF", strokeWidth=2, opacity=1).encode(
+        x=alt.X("o2:Q", title="Oxygen (%)", scale=oxygen_axis), y=alt.Y("psi:Q", title="Pressure (psi)"),
+        tooltip=[alt.Tooltip("o2:Q", title="Scenario O₂ (%)", format=".1f"),
+                 alt.Tooltip("psi:Q", title="Scenario pressure (psi)", format=".1f")])
+    return grid, marker
+
+
+def scenario_indicators(frame: pd.DataFrame) -> None:
+    """Three numbers that say how well the chosen condition is covered by tests (shown with the copilot)."""
+    o2, psi = scenario_point()
+    near = frame[((frame["O2"] - o2).abs() <= NEAR_O2_PERCENT) & ((frame["Pressure"] - psi).abs() <= NEAR_PRESSURE_PSI)]
+    gap = (((frame["O2"] - o2) / NEAR_O2_PERCENT) ** 2 + ((frame["Pressure"] - psi) / NEAR_PRESSURE_PSI) ** 2).min()
+    inside = o2 >= LUNAR_OXYGEN_MIN and psi <= LUNAR_PRESSURE_MAX
+    first, second, third = st.columns(3)
+    first.metric("Tests near the marker", f"{len(near):,}",
+                 help=f"Tests within ±{NEAR_O2_PERCENT:g}% O₂ and ±{NEAR_PRESSURE_PSI:g} psi of the dark-cyan marker. "
+                      "Zero means the scenario lies in an untested area.")
+    second.metric("Investigations near", near["Investigation"].nunique(),
+                  help="Different PSI studies with at least one test in that window.")
+    third.metric("Coverage", "Tested nearby" if gap <= 1 else "Extrapolated",
+                 delta="inside lunar box" if inside else "outside lunar box", delta_color="off",
+                 help="Extrapolated: the closest test is outside the window above, so conclusions go beyond the data.")
+
+
+def _apply_pick() -> None:
+    """on_select callback: runs before the single rerun, so widget state may be written here."""
+    picked = st.session_state[COVERAGE_KEY].selection.get("pick") or []
+    if picked:
+        pick_scenario(float(picked[0]["o2"]), float(picked[0]["psi"]))
+
+
 def coverage_map(matches: tuple[Match, ...]) -> None:
     conditions = condition_map(matches)
     with st.container(border=True, key="coverage_card"):
         st.markdown("#### Experimental coverage · oxygen and pressure")
-        st.caption(f"Each dot is one test that reports both values. The shaded box is the lunar-habitat scenario used "
-                   f"in this project: at least {LUNAR_OXYGEN_MIN:g}% O₂ at or below {LUNAR_PRESSURE_MAX:g} psi.")
+        st.caption("**What it shows:** which oxygen and pressure conditions PSI experiments actually tested. Each dot is "
+                   "one test (color = investigation, triangle = O₂ measured in the burner stream). Empty areas are "
+                   "conditions with no test data, so any conclusion there would be an extrapolation. The shaded box is "
+                   f"the lunar-habitat reference: at least {LUNAR_OXYGEN_MIN:g}% O₂ at or below {LUNAR_PRESSURE_MAX:g} psi.")
+        if st.session_state.get("show_copilot"):
+            st.info("**How to use it with the copilot:** click anywhere on the chart to choose a habitat condition "
+                    "(the dark-cyan marker and the copilot's Oxygen and Pressure fields follow your click; you can "
+                    "also type the values). Then press **Ask copilot**: the application ranks the investigations "
+                    "closest to that point, and the language model explains the ranking using only cited records "
+                    "and report passages. Dots near the marker mean well-covered conditions; a marker in an empty "
+                    "area means the answer rests on distant tests. The ranking is not only distance: it weighs five criteria "
+                    "(O₂ closeness, pressure closeness, fire-safety pillar, fuel type, data richness), so a study can "
+                    "rank high with few dots near the marker. After you ask, the studies in the answer stay "
+                    "highlighted and the rest fade.", icon=":material/touch_app:")
         if conditions.rows:
             frame = pd.DataFrame(conditions.rows)
+            answered = st.session_state.get(RESULT_KEY) if st.session_state.get("show_copilot") else None
+            ranks = {r.investigation.id: r.rank for r in answered.shortlist} if answered else {}
+            frame[ANSWER_RANK] = frame["Investigation"].map(lambda i: f"#{ranks[i]}" if i in ranks else NOT_IN_ANSWER)
             right = max(float(frame["O2"].max()), LUNAR_OXYGEN_MIN) + 3
             box = alt.Chart(pd.DataFrame([{"x": LUNAR_OXYGEN_MIN, "x2": right, "y": 0.0, "y2": LUNAR_PRESSURE_MAX}]))
             oxygen_axis = alt.Scale(domain=[10, right], nice=False)  # no test reports less than ~12% O2
@@ -83,7 +152,11 @@ def coverage_map(matches: tuple[Match, ...]) -> None:
                 x=alt.X("x:Q", scale=oxygen_axis), x2="x2:Q", y="y:Q", y2="y2:Q")
             label = box.mark_text(align="left", baseline="bottom", dx=6, dy=-6, color="#8A5A12", fontWeight=600).encode(
                 x=alt.X("x:Q", scale=oxygen_axis), y="y2:Q", text=alt.value("Lunar habitat scenario"))
-            dots = alt.Chart(frame).mark_point(filled=True, size=52, opacity=.62, stroke="#FFFFFF", strokeWidth=.5).encode(
+            copilot_on = bool(st.session_state.get("show_copilot"))
+            grid, marker = _pick_layers(right, float(frame["Pressure"].max()), oxygen_axis)
+            dots = alt.Chart(frame).mark_point(filled=True, size=52, stroke="#FFFFFF", strokeWidth=.5).encode(
+                opacity=alt.condition(f"!{len(ranks)} || datum['{ANSWER_RANK}'] != '{NOT_IN_ANSWER}'",
+                                      alt.value(DOT_OPACITY), alt.value(FADED_DOT_OPACITY)),
                 x=alt.X("O2:Q", title="Oxygen (%)", scale=oxygen_axis),
                 y=alt.Y("Pressure:Q", title="Pressure (psi)", scale=alt.Scale(zero=True, nice=True)),
                 color=alt.Color("Investigation:N", legend=alt.Legend(orient="top", title=None),
@@ -91,11 +164,22 @@ def coverage_map(matches: tuple[Match, ...]) -> None:
                 shape=alt.Shape("Oxygen basis:N", scale=alt.Scale(domain=["Chamber atmosphere", "Burner stream"],
                                                                   range=["circle", "triangle-up"]),
                                 legend=alt.Legend(orient="top", title="O₂ measured in")),
-                tooltip=["Investigation:N", "Record:N", "Fuel:N", "Oxygen basis:N", "Source row:N",
+                tooltip=["Investigation:N", f"{ANSWER_RANK}:N", "Record:N", "Fuel:N", "Oxygen basis:N", "Source row:N",
                          alt.Tooltip("O2:Q", title="O₂ (%)"),
                          alt.Tooltip("Pressure:Q", title="Pressure (psi)", format=".2f")],
             )
-            show_chart((scenario + label + dots).properties(height=540).interactive())
+            layers = grid + scenario + label + dots if copilot_on else scenario + label + dots
+            if copilot_on:
+                layers += marker
+            show_chart(layers.properties(height=540).interactive(),
+                       **({"on_select": _apply_pick, "key": COVERAGE_KEY} if copilot_on else {}))
+            if copilot_on:
+                scenario_indicators(frame)
+            absent = [i for i in ranks if i not in set(frame["Investigation"])]
+            if absent:
+                st.caption(f"Ranked in the last answer but with no dots here: {', '.join(absent)}. No plotted test of "
+                           "these studies reports both oxygen and pressure (or the filters exclude them); the ranking "
+                           "still uses their other records and metadata.")
             st.caption(f"{len(conditions.rows):,} of {conditions.tests:,} individual tests report both values. "
                        f"Inside the box: {conditions.scenario_ambient} tests with O₂ measured in the chamber atmosphere, "
                        f"and {conditions.scenario_stream} inverse flames (triangles) whose O₂ is the gas leaving the "

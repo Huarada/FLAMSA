@@ -80,6 +80,18 @@ Both outputs are always rendered with the deterministic `ScoreBreakdown` table a
 - **Approved:** claims, their citations and an evidence traceability map (claim -> record/passage -> archived file, locator, checksum), the solution suggestions with their status, the run trace (attempts, relaxed settings).
 - **Failure (`insufficient_evidence`):** status code, the rejection reasons of the last attempt, and the breakdown rendered as text by a template. No LLM text is shown. This reconciles the diagram's failure node with the CLAUDE.md rule "invalid citation -> fallback to the deterministic breakdown"; the user never gets an empty answer.
 
+### 4.1 Claim-level evidence and source access (ADR-0128; handoff: docs/copilot-evidence-handoff.md)
+
+Evidence is not a navigation destination; every approved answer carries it inline.
+
+- **Per citation** (`TraceEntry`): investigation, evidence kind (document passage, curated metadata or experimental record), archived file, locator (page, row or field), the quoted excerpt for passages, and a `status` text. The status states what the evidence is: record provenance (verified/inferred/missing), manual-metadata review state, or "document passage; quote matched mechanically, not human-reviewed". A matching quote is never presented as reviewed scientific correctness.
+- **Per number** (`FigureTrace`, record figures only): investigation, TestPoint id, column, canonical unit, raw archived text when kept, source file and row, provenance status. Breakdown figures are computed by the application and are not traced to a source.
+- **Source access**: `ResolveCitationSource` (application) matches the citation's file against the investigation's registered sources (`SourceReader`, backed by `data/sources.json`, the raw-data roots, external captures and the RAG corpus allowlist). The model only names a path; an unregistered or arbitrary path is never opened (`SourceStatus.UNREGISTERED`). A registered file that cannot be read or whose checksum changed is reported as `UNAVAILABLE` with the reason; the citation stays visible. Report PDFs from the corpus are pinned by SHA-256.
+- **View source** (interface): a per-citation action opens a labelled inspection dialog with the citation, source identity and checksum, a download of the cited document, and the study context. If the study is outside the dashboard filters the dialog says so; the dialog never changes the filters, scenario or answer, and closing it returns to the answer.
+- **Not provided**: no public URL to the exact page (the DOI is an investigation-level link and is labelled as such); no in-app PDF page rendering.
+- **Rejected / fallback outputs** carry no citations or figure traces, as before.
+- Acceptance: tests/application/test_citation_traceability.py (fake narrators), tests/infrastructure/test_explorer_snapshot.py (registered report PDFs, unavailable source), tests/interface/test_explorer_app.py (View source, out-of-filter label).
+
 ## 5. Placement (Clean Architecture)
 
 - domain: `HabitatScenario`, `RelevanceCriterion`, `RelevanceRanker`, `ScoreBreakdown`, `Citation`, plausibility rules, limitation texts.

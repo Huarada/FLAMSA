@@ -43,20 +43,26 @@ def load_snapshot(root: str, refresh: int) -> tuple[str, tuple[str, ...]]:
 def answering_pipeline(root: str):
     return build_answering_pipeline(Path(root))
 
+WORKSPACE_PAGES = ("Home", "Dashboard", "Fire behavior", "Investigations", "Evidence")  # Evidence: legacy link
 root = Path(__file__).resolve().parents[3]
 load_dotenv(root / ".env")  # keys and PSI_LLM_MODEL; real environment variables take precedence
 if "applied_query" not in st.session_state:
     st.session_state["applied_query"] = ExplorationQuery()
 if "refresh" not in st.session_state:
     st.session_state["refresh"] = 0
-if "workspace_navigation" not in st.session_state:
-    st.session_state["workspace_navigation"] = "Home"
+if "workspace_navigation" not in st.session_state:  # a reload or reconnect keeps the page through the URL
+    requested = st.query_params.get("page", "Home")
+    st.session_state["workspace_navigation"] = requested if requested in WORKSPACE_PAGES else "Home"
+legacy_evidence = st.session_state["workspace_navigation"] == "Evidence"
+if legacy_evidence:
+    st.session_state["workspace_navigation"] = "Investigations"
 
 with st.container(key="topbar"):
     brand, navigation, controls = st.columns([1.1, 3.9, 1], vertical_alignment="center")
     brand.image(str(Path(__file__).parent / "assets/flamsa.svg"), width=165)
     brand.caption("NASA PSI / Research workspace")
     page = st.session_state["workspace_navigation"]
+    st.query_params["page"] = page
     with navigation:
         workspace_navigation(page)
     with controls.popover("Dataset controls", icon=":material/database:", width="stretch"):
@@ -108,15 +114,17 @@ if page in ("Home", None):
 with st.container(key="hero"):
     title, actions = st.columns([3, 1])
     title.title({"Dashboard": "FLAMSA", "Investigations": "Explore investigations",
-        "Evidence": "Find the evidence", "Fire behavior": "Fire behavior & safety evidence"}.get(page, "FLAMSA"))
+        "Fire behavior": "Fire behavior & safety evidence"}.get(page, "FLAMSA"))
     title.markdown("**Microgravity combustion · Experimental analysis**")
     title.caption("Explore experimental data. Compare investigations. Find the evidence.")
-    show_copilot = actions.toggle("Research copilot", value=False, key="show_copilot")
+    show_copilot = actions.toggle("Research copilot", value=True, key="show_copilot",
+                              help="Side panel that explains which studies fit a habitat condition, with citations.")
     pipeline = answering_pipeline(str(root)) if show_copilot else None
     export_slot = actions.empty()
 if page == "Fire behavior":
     behavior_introduction()
 explore = ExploreInvestigations(snapshot)
+sources = InvestigationSources(RegisteredSources(root, snapshot))
 filters(explore.options())
 if "candidate_query" in st.session_state:
     candidate = st.session_state.pop("candidate_query")
@@ -153,19 +161,19 @@ if page in ("Dashboard", None):
         with workspace:
             chart_context = chart_grid(matches)
         with copilot:
-            assistant_panel(snapshot.revision, query, matches, chart_context, pipeline, snapshot.investigations)
+            assistant_panel(snapshot.revision, query, matches, chart_context, pipeline, snapshot.investigations, sources)
     else:
         chart_context = chart_grid(matches)
 if page == "Fire behavior":
     chart_context = fire_behavior(matches, snapshot.revision, query)
     if show_copilot:
-        assistant_panel(snapshot.revision, query, matches, chart_context, pipeline, snapshot.investigations)
+        assistant_panel(snapshot.revision, query, matches, chart_context, pipeline, snapshot.investigations, sources)
     with st.expander("Applied filters and scientific scope"):
         st.json(asdict(query), expanded=False)
         st.caption("No direct partial-gravity data or habitat-safety threshold is established by these analyses.")
     st.caption("PSI / Research workspace / Source-backed experimental data / Research copilot: validated answers only")
     st.stop()
-if page in ("Investigations", "Evidence"):
+if page == "Investigations":
     with st.container(border=True, key="investigation_preview"):
         picker, summary = st.columns([1, 2])
         selected = picker.selectbox("Open investigation", available_ids, index=None, key="selected_investigation")
@@ -177,16 +185,15 @@ if page in ("Investigations", "Evidence"):
         objective = match.investigation.study_metadata.get("objective", "Objective not reported in curated metadata.")
         summary.write(objective[:260] + "..." if len(objective) > 260 else objective)
         summary.caption("The full objective, records and cited evidence are below.")
-    if page == "Investigations":
-        with st.expander("Investigation catalog", expanded=False):
-            frame = catalog(matches)
-            sort = st.selectbox("Catalog order", ["Investigation", "Matching records", "Total records"])
-            st.dataframe(frame.sort_values(sort, ascending=sort == "Investigation", kind="stable"), hide_index=True)
-    detail(match, InvestigationSources(RegisteredSources(root, snapshot)),
-        default_tab="Citations & source downloads" if page == "Evidence" else None)
+    with st.expander("Investigation catalog", expanded=False):
+        frame = catalog(matches)
+        sort = st.selectbox("Catalog order", ["Investigation", "Matching records", "Total records"])
+        st.dataframe(frame.sort_values(sort, ascending=sort == "Investigation", kind="stable"), hide_index=True)
+    detail(match, sources,
+        default_tab="Citations & source downloads" if legacy_evidence else None)
     if show_copilot:
         assistant_panel(snapshot.revision, query, matches, {"selected_investigation": selected}, pipeline,
-                        snapshot.investigations)
+                        snapshot.investigations, sources)
 with st.expander("Applied filters and scientific scope"):
     st.json(asdict(query), expanded=False)
     st.caption("Ranges describe reported coverage, not safety limits. No partial-gravity measurements are represented; "

@@ -62,6 +62,8 @@ class AttemptRecord:
     shortlist_ids: tuple[str, ...]
     passage_count: int
     issues: tuple[ValidationIssue, ...]
+    draft: Draft | None = None                # kept so a rejected attempt can be inspected, never shown as an answer
+    passages: tuple[Passage, ...] = ()        # what retrieval returned for this attempt
 
 
 @dataclass(frozen=True)
@@ -73,6 +75,23 @@ class TraceEntry:
     source_file: str | None
     locator: str | None
     sha256: str | None
+    status: str | None = None  # what kind of evidence this is and whether anyone reviewed it; never "verified science"
+
+
+@dataclass(frozen=True)
+class FigureTrace:
+    """Where a number a claim states comes from: record, column, unit, raw text and source row."""
+
+    claim_index: int
+    investigation_id: str
+    test_point_id: str
+    column: str
+    value: float
+    unit: str | None
+    raw: str | None
+    source_file: str
+    source_row: str
+    provenance_status: str
 
 
 @dataclass(frozen=True)
@@ -88,6 +107,7 @@ class AnswerResult:
     breakdown_text: str
     attempts: tuple[AttemptRecord, ...]
     traceability: tuple[TraceEntry, ...]
+    figure_traces: tuple[FigureTrace, ...] = ()
 
 
 class AnswerState(TypedDict, total=False):

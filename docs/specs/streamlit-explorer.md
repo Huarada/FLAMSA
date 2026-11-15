@@ -561,7 +561,27 @@ Fire behavior opens with an always-visible scientific introduction immediately a
 Acceptance additions:
 
 - AC-81: Dashboard and Fire behavior are visually prominent native header buttons with distinct blue/amber treatment and purpose-specific help.
-- AC-82: All five destinations and existing source/Home actions preserve navigation behavior and applied filters; the current destination remains visible.
+- AC-82: All four destinations (Home, Dashboard, Fire behavior, Investigations) and existing source/Home actions preserve navigation behavior and applied filters; the current destination remains visible.
 - AC-83: The Fire behavior introduction appears before filters and includes student-facing definitions of K, oxygen/CO2 differences and paired gravity outcomes.
 - AC-84: The introduction identifies evidence/assumption boundaries and the existing deterministic calculation/source path, with no new fabricated proof or safety score.
 - AC-85: Browser checks confirm header hover help, readable introduction/equations, keyboard navigation and narrow-screen wrapping.
+
+## 23. Consolidate source inspection within Investigations
+
+Remove Evidence from primary navigation. Keep the Investigations catalog, scientific context, experimental records/raw values and Citations & source downloads. Source-reader ports, registered file/checksum checks, stored evidence and existing Fire behavior/source callbacks remain available. This section supersedes earlier references to Evidence as a workspace destination, including AC-61 and section 17; it does not remove evidence as a domain concept or scientific requirement.
+
+Sessions whose stored destination is Evidence redirect to Investigations and initially select Citations & source downloads, without replacing the committed query or selected investigation. The copilot continues its existing citation rendering; improved claim-to-source actions belong to the orchestration workstream and are tracked in docs/copilot-evidence-handoff.md. This navigation increment does not claim that DOI links already open exact PDF pages.
+
+- AC-86: No Evidence header action is rendered; an existing Evidence session redirects to Investigations, retaining applied filters and source access.
+- AC-87: Investigations exposes the sources tab and can prepare a registered source download; Fire behavior source-record actions and Home flows remain valid.
+
+## 24. Home copy reflects the implemented challenge workflow
+
+Present the archive as NASA PSI combustion data rather than implying every investigation flew aboard the ISS. Explain the implemented workflow: compare reported conditions, rank studies for a habitat scenario in Research copilot, inspect cited sources and export matching records as CSV. Name prevention, detection and suppression as the challenge's fire-safety research pillars. Do not promise a predictive simulator, calibrated risk score, human-reviewed metadata where none exists or demonstrated lunar/Martian gravity coverage.
+
+Replace the obsolete planned-ranking/no-scores statement from the initial Home increment with the actual deterministic ranking, criterion breakdown, evidence checks and possible insufficient-evidence outcome. The copilot's model-backed narration depends on configuration; a template is available offline. Do not imply that a language model computes ranking scores or that automated validation establishes scientific truth.
+
+Provide a native Open Fire behavior action alongside Dashboard and Investigations, preserving the committed query. Keep the interactive conceptual-artwork label, snapshot-derived counters, curated-only Earth links, claim/review status distinctions and explicit scope limits. Earth-application navigation is not a demonstrated technology recommendation; the solutions catalog is a separate capability. Preserve the existing visual design and topic navigation.
+
+- AC-88: Home describes current ranking, CSV/source access and all three research pillars, without the retired no-scores claim; counters retain snapshot-derived review status.
+- AC-89: Home opens Fire behavior without replacing research filters, and its copy distinguishes source-bounded analysis from prediction or habitat certification.

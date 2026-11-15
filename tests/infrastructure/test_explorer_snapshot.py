@@ -58,3 +58,43 @@ def test_source_changed_is_rejected(tmp_path: Path) -> None:
     service = RegisteredSources(tmp_path, Snapshot("fixture", (inv,)))
     with pytest.raises(DatasetError, match="checksum"):
         service.read("TEST", service.list_for("TEST")[0]["handle"])
+
+
+def test_report_pdfs_cited_by_passages_are_registered_pinned_and_readable():
+    from psi_fire.application.answer_types import TraceEntry
+    from psi_fire.application.evidence import InvestigationSources
+    from psi_fire.application.source_access import ResolveCitationSource, SourceDocument
+    from psi_fire.domain.answering import Citation, CitationKind
+
+    sources = InvestigationSources(RegisteredSources(ROOT, FileSnapshotProvider(ROOT).load()))
+    report = next(s for s in sources("FLEX") if s["path"].endswith(".pdf"))
+    assert len(report["digest"]) == 64
+    citation = Citation(kind=CitationKind.PASSAGE, investigation_id="FLEX", source_file=report["path"],
+                        locator="p. 1", quote="x" * 25)
+    opened = ResolveCitationSource(sources).open(TraceEntry(0, citation, report["path"], "p. 1", None))
+    assert isinstance(opened, SourceDocument) and opened.content.startswith(b"%PDF")
+
+
+def test_a_missing_report_pdf_is_listed_unpinned_and_reported_unavailable(tmp_path):
+    from psi_fire.application.answer_types import TraceEntry
+    from psi_fire.application.evidence import InvestigationSources
+    from psi_fire.application.explore import Snapshot
+    from psi_fire.application.source_access import ResolveCitationSource, SourceStatus
+    from psi_fire.domain.answering import Citation, CitationKind
+    from psi_fire.domain.model import Investigation, TestPoint
+
+    (tmp_path / "data").mkdir()
+    (tmp_path / "data/sources.json").write_text(json.dumps({"investigations": [{"raw_dir": "raw"}]}))
+    (tmp_path / "data/rag_corpus.json").write_text(json.dumps({"documents": [
+        {"investigation_id": "TEST", "source_file": "raw/missing.pdf", "kind": "Final report"}]}))
+    point = TestPoint(investigation_id="TEST", test_point_id="a", record_level="test", source_file="raw/test.csv",
+                      source_row="2", provenance_status="verified")
+    inv = Investigation(id="TEST", psi_id="TEST", record_level="test", columns={}, test_points=(point,),
+                        source_files=())
+    sources = InvestigationSources(RegisteredSources(tmp_path, Snapshot("fixture", (inv,))))
+    (entry,) = [s for s in sources("TEST") if s["path"] == "raw/missing.pdf"]
+    assert entry["digest"] == ""
+    citation = Citation(kind=CitationKind.PASSAGE, investigation_id="TEST", source_file="raw/missing.pdf",
+                        locator="p. 1", quote="x" * 25)
+    opened = ResolveCitationSource(sources).open(TraceEntry(0, citation, "raw/missing.pdf", "p. 1", None))
+    assert opened.status == SourceStatus.UNAVAILABLE

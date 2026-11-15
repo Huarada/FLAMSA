@@ -149,3 +149,16 @@ Use minimal behavior-focused fixtures for same-record filters, known versus unkn
 Import/layer checks: domain imports only allowed dependencies; application imports domain/own ports, not infrastructure/pandas/Streamlit; widgets call use cases, not raw loaders. The composition root may import infrastructure to construct dependencies. Import checks must distinguish composition from ordinary interface callbacks.
 
 No snapshot, source-access or UI acceptance is considered passed by this documentary QA. Existing code prerequisites remain open until corrected and verified by their owners. Run commands from CLAUDE.md at implementation completion; if pytest's default temp/cache directories are inaccessible, use a fresh workspace-local test directory and report that environment choice. Record Streamlit version and browser/runtime evidence separately; test success is not proof the app rendered correctly.
+
+
+## Source navigation consolidation
+
+- AC-82 and AC-86: four primary destinations, no Evidence header action, legacy Evidence sessions redirect without changing the query; tests/interface/test_workspace_navigation.py.
+- AC-87: source tab and prepared registered download remain reachable under Investigations; navigation test plus existing Fire behavior/source action tests.
+- Copilot follow-up is a separate orchestration task: docs/copilot-evidence-handoff.md. Contextual exact-source actions are not claimed implemented by this navigation increment.
+
+
+## Home capability alignment
+
+- AC-88/89: tests/interface/test_explorer_app.py::test_home_explains_current_capabilities_and_opens_behavior_without_replacing_filters checks current capability copy, snapshot-derived review count and query-preserving Fire behavior navigation.
+- Existing tests/application/test_home.py covers only-loaded thematic links, actual counters, empty Earth-application claims and unknown topics. Audit: docs/home-content-audit.md.

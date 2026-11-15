@@ -51,15 +51,14 @@ We do not fill gaps. A missing value stays missing, an inferred one is marked as
 
 ## The dashboard
 
-The workspace has five destinations. One set of research filters drives all of them: investigation, record level, fuel phase, O₂/pressure/flow intervals, review state, hardware, sensors and fire-safety pillar.
+The workspace has four destinations. One set of research filters drives the analysis views: investigation, record level, fuel phase, O₂/pressure/flow intervals, review state, hardware, sensors and fire-safety pillar. Sources are available within Investigations under Citations & source downloads.
 
 | Destination | Contents |
 |---|---|
 | **Home** | Interactive chamber scene with four entry points (flame behavior, Earth applications, exploration habitats, detection and diagnostics) and live archive counts. |
 | **Dashboard** | KPI cards, a scatter of reported tests for any compatible pair of quantities, records per investigation, and reported O₂/pressure/flow envelopes. Every omitted record has a stated reason. |
 | **Fire behavior** | Three source-bounded analyses: FLEX burning rate vs O₂ (adjusted slopes with 95% intervals), BASS-II O₂ consumed vs CO₂ produced, and SAFFIRE-II microgravity vs 1 g outcomes. Exports reproducible JSON and CSV. |
-| **Investigations** | Catalog, objective, review status, sensors and hardware with quotes, a full TestPoint table and a record inspector showing the raw value and provenance. |
-| **Evidence** | Citations with page anchors and downloads of the archived source files, with checksums. |
+| **Investigations** | Catalog, objective, review status, sensors and hardware with quotes, a full TestPoint table, raw values/provenance and Citations & source downloads with locators and checksums. |
 
 <table>
 <tr>

@@ -21,7 +21,5 @@ def workspace_navigation(current: str) -> None:
                   "Fitted slopes come with their intervals and the source rows.")
         st.button("Investigations", key="nav_investigations", type="tertiary", on_click=open_workspace,
                   args=("Investigations",), help="The objective, hardware, sensors and every test record of one "
-                  "investigation, with its review status.")
-        st.button("Evidence", key="nav_evidence", type="tertiary", on_click=open_workspace, args=("Evidence",),
-                  help="The quotes behind each claim, with page numbers, and the archived source files to download.")
+                  "investigation, with its review status, citations and archived source downloads.")
     st.caption(f"Current view: {current}")
