@@ -780,3 +780,150 @@ Status: `proposed` · `accepted` · `superseded` · `open` · `resolved` · `def
 - Change: the user asked for README text that reads less like generated copy, and for each PDF quote to name its document. Removed emoji, slogan lines, repeated bold labels ("What the data shows", "Rule applied") and most emphasis. Section titles are now "The dashboard", "Physical consistency rules" and "Known limits".
 - Every quote now gives authors, title and page, with a numbered References section listing the venue or report series and the archived path. Titles and authors were taken from the cover pages of the archived PDFs. Reference 2 (Turns, *An Introduction to Combustion*, 2nd ed., p. 376) is cited by reference 1 and is not archived. The 2012 meeting name is reproduced as printed on that document's cover.
 - Formulas, tables and numbers are unchanged (14 math blocks, LaTeX delimiters re-checked). GitHub rendering is still not verified.
+
+### ADR-0099 - Make the principal analysis destinations prominent and explain their purpose
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted
+- Context: the user requested more prominent Dashboard and Fire behavior controls, hover explanations and a differentiated header action. The previous segmented control did not provide separate purpose help for each destination.
+- Change: replace it with native Streamlit buttons for all five existing destinations. Dashboard uses a strong blue treatment; Fire behavior uses an amber call to action related to the FLAMSA mark. Each button has individual native help, visible focus, a 44 px minimum height and the current destination is labelled. No duplicate navigation state or external component was added.
+- Consequences: the existing workspace_navigation session value and Home/source callbacks remain valid. Header callbacks change only destination; research queries and source selection semantics are preserved. Interface tests now exercise actual header actions rather than the retired segmented control.
+- Contract: SPEC-001 section 22, AC-81, AC-82 and AC-85.
+
+### ADR-0100 - Explain fire-behavior physics to students before the research filters
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted
+- Context: the user wanted the evidence section's scientific importance and formulas explained clearly at the start, especially for a competition audience.
+- Change: add an always-visible opening guide after the Fire behavior title and before filters. Explain the approximate droplet d-squared relationship, K and its units; same-test oxygen/CO2 differences and percentage points; and the paired ground/microgravity length comparison. Define the comparison arrow as a comparison, not a physical law. A progressive disclosure introduces the conditional K regression, coefficients/error term and uncertainty/source trail.
+- Scientific framing: explain why microgravity's change in buoyancy is relevant to combustion research. Identify agreement as a physical-consistency check, the oxygen coefficient as a conditional association, and habitat safety as requiring independent environmental evidence. Do not present universal formula proof, numerical safety scores or an additional validation computation. Existing coefficients, data, exclusions and exports were not changed.
+- Sources: NASA combustion/fire-safety overview and FLEX requirements document were checked as background, not promoted into new as-run manual claims. Their links are available in the guide. SPEC-001 AC-83/AC-84 and SPEC-002 describe the presentation contract.
+
+### ADR-0101 - Verify the navigation and scientific introduction across session flows and viewports
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted
+- Verification: 11 interface tests passed, including purpose help, header/Home/source navigation, query preservation, educational content, source access, filter reset/reload and copilot flows. Full suite: 175 passed, 179 PDF visual-line checks skipped because pdftotext/poppler is absent. Fresh workspace-local temporary directories were used. Ruff passed; strict mypy passed for the domain and new navigation/introduction modules.
+- Browser: restarted the owned local Streamlit server. Chrome verified the Dashboard and Fire behavior tooltip texts by actual hover, Enter activation of Fire behavior, four rendered equations and DOM ordering of the introduction before Research filters, with no rendered exception. At 390 px the page remained 390 px wide; header and introduction measured 356 px and learning cards 309 px. Desktop and mobile screenshots were visually inspected.
+- Artifacts: docs/screenshots/navigation-fire-tooltip.png, fire-behavior-learning-desktop.png, navigation-mobile.png and fire-behavior-learning-mobile.png. Documentation and acceptance traceability were updated.
+- Not verified: physical-device input, screen-reader behavior and a complete cross-browser accessibility/contrast audit. The presentation increment does not establish a new scientific validation result.
+
+### ADR-0102 - Navigation tooltips rewritten to say what each page shows
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted
+- Context: the user found the hover text on the Dashboard and Fire behavior buttons to read like generated copy ("Connect physics with evidence", "Explore the dataset").
+- Change: the five tooltips in `workspace_navigation.py` now describe concrete content and name the studies (FLEX, BASS-II, SAFFIRE-II) instead of using generic verbs. The test that checked the old wording now checks the new key phrases.
+- Not verified: the tooltips were not looked at in a browser; only the AppTest and ruff were run.
+
+### ADR-0103 - Exclude missing extinction diameters from the FLEX physical-consistency check
+- Date: 2026-11-14 | Type: BUG / FIX | Status: accepted
+- Symptom: the README claimed a 257-observation d-squared checkpoint, while the test silently substituted an unreported extinction diameter with zero through `value(...) or 0.0`.
+- Root cause and impact: a missing measurement was treated as complete burnout, contrary to the source-data contract. This changed check eligibility and the denominator of a scientific consistency ratio. The defect was in the test, not the production Fire behavior model.
+- Fix: require finite reported diameters, positive K/time, nonnegative extinction diameter and the existing d0 > 1.1 de sensitivity screen. Keep reported zero distinct from missing. Preserve the broad median-agreement assertion and require more than 100 eligible rows rather than the old imputation-dependent 200 threshold.
+- Recomputed checkpoint: n=155, median reported/predicted burn time 1.049190953, linear-interpolated IQR 1.029186418-1.077274089. README updated; no raw, manual or curated data changed.
+
+### ADR-0104 - Distinguish physical models, measured differences and documentary context in the formula presentation
+- Date: 2026-11-14 | Type: DECISION / ENHANCEMENT | Status: accepted | Related: ADR-0097, ADR-0100
+- Context: the user requested an audit of README formulas against Dashboard and Fire behavior and a recommendation on retaining or adding formulas.
+- Decision: retain R1-R8 with explicit scope. Keep the three current introductory cards and the existing conditional regression explanation. The ground/flight arrow is a comparison. Recommend the derived burn-time and average length/time equations for optional future technical detail; do not add all README equations to the opening UI or imply a new live validation feature.
+- Corrections: d-squared describes squared diameter; eligible strata alone receive OLS fits; Spalding theory requires unmapped thermophysical inputs; conditional extinction-diameter linearity is not proportionality through the origin; chamber mole-fraction observations are not universal mass-balance laws; the PMMA 5/6 reaction ratio concerns molar amounts and does not automatically equal concentration-difference ratios; gas-mass estimates require percentage-point conversion and P/V/T assumptions; SAFFIRE silicone cases differ; SPICE volume flow needs matching reference conditions.
+- Independent checkpoints: ACME-CFI-G Zst 331 rows, max absolute error 4.080997963e-5; normal-flame sequence 156 continuous pairs of 168 same-day pairs; exploratory PMMA origin-constrained slope 0.8220215701 for 24 complete pairs. The latter has no reported uncertainty and is not a production chart line or an automated stoichiometric check.
+- Tradeoff: keep Spalding, Zst and SPICE ideal-gas relations as technical background/QA rather than inventing new Fire behavior analyses for unmapped inputs or different investigations. No universal safety claim or direct lunar-gravity interpolation is introduced.
+- Artifact: docs/formula-audit.md maps every relation to implementation, assumptions, units, checkpoints and a retain/add/defer recommendation; README links it. Numerical computations remain in their existing layers. UI and production scientific calculations were not changed.
+
+### ADR-0105 - Preserve a source quotation while correcting its physical interpretation
+- Date: 2026-11-14 | Type: BUG / FIX | Status: accepted | Related: ADR-0104
+- Finding: visual inspection of reference [1], page 2 (resolved through the FLEX source registry), confirms that its prose says droplet diameter decreases linearly, whereas the displayed equation and normalized axes use squared diameter. The literal README quotation is accurate but would be misleading without context.
+- Fix: preserve the source wording and add an explicit note that the d-squared equation governs the interpretation. No source file or evidence claim was rewritten. Updated the formula audit to distinguish this visually checked page from quotations not rechecked in this session.
+
+### ADR-0106 - Verify the formula audit and corrected consistency check
+- Date: 2026-11-14 | Type: ENHANCEMENT | Status: accepted | Related: ADR-0103, ADR-0104, ADR-0105
+- Verification: full pytest suite completed with 175 passed and 179 skipped in 196.36 seconds. The skipped tests require pdftotext/Poppler for PDF visual-line checks. Ruff passed, mypy passed for six domain files and git diff --check passed for the changed tracked files. A fresh workspace-local pytest temporary directory avoided existing cache ACL issues.
+- Documentation checks: README and formula-audit local Markdown links resolve; 14 display-math blocks and 33 pairs of inline-math delimiters were checked mechanically. The current numerical checkpoints were independently recomputed from repository aggregates, including complete-input FLEX ratios, CFI-G Zst/sequence and the exploratory PMMA slope.
+- Not verified: every archived quotation, GitHub/browser math rendering, scientific error assumptions, calibration, experimental replication or habitat certification. Reference [1] page 2 was visually checked as documented in ADR-0105. No UI restart or production computation/data change was needed for this documentation/test increment.
+
+### ADR-0107 - Dashboard centered on O2 x pressure coverage; filtered-records CSV replaces the settings export
+- Date: 2026-11-14 | Type: DECISION + BUG/FIX | Status: accepted | Supersedes: the Dashboard card set of ADR-0063 (FLAMSA glass) and the README lunar section of ADR-0095
+- Decision (user-approved): the Dashboard keeps the Investigations and Reported records KPIs, now with captions and help text that define an investigation and a record, and splits records into individual tests and daily/matrix summaries. Two KPIs replace "Record levels" and "Selected investigation": tests reporting both O2 and pressure, and lunar-scenario tests. A full-width O2 x pressure coverage map sits directly below the KPIs, with the scenario box (O2 >= 30%, pressure <= 10.2 psi). The comparison scatter follows it at full width. The record-level donut, the records-per-investigation bars and the Dashboard's Open investigation card were removed; that card remains on Investigations and Evidence, where it selects the investigation. The research copilot is unchanged (being implemented separately).
+- Decision: "Export view" (a JSON of filters) is replaced by "Download filtered records (CSV)": every record passing the filters, with all curated columns, `_raw` values and provenance, named with the dataset revision. This covers the challenge's data-extraction goal from inside the dashboard.
+- Application: `chart_data.condition_map` projects individual tests with scalar O2 and pressure and counts scenario tests by oxygen basis. The scenario constants moved from `fire_behavior.py` to `chart_data.py` (single source, no import cycle); `fire_behavior.py` imports them.
+- BUG (mine, documentation): the README lunar section counted only FLEX (0 tests at <= 10.2 psi), implying no evidence for the scenario. ACME-CFI-G has 48 tests in range: 20 normal flames with chamber-atmosphere O2 (14 butane, 6 ethane, 7.35 psi, 33-39% O2) and 28 inverse flames whose O2 is the burner stream, not the atmosphere. An intermediate verbal report to the user gave 48 without that split. Fix: the README section now shows 20 + 28 with a per-investigation table; the Fire behavior FLEX text is labeled as FLEX-only and points to the Dashboard map.
+- Tests: new `test_condition_map_counts_the_habitat_scenario_by_oxygen_basis`; new `tests/interface/test_dashboard_overview.py` (KPI labels and help, 20 + 28 scenario counts, removed cards, CSV keeps FLEX test 114 raw "0" and provenance); one explorer AppTest assertion moved from the removed KPI caption to the new one. Full suite: 357 passed; ruff clean; mypy strict on domain clean.
+- Not verified: the layout in a browser (only AppTest); obsolete CSS selectors for the removed cards remain in `workspace_style.py`, harmless.
+
+### ADR-0108 - Coverage map polish after the first browser check
+- Date: 2026-11-14 | Type: FIX | Status: resolved | Related: ADR-0107
+- BUG (mine): in a headless-Chrome capture of the running app, the O2 axis started at 0 (the scenario box and label layers ignored the dots' domain), FLEX dots used a pale palette color that was hard to see, and the scatter notice still mentioned the removed record-count charts.
+- Fix: all three layers share one O2 scale (10% to the data maximum), the map uses its own four-color range, and the notice now points to the filtered records and the CSV download. Verified with a second browser capture: no exceptions, KPIs 15/15, 1,615, 693 and 20. Interface tests pass.
+
+### ADR-0109 - Engineering drawings stay in knowledgeBase but never enter the RAG corpus
+- Date: 2026-11-14 | Type: DECISION + TRADEOFF | Status: accepted | Related: ADR-0008, ADR-0083
+- Context: the planned RAG indexes PSI documents. A 40-file sample of the 504 ACME engineering-drawing PDFs (164 MB) showed 22 with almost no text layer and the rest holding parts lists and manufacturing notes whose columns pdftotext interleaves. They share query vocabulary (burner, igniter, chamber) with the ~70 scientific reports and would crowd them out of the top results; OCR would add dimension fragments, not sentences. The 317 FLEX telemetry .txt files have the same problem.
+- Options: (a) delete the drawings from knowledgeBase; (b) keep them and exclude them from the corpus.
+- Decision: (b). The RAG corpus is an explicit allowlist of documents (default deny), so drawings and telemetry are excluded by construction, with the reason recorded next to the list.
+- Trade-off: deleting would remove 164 MB from the working tree but would not shrink the public repository, because the files are already in the pushed history (commit 16429f5); shrinking it would need a history rewrite and force-push. Deletion would also break the read-only rule of ADR-0008 for files that are valid primary evidence for hardware (the challenge asks for hardware and sensors) and that the Evidence tab can serve. No code, curated data or manual claim references them today, so keeping them costs nothing at runtime.
+- Revisit if: repository size becomes a problem for cloning (then move knowledgeBase to Git LFS or an external download rather than deleting selectively).
+
+### ADR-0110 - Spec-driven development for the AI orchestration: contracts before code
+- Date: 2026-11-14 | Type: DECISION | Status: accepted | Related: ADR-0001, ADR-0004, ADR-0007
+- Context: the team agreed an orchestration design (diagram "FLAMSA AI orchestration": retrieve -> combustion agent with PDF RAG -> solutions dictionary -> scientific validation -> approved? -> retry up to 2 attempts -> output or insufficient_evidence). No ranking, Narrator or RAG code exists yet; the Research copilot panel is still separate (ADR-0107).
+- Options: (a) implement the LangGraph graph directly from the diagram; (b) write the contracts first (spec, ports, contract tests with fakes), then implement.
+- Decision: (b). docs/specs/ai-orchestration-contracts.md (SPEC-003) is the normative English version of the diagram: node responsibilities, ports (Retriever, Narrator, PassageSearch, SolutionCatalog, AnswerValidator), the AnswerScenarioQuestion use case with MAX_ATTEMPTS = 2, both outputs and acceptance tests AO-01..AO-09. Order of work: domain ranking -> ports -> contract tests with fake Narrator -> infrastructure adapters.
+- Consequences: validation and retry behavior can be tested without an LLM or network; the LLM provider stays swappable. Cost: a spec to maintain alongside the code.
+- Review trigger: SPEC-003 and the implementation disagree; the spec is amended first.
+
+### ADR-0111 - LangChain + LangGraph preferred for the LLM and orchestration layer, adoption deferred
+- Date: 2026-11-14 | Type: DECISION | Status: deferred | Related: ADR-0001, ADR-0110
+- Context: the user prefers LangChain (LLM/RAG adapters) and LangGraph (graph and retry loop) for the LLM and server side, and agreed they are not needed yet.
+- Decision: they are the default choice when SPEC-003 is implemented, confined to infrastructure behind the ports. No dependency is added now. Whether a server/API layer exists at all is an open question in SPEC-003.
+- Consequences: no framework lock-in until the contracts are tested; the import-boundary test (AO-09) keeps them out of domain and application.
+- Review trigger: implementation of the first LLM-backed node.
+
+### ADR-0112 - Diagram adjustments required by the project rules
+- Date: 2026-11-14 | Type: TRADEOFF | Status: accepted | Related: ADR-0004, ADR-0110
+- Context: four points of the diagram conflict with CLAUDE.md or the data rules.
+- Decisions recorded in SPEC-003: (1) the 5-6 investigation shortlist is ordered by the deterministic domain ranker with its ScoreBreakdown; keyword/embedding search may only add candidates. (2) The failure node returns insufficient_evidence together with the deterministic breakdown and limitations, never an empty answer. (3) The "mock derived technologies" dictionary is illustrative: entries carry status "illustrative", are labeled in the UI and never count as evidence. (4) new_solutions_agent and double_check_agent are deterministic code (lookup and rule checks), not LLM calls; only the answer node uses an LLM. The diagram's Portuguese labels are not committed; the English spec replaces them.
+- Consequences: fewer LLM calls and testable validation; the dictionary cannot be presented as a NASA result until it has archived sources.
+- Review trigger: an archived source for the solutions dictionary, or a proposal for an LLM judge (needs its own ADR).
+
+### ADR-0113 - Debt: solutions dictionary has no provenance yet
+- Date: 2026-11-14 | Type: DEBT | Status: open | Related: ADR-0112
+- Shortcut: the investigation -> derived technology dictionary in the diagram is mock data.
+- Payback trigger: before it is shown in a demo as anything other than "illustrative", or before it is used in the validator's coverage check. Requires per-entry source file, locator and capture metadata (ADR-0022 rules).
+
+### ADR-0114 - SPEC-003 implemented: one set of steps, two engines, template narrator by default
+- Date: 2026-11-14 | Type: DECISION | Status: accepted | Related: ADR-0004, ADR-0110, ADR-0111, ADR-0112
+- Context: the user asked for the full implementation of SPEC-003 with LangChain/LangGraph.
+- Decision: domain/ranking.py (HabitatScenario, five criteria, RelevanceRanker, ScoreBreakdown, domain-written limitations) and domain/answering.py (Citation, Figure, Claim, Draft, plausibility rules). application/answering.py holds every node and routing decision once (`AnsweringSteps`, `MAX_ATTEMPTS = 2`, strict then relaxed `RetrievalSettings`); `AnswerScenarioQuestion` is the plain reference loop and infrastructure/answer_graph.py wires the same steps into a LangGraph StateGraph. The Research copilot panel now calls the pipeline through a composition root (`answering_factory`). LangChain appears only in infrastructure (`LangChainNarrator`, `init_chat_model` from `PSI_LLM_MODEL`); an import-boundary test (AO-09) keeps langchain/langgraph/sklearn/pypdf out of domain and application.
+- Decision: with no model configured the `TemplateNarrator` writes claims whose figures are copied from the breakdown and the cited test point, so the dashboard works offline and the text is always checkable. A model, when configured, must pass the same validator.
+- Consequences: the retry/failure semantics cannot drift between engines (every contract test runs on both). Cost: `AnswerState` is a TypedDict shared across layers, and the plain loop is kept only as a reference.
+- Not decided here: server/API layer (still open in SPEC-003).
+
+### ADR-0115 - RAG corpus allowlist and lexical page retrieval
+- Date: 2026-11-14 | Type: DECISION + TRADEOFF | Status: accepted | Related: ADR-0008, ADR-0109
+- Context: the knowledge base is ~730 PDFs, mostly engineering drawings; embedding keys are not available offline.
+- Decision: `data/rag_corpus.json` lists 20 scientific documents (final/summary reports, SRDs, papers) mapped to investigation ids, default deny. It holds raw `knowledgeBase/` paths outside `data/sources.json`, the same exception manual evidence already uses; the loader rejects any path outside `knowledgeBase/`. The index is generated by `scripts/build_rag_index.py` into `data/rag_index/passages.json` (2,390 chunks of at most 1,200 characters, locator "p. N", fingerprinted on the manifest and file sizes, rebuilt when stale). Retrieval is TF-IDF (unigrams and bigrams) restricted to the shortlisted investigations, ties broken by index order.
+- Trade-off: lexical retrieval is deterministic, offline and gives exact page locators, but misses paraphrases and can return running headers (a FLEX hit for an oxygen query was a conference header page). Embeddings or graph retrieval can replace `PdfPassageSearch` behind `PassageSearch` without touching other layers.
+- Not covered: scanned PDFs yield almost no text (CFI 28 chunks, SAFFIRE-I and SAFFIRE-III 3 each); no OCR was run, so those studies are thinly represented in passages.
+- Review trigger: a quality evaluation of retrieval on real questions, or an embedding provider becoming available.
+
+### ADR-0116 - BUG/FIX: pypdf lone surrogates truncated the index cache
+- Date: 2026-11-14 | Type: BUG / FIX | Status: resolved | Related: ADR-0115
+- Symptom: the first index build ended with `UnicodeEncodeError: surrogates not allowed` and left a 0-byte `passages.json`.
+- Root cause: pypdf can return lone UTF-16 surrogates from broken font maps; `write_text(..., "utf-8")` failed after the file had been opened for writing. Impact: a later run would have read an empty cache.
+- Fix: `_clean` drops unencodable characters before chunking, and the cache is written to a temporary file and then replaced. Test: `test_clean_removes_lone_surrogates`.
+
+### ADR-0117 - BUG/FIX: a retry did not hand the rejection reasons to the narrator
+- Date: 2026-11-14 | Type: BUG / FIX | Status: resolved | Related: ADR-0114
+- Symptom: contract test AO-05 failed: on attempt 2 `NarrationRequest.previous_issues` was empty.
+- Root cause: `AnsweringSteps.retrieve` reset `issues`, so the reasons from attempt 1 were erased before the narrator ran. Without them a model cannot repair its draft.
+- Fix: `retrieve` keeps `issues`; `validate` overwrites them each attempt. AO-05 now asserts the hand-off on both engines.
+
+### ADR-0118 - Known limits of the answering pipeline
+- Date: 2026-11-14 | Type: DEBT | Status: open | Related: ADR-0114, ADR-0115
+- Numeric checking parses digit tokens in claim text after removing ids and `[citations]`; spelled-out numbers ("thirty percent") and unit correctness are not checked, and the figure unit is not compared with the record. Pay back before trusting free-text LLM output beyond a demo.
+- Passage quotes are checked as substrings of the retrieved chunk (whitespace collapsed), not as the one-printed-line rule of manual evidence; chunks join several lines. Tighten if quotes will be shown as verified evidence.
+- The `LangChainNarrator` path is tested with fake runnables only; it was not run against a real provider (no key in this environment). The structured-output schema (flat Citation/Figure models) is untested with OpenAI or Gemini.
+- Flow-regime criterion not implemented; weights (0.30/0.20/0.15/0.15/0.20) and scale constants are initial values with no calibration.
+- `data/solutions_catalog.json` is empty (ADR-0113): the solutions feature exists but suggests nothing.
+- The shortlist is ranked over all curated investigations, not the dashboard's filtered view (stated in the UI).
+- Payback trigger: first demo with a real model, or any claim shown to users as "verified".
+
+### ADR-0119 - Local .env for the model key; unusable model settings fall back to the template
+- Date: 2026-11-14 | Type: DECISION | Status: accepted | Related: ADR-0114
+- Decision: `.env` (already blocked by .gitignore) holds `OPENAI_API_KEY` and `PSI_LLM_MODEL`; `.env.example` is the committed template. The Streamlit composition root loads it with python-dotenv, and real environment variables take precedence. Default model `openai:gpt-4.1-mini` (structured-output capable, low cost); changing it is a one-line edit.
+- Decision: if the setting is present but unusable (empty key, missing provider package, bad name), `build_answering_pipeline` uses the template narrator and the UI label says "Template (model unavailable: ...; check .env)" instead of crashing.
+- Consequences: the pipeline is cached per process, so `.env` changes need an app restart. The default model name was chosen from general knowledge and was not checked against the current provider catalog.

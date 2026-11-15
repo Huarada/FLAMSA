@@ -26,6 +26,8 @@ Render all matching sample rows as a paired outcome matrix/table for burned leng
 
 ## Reproducibility and presentation
 
+The opening student-facing guide precedes Research filters, as defined by SPEC-001 section 22. It explains the approximate d-squared relationship, signed concentration differences and paired ground/flight outcomes with symbols and units. A further disclosure connects the physical model to the existing conditional regression and uncertainty/source trail. The guide presents existing scientific relationships and analysis responsibilities; it does not introduce a new numerical proof, validation pass/fail score or universal safety conclusion.
+
 Every plotted/compared record retains investigation id, TestPoint id, source file/row, lineage/note and source checksum via the loaded aggregate. Exclusions reconcile with matched input totals. An analysis JSON includes revision, policy/version, applied filters, local settings, observations, groups, coefficient/interval/reference values, source column definitions/checksums and a deterministic analysis id. Per-card source tables are downloadable as CSV. Methods link to NIST least squares and SciPy's Student-t interval documentation. Actions open existing source records through the current navigation path.
 
 ## Acceptance

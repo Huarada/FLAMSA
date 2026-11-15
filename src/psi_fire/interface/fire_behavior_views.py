@@ -132,8 +132,9 @@ def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: 
                    "Intervals assume independent, homoskedastic, approximately normal errors; calibration error, "
                    "model-form uncertainty and unreported conditions are not resolved. "
                    "Do not transfer near-1-atm slopes to lower pressure, other blends or lunar gravity.")
-        st.markdown("**Lower-pressure scenario coverage — separate from the fitted data**")
-        st.write(f"O₂ ≥30% AND pressure ≤10.2 psi: **{len(evidence.strict_scenario_records)}** matching reported tests.")
+        st.markdown("**FLEX at lunar-habitat conditions (not part of the fit)**")
+        st.write(f"FLEX tests with O₂ ≥30% and pressure ≤10.2 psi: **{len(evidence.strict_scenario_records)}**. "
+                 "The archive's tests in that range are ACME-CFI-G gas flames; the Dashboard coverage map shows them.")
         comparison = evidence.comparison_pressure_range
         st.caption(f"For the separately labelled ≤10.5 psi comparison: {len(evidence.comparison_records)} tests"
                    + (f", reported pressures {_range(comparison, 'psi')}." if comparison else ".")

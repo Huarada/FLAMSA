@@ -1,11 +1,11 @@
 """Streamlit composition root for the research workspace."""
 
-import json
 import sys
 from dataclasses import asdict
 from pathlib import Path
 
 import streamlit as st
+from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
@@ -20,12 +20,15 @@ from psi_fire.application.explore import (
     Snapshot,
 )
 from psi_fire.domain.model import Investigation
+from psi_fire.infrastructure.answering_factory import build_answering_pipeline
 from psi_fire.infrastructure.explorer import FileSnapshotProvider, RegisteredSources
 from psi_fire.interface.analytics_views import assistant_panel
+from psi_fire.interface.behavior_introduction import behavior_introduction
 from psi_fire.interface.explorer_views import applied_filter_summary, catalog, detail, filters
 from psi_fire.interface.fire_behavior_views import fire_behavior
 from psi_fire.interface.home_view import home
-from psi_fire.interface.reference_dashboard import chart_grid, metrics
+from psi_fire.interface.reference_dashboard import chart_grid, filtered_records_csv, metrics
+from psi_fire.interface.workspace_navigation import workspace_navigation
 from psi_fire.interface.workspace_style import apply_style
 
 st.set_page_config(page_title="FLAMSA / Research workspace", page_icon=":material/local_fire_department:", layout="wide")
@@ -36,10 +39,12 @@ def load_snapshot(root: str, refresh: int) -> tuple[str, tuple[str, ...]]:
     snapshot = LoadExplorer(FileSnapshotProvider(Path(root)))()
     return snapshot.revision, tuple(inv.model_dump_json() for inv in snapshot.investigations)
 
-def open_investigation() -> None:
-    st.session_state["workspace_navigation"] = "Investigations"
+@st.cache_resource(show_spinner="Preparing the research copilot...")
+def answering_pipeline(root: str):
+    return build_answering_pipeline(Path(root))
 
 root = Path(__file__).resolve().parents[3]
+load_dotenv(root / ".env")  # keys and PSI_LLM_MODEL; real environment variables take precedence
 if "applied_query" not in st.session_state:
     st.session_state["applied_query"] = ExplorationQuery()
 if "refresh" not in st.session_state:
@@ -48,11 +53,12 @@ if "workspace_navigation" not in st.session_state:
     st.session_state["workspace_navigation"] = "Home"
 
 with st.container(key="topbar"):
-    brand, navigation, controls = st.columns([1.5, 2, 1])
+    brand, navigation, controls = st.columns([1.1, 3.9, 1], vertical_alignment="center")
     brand.image(str(Path(__file__).parent / "assets/flamsa.svg"), width=165)
     brand.caption("NASA PSI / Research workspace")
-    page = navigation.segmented_control("Workspace", ["Home", "Dashboard", "Fire behavior", "Investigations", "Evidence"],
-        default=None, label_visibility="collapsed", key="workspace_navigation")
+    page = st.session_state["workspace_navigation"]
+    with navigation:
+        workspace_navigation(page)
     with controls.popover("Dataset controls", icon=":material/database:", width="stretch"):
         st.caption("Reload only after curation is complete. Browsing uses an in-memory snapshot.")
         st.caption("Charts consume curated CSV + JSON. Excel/source and manual-metadata edits must be curated first.")
@@ -106,7 +112,10 @@ with st.container(key="hero"):
     title.markdown("**Microgravity combustion · Experimental analysis**")
     title.caption("Explore experimental data. Compare investigations. Find the evidence.")
     show_copilot = actions.toggle("Research copilot", value=False, key="show_copilot")
+    pipeline = answering_pipeline(str(root)) if show_copilot else None
     export_slot = actions.empty()
+if page == "Fire behavior":
+    behavior_introduction()
 explore = ExploreInvestigations(snapshot)
 filters(explore.options())
 if "candidate_query" in st.session_state:
@@ -123,10 +132,10 @@ if st.session_state.get("filter_error"):
 query = st.session_state["applied_query"]
 matches = explore(query)
 applied_filter_summary(query, matches)
-export = {"dataset_revision": snapshot.revision, "applied_filters": asdict(query),
-    "matching_investigations": [m.investigation.id for m in matches]}
-export_slot.download_button("Export view", json.dumps(export, indent=2), file_name="psi-view.json",
-    mime="application/json", icon=":material/download:", on_click="ignore", width="stretch")
+export_slot.download_button("Download filtered records (CSV)", filtered_records_csv(matches),
+    file_name=f"flamsa-records-{snapshot.revision[:12]}.csv", mime="text/csv", icon=":material/download:",
+    on_click="ignore", width="stretch", help="Every record that passes the filters, with all curated columns, "
+    "the raw source values and provenance. Same columns as data/curated; the file name carries the dataset revision.")
 if not matches:
     st.info("No records match these filters. Broaden the conditions or reset filters above.")
     st.stop()
@@ -136,41 +145,38 @@ if "selected_investigation" in st.session_state and st.session_state["selected_i
     st.info("The previous investigation is outside the results. Select another investigation below.")
 if "selected_investigation" not in st.session_state:
     st.session_state["selected_investigation"] = available_ids[0]
-selected = st.session_state["selected_investigation"]
 st.caption(f"{len(matches)} investigations in view / Dataset {snapshot.revision[:12]} / Applied filters affect all charts")
 if page in ("Dashboard", None):
-    metrics(matches, len(snapshot.investigations), selected)
+    metrics(matches, len(snapshot.investigations))
     if show_copilot:
         workspace, copilot = st.columns([3.4, 1.15], gap="medium")
         with workspace:
-            chart_context = chart_grid(matches, selected)
+            chart_context = chart_grid(matches)
         with copilot:
-            assistant_panel(snapshot.revision, query, matches, chart_context)
+            assistant_panel(snapshot.revision, query, matches, chart_context, pipeline, snapshot.investigations)
     else:
-        chart_context = chart_grid(matches, selected)
+        chart_context = chart_grid(matches)
 if page == "Fire behavior":
     chart_context = fire_behavior(matches, snapshot.revision, query)
     if show_copilot:
-        assistant_panel(snapshot.revision, query, matches, chart_context)
+        assistant_panel(snapshot.revision, query, matches, chart_context, pipeline, snapshot.investigations)
     with st.expander("Applied filters and scientific scope"):
         st.json(asdict(query), expanded=False)
         st.caption("No direct partial-gravity data or habitat-safety threshold is established by these analyses.")
-    st.caption("PSI / Research workspace / Source-backed experimental data / Copilot integration pending")
+    st.caption("PSI / Research workspace / Source-backed experimental data / Research copilot: validated answers only")
     st.stop()
-with st.container(border=True, key="investigation_preview"):
-    picker, summary = st.columns([1, 2])
-    selected = picker.selectbox("Open investigation", available_ids, index=None, key="selected_investigation")
-    match = next(m for m in matches if m.investigation.id == selected)
-    picker.subheader(selected)
-    picker.caption(f"{match.investigation.psi_id} / {match.investigation.record_level.value} / "
-        f"{len(match.points)} matching / {len(match.investigation.test_points)} total records")
-    summary.markdown("**Research objective**")
-    objective = match.investigation.study_metadata.get("objective", "Objective not reported in curated metadata.")
-    summary.write(objective[:260] + "..." if len(objective) > 260 else objective)
-    summary.caption("Open the investigation for the full objective, experimental records and cited evidence.")
-    if page in ("Dashboard", None):
-        summary.button("Inspect investigation", on_click=open_investigation, icon=":material/arrow_forward:")
 if page in ("Investigations", "Evidence"):
+    with st.container(border=True, key="investigation_preview"):
+        picker, summary = st.columns([1, 2])
+        selected = picker.selectbox("Open investigation", available_ids, index=None, key="selected_investigation")
+        match = next(m for m in matches if m.investigation.id == selected)
+        picker.subheader(selected)
+        picker.caption(f"{match.investigation.psi_id} / {match.investigation.record_level.value} / "
+            f"{len(match.points)} matching / {len(match.investigation.test_points)} total records")
+        summary.markdown("**Research objective**")
+        objective = match.investigation.study_metadata.get("objective", "Objective not reported in curated metadata.")
+        summary.write(objective[:260] + "..." if len(objective) > 260 else objective)
+        summary.caption("The full objective, records and cited evidence are below.")
     if page == "Investigations":
         with st.expander("Investigation catalog", expanded=False):
             frame = catalog(matches)
@@ -179,9 +185,10 @@ if page in ("Investigations", "Evidence"):
     detail(match, InvestigationSources(RegisteredSources(root, snapshot)),
         default_tab="Citations & source downloads" if page == "Evidence" else None)
     if show_copilot:
-        assistant_panel(snapshot.revision, query, matches, {"selected_investigation": selected})
+        assistant_panel(snapshot.revision, query, matches, {"selected_investigation": selected}, pipeline,
+                        snapshot.investigations)
 with st.expander("Applied filters and scientific scope"):
     st.json(asdict(query), expanded=False)
     st.caption("Ranges describe reported coverage, not safety limits. No partial-gravity measurements are represented; "
-        "electrical-field emulation is distinct. View export contains settings, not a training dataset.")
-st.caption("PSI / Research workspace / Source-backed experimental data / Copilot integration pending")
+        "electrical-field emulation is distinct. The CSV download holds the filtered records, not a fitted model.")
+st.caption("PSI / Research workspace / Source-backed experimental data / Research copilot: validated answers only")

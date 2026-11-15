@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass
 from math import isfinite
 
 from psi_fire.application.behavior_statistics import NUMERICAL_LIBRARY_VERSIONS, OxygenSlope, oxygen_slope
-from psi_fire.application.chart_data import scalar
+from psi_fire.application.chart_data import LUNAR_OXYGEN_MIN, LUNAR_PRESSURE_MAX, scalar
 from psi_fire.application.explore import Match
 from psi_fire.domain.exploration import ConditionRange
 from psi_fire.domain.model import Investigation, O2Basis, TestPoint
@@ -14,8 +14,6 @@ from psi_fire.domain.units import ATM_TO_PSI
 
 POLICY_VERSION = "fire-behavior-v1"
 MAX_PRESSURE_TOLERANCE = 0.05
-LUNAR_OXYGEN_MIN = 30.0
-LUNAR_PRESSURE_MAX = 10.2
 COMPARISON_PRESSURE_MAX = 10.5
 SIGNED_DIFFERENCE_TOLERANCE = 1e-10
 

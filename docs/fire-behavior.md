@@ -1,8 +1,21 @@
 # Fire behavior & safety evidence
 
-Open **Workspace → Fire behavior** in the local Streamlit application. The section has FLEX, BASS-II and SAFFIRE-II tabs. Research filters apply to all three; local FLEX fuel, pressure-tolerance and initial-diameter controls refine only FLEX. Opening source records preserves the committed research query.
+Open the amber **Fire behavior** button in the local Streamlit header. Dashboard is the blue archive-exploration button; each has a hover description. The evidence section has FLEX, BASS-II and SAFFIRE-II tabs. Research filters apply to all three; local FLEX fuel, pressure-tolerance and initial-diameter controls refine only FLEX. Opening source records preserves the committed research query.
 
 Contract: [SPEC-002](specs/fire-behavior-evidence.md). This is an experimental-evidence view, not a fire-risk score, habitat certification or direct lunar-gravity validation.
+
+## Opening scientific guide
+
+Before the filters, From physical laws to traceable evidence explains why fuel consumption, atmospheric changes and paired gravity outcomes matter. It defines the approximate d-squared relationship, oxygen/CO2 differences in percentage points and the comparison of ground/flight burned lengths. A model disclosure relates those concepts to the existing conditional regression, defines its symbols and explains source tracing and uncertainty. Numerical calculations and coefficients are unchanged by the guide.
+
+Background references were checked against [NASA's combustion/fire-safety overview](https://www.nasa.gov/missions/station/iss-research/studying-combustion-and-fire-safety/) and [NASA's FLEX requirements document](https://www1.grc.nasa.gov/wp-content/uploads/FLEX_EIRD_v4.pdf), including its discussion of diameter-based burning-rate measurement and the approximate diameter-squared/lifetime relationship. These are background links rather than newly curated as-run claims. The student text identifies physical agreement as a consistency check, statistical estimates as conditional associations, and habitat validation as requiring independent environmental evidence.
+
+The navigation/guide increment passed all 11 interface tests and the full suite of 175 tests; 179 PDF visual-line checks remain skipped for missing Poppler. Ruff and strict mypy on the domain/new UI modules passed. Chrome verified both requested hover tooltips, Enter navigation to Fire behavior, four rendered equations, introduction ordering before filters and 390 px layouts without horizontal page overflow. Physical-device, screen-reader and complete cross-browser accessibility checks were not performed.
+
+- [Header tooltip](screenshots/navigation-fire-tooltip.png)
+- [Opening guide on desktop](screenshots/fire-behavior-learning-desktop.png)
+- [Header at 390 px](screenshots/navigation-mobile.png)
+- [Opening guide at 390 px](screenshots/fire-behavior-learning-mobile.png)
 
 ## FLEX
 

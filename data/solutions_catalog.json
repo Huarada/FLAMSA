@@ -1,0 +1,4 @@
+{
+  "_comment": "Derived-technology dictionary of the AI orchestration (SPEC-003 section 3.4). Empty on purpose: no entry may be added without an author and, for status 'sourced', an archived source_file and locator. status 'illustrative' entries are labeled in the UI and are never evidence (ADR-0112, ADR-0113).",
+  "entries": []
+}

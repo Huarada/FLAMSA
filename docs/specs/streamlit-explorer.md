@@ -551,3 +551,17 @@ Acceptance additions:
 ## 21. Fire-behavior evidence extension
 
 The user requested source-backed FLEX K/O2, BASS-II gas-change and SAFFIRE-II paired-gravity analyses. Their detailed consumption, controls, statistical guards, provenance, numerical-method and verification contracts are [SPEC-002](fire-behavior-evidence.md), FB-01 through FB-12. Add a Fire behavior workspace destination sharing the existing snapshot, research filters and validated source navigation. Local controls refine only FLEX; no AI computes coefficients. General dashboard profile behavior is unchanged. Conditional fitted lines are authorized only inside this scientifically constrained evidence section, with model-based intervals and explicit interpretation limits.
+
+## 22. Prominent navigation and a student-facing scientific introduction
+
+Use native header buttons for all existing destinations. Give Dashboard a strong blue treatment and Fire behavior an amber call-to-action treatment drawn from the FLAMSA flame mark. Add individual native help tooltips explaining what each destination provides, and show the current destination. Buttons and their help remain keyboard accessible; they wrap without horizontal page overflow on narrow displays. Navigation changes only the destination, preserving the committed research query and existing source/Home callbacks. Do not add a competing second navigation state or duplicate destination controls.
+
+Fire behavior opens with an always-visible scientific introduction immediately after its title and before Research filters. Explain why fuel consumption, atmospheric changes and gravity-dependent outcomes matter for fire-safety research. Use clear English suitable for students, define symbols/units and distinguish the d-squared physical model, signed concentration calculations, fitted associations and paired experimental observations. Explain the path from a physical relationship to an independently traceable check; do not label correlation as proof of a universal law or certify a habitat. Optional detail may show the existing conditional regression formula and how to inspect ranges/intervals/source records. This is explanatory presentation of existing analyses, not a new scientific validation result or a replacement of their calculations.
+
+Acceptance additions:
+
+- AC-81: Dashboard and Fire behavior are visually prominent native header buttons with distinct blue/amber treatment and purpose-specific help.
+- AC-82: All five destinations and existing source/Home actions preserve navigation behavior and applied filters; the current destination remains visible.
+- AC-83: The Fire behavior introduction appears before filters and includes student-facing definitions of K, oxygen/CO2 differences and paired gravity outcomes.
+- AC-84: The introduction identifies evidence/assumption boundaries and the existing deterministic calculation/source path, with no new fabricated proof or safety score.
+- AC-85: Browser checks confirm header hover help, readable introduction/equations, keyboard navigation and narrow-screen wrapping.

@@ -6,8 +6,15 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 
-from psi_fire.application.chart_data import BuildChartData, InvestigationPlotCoverage, PlotExclusion
-from psi_fire.application.explore import Match, coverage
+from psi_fire.application.chart_data import (
+    LUNAR_OXYGEN_MIN,
+    LUNAR_PRESSURE_MAX,
+    BuildChartData,
+    InvestigationPlotCoverage,
+    PlotExclusion,
+    condition_map,
+)
+from psi_fire.application.explore import Match
 from psi_fire.domain.model import O2Basis
 
 
@@ -19,20 +26,88 @@ def show_chart(chart: alt.Chart | alt.LayerChart) -> None:
     st.altair_chart(chart, theme=None, width="stretch")
 
 
-def metrics(matches: tuple[Match, ...], total: int, selected: str) -> None:
+def metrics(matches: tuple[Match, ...], total: int) -> None:
     points = [p for match in matches for p in match.points]
-    current = next(match for match in matches if match.investigation.id == selected)
-    levels = sorted({p.record_level.value for p in points})
+    conditions = condition_map(matches)
+    values = [
+        ("Investigations", f"{len(matches)} / {total}",
+         "PSI studies with records that pass the filters / all studies loaded",
+         ("An investigation is one PSI study, such as FLEX or SAFFIRE-II. The first number counts studies with at "
+          "least one record that passes the filters above; the second counts every study loaded from data/curated.")),
+        ("Reported records", f"{len(points):,}",
+         f"{conditions.tests:,} individual tests + {conditions.summaries} daily or matrix summaries",
+         ("A record is one row of a curated test_points.csv. Most rows are single tests. ACME-BRE, ACME-E-FIELD and "
+          "SLICE report one row per test day, and FLEX-2 lists its planned test matrix. A record is not necessarily "
+          "an independent ignition, and a larger count does not make a study more relevant.")),
+        ("Tests with O₂ and pressure", f"{len(conditions.rows):,}",
+         f"of {conditions.tests:,} individual tests · the dots in the coverage map",
+         ("Individual tests that report one O₂ value and one pressure value. Ranges are not reduced to a midpoint "
+          "and missing values are not filled in. Most PSI tables report only one of the two, or neither.")),
+        ("Lunar-scenario tests", f"{conditions.scenario_ambient}",
+         (f"≥{LUNAR_OXYGEN_MIN:g}% O₂ in the chamber, ≤{LUNAR_PRESSURE_MAX:g} psi · "
+          f"+{conditions.scenario_stream} with O₂ in the burner stream"),
+         (f"Demonstration scenario for a lunar habitat: at least {LUNAR_OXYGEN_MIN:g}% O₂ at or below "
+          f"{LUNAR_PRESSURE_MAX:g} psi. The main number counts tests whose O₂ describes the chamber atmosphere. "
+          "Inverse flames report the O₂ of the gas leaving the burner instead, so they are counted separately. "
+          "All of these are microgravity tests; the PSI has no partial-gravity data.")),
+    ]
     columns = st.columns(4)
-    values = [("Investigations", f"{len(matches)} / {total}", "Matching / loaded investigations"),
-              ("Reported records", f"{len(points):,}", "Across the applied research filters"),
-              ("Record levels", str(len(levels)), " · ".join(levels)),
-              ("Selected investigation", f"{len(current.points)} / {len(current.investigation.test_points)}",
-               f"{selected} · matching / total")]
-    for index, (label, value, caption) in enumerate(values):
+    for index, (label, value, caption, explanation) in enumerate(values):
         with columns[index], st.container(border=True, key=f"kpi_{index}"):
-            st.metric(label, value)
+            st.metric(label, value, help=explanation)
             st.caption(caption)
+
+
+def filtered_records_csv(matches: tuple[Match, ...]) -> str:
+    """Every filtered record with all curated columns, raw values and provenance (same columns as data/curated)."""
+    rows = []
+    for match in matches:
+        for point in match.points:
+            data = point.model_dump(mode="json")
+            rows.append({**data, **data.pop("extras")})
+    return pd.DataFrame(rows).to_csv(index=False)
+
+
+def coverage_map(matches: tuple[Match, ...]) -> None:
+    conditions = condition_map(matches)
+    with st.container(border=True, key="coverage_card"):
+        st.markdown("#### Experimental coverage · oxygen and pressure")
+        st.caption(f"Each dot is one test that reports both values. The shaded box is the lunar-habitat scenario used "
+                   f"in this project: at least {LUNAR_OXYGEN_MIN:g}% O₂ at or below {LUNAR_PRESSURE_MAX:g} psi.")
+        if conditions.rows:
+            frame = pd.DataFrame(conditions.rows)
+            right = max(float(frame["O2"].max()), LUNAR_OXYGEN_MIN) + 3
+            box = alt.Chart(pd.DataFrame([{"x": LUNAR_OXYGEN_MIN, "x2": right, "y": 0.0, "y2": LUNAR_PRESSURE_MAX}]))
+            oxygen_axis = alt.Scale(domain=[10, right], nice=False)  # no test reports less than ~12% O2
+            scenario = box.mark_rect(color="#F2B33D", opacity=.18, stroke="#C58B36", strokeDash=[5, 4]).encode(
+                x=alt.X("x:Q", scale=oxygen_axis), x2="x2:Q", y="y:Q", y2="y2:Q")
+            label = box.mark_text(align="left", baseline="bottom", dx=6, dy=-6, color="#8A5A12", fontWeight=600).encode(
+                x=alt.X("x:Q", scale=oxygen_axis), y="y2:Q", text=alt.value("Lunar habitat scenario"))
+            dots = alt.Chart(frame).mark_point(filled=True, size=52, opacity=.62, stroke="#FFFFFF", strokeWidth=.5).encode(
+                x=alt.X("O2:Q", title="Oxygen (%)", scale=oxygen_axis),
+                y=alt.Y("Pressure:Q", title="Pressure (psi)", scale=alt.Scale(zero=True, nice=True)),
+                color=alt.Color("Investigation:N", legend=alt.Legend(orient="top", title=None),
+                                scale=alt.Scale(range=["#00847F", "#3563B9", "#C26A1B", "#879EAD"])),
+                shape=alt.Shape("Oxygen basis:N", scale=alt.Scale(domain=["Chamber atmosphere", "Burner stream"],
+                                                                  range=["circle", "triangle-up"]),
+                                legend=alt.Legend(orient="top", title="O₂ measured in")),
+                tooltip=["Investigation:N", "Record:N", "Fuel:N", "Oxygen basis:N", "Source row:N",
+                         alt.Tooltip("O2:Q", title="O₂ (%)"),
+                         alt.Tooltip("Pressure:Q", title="Pressure (psi)", format=".2f")],
+            )
+            show_chart((scenario + label + dots).properties(height=540).interactive())
+            st.caption(f"{len(conditions.rows):,} of {conditions.tests:,} individual tests report both values. "
+                       f"Inside the box: {conditions.scenario_ambient} tests with O₂ measured in the chamber atmosphere, "
+                       f"and {conditions.scenario_stream} inverse flames (triangles) whose O₂ is the gas leaving the "
+                       "burner, not the atmosphere a crew would breathe.")
+        else:
+            st.info("No test that passes the filters reports both oxygen and pressure.")
+        if conditions.without_pair:
+            st.caption("No test reporting both values: " + ", ".join(conditions.without_pair)
+                       + f". Their records stay in the filtered result. {conditions.summaries} daily or matrix "
+                       "records are not individual tests and are not plotted.")
+        st.caption("A dot inside the box matches the scenario's atmosphere, not its gravity: the PSI has no "
+                   "partial-gravity data.")
 
 
 def open_retained_records(investigation_id: str) -> None:
@@ -51,7 +126,7 @@ def availability_details(reports: tuple[InvestigationPlotCoverage, ...], ids: tu
     elif absent:
         st.info(f"Showing {len(plotted)} of {len(ids)} chart-selected investigations for these axes. "
                 f"No dots for: {', '.join(absent)}. "
-                "These investigations remain in the filtered records and record-count charts.")
+                "They remain in the filtered records and in the CSV download.")
     else:
         st.caption(f"All {len(plotted)} chart-selected investigations have reported pairs for these axes.")
     reasons = {
@@ -92,7 +167,8 @@ def availability_details(reports: tuple[InvestigationPlotCoverage, ...], ids: tu
                   key="open_chart_availability_records", icon=":material/table_chart:")
 
 
-def chart_grid(matches: tuple[Match, ...], selected: str) -> dict[str, object]:
+def chart_grid(matches: tuple[Match, ...]) -> dict[str, object]:
+    coverage_map(matches)
     builder = BuildChartData()
     variables = builder.variables(matches)
     context: dict[str, object] = {}
@@ -102,6 +178,7 @@ def chart_grid(matches: tuple[Match, ...], selected: str) -> dict[str, object]:
     basis = "ambient"
     reports: tuple[InvestigationPlotCoverage, ...] = ()
     ids: list[str] = []
+    st.markdown("#### Compare reported quantities")
     with st.expander("Chart settings · axes and investigation scope"):
         if len(variables) >= 2:
             ids = st.multiselect("Investigations in comparison charts", [m.investigation.id for m in matches],
@@ -133,9 +210,7 @@ def chart_grid(matches: tuple[Match, ...], selected: str) -> dict[str, object]:
                                          "plotted": r.plotted, "exclusions": dict(r.exclusions)} for r in reports]}
             st.caption("Chart settings refine the profile chart only. Individual tests with paired scalar values are used; "
                        "daily summaries, matrices, missing values and interval midpoints are not plotted as observations.")
-    left, right = st.columns([1.7, 1])
-    with left, st.container(border=True, key="profiles_card"):
-        st.markdown("#### Compare experimental profiles")
+    with st.container(border=True, key="profiles_card"):
         if data is None:
             st.info("At least two reported scalar quantities are needed for comparison.")
             st.caption("Retained investigations: " + "; ".join(
@@ -160,67 +235,4 @@ def chart_grid(matches: tuple[Match, ...], selected: str) -> dict[str, object]:
             st.caption(f"{len(data.rows)} plotted · {data.excluded} tests without a plottable pair · {data.summaries} daily/matrix "
                        "summary records never plotted. Each dot is one reported test; "
                        "other conditions (pressure, flow, fuel fraction) may differ between dots, so this shows no trend or causal model.")
-    with right, st.container(border=True, key="volume_card"):
-        st.markdown("#### Records by investigation")
-        st.caption(f"Top {min(6, len(matches))} of {len(matches)} · matching record counts")
-        rows = sorted([{"Investigation": m.investigation.id, "Records": len(m.points)} for m in matches],
-                      key=lambda row: (-row["Records"], row["Investigation"]))[:6]
-        bars = alt.Chart(pd.DataFrame(rows)).mark_bar(cornerRadiusEnd=3, size=15).encode(
-            y=alt.Y("Investigation:N", sort="-x", title=None, axis=alt.Axis(domain=False, ticks=False)),
-            x=alt.X("Records:Q", title="Records", axis=alt.Axis(tickCount=4)),
-            color=alt.condition(alt.datum.Investigation == selected, alt.value("#00847F"), alt.value("#8DBFBA")),
-            tooltip=["Investigation:N", "Records:Q"],
-        ).properties(height=260)
-        show_chart(bars)
-        st.caption("Volume is not scientific relevance or effective sample size.")
-
-    composition, ranges = st.columns([1, 1.7])
-    points = tuple(p for match in matches for p in match.points)
-    with composition, st.container(border=True, key="composition_card"):
-        st.markdown("#### Dataset composition")
-        st.caption("Distribution across reported record levels")
-        counts = Counter(p.record_level.value for p in points)
-        frame = pd.DataFrame([{"Record level": key, "Records": value} for key, value in counts.items()])
-        donut = alt.Chart(frame).mark_arc(innerRadius=64, outerRadius=88).encode(
-            theta="Records:Q", color=alt.Color("Record level:N", legend=alt.Legend(title=None, orient="right")),
-            tooltip=["Record level:N", "Records:Q"],
-        )
-        total = alt.Chart(pd.DataFrame([{"text": f"{len(points):,}"}])).mark_text(
-            fontSize=25, fontWeight=600, color="#203747").encode(text="text:N")
-        show_chart((donut + total).properties(height=220))
-        st.caption("Records, not necessarily independent ignitions.")
-    with ranges, st.container(border=True, key="coverage_card"):
-        heading, selector = st.columns([1.6, 1])
-        heading.markdown("#### Experimental coverage")
-        heading.caption("Reported envelopes, not individual points")
-        quantities = {"Oxygen concentration (%)": "o2_percent", "Pressure (psi)": "pressure_psi",
-                      "Flow speed (cm/s)": "flow_speed_cm_s"}
-        quantity = selector.selectbox("Coverage quantity", list(quantities), label_visibility="collapsed", key="coverage_axis")
-        field = quantities[quantity]
-        coverage_rows = []
-        without_coverage = []
-        for match in matches:
-            value = coverage(match.points, field, O2Basis(basis) if field == "o2_percent" else None)
-            if value["min"] is not None:
-                coverage_rows.append({"Investigation": match.investigation.id, "Minimum": value["min"],
-                                      "Maximum": value["max"], "Reported": value["reported"], "Eligible": value["eligible"]})
-            else:
-                without_coverage.append(match.investigation.id)
-        if coverage_rows:
-            coverage_frame = pd.DataFrame(coverage_rows)
-            ranges_chart = alt.Chart(coverage_frame).mark_rule(strokeWidth=7).encode(
-                y=alt.Y("Investigation:N", title=None, axis=alt.Axis(domain=False, ticks=False)),
-                x=alt.X("Minimum:Q", title=quantity, scale=alt.Scale(zero=False)), x2="Maximum:Q",
-                color=alt.condition(alt.datum.Investigation == selected, alt.value("#00847F"), alt.value("#879EAD")),
-                tooltip=["Investigation:N", "Minimum:Q", "Maximum:Q", "Reported:Q", "Eligible:Q"],
-            )
-            endpoints = alt.Chart(coverage_frame).transform_fold(["Minimum", "Maximum"], as_=["Bound", "Value"]).mark_tick(
-                size=13, thickness=2, color="#879EAD").encode(x="Value:Q", y=alt.Y("Investigation:N", title=None))
-            show_chart((ranges_chart + endpoints).properties(height=max(190, min(330, len(coverage_rows) * 23))))
-        else:
-            st.info("No reported coverage for this quantity and selected basis.")
-        st.caption(f"O₂ basis: {basis}. Envelopes may contain untested gaps; nominal atmosphere is not substituted.")
-        if without_coverage:
-            st.caption("No reported interval for this quantity/basis: " + ", ".join(without_coverage)
-                       + ". Their records remain in the filtered result.")
     return context

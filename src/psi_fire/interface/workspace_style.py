@@ -27,6 +27,20 @@ def apply_style() -> None:
       box-shadow: 0 6px 24px rgba(32,55,71,.045);
       backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
       padding: .8rem 1rem; margin-bottom: 1rem; }
+    .st-key-header_navigation button { min-height: 44px; border-radius: 9px; }
+    .st-key-nav_dashboard button { background: #3563b9; border: 1px solid #2c54a0; color: #fff;
+      box-shadow: 0 3px 10px #3563b91c; font-weight: 600; }
+    .st-key-nav_dashboard button p { color: #fff !important; }
+    .st-key-nav_dashboard button:hover { background: #294f96; border-color: #1e417f; }
+    .st-key-nav_fire_behavior button { background: linear-gradient(115deg, #ffd17d, #f4b34b);
+      border: 1px solid #bd7d20; color: #25374a; box-shadow: 0 4px 13px #c4872e26; font-weight: 650; }
+    .st-key-nav_fire_behavior button p, .st-key-nav_fire_behavior button span { color: #25374a !important; }
+    .st-key-nav_fire_behavior button:hover { background: #ffcd72; border-color: #905d12; }
+    .st-key-behavior_introduction { background: #ffffffcf; border-radius: 16px; padding: 1.4rem;
+      border-top: 3px solid #c58b36; box-shadow: 0 7px 24px #20374708; }
+    .st-key-behavior_introduction h3 { font-size: 1.3rem !important; }
+    .st-key-behavior_introduction [data-testid="stMarkdownContainer"] p { font-size: .9rem; line-height: 1.65; }
+    [class*="st-key-behavior_learning_"] { background: #f5f8fc; border-radius: 12px; padding: .9rem; }
     .st-key-hero { position: relative; overflow: hidden; isolation: isolate;
       padding: 1.5rem 1.5rem 1.2rem; margin-bottom: 1rem;
       border-radius: 16px; border: 1px solid rgba(255,255,255,.85);
@@ -59,7 +73,6 @@ def apply_style() -> None:
     [class*="st-key-kpi_"] [data-testid="stMetric"] { background: transparent; }
     button, input, textarea, [data-baseweb="select"] > div { transition: border-color .15s, box-shadow .15s; }
     button:focus-visible, input:focus-visible { outline: 2px solid #6788d4 !important; outline-offset: 2px; }
-    .st-key-workspace_navigation button { background: transparent; border: 0; box-shadow: none; }
     .st-key-filter_panel [data-testid="stForm"] { border: 0; padding: 0; }
     @supports not (backdrop-filter: blur(1px)) {
       .st-key-topbar, .st-key-filter_panel, .st-key-profiles_card, .st-key-volume_card,

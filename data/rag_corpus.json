@@ -1,0 +1,105 @@
+{
+  "_comment": "Explicit allowlist of documents the RAG may index (default deny, ADR-0109/ADR-0114). Engineering drawings, telemetry and image directories are excluded by construction. Paths are read-only knowledgeBase files.",
+  "documents": [
+    {
+      "investigation_id": "ACME-CFI-G",
+      "source_file": "knowledgeBase/ACME/CFI-G/PSI-159_Reports_FinalRpt_ACME.CFI-G.pdf",
+      "kind": "Final report"
+    },
+    {
+      "investigation_id": "ACME-BRE",
+      "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_final_report_20220201.pdf",
+      "kind": "Final report"
+    },
+    {
+      "investigation_id": "ACME-BRE",
+      "source_file": "knowledgeBase/ACME/ACME-BRE/BRE_data_interpretation_20220804.pdf",
+      "kind": "Data interpretation"
+    },
+    {
+      "investigation_id": "ACME-BRE",
+      "source_file": "knowledgeBase/ACME/ACME-BRE/ACME_Integrated_Science_Requirements_RevB.pdf",
+      "kind": "Science requirements"
+    },
+    {
+      "investigation_id": "ACME-E-FIELD",
+      "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames Final Report.pdf",
+      "kind": "Final report"
+    },
+    {
+      "investigation_id": "ACME-E-FIELD",
+      "source_file": "knowledgeBase/ACME/E-FIELDS/E-FIELD Flames 30-day report Inc 57-58 20190601.pdf",
+      "kind": "30-day report"
+    },
+    {
+      "investigation_id": "BASS",
+      "source_file": "knowledgeBase/Flammable/BASS/SRD_BASS.pdf",
+      "kind": "Science requirements"
+    },
+    {
+      "investigation_id": "BASS",
+      "source_file": "knowledgeBase/Flammable/BASS/ISS Denver 2013-BASS.pdf",
+      "kind": "Conference talk"
+    },
+    {
+      "investigation_id": "BASS-II",
+      "source_file": "knowledgeBase/Flammable/BASS2/BASS-II Summary Report.pdf",
+      "kind": "Summary report"
+    },
+    {
+      "investigation_id": "BASS-II",
+      "source_file": "knowledgeBase/Flammable/BASS2/SRD_BASS-II.pdf",
+      "kind": "Science requirements"
+    },
+    {
+      "investigation_id": "SAFFIRE-I",
+      "source_file": "knowledgeBase/Flammable/SAFFIRE/SAFFIRE-I Operations.pdf",
+      "kind": "Operations"
+    },
+    {
+      "investigation_id": "SAFFIRE-III",
+      "source_file": "knowledgeBase/Flammable/SAFFIRE3/SAFFIRE-III Operations.pdf",
+      "kind": "Operations"
+    },
+    {
+      "investigation_id": "SPICE",
+      "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE Final Report 12_2_2012.pdf",
+      "kind": "Final report"
+    },
+    {
+      "investigation_id": "SPICE",
+      "source_file": "knowledgeBase/MSG (SolidAndGas)/SPICE/SPICE AIAA 1-6 2010 0106.pdf",
+      "kind": "Conference paper"
+    },
+    {
+      "investigation_id": "SAME",
+      "source_file": "knowledgeBase/Detection/SAME/SAME Final Science report  03 18 10 with papers attached.pdf",
+      "kind": "Final science report"
+    },
+    {
+      "investigation_id": "SAME-R",
+      "source_file": "knowledgeBase/Detection/SAME2/SAMER_Final 0602 2014.pdf",
+      "kind": "Final report"
+    },
+    {
+      "investigation_id": "CFI",
+      "source_file": "knowledgeBase/suppression/CFI/CFI Science Final Report.pdf",
+      "kind": "Final report"
+    },
+    {
+      "investigation_id": "FLEX",
+      "source_file": "knowledgeBase/suppression/FLEX/20130010979.pdf",
+      "kind": "Conference paper"
+    },
+    {
+      "investigation_id": "FLEX",
+      "source_file": "knowledgeBase/suppression/FLEX/FLEX Overall Ext File-2.pdf",
+      "kind": "Overview"
+    },
+    {
+      "investigation_id": "FLEX-2",
+      "source_file": "knowledgeBase/suppression/FLEX2/FLEX-2 SRD Final.pdf",
+      "kind": "Science requirements"
+    }
+  ]
+}

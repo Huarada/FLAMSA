@@ -6,6 +6,11 @@ from math import isfinite
 
 from psi_fire.application.explore import Match
 from psi_fire.domain.model import O2Basis, TestPoint
+from psi_fire.domain.ranking import LUNAR_O2_PERCENT, LUNAR_PRESSURE_PSI
+
+# Demonstration habitat scenario (lunar base): at least this O2 percent at or below this pressure in psi.
+LUNAR_OXYGEN_MIN = LUNAR_O2_PERCENT
+LUNAR_PRESSURE_MAX = LUNAR_PRESSURE_PSI
 
 
 @dataclass(frozen=True)
@@ -50,6 +55,45 @@ class InvestigationPlotCoverage:
     exclusions: tuple[tuple[PlotExclusion, int], ...]
     available_quantities: tuple[PlotVariable, ...]
     record_levels: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class ConditionMap:
+    """Individual tests reporting scalar O2 and pressure, and how many fall in the habitat scenario."""
+
+    rows: tuple[dict[str, str | float], ...]
+    without_pair: tuple[str, ...]  # investigations in scope with no test reporting both
+    tests: int  # individual tests in scope
+    summaries: int  # daily or matrix records in scope, never plotted
+    scenario_ambient: int  # chamber atmosphere O2: the habitat question
+    scenario_stream: int  # inverse flames: O2 is the burner stream, not the atmosphere
+
+
+def condition_map(matches: tuple[Match, ...]) -> ConditionMap:
+    rows: list[dict[str, str | float]] = []
+    tests = summaries = ambient = stream = 0
+    without: list[str] = []
+    for match in matches:
+        before = len(rows)
+        for point in match.points:
+            if point.record_level.value != "test":
+                summaries += 1
+                continue
+            tests += 1
+            oxygen, pressure = scalar(point, "o2_percent"), scalar(point, "pressure_psi")
+            if oxygen is None or pressure is None:
+                continue
+            basis = point.o2_basis or O2Basis.AMBIENT
+            inside = oxygen >= LUNAR_OXYGEN_MIN and pressure <= LUNAR_PRESSURE_MAX
+            ambient += inside and basis == O2Basis.AMBIENT
+            stream += inside and basis != O2Basis.AMBIENT
+            rows.append({"O2": oxygen, "Pressure": pressure, "Investigation": match.investigation.id,
+                         "Record": point.test_point_id, "Fuel": point.fuel_name or "Not reported",
+                         "Oxygen basis": "Chamber atmosphere" if basis == O2Basis.AMBIENT else "Burner stream",
+                         "Source row": point.source_row})
+        if len(rows) == before:
+            without.append(match.investigation.id)
+    return ConditionMap(tuple(rows), tuple(without), tests, summaries, ambient, stream)
 
 
 def scalar(point: TestPoint, key: str) -> float | None:

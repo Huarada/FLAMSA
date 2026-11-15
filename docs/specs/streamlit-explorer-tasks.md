@@ -107,6 +107,11 @@ Each AC appears exactly once in this matrix. Future-stage scenarios are specifie
 | AC-78 | 1 / supplied homepage | Browser/AppTest: topic-specific related ids hydrate investigation filters |
 | AC-79 | 1 / supplied homepage | Browser: 1440/390 px layouts, uncropped scene, 44 px targets and keyboard activation |
 | AC-80 | 1 / supplied homepage | Application/UI: real counts and planned AI status, no illustrative ranking or LIVE badge |
+| AC-81 | 1 / navigation prominence | Native button help verified by AppTest and actual Chrome hover; blue/amber treatments inspected |
+| AC-82 | 1 / navigation prominence | All interface flows exercise native destination buttons and preserve applied queries |
+| AC-83 | 1 / scientific introduction | UI/browser: three explanatory equation cards render before research filters |
+| AC-84 | 1 / scientific introduction | Copy review: physical-consistency check, fitted association, paired outcomes and limits stay distinct |
+| AC-85 | 1 / navigation/introduction | Chrome: Enter navigation, tooltip rendering, math rendering and 390 px layout |
 
 ## Challenge-data requirement traceability
 

@@ -12,12 +12,12 @@ APP = Path(__file__).resolve().parents[2] / "src/psi_fire/interface/app.py"
 
 def test_explorer_navigation_filters_and_reset() -> None:
     app = AppTest.from_file(str(APP), default_timeout=30).run()
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Dashboard").run()
+    app.button(key="nav_dashboard").click().run()
     count = len(FileSnapshotProvider(APP.parents[3]).load().investigations)
     assert not app.exception
     assert app.metric[0].value == f"{count} / {count}"
     assert not any(b.label == "Ask copilot" for b in app.button)
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Investigations").run()
+    app.button(key="nav_investigations").click().run()
     assert not app.exception
     assert [tab.label for tab in app.tabs] == ["Research & scientific context", "Experimental records & raw values",
                                               "Citations & source downloads"]
@@ -29,13 +29,13 @@ def test_explorer_navigation_filters_and_reset() -> None:
     assert any("No records match" in item.value for item in app.info)
     next(b for b in app.button if b.label == "Reset filters").click().run()
     assert not app.exception
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Dashboard").run()
+    app.button(key="nav_dashboard").click().run()
     assert app.metric[0].value == f"{count} / {count}"
 
 
-def test_chart_selection_and_disabled_assistant() -> None:
+def test_chart_selection_and_connected_assistant() -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Dashboard").run()
+    app.button(key="nav_dashboard").click().run()
     assert not app.exception
     query = app.session_state["applied_query"]
     axes = {key: app.session_state[key] for key in ("chart_x", "chart_y", "chart_basis")}
@@ -43,7 +43,7 @@ def test_chart_selection_and_disabled_assistant() -> None:
     assert not app.exception
     assert app.session_state["applied_query"] == query
     assert {key: app.session_state[key] for key in axes} == axes
-    assert next(t for t in app.text_area if t.label == "Ask about this dashboard").disabled
+    assert not next(t for t in app.text_area if t.label == "Ask about this scenario").disabled
     selection = next(m for m in app.multiselect if m.label == "Investigations in comparison charts")
     selection.set_value([]).run()
     assert not app.exception
@@ -56,12 +56,12 @@ def test_chart_selection_and_disabled_assistant() -> None:
 def test_english_homepage_and_research_navigation() -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
     assert not app.exception
-    assert next(s for s in app.segmented_control if s.label == "Workspace").value == "Home"
+    assert app.session_state["workspace_navigation"] == "Home"
     assert any("Clearer evidence" in t.value for t in app.title)
     assert not any(m.label == "Relevance score" for m in app.metric)
     next(b for b in app.button if b.label == "Open related research").click().run()
     assert not app.exception
-    assert next(s for s in app.segmented_control if s.label == "Workspace").value == "Investigations"
+    assert app.session_state["workspace_navigation"] == "Investigations"
     assert set(app.session_state["applied_query"].ids) <= {"FLEX", "FLEX-2", "CFI"}
     assert next(m for m in app.multiselect if m.label == "Investigation").value == list(
         app.session_state["applied_query"].ids
@@ -70,7 +70,7 @@ def test_english_homepage_and_research_navigation() -> None:
 
 def test_selected_investigations_are_retained_when_profile_quantities_are_missing() -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Dashboard").run()
+    app.button(key="nav_dashboard").click().run()
     ids = ["BASS-II", "CFI", "FLEX-2", "FLEX", "BASS", "SAFFIRE-II"]
     next(m for m in app.multiselect if m.label == "Investigation").set_value(ids)
     next(m for m in app.multiselect if m.label == "Record level").set_value(["test", "test_day", "test_matrix"])
@@ -78,7 +78,7 @@ def test_selected_investigations_are_retained_when_profile_quantities_are_missin
     next(b for b in app.button if b.label == "Apply filters").click().run()
     assert not app.exception
     assert set(app.session_state["applied_query"].ids) == set(ids)
-    assert any(c.value == "test · test_matrix" for c in app.caption)
+    assert any(c.value.endswith("individual tests + 8 daily or matrix summaries") for c in app.caption)
     assert any("Showing 2 of 6 chart-selected investigations" in item.value for item in app.info)
     tables = [frame.value for frame in app.dataframe if "Primary reasons for omitted records" in frame.value.columns]
     assert len(tables) == 1
@@ -98,7 +98,7 @@ def test_selected_investigations_are_retained_when_profile_quantities_are_missin
 
 def test_filters_rehydrate_after_home_and_invalid_drafts_do_not_replace_results() -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Dashboard").run()
+    app.button(key="nav_dashboard").click().run()
     next(m for m in app.multiselect if m.label == "Investigation").set_value(["FLEX"])
     next(c for c in app.checkbox if c.label == "Filter oxygen").check()
     next(n for n in app.number_input if n.label == "Oxygen minimum (%)").set_value(20.0)
@@ -118,8 +118,8 @@ def test_filters_rehydrate_after_home_and_invalid_drafts_do_not_replace_results(
     assert [m.value for m in app.metric] == metrics
     assert any("Filters were not applied" in item.value for item in app.error)
     assert any("Applied filters · Investigation: FLEX" in c.value for c in app.caption)
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Home").run()
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Dashboard").run()
+    app.button(key="nav_home").click().run()
+    app.button(key="nav_dashboard").click().run()
     assert not app.exception
     assert next(m for m in app.multiselect if m.label == "Investigation").value == ["FLEX"]
     assert next(n for n in app.number_input if n.label == "Oxygen minimum (%)").value == 20.0
@@ -131,7 +131,7 @@ def test_filters_rehydrate_after_home_and_invalid_drafts_do_not_replace_results(
 
 def test_reload_preserves_query_on_success_and_failure_and_reports_stale_inputs() -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Dashboard").run()
+    app.button(key="nav_dashboard").click().run()
     next(m for m in app.multiselect if m.label == "Investigation").set_value(["FLEX", "BASS-II"])
     next(b for b in app.button if b.label == "Apply filters").click().run()
     query = app.session_state["applied_query"]
@@ -156,7 +156,7 @@ def test_reload_preserves_query_on_success_and_failure_and_reports_stale_inputs(
 
 def test_standalone_basis_submission_and_conflict_keep_the_committed_scope() -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Dashboard").run()
+    app.button(key="nav_dashboard").click().run()
     next(m for m in app.multiselect if m.label == "Reported oxygen basis").set_value(["oxidizer_stream"])
     next(b for b in app.button if b.label == "Apply filters").click().run()
     query = app.session_state["applied_query"]
@@ -176,11 +176,11 @@ def test_standalone_basis_submission_and_conflict_keep_the_committed_scope() -> 
 
 def test_home_topics_preserve_applied_filters_until_opening_related_research() -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Dashboard").run()
+    app.button(key="nav_dashboard").click().run()
     next(m for m in app.multiselect if m.label == "Investigation").set_value(["BASS"])
     next(b for b in app.button if b.label == "Apply filters").click().run()
     query = app.session_state["applied_query"]
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Home").run()
+    app.button(key="nav_home").click().run()
     counts = [metric.value for metric in app.metric]
     next(p for p in app.pills if p.label == "Explore a research theme").set_value(
         "4 · Detection and diagnostics"
@@ -196,3 +196,15 @@ def test_home_topics_preserve_applied_filters_until_opening_related_research() -
     assert next(m for m in app.multiselect if m.label == "Investigation").value == list(
         app.session_state["applied_query"].ids
     )
+
+
+def test_copilot_answers_with_validated_citations_and_the_score_breakdown() -> None:
+    app = AppTest.from_file(str(APP), default_timeout=90).run()
+    app.button(key="nav_dashboard").click().run()
+    next(t for t in app.toggle if t.label == "Research copilot").set_value(True).run()
+    next(b for b in app.button if b.label == "Ask copilot").click().run()
+    assert not app.exception
+    text = " ".join(c.value for c in app.caption)
+    assert "no partial-gravity data" in text and "Text written by: Template" in text
+    assert "passed citation, number and plausibility checks" in text
+    assert any("Score breakdown" in e.label for e in app.expander)

@@ -1,4 +1,4 @@
-from psi_fire.application.chart_data import BuildChartData, PlotExclusion, scalar
+from psi_fire.application.chart_data import BuildChartData, PlotExclusion, condition_map, scalar
 from psi_fire.application.explore import Match
 from psi_fire.domain.model import ColumnInfo, Investigation, O2Basis, TestPoint
 from psi_fire.domain.units import Unit
@@ -61,3 +61,20 @@ def test_exclusion_diagnostics_reconcile_without_double_counting() -> None:
     excluded_scope = builder.coverage(matches, "o2_percent", "burn_time_s", (), O2Basis.AMBIENT)[0]
     assert excluded_scope.plotted == 0
     assert excluded_scope.exclusions == ((PlotExclusion.CHART_SCOPE, 6),)
+
+
+def test_condition_map_counts_the_habitat_scenario_by_oxygen_basis() -> None:
+    def at(identifier: str, o2: float, psi: float | None, phase: str = "test",
+           basis: O2Basis = O2Basis.AMBIENT) -> TestPoint:
+        return record(identifier, o2, o2, phase, basis).model_copy(
+            update={"pressure_psi_min": psi, "pressure_psi_max": psi, "extras": {}})
+    points = (at("inside", 30, 10.2), at("too_high", 30, 10.3), at("too_lean", 29.9, 8),
+              at("stream", 40, 8, basis=O2Basis.OXIDIZER_STREAM), at("no_pressure", 40, None), at("day", 40, 8, "test_day"))
+    inv = Investigation(id="TEST", psi_id="TEST", record_level="test", source_files=(), test_points=points, columns={})
+    other = Investigation(id="OTHER", psi_id="OTHER", record_level="test", source_files=(),
+                          test_points=(at("o2_only", 21, None).model_copy(update={"investigation_id": "OTHER"}),),
+                          columns={})
+    result = condition_map((Match(inv, points), Match(other, other.test_points)))
+    assert [r["Record"] for r in result.rows] == ["inside", "too_high", "too_lean", "stream"]
+    assert (result.scenario_ambient, result.scenario_stream) == (1, 1)
+    assert (result.tests, result.summaries, result.without_pair) == (6, 1, ("OTHER",))

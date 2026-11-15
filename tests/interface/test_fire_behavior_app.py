@@ -7,7 +7,7 @@ APP = Path(__file__).resolve().parents[2] / "src/psi_fire/interface/app.py"
 
 def test_behavior_cards_local_settings_copilot_and_source_navigation_preserve_query() -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Fire behavior").run()
+    app.button(key="nav_fire_behavior").click().run()
     assert not app.exception
     assert [tab.label for tab in app.tabs] == ["FLEX · Burning rate", "BASS-II · Gas changes", "SAFFIRE-II · Gravity"]
     query = app.session_state["applied_query"]
@@ -28,7 +28,7 @@ def test_behavior_cards_local_settings_copilot_and_source_navigation_preserve_qu
 
 def test_behavior_studies_removed_by_research_filters_stay_empty() -> None:
     app = AppTest.from_file(str(APP), default_timeout=45).run()
-    next(s for s in app.segmented_control if s.label == "Workspace").set_value("Fire behavior").run()
+    app.button(key="nav_fire_behavior").click().run()
     next(m for m in app.multiselect if m.label == "Investigation").set_value(["BASS-II"])
     next(b for b in app.button if b.label == "Apply filters").click().run()
     assert not app.exception

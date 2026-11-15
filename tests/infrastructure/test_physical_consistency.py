@@ -1,9 +1,10 @@
-"""Curated values obey the physical rules stated in the PSI reports (docs/DATA_QUALITY_REVIEW.md, ADR-0067).
+"""Regression checks for selected physical relations in curated values (ADR-0067).
 
-A failure here means a curation change broke a relation the source data satisfies, e.g. a column swap or a
-wrong unit conversion. Known source anomalies are listed in the review, not silently filtered here.
+A failure can reveal a mapping/unit error or a source change requiring review; approximate-model
+agreement does not establish that every measurement is correct. Missing measurements remain missing.
 """
 
+from math import isfinite
 from pathlib import Path
 from statistics import median
 
@@ -35,10 +36,12 @@ def test_flex_burn_time_follows_the_d_squared_law(repository: CuratedRepository)
     ratios = []
     for tp in flex.test_points:
         d0, k, t = tp.value("droplet_initial_diameter_mm"), tp.value("burning_rate_constant_mm2_s"), tp.value("burn_time_s")
-        de = tp.value("flame_extinction_diameter_mm") or 0.0
-        if isinstance(d0, float) and isinstance(k, float) and isinstance(t, float) and isinstance(de, float) and d0 > 1.1 * de:
+        de = tp.value("flame_extinction_diameter_mm")
+        if (isinstance(d0, float) and isinstance(k, float) and isinstance(t, float) and isinstance(de, float)
+                and all(isfinite(value) for value in (d0, k, t, de))
+                and k > 0 and t > 0 and de >= 0 and d0 > 1.1 * de):
             ratios.append(t / ((d0**2 - de**2) / k))
-    assert len(ratios) > 200
+    assert len(ratios) > 100
     assert 0.95 < median(ratios) < 1.10
 
 
