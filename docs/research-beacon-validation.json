@@ -9,9 +9,9 @@
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 9000.467999999999,
-          "start": 12239.359999999999,
-          "shadow": "rgba(48, 102, 211, 0.18) 0px 0px 0px 7px, rgba(48, 102, 211, 0.42) 0px 5px 28px 0px",
+          "time": 1437.0259999999994,
+          "phase": 1437.0259999999994,
+          "shadow": "rgba(48, 102, 211, 0.11) 0px 0px 0px 4.25241px, rgba(48, 102, 211, 0.318) 0px 4.60749px 23.2899px 0px",
           "border": "6px"
         },
         {
@@ -20,9 +20,9 @@
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 260.6639999960514,
-          "start": 20979.164000003948,
-          "shadow": "rgba(133, 62, 196, 0.024) 0px 0px 0px 0.984915px, rgba(133, 62, 196, 0.196) 0px 4.1407px 17.6884px 0px",
+          "time": 183.28299999679308,
+          "phase": 183.28299999679308,
+          "shadow": "rgba(133, 62, 196, 0.01) 0px 0px 0px 0.477686px, rgba(133, 62, 196, 0.18) 0px 4.06824px 16.8189px 0px",
           "border": "6px"
         },
         {
@@ -31,9 +31,9 @@
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 260.6639999960514,
-          "start": 20979.164000003948,
-          "shadow": "rgba(23, 116, 71, 0.024) 0px 0px 0px 0.984915px, rgba(23, 116, 71, 0.196) 0px 4.1407px 17.6884px 0px",
+          "time": 183.28299999679308,
+          "phase": 183.28299999679308,
+          "shadow": "rgba(23, 116, 71, 0.01) 0px 0px 0px 0.477686px, rgba(23, 116, 71, 0.18) 0px 4.06824px 16.8189px 0px",
           "border": "6px"
         },
         {
@@ -42,9 +42,9 @@
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 260.6639999960514,
-          "start": 20979.164000003948,
-          "shadow": "rgba(181, 109, 255, 0.035) 0px 0px 0px 1.26632px, rgba(109, 50, 179, 0.282) 0px 5.15579px 23.9698px 1.68843px",
+          "time": 183.28299999679308,
+          "phase": 183.28299999679308,
+          "shadow": "rgba(181, 109, 255, 0.016) 0px 0px 0px 0.614167px, rgba(102, 48, 170, 0.267) 0px 5.59056px 22.9554px 0.81889px",
           "border": "2px"
         }
       ]
@@ -53,7 +53,10 @@
       "focusShadowStable": true
     },
     {
-      "timeAfterRerun": 5424.501999996053
+      "clockAfterRerun": {
+        "time": 3354.3229999967934,
+        "phase": 3354.3229999967934
+      }
     },
     {
       "finished": [
@@ -62,6 +65,7 @@
           "name": "research-guide-beacon",
           "duration": "2s",
           "iterations": "10",
+          "phase": null,
           "shadow": "rgba(48, 102, 211, 0.16) 0px 4px 16px 0px",
           "border": "6px"
         },
@@ -70,6 +74,7 @@
           "name": "research-guide-beacon",
           "duration": "2s",
           "iterations": "10",
+          "phase": null,
           "shadow": "rgba(133, 62, 196, 0.16) 0px 4px 16px 0px",
           "border": "6px"
         },
@@ -78,6 +83,7 @@
           "name": "research-guide-beacon",
           "duration": "2s",
           "iterations": "10",
+          "phase": null,
           "shadow": "rgba(23, 116, 71, 0.16) 0px 4px 16px 0px",
           "border": "6px"
         },
@@ -86,6 +92,7 @@
           "name": "copilot-question-beacon",
           "duration": "2s",
           "iterations": "10",
+          "phase": null,
           "shadow": "rgba(95, 45, 160, 0.25) 0px 6px 22px 0px",
           "border": "2px"
         }
@@ -99,9 +106,9 @@
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 1677.5219999999963,
-          "start": 52159.626000000004,
-          "shadow": "rgba(48, 102, 211, 0.04) 0px 0px 0px 1.51804px, rgba(48, 102, 211, 0.216) 0px 4.21686px 18.6024px 0px",
+          "time": 987.4580000000002,
+          "phase": 987.4580000000002,
+          "shadow": "rgba(48, 102, 211, 0.18) 0px 0px 0px 6.99791px, rgba(48, 102, 211, 0.42) 0px 4.9997px 27.9964px 0px",
           "border": "6px"
         },
         {
@@ -110,9 +117,9 @@
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 333.3200000000005,
-          "start": 53503.828,
-          "shadow": "rgba(133, 62, 196, 0.043) 0px 0px 0px 1.62229px, rgba(133, 62, 196, 0.22) 0px 4.23176px 18.7811px 0px",
+          "time": 166.66000000000025,
+          "phase": 166.66000000000025,
+          "shadow": "rgba(133, 62, 196, 0.01) 0px 0px 0px 0.392883px, rgba(133, 62, 196, 0.176) 0px 4.05613px 16.6735px 0px",
           "border": "6px"
         },
         {
@@ -121,9 +128,9 @@
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 333.3200000000005,
-          "start": 53503.828,
-          "shadow": "rgba(23, 116, 71, 0.043) 0px 0px 0px 1.62229px, rgba(23, 116, 71, 0.22) 0px 4.23176px 18.7811px 0px",
+          "time": 166.66000000000025,
+          "phase": 166.66000000000025,
+          "shadow": "rgba(23, 116, 71, 0.01) 0px 0px 0px 0.392883px, rgba(23, 116, 71, 0.176) 0px 4.05613px 16.6735px 0px",
           "border": "6px"
         },
         {
@@ -132,9 +139,9 @@
           "duration": "2s",
           "iterations": "10",
           "state": "running",
-          "time": 333.3200000000005,
-          "start": 53503.828,
-          "shadow": "rgba(181, 109, 255, 0.06) 0px 0px 0px 2.08581px, rgba(116, 53, 189, 0.3) 0px 4.60946px 25.2446px 2.78107px",
+          "time": 166.66000000000025,
+          "phase": 166.66000000000025,
+          "shadow": "rgba(181, 109, 255, 0.016) 0px 0px 0px 0.505136px, rgba(101, 47, 168, 0.263) 0px 5.66324px 22.7858px 0.673514px",
           "border": "2px"
         }
       ]

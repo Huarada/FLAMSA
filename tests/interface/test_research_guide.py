@@ -10,15 +10,18 @@ def test_guide_can_be_hidden_without_changing_research_and_stays_dashboard_only(
     app.button(key="nav_dashboard").click().run()
     assert not app.exception
     query = app.session_state["applied_query"]
+    attention_started = app.session_state["research_attention_started"]
     conditions = {n.label: n.value for n in app.number_input
                   if n.label in ("Oxygen (% of the atmosphere)", "Pressure (psi)")}
     assert sum(item.value.startswith("**Step ") for item in app.markdown) == 3
     app.toggle(key="research_guide_toggle").set_value(False).run()
     assert not app.exception and not any(item.value.startswith("**Step ") for item in app.markdown)
     assert app.session_state["applied_query"] == query
+    assert app.session_state["research_attention_started"] == attention_started
     assert {n.label: n.value for n in app.number_input if n.label in conditions} == conditions
     app.button(key="nav_home").click().run()
     app.button(key="nav_dashboard").click().run()
+    assert app.session_state["research_attention_started"] > attention_started
     assert not app.toggle(key="research_guide_toggle").value
     app.toggle(key="research_guide_toggle").set_value(True).run()
     assert sum(item.value.startswith("**Step ") for item in app.markdown) == 3

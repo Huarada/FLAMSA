@@ -59,8 +59,7 @@ def apply_style() -> None:
       border: 2px solid var(--guide-accent); border-left-width: 6px;
       border-radius: 14px 14px 14px 4px;
       padding: 1rem; margin-bottom: .8rem; gap: .35rem;
-      box-shadow: 0 4px 16px rgba(var(--guide-glow), .16);
-      animation: research-guide-beacon 2s ease-in-out 10; }
+      box-shadow: 0 4px 16px rgba(var(--guide-glow), .16); }
     [class*="st-key-guide_step_"]::after { content: ''; position: absolute; left: 20px; bottom: -9px;
       width: 17px; height: 10px; background: var(--guide-background);
       clip-path: polygon(0 0, 100% 0, 20% 100%); pointer-events: none; }
@@ -70,10 +69,6 @@ def apply_style() -> None:
       font-size: .86rem; line-height: 1.5; color: #203747; }
     [class*="st-key-guide_step_"] p > strong:only-child {
       color: var(--guide-accent); font-size: 1rem; font-weight: 750; }
-    @keyframes research-guide-beacon {
-      0%,100% { box-shadow: 0 0 0 0 rgba(var(--guide-glow), 0), 0 4px 16px rgba(var(--guide-glow), .16); }
-      50% { box-shadow: 0 0 0 7px rgba(var(--guide-glow), .18), 0 5px 28px rgba(var(--guide-glow), .42); }
-    }
     .st-key-nav_fire_behavior button { background: linear-gradient(115deg, #ffd17d, #f4b34b);
       border: 1px solid #bd7d20; color: #25374a; box-shadow: 0 4px 13px #c4872e26; font-weight: 650; }
     .st-key-nav_fire_behavior button p, .st-key-nav_fire_behavior button span { color: #25374a !important; }
@@ -123,12 +118,6 @@ def apply_style() -> None:
       background: linear-gradient(135deg, #532a8b, #342649); border: 2px solid #b986ef;
       border-radius: 18px 18px 18px 6px;
       margin-bottom: .45rem; box-shadow: 0 6px 22px #5f2da040; }
-    .stApp:has(.st-key-research_guide_controls) .st-key-copilot_question_bubble {
-      animation: copilot-question-beacon 2s ease-in-out 10; }
-    @keyframes copilot-question-beacon {
-      0%,100% { box-shadow: 0 0 0 0 #b56dff00, 0 6px 22px #5f2da040; }
-      50% { box-shadow: 0 0 0 9px #b56dff40, 0 0 36px 12px #9a42ef78; }
-    }
     .st-key-copilot_question_bubble:focus-within {
       box-shadow: 0 0 0 3px #b986ef66, 0 6px 22px #5f2da040 !important; }
     .st-key-copilot_question_bubble::after { content: ''; position: absolute; left: 24px; bottom: -11px;

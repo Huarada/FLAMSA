@@ -2,12 +2,15 @@
 
 import streamlit as st
 
+from psi_fire.interface.research_guide import track_workspace
+
 
 def open_workspace(destination: str) -> None:
     st.session_state["workspace_navigation"] = destination
 
 
 def workspace_navigation(current: str) -> None:
+    track_workspace(current)
     with st.container(horizontal=True, gap="medium", key="header_navigation"):
         st.button("Home", key="nav_home", type="tertiary", width="stretch", on_click=open_workspace, args=("Home",),
                   help="The interactive chamber scene, with a way into each research theme.")

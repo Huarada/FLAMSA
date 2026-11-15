@@ -1,6 +1,38 @@
 """Optional, source-aware guidance for the Dashboard's three-step research journey."""
 
+from time import monotonic
+
 import streamlit as st
+
+ATTENTION_SECONDS = 20
+
+
+def track_workspace(current: str) -> None:
+    if current != "Dashboard":
+        st.session_state.pop("research_attention_started", None)
+
+
+def _attention_style() -> None:
+    started = st.session_state.setdefault("research_attention_started", monotonic())
+    elapsed = min(ATTENTION_SECONDS, max(0, monotonic() - started))
+    generation = st.session_state.get("research_attention_render", 0) + 1
+    st.session_state["research_attention_render"] = generation
+    # A new name seeks remounted elements to the shared deadline instead of granting another twenty seconds.
+    css = """<style>
+    @keyframes research-guide-beacon-GENERATION {
+      0%,100% { box-shadow: 0 0 0 0 rgba(var(--guide-glow), 0), 0 4px 16px rgba(var(--guide-glow), .16); }
+      50% { box-shadow: 0 0 0 7px rgba(var(--guide-glow), .18), 0 5px 28px rgba(var(--guide-glow), .42); }
+    }
+    @keyframes copilot-question-beacon-GENERATION {
+      0%,100% { box-shadow: 0 0 0 0 #b56dff00, 0 6px 22px #5f2da040; }
+      50% { box-shadow: 0 0 0 9px #b56dff40, 0 0 36px 12px #9a42ef78; }
+    }
+    [class*="st-key-guide_step_"] { animation: research-guide-beacon-GENERATION 2s ease-in-out 10;
+      animation-delay: -ELAPSEDs; }
+    .stApp:has(.st-key-research_guide_controls) .st-key-copilot_question_bubble {
+      animation: copilot-question-beacon-GENERATION 2s ease-in-out 10; animation-delay: -ELAPSEDs; }
+    </style>"""
+    st.html(css.replace("GENERATION", str(generation)).replace("ELAPSED", f"{elapsed:.3f}"))
 
 
 def _save_preference() -> None:
@@ -8,6 +40,7 @@ def _save_preference() -> None:
 
 
 def guide_controls() -> None:
+    _attention_style()
     st.session_state.setdefault("research_guide_visible", True)
     st.session_state.setdefault("research_guide_toggle", st.session_state["research_guide_visible"])
     with st.container(horizontal=True, vertical_alignment="center", key="research_guide_controls"):
@@ -42,6 +75,7 @@ def map_step(copilot_visible: bool, *, map_available: bool) -> None:
 def question_step() -> None:
     if not _enabled():
         return
+    _attention_style()
     with st.container(border=True, key="guide_step_2"):
         st.markdown("**Step 2 · Find research that answers your question**")
         st.markdown("Ask which NASA investigations fit your selected conditions, and why. Research copilot "
