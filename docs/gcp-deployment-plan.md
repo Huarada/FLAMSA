@@ -78,3 +78,29 @@ The single-click copilot request survived an edit of the draft input, disabled/r
 Security preflight reviewed tracked text and exact local-secret matches, plus the native gcloud upload list: no prohibited local inputs or matching secret values were detected. Excluded editable-install .egg-info metadata along with environment files, credentials, virtualenvs, IDE/assistant state, browser profiles and evaluation dumps. The 1,268-file/917,233,849-byte source snapshot was hash-verified. This is a focused publication audit, not proof against every possible secret in binary/history content.
 
 Evidence: [sanitized security review](release-security-preflight.json), [HTTP checks](gcp-release-http-validation.json), [candidate browser results](gcp-release-browser-validation.json), [public browser results](gcp-release-public-browser.json), [current release metadata](gcp-release.json). Screenshots: docs/screenshots/gcp-release-*. No production load, physical-device or full accessibility audit was performed. Build size, dependency locking, model funding and durable session storage remain operational follow-ups. Work created after the frozen snapshot is not part of this release.
+
+## Daily question limit (cost guard)
+
+The deployment sets `PSI_DAILY_MODEL_LIMIT=4`: at most 4 copilot questions per UTC day in total, across all visitors. The count lives in the memory of the server process, so it starts again at 0 whenever a new revision is released (and also if Cloud Run recycles an idle instance, because `min-instances` is 0). Unset or `0` means no limit (local use). When the limit is spent the "Ask copilot" button is disabled and the panel says when it resets; the previous answer, charts and filters stay visible.
+
+## Rotating the model key (Secret Manager)
+
+The key is never in source, an image or a command line. To store a new key, run this in PowerShell on the machine where gcloud is logged in; it asks for the key without echoing it and writes it without a trailing newline:
+
+```powershell
+$secure = Read-Host "New OpenAI key" -AsSecureString
+$key = [System.Net.NetworkCredential]::new('', $secure).Password
+$file = New-TemporaryFile
+[IO.File]::WriteAllText($file, $key)
+gcloud secrets versions add flamsa-openai-api-key --data-file="$file" --project flamsa-514815
+Remove-Item $file -Force; Remove-Variable key, secure
+```
+
+Then point the service at the newest version and retire the revoked one:
+
+```powershell
+gcloud run services update flamsa --region us-central1 --project flamsa-514815 --update-secrets OPENAI_API_KEY=flamsa-openai-api-key:latest
+gcloud secrets versions disable 1 --secret flamsa-openai-api-key --project flamsa-514815
+```
+
+`latest` is resolved when an instance starts, so a new version needs a new revision (the `services update` above creates one). Use a key from a separate provider project with its own monthly budget for the public site.

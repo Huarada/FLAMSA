@@ -1,5 +1,6 @@
 """Streamlit composition root for the research workspace."""
 
+import os
 import sys
 from dataclasses import asdict
 from pathlib import Path
@@ -46,6 +47,20 @@ def answering_pipeline(root: str):
     from psi_fire.infrastructure.answering_factory import build_answering_pipeline
 
     return build_answering_pipeline(Path(root))
+
+
+@st.cache_resource(show_spinner=False)
+def _quota_for(limit: int):
+    from psi_fire.application.quota import DailyQuota
+
+    return DailyQuota(limit)
+
+
+def daily_quota():
+    """One counter per server process, shared by every session; a new release starts a new process, so it resets."""
+    from psi_fire.application.quota import limit_from_env
+
+    return _quota_for(limit_from_env(os.environ))
 
 
 @st.cache_data(max_entries=8, show_spinner=False)
@@ -200,7 +215,7 @@ if page in ("Dashboard", None):
             chart_context = chart_grid(matches, snapshot.revision)
         with copilot:
             pipeline = DeferredPipeline(lambda: answering_pipeline(str(root)))
-            assistant_panel(snapshot.revision, query, matches, chart_context, pipeline, snapshot.investigations, sources)
+            assistant_panel(snapshot.revision, query, matches, chart_context, pipeline, snapshot.investigations, sources, daily_quota())
     else:
         chart_context = chart_grid(matches, snapshot.revision)
 if page == "Fire behavior":
@@ -209,7 +224,7 @@ if page == "Fire behavior":
     chart_context = fire_behavior(matches, snapshot.revision, view_query)
     if show_copilot:
         pipeline = DeferredPipeline(lambda: answering_pipeline(str(root)))
-        assistant_panel(snapshot.revision, view_query, matches, chart_context, pipeline, snapshot.investigations, sources)
+        assistant_panel(snapshot.revision, view_query, matches, chart_context, pipeline, snapshot.investigations, sources, daily_quota())
     with st.expander("Scientific scope"):
         st.caption("No direct partial-gravity data or habitat-safety threshold is established by these analyses.")
     st.caption("PSI / Research workspace / Source-backed experimental data / Research copilot: validated answers only")
@@ -240,7 +255,7 @@ if page == "Investigations":
     if show_copilot:
         pipeline = DeferredPipeline(lambda: answering_pipeline(str(root)))
         assistant_panel(snapshot.revision, view_query, matches, {"selected_investigation": selected}, pipeline,
-                        snapshot.investigations, sources)
+                        snapshot.investigations, sources, daily_quota())
 with st.expander("Scientific scope" if page == "Investigations" else "Applied filters and scientific scope"):
     if page != "Investigations":
         st.json(asdict(query), expanded=False)

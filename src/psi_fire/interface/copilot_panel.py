@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 
 from psi_fire.application.answer_types import AnswerResult, AnswerStatus
+from psi_fire.application.quota import DailyQuota
 from psi_fire.domain.answering import CitationKind, IssueCode, ValidationIssue
 from psi_fire.domain.manual import GravityRegime
 from psi_fire.domain.model import Investigation
@@ -59,9 +60,17 @@ def _scenario() -> HabitatScenario:
     return HabitatScenario(preset if preset != CUSTOM else "Custom scenario", o2, pressure, gravity)
 
 
-def _submit(pipeline: PipelineHandle, investigations: tuple[Investigation, ...]) -> None:
+QUOTA_MESSAGE = ("The daily limit of {limit} copilot questions was reached. It resets at 00:00 UTC and whenever the "
+                 "application is released again. Your previous answer, the chart and the filters are unchanged.")
+
+
+def _submit(pipeline: PipelineHandle, investigations: tuple[Investigation, ...],
+            quota: DailyQuota | None = None) -> None:
     """Capture the click before charts render: a queued rerun must not consume a transient button value."""
     if JOB_KEY in st.session_state:
+        return
+    if quota is not None and not quota.try_consume():
+        st.session_state["copilot_request_error"] = QUOTA_MESSAGE.format(limit=quota.limit)
         return
     preset = st.session_state.get("copilot_preset", "Lunar base")
     base = PRESETS.get(preset, EARTH_CABIN)
@@ -180,7 +189,8 @@ def _pending_answer() -> None:
 
 
 def copilot(pipeline: PipelineHandle, investigations: tuple[Investigation, ...],
-            context: EvidenceContext | None = None) -> None:
+            context: EvidenceContext | None = None, quota: DailyQuota | None = None) -> None:
+    quota = quota if quota is not None and quota.enabled else None
     context = context or EvidenceContext(None, frozenset())
     _scenario()
     with st.container(key="copilot_question_bubble"):
@@ -194,10 +204,13 @@ def copilot(pipeline: PipelineHandle, investigations: tuple[Investigation, ...],
             st.markdown("**Let's explore the evidence.**")
             st.caption("Compare studies. Follow the sources.")
     st.button("Ask copilot", key="ask_copilot", icon=":material/auto_awesome:", type="primary", width="stretch",
-                  disabled=JOB_KEY in st.session_state,
-                  on_click=_submit, args=(pipeline, investigations),
+                  disabled=JOB_KEY in st.session_state or (quota is not None and quota.remaining() == 0),
+                  on_click=_submit, args=(pipeline, investigations, quota),
                   help="Ranks investigations for these conditions, retrieves report passages and validates the text.")
     st.caption("Ranks all curated studies, including those outside the chart filters.")
+    if quota is not None:
+        st.caption(f"Questions left today: {quota.remaining()} of {quota.limit}. The count resets at 00:00 UTC and "
+                   "whenever the application is released again.")
     with st.expander("How the copilot works"):
         st.write("The application computes the ranking scores. A connected language model or offline template "
                  "explains them using cited records and report passages. Answers must pass citation and number "

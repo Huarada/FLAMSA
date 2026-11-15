@@ -379,3 +379,17 @@ def test_provider_failures_are_reported_as_such_and_not_as_missing_evidence() ->
     assert "key was rejected" in narrator_failure_message(issue("Narrator failed: AuthenticationError: 401 invalid api key"))
     assert narrator_failure_message(issue("The draft contains no claims.")) is None
     assert narrator_failure_message(()) is None
+
+
+def test_the_daily_limit_is_shown_counted_and_disables_the_button_when_spent(monkeypatch) -> None:
+    monkeypatch.setenv("PSI_LLM_MODEL", "")
+    monkeypatch.setenv("PSI_DAILY_MODEL_LIMIT", "1")
+    st.cache_resource.clear()
+    app = AppTest.from_file(str(APP), default_timeout=90).run()
+    app.button(key="nav_dashboard").click().run()
+    assert any("Questions left today: 1 of 1" in c.value for c in app.caption)
+    app.button(key="ask_copilot").click().run()
+    assert not app.exception
+    assert any("Questions left today: 0 of 1" in c.value for c in app.caption)
+    assert app.button(key="ask_copilot").disabled
+    st.cache_resource.clear()
