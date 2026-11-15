@@ -659,3 +659,15 @@ Remove Research filters, its summary/error display and applied Dashboard-query d
 The header CSV exports all source records of those three studies and is labelled Download study records (CSV); analysis JSON retains the effective study scope and local settings, never the unrelated Dashboard query. Investigations and Fire behavior describe Dashboard as the owner of Research filters. No missing measurements or summary rows become individual observations.
 
 - AC-105: Fire behavior has no Research filters panel, retains all three analyses under restrictive/empty Dashboard queries, preserves local controls and source navigation, and restores the Dashboard query on return.
+
+## 31. Guide users from a selected atmosphere to a cited answer
+
+Make Investigations an emerald, high-contrast navigation action and add a slow shadow pulse to Dashboard. Keep native buttons, purpose-specific hover help and keyboard focus. Stop the pulse for reduced-motion preferences, hover/focus and the existing paused homepage scene; never move the navigation during animation.
+
+Dashboard offers an initially visible, optional three-step guide. Place speech bubbles next to the coverage map, question field and answer area: (1) click the oxygen/pressure map to fill scenario inputs, or enter exact values; (2) ask for relevant NASA investigations and understand the value of experimental records and cited PDF passages; (3) read the response below Ask copilot, with a bold instruction to scroll down for the complete answer and citations. Provide in-page links to Research copilot and Answer & sources when those targets exist. Explain that View source opens inspection, then Download the cited document retrieves the original PDF/data file when available; computed scores do not have downloadable source documents.
+
+When the copilot is hidden, step 1 tells users to enable it. When no map can be drawn, it directs users to adjust/reset Research filters or type scenario values. Guide visibility persists across workspace navigation without changing the committed research query, scenario, pending request, answer or scientific settings. Fire behavior and Investigations do not show these Dashboard-specific steps.
+
+- AC-106: emerald Investigations, motion-aware Dashboard pulse and three readable guide bubbles work on desktop and narrow screens without horizontal overflow.
+- AC-107: actual coverage-map selection updates copilot conditions; guide links stay in the same page; visibility changes preserve research state.
+- AC-108: an offline answer exposes Answer & sources and existing source inspection/download actions; guidance distinguishes source documents from calculated scores and never guarantees that every answer includes a PDF passage.

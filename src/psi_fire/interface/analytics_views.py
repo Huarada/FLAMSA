@@ -21,7 +21,7 @@ def assistant_panel(revision: str, query: ExplorationQuery, matches: tuple[Match
                     investigations: tuple[Investigation, ...] = (),
                     sources: InvestigationSources | None = None, quota: DailyQuota | None = None) -> None:
     with st.container(border=True, key="copilot_panel"):
-        st.markdown("### Research copilot")
+        st.subheader("Research copilot", anchor="research-copilot")
         if pipeline is not None:
             visible = frozenset(m.investigation.id for m in matches)
             copilot(pipeline, investigations,

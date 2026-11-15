@@ -305,6 +305,7 @@ def test_answer_citations_offer_view_source_and_opening_it_keeps_the_answer(monk
     finish_copilot(app)
     buttons = [b for b in app.button if b.label == "View source"]
     assert buttons and not app.exception
+    assert any(item.value == "Answer & sources" for item in app.subheader)
     filters_before = _applied(app)
     buttons[0].click().run()
     assert not app.exception

@@ -31,6 +31,7 @@ from psi_fire.interface.explorer_views import applied_filter_summary, catalog, d
 from psi_fire.interface.home_style import apply_home_style, hero_image_uri
 from psi_fire.interface.home_view import home
 from psi_fire.interface.reference_dashboard import chart_grid, filtered_records_csv, metrics
+from psi_fire.interface.research_guide import guide_controls
 from psi_fire.interface.workspace_navigation import workspace_navigation
 from psi_fire.interface.workspace_style import apply_style
 
@@ -208,6 +209,7 @@ if page == "Investigations":
 elif page == "Dashboard":
     st.caption(f"{len(matches)} investigations in view / Dataset {snapshot.revision[:12]} / Applied filters affect all charts")
 if page in ("Dashboard", None):
+    guide_controls()
     metrics(matches, len(snapshot.investigations))
     if show_copilot:
         workspace, copilot = st.columns([3.1, 1.35], gap="medium")

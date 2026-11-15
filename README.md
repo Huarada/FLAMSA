@@ -58,6 +58,8 @@ FLAMSA targets research discovery and interpretation. It does not simulate a hab
 
 The workflow is **choose conditions -> inspect experimental coverage -> ask Research copilot -> check the ranking and citations -> open source records or export**. Chart clicks select a scenario; they do not change the scientific measurements.
 
+Dashboard includes an optional three-step guide beside the coverage map, question box and response. Click the oxygen/pressure map to populate the copilot's conditions, ask for relevant research, then **scroll down to read the complete answer and citations**. **View source** opens inspection; **Download the cited document** saves the original PDF or data file when available. Computed ranking scores have no source document to download. Hide the guide once familiar with the flow; research filters and the selected scenario are preserved.
+
 ## Quick start
 
 ### Prerequisites

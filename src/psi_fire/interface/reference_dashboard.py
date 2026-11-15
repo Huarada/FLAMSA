@@ -25,6 +25,7 @@ from psi_fire.interface.dashboard_cache import (
     partner_counts,
     record_scope,
 )
+from psi_fire.interface.research_guide import map_step
 
 
 def show_chart(chart: alt.Chart | alt.LayerChart, **chart_options: Any) -> Any:
@@ -192,6 +193,7 @@ def coverage_map(matches: tuple[Match, ...]) -> None:
                    f"The shaded box is the lunar-habitat reference ({LUNAR_OXYGEN_MIN:g}% O₂ or more at "
                    f"{LUNAR_PRESSURE_MAX:g} psi or less); the amber ring is Earth air.")
         copilot_on = bool(st.session_state.get("show_copilot"))
+        map_step(copilot_on, map_available=bool(conditions.rows))
         if copilot_on:
             st.caption("Click the chart to set the copilot's scenario. Clicks snap to a display grid; type the values "
                        "in the copilot for exact conditions.")

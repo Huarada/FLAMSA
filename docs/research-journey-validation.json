@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-15",
+  "environment": "local offline Streamlit and native headless Chrome",
+  "observations": [
+    {
+      "green": "rgb(17, 116, 67)",
+      "pulse": "dashboard-nav-pulse",
+      "steps": 3,
+      "bold": true,
+      "exceptions": 0
+    },
+    {
+      "reduced": "none"
+    },
+    {
+      "href": "#research-copilot",
+      "target": "",
+      "exists": true
+    },
+    {
+      "hash": "#research-copilot",
+      "targetTop": 59.796875
+    },
+    {
+      "width": 390,
+      "bodyWidth": 390,
+      "stepWidth": 316
+    },
+    {
+      "width": 320,
+      "bodyWidth": 320,
+      "stepWidth": 246
+    },
+    {
+      "chartClick": [
+        "14.50",
+        "7.00"
+      ]
+    },
+    {
+      "answer": true,
+      "sourceButtons": 6,
+      "answerLink": "#copilot-response",
+      "exceptions": 0
+    },
+    {
+      "source": {
+        "download": true,
+        "text": "Source inspection\n\nThis study is inside the current dashboard filters.\n\nExperimental record \u00c2\u00b7 FLEX 140 \u00c2\u00b7 PSI-69_Experimental table_FLEX.csv \u00c2\u00b7 141\n\nCurated experimental record; prov"
+      }
+    }
+  ],
+  "tests": {
+    "full_run_passed": 301,
+    "full_run_skipped": 179,
+    "full_run_failed": 1,
+    "failure": "Obsolete tooltip wording assertion; updated and verified in follow-up",
+    "affected_followup_passed": 3,
+    "ruff": "passed",
+    "domain_mypy": "passed"
+  },
+  "model_requests": 0,
+  "limits": "Source inspection download availability checked; download bytes and live narration were not repeated for this UI change."
+}

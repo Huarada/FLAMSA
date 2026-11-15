@@ -39,9 +39,31 @@ def apply_style() -> None:
       .st-key-header_navigation button p { font-size: .95rem; }
     }
     .st-key-nav_dashboard button { background: #3563b9; border: 1px solid #2c54a0; color: #fff;
-      box-shadow: 0 3px 10px #3563b91c; font-weight: 600; }
+      box-shadow: 0 3px 10px #3563b91c; font-weight: 600;
+      animation: dashboard-nav-pulse 3.6s ease-in-out infinite; }
     .st-key-nav_dashboard button p { color: #fff !important; }
     .st-key-nav_dashboard button:hover { background: #294f96; border-color: #1e417f; }
+    .st-key-nav_dashboard button:hover, .st-key-nav_dashboard button:focus-visible { animation-play-state: paused; }
+    .st-key-nav_investigations button { background: #117443; border: 1px solid #0d5b35; color: #fff;
+      box-shadow: 0 4px 13px #11744324; font-weight: 650; }
+    .st-key-nav_investigations button p, .st-key-nav_investigations button span { color: #fff !important; }
+    .st-key-nav_investigations button:hover { background: #0c5e36; border-color: #08482a; }
+    @keyframes dashboard-nav-pulse {
+      0%,100% { box-shadow: 0 0 0 0 #3563b92b, 0 3px 10px #3563b91c; }
+      50% { box-shadow: 0 0 0 5px #3563b914, 0 4px 18px #3563b938; }
+    }
+    .st-key-research_guide_controls { justify-content: space-between; margin-bottom: .6rem; }
+    [class*="st-key-guide_step_"] { position: relative; overflow: visible;
+      --guide-background: #eaf1fd; background: var(--guide-background); color: #203747;
+      border: 1px solid #bed0ed; border-radius: 14px 14px 14px 4px;
+      padding: .8rem 1rem; margin-bottom: .6rem; gap: .35rem; }
+    [class*="st-key-guide_step_"]::after { content: ''; position: absolute; left: 20px; bottom: -9px;
+      width: 17px; height: 10px; background: var(--guide-background);
+      clip-path: polygon(0 0, 100% 0, 20% 100%); pointer-events: none; }
+    .st-key-guide_step_2 { --guide-background: #f2edf8; border-color: #d3c3e4; }
+    .st-key-guide_step_3 { --guide-background: #eaf6ef; border-color: #b9ddc8; }
+    [class*="st-key-guide_step_"] [data-testid="stMarkdownContainer"] p {
+      font-size: .86rem; line-height: 1.5; color: #203747; }
     .st-key-nav_fire_behavior button { background: linear-gradient(115deg, #ffd17d, #f4b34b);
       border: 1px solid #bd7d20; color: #25374a; box-shadow: 0 4px 13px #c4872e26; font-weight: 650; }
     .st-key-nav_fire_behavior button p, .st-key-nav_fire_behavior button span { color: #25374a !important; }
@@ -110,6 +132,10 @@ def apply_style() -> None:
       .st-key-behavior_flex, .st-key-behavior_bass, .st-key-behavior_saffire,
       [class*="st-key-kpi_"] { background: #f9fbfd; }
     }
-    @media (prefers-reduced-motion: reduce) { button, input, textarea { transition: none; } }
+    .stApp:has(.home-backdrop.motion-paused) .st-key-nav_dashboard button { animation: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      button, input, textarea { transition: none; }
+      .st-key-nav_dashboard button { animation: none !important; }
+    }
     @media (max-width: 800px) { .stMainBlockContainer { padding: 1rem; } .st-key-hero { padding: 1rem; } }
     </style>""")

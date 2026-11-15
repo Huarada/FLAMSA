@@ -11,7 +11,7 @@ def test_header_purpose_help_navigation_and_educational_introduction() -> None:
     assert not any(button.key == "nav_evidence" for button in app.button)
     dashboard = app.button(key="nav_dashboard")
     behavior = app.button(key="nav_fire_behavior")
-    assert "plot any two reported quantities" in dashboard.proto.help
+    assert "3-step guide" in dashboard.proto.help and "coverage map" in dashboard.proto.help
     assert all(study in behavior.proto.help for study in ("FLEX", "BASS-II", "SAFFIRE-II"))
     assert behavior.proto.type == "primary"
     dashboard.click().run()

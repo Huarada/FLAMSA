@@ -59,7 +59,9 @@ def render_citation(entry: TraceEntry, result: AnswerResult, key: str, context: 
     if entry.status:
         st.caption(entry.status)
     has_document = entry.citation.kind != CitationKind.BREAKDOWN
-    if context.resolver is not None and has_document and st.button("View source", key=f"view_{key}", icon=":material/find_in_page:"):
+    if context.resolver is not None and has_document and st.button(
+            "View source", key=f"view_{key}", icon=":material/find_in_page:",
+            help="Inspect the original cited source and download its PDF or data file, when available."):
         inspect_source(entry, result, context)
 
 

@@ -16,6 +16,7 @@ from psi_fire.domain.ranking import LUNAR_BASE, HabitatScenario
 from psi_fire.interface.copilot_evidence import EvidenceContext, render_citation, render_figures
 from psi_fire.interface.copilot_job import CopilotJob
 from psi_fire.interface.deferred_pipeline import PipelineHandle
+from psi_fire.interface.research_guide import question_step, response_step
 
 EARTH_CABIN = HabitatScenario("Earth cabin", 21.0, 14.7, GravityRegime.NORMAL)
 PRESETS = {"Lunar base": LUNAR_BASE, "Earth cabin": EARTH_CABIN}
@@ -208,6 +209,7 @@ def copilot(pipeline: PipelineHandle, investigations: tuple[Investigation, ...],
     quota = quota if quota is not None and quota.enabled else None
     context = context or EvidenceContext(None, frozenset())
     _scenario()
+    question_step()
     with st.container(key="copilot_question_bubble"):
         st.text_area("Ask about this scenario", DEFAULT_QUESTION, height=110, key="copilot_question",
                                 placeholder="Compare the studies at these oxygen and pressure conditions…",
@@ -227,6 +229,7 @@ def copilot(pipeline: PipelineHandle, investigations: tuple[Investigation, ...],
         of = f" of {quota.limit}" if quota.limit > 0 else ""
         st.caption(f"Questions left today: {quota.remaining(visitor_key())}{of}. The count is per visitor and resets "
                    "at 00:00 UTC and whenever the application is released again.")
+    response_step(RESULT_KEY in st.session_state)
     with st.expander("How the copilot works"):
         st.write("The application computes the ranking scores. A connected language model or offline template "
                  "explains them using cited records and report passages. Answers must pass citation and number "
@@ -242,4 +245,5 @@ def copilot(pipeline: PipelineHandle, investigations: tuple[Investigation, ...],
             answered_scenario, answered_question = submitted
             st.caption(f"Answer for {answered_scenario.o2_percent:g}% oxygen / {answered_scenario.pressure_psi:g} psi: "
                        f"{answered_question}")
+        st.subheader("Answer & sources", anchor="copilot-response")
         _render(st.session_state[RESULT_KEY], st.session_state.get(LABEL_KEY, "Previously completed request"), context)
