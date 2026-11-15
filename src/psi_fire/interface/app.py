@@ -125,6 +125,13 @@ try:
 except DatasetError as error:
     st.warning(f"Dataset freshness could not be checked: {error} Results use the loaded snapshot.")
 
+if page != "Dashboard":
+    # Newer Streamlit versions retain hidden widget values; discard drafts, not the committed query.
+    for widget_key in list(st.session_state):
+        if widget_key.startswith("filters_"):
+            del st.session_state[widget_key]
+    st.session_state.pop("filter_error", None)
+
 if page in ("Home", None):
     home(snapshot)
     st.stop()

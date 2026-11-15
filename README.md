@@ -2,78 +2,159 @@
 
 <img src="src/psi_fire/interface/assets/flamsa.svg" alt="FLAMSA" width="260">
 
-### NASA microgravity combustion data, organized for fire-safety work in crewed habitats
+### NASA PSI combustion research, from reported conditions to cited explanations
 
 ![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/dashboard-Streamlit-FF4B4B?logo=streamlit&logoColor=white)
 ![Pydantic v2](https://img.shields.io/badge/schema-Pydantic%20v2-E92063)
 ![Data: NASA PSI](https://img.shields.io/badge/data-NASA%20PSI-0B3D91)
-![Tests](https://img.shields.io/badge/tests-pytest-0A9EDC?logo=pytest&logoColor=white)
 
-15 investigations associated with ISS research and 1,615 curated records, each traceable to the cell, page or quote it came from.
+**15 investigations / 1,615 curated records / deterministic ranking / source-linked research copilot**
+
+[Public demonstration](https://flamsa-398749245371.us-central1.run.app) | [Run locally](#quick-start) | [Physical consistency rules](#physical-consistency-rules) | [Architecture](#architecture)
 
 </div>
 
-<p align="center">
-  <img src="docs/screenshots/homepage-lovable-motion-desktop.png" alt="FLAMSA home: interactive combustion chamber" width="88%">
-</p>
+![FLAMSA research workspace](docs/screenshots/gcp-home-desktop.png)
 
----
+This README describes the local implementation reviewed on **2026-11-15**. The public demonstration is a separately deployed snapshot: later local improvements, including partial-answer handling and safety-evidence labels, require a new release. See [release metadata](docs/gcp-release.json).
 
 ## Contents
-1. [Why FLAMSA](#why-flamsa)
-2. [The dashboard](#the-dashboard)
-3. [The data](#the-data)
-4. [Physical consistency rules](#physical-consistency-rules)
-5. [The lunar-habitat question](#the-lunar-habitat-question)
-6. [Architecture](#architecture)
-7. [Quick start](#quick-start)
-8. [Known limits](#known-limits)
-9. [Repository map](#repository-map)
-10. [References](#references)
 
----
+- [The technical challenge](#the-technical-challenge)
+- [How FLAMSA addresses it](#how-flamsa-addresses-it)
+- [Quick start](#quick-start)
+- [The dashboard](#the-dashboard)
+- [The data](#the-data)
+- [Physical consistency rules](#physical-consistency-rules)
+- [The lunar-habitat question](#the-lunar-habitat-question)
+- [Explainable ranking](#explainable-ranking)
+- [Architecture](#architecture)
+- [Vector RAG](#vector-rag)
+- [AI orchestration](#ai-orchestration)
+- [Verification and reproducibility](#verification-and-reproducibility)
+- [Known limits](#known-limits)
+- [Repository map](#repository-map)
+- [References](#references)
 
-## Why FLAMSA
+## The technical challenge
 
-Fire behaves differently on a spacecraft, a station, a lunar or Martian base or a pressurized rover than it does on Earth. Microgravity strongly suppresses buoyant flow, making diffusion and ventilation important to flame behavior. Lunar and Martian gravity are different again. Exploration-habitat scenarios may combine reduced pressure with enriched oxygen; applicability must be checked against the tested conditions.
+The user-supplied NASA Space Apps brief asks for an AI-powered web dashboard that **summarizes, ranks and interprets combustion investigations** for fire prevention, detection and suppression in crewed environments: spacecraft, stations, surface habitats and pressurized rovers. It also invites extracting research data for subsequent modeling and discovering research relevant to future safety equipment. Rockets and propellants are outside this project's scope.
 
-NASA's [Physical Sciences Informatics (PSI)](https://psi.nasa.gov) archive has years of ISS combustion experiments, spread across spreadsheets, ISA-Tab folders and PDF reports in different formats. We built FLAMSA to make that material usable for fire-safety questions. In practice that meant four jobs:
+The engineering problem is connecting heterogeneous evidence without erasing its meaning. NASA PSI investigations distribute test conditions and results across CSV/Excel tables, ISA-Tab metadata, PDFs and external hardware documentation. Oxygen can describe the chamber atmosphere or the burner stream; a row can be a test, a daily summary or a planned matrix. Missing measurements, mixed units and categorical outcomes make a pooled chart or an unsupported AI summary misleading.
 
-- **Curation.** Each investigation is mapped to a common schema with canonical units, and the original cell text is kept next to every normalized value.
-- **Checks against physics.** Each table is tested against relations stated in its own reports. Values that cannot be physically right are set aside with a note instead of being quietly corrected.
-- **Exploration.** The dashboard filters, compares and fits the data, and shows what it excluded and why.
-- **Citation.** Claims point to an archived file, a page and a quote that can be found with Ctrl+F.
+FLAMSA targets research discovery and interpretation. It does not simulate a habitat fire or predict whether a selected atmosphere will ignite. The brief is mapped to implemented capabilities in [the scope review](docs/navigation-scope-review.md) and [data requirements](docs/specs/streamlit-explorer.md#13-additional-data-requirements-derived-from-the-challenge-brief). Experimental facts still require investigation-specific sources.
 
-We do not fill gaps. A missing value stays missing, an inferred one is marked as inferred with the reason, and the source string is always kept.
+## How FLAMSA addresses it
 
----
+| Challenge need | Implemented response | What makes it checkable |
+|---|---|---|
+| Summarize heterogeneous studies | Typed Investigation/TestPoint aggregates, canonical units, source-aware charts and study details | Original text, record level, oxygen basis, missing/inferred states and source rows are retained |
+| Rank relevant investigations | Five deterministic criteria for a selected oxygen/pressure scenario | Every score has weights, contributions, rationale and supporting record ids |
+| Interpret combustion evidence | Research copilot combines structured records, ranking and retrieved PDF passages | Claims, figures and citations are validated before display; failures and limitations remain visible |
+| Examine physical behavior | FLEX adjusted trends, BASS-II signed gas changes and paired SAFFIRE-II outcomes | Reproducible coefficients/intervals, local settings, exclusions and downloadable analysis data |
+| Reuse data for modeling | Download scoped CSV records, original source documents and Fire behavior JSON/CSV | Dataset revision, units, provenance and analysis identity accompany the relevant exports |
+| Explore technology relevance | Source-constrained solution-catalog interface | Catalog is currently empty; no invented technology recommendations are presented |
+
+The workflow is **choose conditions -> inspect experimental coverage -> ask Research copilot -> check the ranking and citations -> open source records or export**. Chart clicks select a scenario; they do not change the scientific measurements.
+
+## Quick start
+
+### Prerequisites
+
+- Git and **Python 3.11+** with `venv`/`pip`; Python 3.12 is the recommended baseline and is used by the container.
+- Run commands from the repository root. The original archive, `data/curated`, source registry and RAG corpus must be present; a source-only copy cannot reproduce document downloads or passage retrieval.
+- Internet access is needed for the first dependency installation and for live model calls. Once dependencies/data are present, exploration, ranking, statistics and template narration run locally.
+
+### Automatic environment and dependencies
+
+```bash
+git clone https://github.com/Huarada/FLAMSA.git
+cd FLAMSA
+python scripts/run_local.py --offline
+```
+
+On Windows, `py -3.12 scripts/run_local.py --offline` is an alternative if `python` is unavailable. On macOS/Linux, use `python3` if needed. Open **http://127.0.0.1:8501** and stop the server with Ctrl+C.
+
+The launcher creates `.venv`, installs the package and its `dashboard`, `rag` and `openai` extras from `pyproject.toml`, and starts Streamlit bound to localhost. It skips pip on later starts when its dependency marker matches; `--reinstall` forces installation. It does not overwrite `.env`, alter raw data or install system packages. `--offline` forces the deterministic template narrator, even if a local model configuration exists; it does not eliminate the first pip download.
+
+Dependencies currently use version ranges rather than a lockfile. A clean Windows/Python 3.12 installation and all four pages were checked with [these resolved versions](docs/readme-clean-install-versions.json); [browser results](docs/readme-clean-install-browser.json) record the page checks. Future installs can resolve different versions.
+
+```bash
+# Include pytest/Ruff/mypy; prepare without starting the server
+python scripts/run_local.py --dev --install-only
+
+# Start on another port if 8501 is occupied
+python scripts/run_local.py --offline --port 8502
+
+# Use the configured provider instead of forcing the offline template
+python scripts/run_local.py
+```
+
+### Manual setup
+
+```bash
+python -m venv .venv
+```
+
+Activate on PowerShell with `.\.venv\Scripts\Activate.ps1`, or on macOS/Linux with `source .venv/bin/activate`. Activation is optional when invoking the environment's Python directly.
+
+```bash
+python -m pip install -e ".[dashboard,rag,openai,dev]"
+python -m streamlit run src/psi_fire/interface/app.py
+```
+
+Install all three runtime extras above: the app loads dotenv from the RAG extra, and its copilot factory imports LangGraph. Installing only the old `dashboard,dev` combination is insufficient for the current entry point. There is no npm/Bun dependency or separate React server to start.
+
+### Optional live AI configuration
+
+Copy `.env.example` to `.env` without overwriting an existing configuration. Set:
+
+```dotenv
+OPENAI_API_KEY=your-own-provider-key
+PSI_LLM_MODEL=openai:gpt-4.1-mini
+# Optional: reject the whole draft if any claim fails final validation
+PSI_STRICT_ANSWERS=1
+```
+
+Remove the last line or set it to `0` for the default guarded partial-answer policy. Leave `PSI_LLM_MODEL` empty to use the template narrator. The template is visibly labeled; it is not a language model. Secrets remain local/environment inputs, never README examples or source-control values. Provider packages other than OpenAI must be installed separately.
+
+Restart the process after changing `.env`, model configuration or domain contracts. Streamlit reruns do not reliably replace an already imported enum/schema or cached pipeline. If dependencies were changed manually, run the launcher with `--reinstall`. Live narration incurs provider latency and charges; the deterministic ranking does not call a provider.
+
+### Optional container
+
+With a working Docker engine:
+
+```bash
+docker build -t flamsa .
+docker run --rm -p 8501:8080 -e PSI_LLM_MODEL= flamsa
+```
+
+The Dockerfile installs Python dependencies and Poppler, copies scientific sources, and runs as a non-root user. For a configured live provider, use `--env-file .env` instead of the empty-model option. The image is large because it retains original source documents. GCP deployment, Secret Manager and session constraints are documented in [the deployment runbook](docs/gcp-deployment-plan.md); local changes are not automatically deployed.
 
 ## The dashboard
 
-The workspace has four destinations. One set of research filters drives the analysis views: investigation, record level, fuel phase, O₂/pressure/flow intervals, review state, hardware, sensors and fire-safety pillar. Sources are available within Investigations under Citations & source downloads.
-
-| Destination | Contents |
+| Destination | Current role and scope |
 |---|---|
-| **Home** | Interactive chamber scene with four entry points (flame behavior, Earth applications, exploration habitats, detection and diagnostics) and live archive counts. |
-| **Dashboard** | KPI cards, a scatter of reported tests for any compatible pair of quantities, records per investigation, and reported O₂/pressure/flow envelopes. Every omitted record has a stated reason. |
-| **Fire behavior** | Three source-bounded analyses: FLEX burning rate vs O₂ (adjusted slopes with 95% intervals), BASS-II O₂ consumed vs CO₂ produced, and SAFFIRE-II microgravity vs 1 g outcomes. Exports reproducible JSON and CSV. |
-| **Investigations** | Catalog, objective, review status, sensors and hardware with quotes, a full TestPoint table, raw values/provenance and Citations & source downloads with locators and checksums. |
+| **Home** | Research entry points, thematic links, curated investigation and reported-record counts |
+| **Dashboard** | Research filters, same-record chart eligibility, oxygen/pressure coverage, descriptive comparisons and scenario-linked copilot |
+| **Fire behavior** | Full FLEX, BASS-II and SAFFIRE-II studies, with local FLEX fuel/pressure/diameter controls and source-bounded safety-evidence labels |
+| **Investigations** | Full-study catalog, metadata status, hardware/sensors, test tables, raw values, provenance, citations and source downloads |
 
-<table>
-<tr>
-<td width="50%"><img src="docs/screenshots/fire-behavior-flex.png" alt="FLEX burning rate vs oxygen"><br><sub><b>Fire behavior · FLEX.</b> Burning-rate constant vs O₂ per fuel, colored by diluent, with the adjusted slope and its 95% interval.</sub></td>
-<td width="50%"><img src="docs/screenshots/fire-behavior-bass.png" alt="BASS-II gas changes"><br><sub><b>Fire behavior · BASS-II.</b> O₂ consumed vs CO₂ produced in the same burn. Signed concentration changes are shown without a fitted stoichiometric line.</sub></td>
-</tr>
-<tr>
-<td width="50%"><img src="docs/screenshots/filter-integration.png" alt="Dashboard"><br><sub><b>Dashboard.</b> Filters apply to every card. The chart lists the investigations that have no plottable pair and the reason.</sub></td>
-<td width="50%"><img src="docs/screenshots/fire-behavior-saffire.png" alt="SAFFIRE-II outcomes"><br><sub><b>Fire behavior · SAFFIRE-II.</b> Raw microgravity and 1 g outcomes side by side. Labels such as "Complete" and "Acceleratory" stay as text.</sub></td>
-</tr>
-</table>
+General **Research filters apply only to Dashboard**. Choices within a filter use OR; different filters use AND. Changes apply when **Apply filters** is pressed. Same-record numerical constraints cannot be satisfied by oxygen from one test and pressure from another. A selected study can have matching records but no complete quantity pair for a particular chart; omissions are explained rather than filled.
 
-> The Research copilot panel is in the layout but marked *Not connected*. Scenario ranking and the LLM explanation with checked citations come next (see [Known limits](#known-limits)).
+Leaving Dashboard discards unsubmitted or invalid form drafts while keeping the last applied query. Returning reconstructs the form from that query.
 
----
+Fire behavior and Investigations preserve the Dashboard query for the return journey but use their own full-study scope. Research copilot ranks the **full curated archive**, not just the visible filtered dots; its evidence may therefore cite investigations outside the Dashboard view. The former Evidence page is folded into Investigations and copilot source inspection, with legacy links redirected.
+
+| Analysis | Displayed evidence | Interpretation boundary |
+|---|---|---|
+| FLEX | Raw K/O2 points, pressure/diameter-adjusted trends, 95% mean-response intervals and group evidence labels | A point above a line is not an ignition/risk threshold; K describes a burning droplet |
+| BASS-II | Initial-minus-final O2 and final-minus-initial CO2, with shapes for joint measured changes/negative differences | Concentration changes do not give CO2 mass, exposure limits or detector performance |
+| SAFFIRE-II | Amber positive burned lengths, coral Complete labels and neutral zero/unresolved outcomes, paired by gravity | Positive length does not alone prove sustained propagation; zero does not certify nonflammability |
+
+![FLEX adjusted evidence](docs/screenshots/fire-evidence-flex.png)
+![SAFFIRE-II paired outcomes](docs/screenshots/fire-evidence-saffire.png)
 
 ## The data
 
@@ -346,85 +427,263 @@ Before anything else, the data has to say how much of it applies. The *Dashboard
 
 ---
 
+## Explainable ranking
+
+The score orders **research relevance**, not fire risk, safety or probability of ignition:
+
+```math
+S_j = \sum_{c=1}^{5} w_c v_{j,c}, \qquad 0 \leq v_{j,c} \leq 1, \qquad \sum_c w_c=1
+```
+
+| Criterion | Weight | Current calculation |
+|---|---:|---|
+| Ambient oxygen proximity | 0.30 | Nearest reported compatible interval; burner-stream oxygen is excluded |
+| Pressure proximity | 0.20 | Nearest reported pressure interval |
+| Fire-safety pillar overlap | 0.15 | Fraction of requested pillars present in curated metadata |
+| Fuel-phase match | 0.15 | Match against requested fuel phases; the habitat default favors solids |
+| Data richness | 0.20 | Saturating individual-test count, multiplied by the fraction with verified lineage |
+
+For oxygen/pressure, proximity is `max(0, 1 - distance / scale)`, with distance zero inside a reported interval; scales are 20 oxygen percentage points and 14.7 psi. Missing conditions receive zero proximity credit. Scores use fixed rounding and ties are broken by investigation id. The two proximity criteria may draw evidence from different records: a high relevance score does not prove that one test simultaneously covered the scenario. Use the Dashboard map for joint oxygen/pressure coverage.
+
+Weights and evidence limits live in [`domain/ranking.py`](src/psi_fire/domain/ranking.py), with deterministic regression tests in [`test_ranking.py`](tests/domain/test_ranking.py). Metadata lineage marked verified is not the same as formal human review or independently verified scientific correctness. The LLM cannot change these scores.
+
 ## Architecture
 
-The code follows Clean Architecture with domain-driven design, and dependencies point inward. Scores will be computed in the domain layer; the planned LLM step only describes them.
+### Frontend, Python application and external services
+
+Streamlit serves the browser UI and executes Python application logic in the **same process**. There is no separately deployed REST backend, React frontend, vector database or database server in the current app. The diagram shows runtime data flow; the layer table below describes code dependencies.
 
 ```mermaid
 flowchart LR
-    KB[("knowledgeBase/<br/>raw PSI files<br/>(read-only)")] --> REG["data/sources.json<br/>registry"]
-    REG --> ING["infrastructure/ingestion<br/>adapters · fixups · unit parser"]
-    MAN[("data/manual/<br/>quoted metadata")] --> ING
-    ING --> CUR[("data/curated/ID/<br/>test_points.csv + investigation.json")]
-    CUR --> REPO["CuratedRepository"]
-    REPO --> APP["application<br/>explore · chart_data · fire_behavior · statistics"]
-    APP --> UI["interface<br/>Streamlit workspace"]
-    DOM["domain<br/>model · units · matching<br/>(pure, no I/O)"] -.-> ING
-    DOM -.-> APP
+    B["Browser: Home / Dashboard / Fire behavior / Investigations"]
+    subgraph Server["Streamlit Python process"]
+        UI["Views, widgets and per-session state"]
+        Cache["Cached validated snapshot and chart projections"]
+        App["Application use cases and ports"]
+        Domain["Domain models, ranking and plausibility rules"]
+        Job["Per-session background copilot Future"]
+        Infra["Repository, PDF search and provider adapters"]
+        UI --> Cache
+        UI --> App
+        UI --> Job
+        Job --> App
+        App --> Domain
+        App --> Infra
+    end
+    B <-->|"HTTP / WebSocket"| UI
+    Files[("Curated records, original sources and local indexes")] --> Infra
+    Infra -->|"Optional narration only"| LLM["Configured model provider"]
+    App -->|"Validated results and exports"| UI
 ```
 
-| Layer | Holds | Must not import |
+| Layer | Responsibilities | Dependency boundary |
 |---|---|---|
-| `domain` | `Investigation`, `TestPoint`, `Quantity`, `Provenance`, unit conversion, interval matching | pandas, Streamlit, LangGraph, I/O |
-| `application` | Use cases, ports, chart projections, least-squares statistics | pandas, Streamlit |
-| `infrastructure` | Source registry, CSV/ISA-Tab adapters, evidence verifier, repository | no restriction |
-| `interface` | Streamlit composition root and views | business rules |
+| `domain` | Investigation/TestPoint/Quantity, provenance, scenario, deterministic relevance and physical plausibility | No I/O, pandas, Streamlit or LangGraph; Pydantic is allowed |
+| `application` | Explore/build analyses, statistics, source access, answering steps, validation, ports | Uses domain; no UI/framework imports |
+| `infrastructure` | Registry/ingestion, filesystem repository, PDF extraction/TF-IDF, LangChain narrator, LangGraph wiring | Implements application ports; depends inward |
+| `interface` | Streamlit composition root, views, session state, exports and background-job presentation | Calls application contracts and wires adapters |
 
-Every architectural decision, trade-off, bug and fix is logged in [`docs/ADR.md`](docs/ADR.md).
+The UI streams lightweight content before deferred copilot setup. Snapshot and chart caches avoid repeated data loading; a session-owned Future retains a submitted question across reruns. Workers return results instead of writing Streamlit state. These jobs are not durable across a process restart or Cloud Run instance replacement.
 
----
+### Scientific data pipeline
 
-## Quick start
+```mermaid
+flowchart LR
+    Raw[("Original PSI tables, ISA-Tab and reports")]
+    External[("Archived external HTML / PDF captures")]
+    Registry["data/sources.json: source registry"]
+    Manual["data/manual: source-quoted metadata and review state"]
+    Adapters["Study adapters, unit parsing and named fixups"]
+    Curated[("data/curated/ID: CSV + investigation.json")]
+    Snapshot["Validated immutable exploration snapshot"]
+    Charts["Dashboard / Fire behavior / Investigations"]
+    Copilot["Ranking and source-constrained copilot"]
+    Raw --> Registry
+    External --> Registry
+    Registry --> Adapters
+    Manual --> Adapters
+    Adapters --> Curated
+    Curated --> Snapshot
+    Snapshot --> Charts
+    Snapshot --> Copilot
+```
+
+External source capture is a separate curation workflow, not live web browsing by the copilot. It retains HTML/PDF, derived Markdown where applicable, capture time and artifact hashes. A URL association alone does not verify hardware or sensors. See [external-source policy](docs/external-sources.md).
+
+## Vector RAG
+
+The implemented retriever uses **sparse lexical TF-IDF vectors**, English stop words, word unigrams/bigrams and sublinear term frequency. It does not use dense neural embeddings, an embedding API, ANN infrastructure or Graph RAG. The LangGraph orchestration graph is a workflow graph, not a knowledge graph.
+
+[`PdfPassageSearch`](src/psi_fire/infrastructure/passage_index.py) reads the explicit scientific-PDF allowlist in `data/rag_corpus.json`. `pypdf` extracts pages; line-based chunks target 1,200 characters with an 80-character minimum, retain the page locator, and never cross pages. A single unusually long line may exceed that target. The derived JSON cache stores passage text and locators; the vectorizer/matrix are built lazily in memory.
+
+```mermaid
+flowchart LR
+    Manifest["Allowlisted scientific PDFs"] --> Extract["pypdf page extraction"]
+    Extract --> Chunk["Page-local chunks + study / file / page"]
+    Chunk --> Cache[("data/rag_index/passages.json")]
+    Cache --> TFIDF["TF-IDF sparse passage matrix"]
+    Q["Question repeated 3x + scenario search terms"] --> QV["Same fitted vectorizer"]
+    TFIDF --> Similarity["L2-normalized dot product"]
+    QV --> Similarity
+    Rank["Deterministic investigation shortlist"] --> Select["Positive matches, top passages per study"]
+    Similarity --> Select
+    Select --> Context["Narrator context: records + breakdown + passages"]
+    Context --> Draft["Structured claims and citations"]
+    Draft --> Validate["Quote / id / numeric / catalog / plausibility checks"]
+    Cache --> Validate
+    Validate --> Trace["Displayed claims linked to archived evidence"]
+```
+
+For L2-normalized vectors, the passage/query dot product is cosine similarity:
+
+```math
+\mathrm{similarity}(q,p)=\frac{q\cdot p}{\lVert q\rVert_2\lVert p\rVert_2}
+```
+
+Retrieval scores select passages **within the deterministically ranked studies**; they do not set investigation relevance scores. Matches must be positive, with deterministic tie-breaking. See [scikit-learn's TF-IDF reference](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html).
+
+To explicitly rebuild the derived cache after a reviewed corpus update:
 
 ```bash
-git clone https://github.com/Huarada/FLAMSA.git && cd FLAMSA
-python -m pip install -e ".[dashboard,dev]"
-
-# Optional: rebuild data/curated from knowledgeBase (the committed output is already up to date)
-PYTHONPATH=src python -m psi_fire.interface.curate_cli
-
-# Verify: lint, strict types on the domain, full test suite
-ruff check . && mypy src/psi_fire/domain && pytest -q
-
-# Run the dashboard at http://localhost:8501
-streamlit run src/psi_fire/interface/app.py
+# Inside the activated environment, after editable installation
+python scripts/build_rag_index.py
 ```
 
-No API key or internet connection is needed to explore the data. Python 3.11 or later. Verifying page-anchored quotes in PDFs additionally needs `pdftotext` (poppler).
+The corpus includes only allowlisted `knowledgeBase/` scientific PDFs. Archived external HTML and every raw spreadsheet are not automatically embedded/indexed. PDF text extraction and a mechanically matching quotation do not establish that a claim's scientific interpretation is correct. Changing retrieval technology is possible behind `PassageSearch`, but no dense-vector/graph implementation is claimed here.
 
-To use the data in your own models, load `data/curated/*/test_points.csv`. Every column carries its unit, and `<column>_raw` and `provenance_*` let you filter by data quality. *Fire behavior* also exports each analysis as JSON and CSV, with the dataset revision and the record ids.
+## AI orchestration
 
----
+### Implemented LangGraph state machine
+
+Only the narrator can call a language model. Retrieval, ranking, solution lookup, physical/numeric checks and routing are deterministic Python functions behind application ports. The same `AnsweringSteps` run in a plain-Python reference loop and in the LangGraph adapter.
+
+```mermaid
+flowchart TD
+    Input["Scenario + question + full curated archive"] --> Retrieve["retrieve: rank and select shortlist"]
+    Retrieve --> Available{"Any eligible investigations?"}
+    Available -->|"No"| Insufficient["insufficient_evidence + deterministic breakdown"]
+    Available -->|"Yes"| Search["search: retrieve PDF passages per study"]
+    Search --> Answer["answer: structured Draft from narrator"]
+    Answer --> Validate["validate: citations, quotes, figures, catalog and plausibility"]
+    Validate --> Clean{"No validation issues?"}
+    Clean -->|"Yes"| Approved["approved"]
+    Clean -->|"No"| Retry{"Attempt less than 2?"}
+    Retry -->|"Yes"| Advance["advance: broader retrieval + previous rejection reasons"]
+    Advance --> Retrieve
+    Retry -->|"No"| Partial{"Partial mode enabled and subset meets guardrails?"}
+    Partial -->|"Yes"| Recheck["Revalidate retained claims in isolation"]
+    Recheck --> ValidSubset{"Subset valid?"}
+    ValidSubset -->|"Yes"| PartialOutput["partial: validated claims only; withheld count shown"]
+    ValidSubset -->|"No"| Insufficient
+    Partial -->|"No"| Insufficient
+    Approved --> Final["finalize: breakdown, limitations and evidence traceability"]
+    PartialOutput --> Final
+    Insufficient --> Final
+    Catalog[("Source-constrained technology catalog")] --> Validate
+    Catalog --> Final
+    Final --> UI["Copilot answer / status / source inspection"]
+```
+
+| Policy | First attempt | Second and final attempt |
+|---|---:|---:|
+| Maximum shortlisted studies | 5 | 6 |
+| Minimum relevance score | 0.25 | 0.10 |
+| Retrieved passages per study | 2 | 4 |
+
+These settings broaden evidence retrieval, not experimental coverage or physical limits. Empty shortlists skip narration. The question and scenario are captured at submission; editing draft inputs during a request does not silently alter the in-flight question.
+
+Citations have four supported kinds: **record**, **metadata**, **passage** and **breakdown**. Record citations resolve to a test/row; passage citations require a retrieved file/page/quote; breakdown citations identify an application-computed score, rank or criterion and do not pretend to come from a PDF. Metadata review status remains explicit.
+
+After validation and any retry:
+
+- **Approved:** all displayed claims pass the implemented checks.
+- **Partial:** at least two claims and at least 50% of the final draft pass, no whole-draft issue prevents extraction, and the retained subset revalidates independently. Failed text is withheld; the UI shows the count and warns about incompleteness.
+- **Insufficient evidence:** the generated explanation is withheld and the deterministic breakdown/limitations remain available.
+
+`PSI_STRICT_ANSWERS=1` disables partial answers. Validated does not mean independently replicated science: quote matching and numeric rules have defined tolerances, and partial output can omit context. The catalog in `data/solutions_catalog.json` currently has no entries. An illustrative entry, if added later, is not scientific evidence.
+
+### Supplied conceptual orchestration diagram
+
+![User-supplied conceptual orchestration, English adaptation](docs/diagrams/ai-orchestration-concept.svg)
+
+[Open SVG](docs/diagrams/ai-orchestration-concept.svg) | [Editable draw.io file](docs/diagrams/ai-orchestration-concept.drawio) | [Source provenance and differences](docs/diagrams/ai-orchestration-concept.provenance.json)
+
+This is the team's supplied design, translated into English while retaining its layout and conceptual nodes. It is **not the deployed runtime topology**. Its graph/vector RAG box describes options, its agent names describe responsibilities, and its mock technology dictionary is conceptual. The implementation above uses TF-IDF, one optional LLM narrator, deterministic validation/catalog lookup, exactly 15 loaded investigations and the newer guarded partial-answer path. This distinction prevents the design artifact from claiming unimplemented Graph RAG or invented technology evidence.
+
+## Verification and reproducibility
+
+Use the activated development environment, or prefix commands with `.venv/Scripts/python.exe` on Windows / `.venv/bin/python` on macOS/Linux:
+
+```bash
+python -m ruff check .
+python -m mypy src/psi_fire/domain
+python -m pytest -q
+```
+
+For restricted temporary directories, choose a new workspace-local path, for example `python -m pytest -q -p no:cacheprovider --basetemp .test-tmp/pytest-readme-check`. Use a fresh path for each run. PDF visual-line evidence checks additionally require **Poppler's `pdftotext` on PATH**; the Dockerfile installs Poppler automatically, while the Python launcher only installs Python dependencies. Tests that skip for a missing system tool are not completed scientific checks.
+
+| Business rule | Evidence / validation |
+|---|---|
+| Same scenario produces the same ordered relevance scores | `tests/domain/test_ranking.py` |
+| Filters honor OR/AND, same-record conditions and missing-value policy | `tests/application/test_explorer.py`, `tests/interface/test_filter_chart_regressions.py` |
+| Curation preserves values, fixups, units and provenance | `tests/infrastructure/test_curation.py`, `tests/infrastructure/test_standardization.py` |
+| Selected physical relations are consistent within documented assumptions | `tests/infrastructure/test_physical_consistency.py` and [formula audit](docs/formula-audit.md) |
+| Adjusted slopes recover a known effect; unavailable/collinear fits fail visibly | `tests/application/test_fire_behavior.py` |
+| Evidence labels never convert zero/missing data into a safety verdict | `tests/application/test_behavior_signals.py`, `tests/infrastructure/test_fire_behavior_data.py` |
+| Answering retries/partial handling and citation traces obey contracts | `tests/application/test_answering_contract.py`, `tests/application/test_citation_traceability.py` |
+| UI navigation, source access and local analysis controls remain usable | `tests/interface/` and recorded browser checks in `docs/` |
+
+Tests are checks of implementation and selected data relationships, not experimental proof of a universal law. Historical evaluation counts belong to their recorded code/model revision: [RAG stress evidence](docs/rag-stress-report-live7.md), [failure attribution](docs/rag-failure-attribution-live7.md) and [partial-answer trade-offs](docs/h1-partial-answers-tradeoffs.md). Do not interpret replay results or the first hosted smoke tests as a current guaranteed answer-approval rate.
+
+Optional rebuild of curated data from registered sources, after reviewing intended curation changes:
+
+```bash
+python -m psi_fire.interface.curate_cli
+```
+
+The committed curated files are sufficient to start. Curation and pytest are explicit workflows; physical checks do not silently run on every dashboard load. Fire behavior's exported JSON includes the dataset revision, analysis identity, settings, exclusions, source columns, model coefficients/intervals and deterministic evidence labels.
 
 ## Known limits
 
-- There is no partial-gravity data in the PSI. E-FIELD uses electric fields to emulate partial gravity, which is not the same as lunar data.
-- The slopes and intervals describe associations inside the tested ranges. They are not safety limits, and anything outside those ranges is an extrapolation.
-- Not built yet: deterministic relevance ranking for a habitat scenario, citation-validated LLM narration (the copilot is shown as *Not connected*), and the one-click clean-dataset export bundle.
-- Source defects we could not repair are documented, not patched: [`docs/DATA_QUALITY_REVIEW.md`](docs/DATA_QUALITY_REVIEW.md), [`docs/zip-removal-report.json`](docs/zip-removal-report.json).
-- Rockets and propellants are out of scope.
-
----
+- This curated collection contains no direct partial-gravity combustion measurements. E-FIELD emulation is not a lunar experiment; microgravity and 1 g alone do not validate a lunar interpolation or universal bounds.
+- Regression slopes are conditional associations in observed groups/ranges. Neither a positive trend, a point above a fit nor a zero burned length defines habitat risk or certifies safety.
+- Metadata are still marked draft until a real reviewer records approval. Their review count was removed from Home, not changed to reviewed. Hardware/source associations and automated quote checks are not formal human review.
+- Research relevance can be supported by different records for different criteria. Sparse coverage, missing conditions, planned matrices and daily summaries remain distinct from complete individual tests.
+- TF-IDF is lexical retrieval; extraction quality and vocabulary mismatch can limit evidence recall. There is no dense embedding index or Graph RAG, and no automatic indexing of arbitrary external pages.
+- A successful validation pass checks the declared rules; it does not guarantee completeness, causal validity, absence of all hallucinations or calibrated sensor performance. Partial answers can lose context and are explicitly labeled.
+- Technology recommendations require catalog entries with provenance; the current catalog is empty. The one-click combined CSV/JSON/schema/data-card bundle remains future work, although scoped record/source and Fire behavior exports are implemented.
+- Source defects that cannot be resolved remain documented: [quality review](docs/DATA_QUALITY_REVIEW.md). No substitute measurement is invented.
+- Cloud deployments use independent image snapshots. Cold starts, WebSocket reconnections and non-durable session jobs affect availability; no production load/SLA claim is made.
 
 ## Repository map
 
-```
-knowledgeBase/        raw NASA PSI files (immutable)
-data/
-  sources.json        investigation id → raw files (the only place raw paths live)
-  manual/             hand-curated metadata with 1:1 evidence quotes
-  external/           archived external pages (HTML/PDF + SHA-256 + capture time)
-  curated/<ID>/       test_points.csv + investigation.json  ← use these
+```text
+knowledgeBase/                   immutable original NASA PSI archive
+data/                            (directory names below are relative to data/)
+  sources.json                   source registry and external associations
+  manual/                        source-quoted metadata + review state
+  external/                      versioned HTML/PDF captures and hashes
+  curated/<ID>/                  test_points.csv + investigation.json
+  rag_corpus.json                allowlist for scientific PDF retrieval
+  rag_index/passages.json        generated page-local passage cache
+  solutions_catalog.json         source-constrained technology dictionary
 src/psi_fire/
-  domain/             entities, value objects, units (pure)
-  application/        use cases, chart projections, fire-behavior statistics
-  infrastructure/     ingestion adapters, repository, evidence verifier
-  interface/          Streamlit workspace (app.py = composition root)
-tests/                domain · application · infrastructure (incl. physics) · interface
-docs/                 ADR log, data-quality review, dashboard and method notes, specs
+  domain/                        entities, units, deterministic ranking and plausibility
+  application/                   use cases, ports, statistics, validation and answering steps
+  infrastructure/                ingestion/repository, TF-IDF, LangChain and LangGraph adapters
+  interface/                     Streamlit app.py, views, sessions and copilot jobs
+scripts/                         local launcher, index rebuild and audit/evaluation tools
+deploy/                          container startup
+Dockerfile                       non-root Streamlit image including scientific sources
+pyproject.toml                   package dependencies and optional extras
+tests/                           domain / application / infrastructure / interface checks
+docs/
+  specs/                         behavior and orchestration contracts
+  diagrams/                      supplied conceptual design, editable source and provenance
+  ADR.md                         append-only decisions, defects and trade-offs
 ```
 
-Further reading: [dashboard guide](docs/dashboard.md) · [fire-behavior methods](docs/fire-behavior.md) · [data-quality review](docs/DATA_QUALITY_REVIEW.md) · [decision log](docs/ADR.md)
+[Dashboard guide](docs/dashboard.md) | [Fire behavior methods](docs/fire-behavior.md) | [Formula audit](docs/formula-audit.md) | [AI contracts](docs/specs/ai-orchestration-contracts.md) | [Deployment](docs/gcp-deployment-plan.md) | [Decisions](docs/ADR.md)
 
 ---
 

@@ -1,0 +1,34 @@
+{
+  "ready": true,
+  "results": [
+    {
+      "index": 0,
+      "parsed": true,
+      "rendered": true
+    },
+    {
+      "index": 1,
+      "parsed": true,
+      "rendered": true
+    },
+    {
+      "index": 2,
+      "parsed": true,
+      "rendered": true
+    },
+    {
+      "index": 3,
+      "parsed": true,
+      "rendered": true
+    }
+  ],
+  "renderer": "Mermaid 11 loaded in local Chrome",
+  "library_url": "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs",
+  "scope": "Four README code blocks parsed and rendered; SVG adaptation visually inspected. GitHub-hosted rendering not directly tested.",
+  "mermaid_block_sha256": [
+    "8b292aa4b122f17754e4ed572b4b59540434139e6fcac34d805e4d646b6f88af",
+    "95d09f0af193d9bbb43c0ab6b30608e6cc65eeb298f7d20b7b41fef0563e0529",
+    "d5df9a0b48ca12fd87ebd00eb2fed354dde999fb34cfd5c5b808fa5da6923d26",
+    "a76adac3f65617405d47a63d1d13244864718ed1ce5c276b249483d450cd385f"
+  ]
+}

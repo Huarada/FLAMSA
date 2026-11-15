@@ -1,0 +1,40 @@
+[
+  {
+    "page": "Home",
+    "ready": true,
+    "exceptions": [],
+    "metricLabels": [
+      "Curated investigations",
+      "Reported records"
+    ]
+  },
+  {
+    "page": "Dashboard",
+    "ready": true,
+    "exceptions": [],
+    "metricLabels": [
+      "Investigations",
+      "Reported records",
+      "Tests with O₂ and pressure",
+      "Lunar-scenario tests",
+      "Tests near the marker",
+      "Investigations near",
+      "Coverage"
+    ]
+  },
+  {
+    "page": "Fire behavior",
+    "ready": true,
+    "exceptions": [],
+    "metricLabels": [
+      "heptane · N2",
+      "methanol · N2"
+    ]
+  },
+  {
+    "page": "Investigations",
+    "ready": true,
+    "exceptions": [],
+    "metricLabels": []
+  }
+]

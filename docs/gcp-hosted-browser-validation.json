@@ -1,0 +1,143 @@
+{
+  "url": "https://flamsa-398749245371.us-central1.run.app",
+  "observations": [
+    {
+      "url": "https://flamsa-398749245371.us-central1.run.app/?page=Home",
+      "exceptions": [],
+      "filterPanel": false,
+      "metrics": [
+        {
+          "label": "Curated investigations",
+          "value": "15"
+        },
+        {
+          "label": "Reported records",
+          "value": "1,615"
+        },
+        {
+          "label": "Human-reviewed metadata",
+          "value": "0 / 15"
+        }
+      ],
+      "tabs": [],
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "home-desktop"
+    },
+    {
+      "url": "https://flamsa-398749245371.us-central1.run.app/?page=Dashboard",
+      "exceptions": [],
+      "filterPanel": true,
+      "metrics": [
+        {
+          "label": "Investigations",
+          "value": "15 / 15"
+        },
+        {
+          "label": "Reported records",
+          "value": "1,615"
+        },
+        {
+          "label": "Tests with O₂ and pressure",
+          "value": "693"
+        },
+        {
+          "label": "Lunar-scenario tests",
+          "value": "20"
+        },
+        {
+          "label": "Tests near the marker",
+          "value": "23"
+        },
+        {
+          "label": "Investigations near",
+          "value": "1"
+        },
+        {
+          "label": "Coverage",
+          "value": "Tested nearby"
+        }
+      ],
+      "tabs": [],
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "dashboard"
+    },
+    {
+      "url": "https://flamsa-398749245371.us-central1.run.app/?page=Fire+behavior",
+      "exceptions": [],
+      "filterPanel": false,
+      "metrics": [
+        {
+          "label": "heptane · N2",
+          "value": "0.01847"
+        },
+        {
+          "label": "methanol · N2",
+          "value": "0.01832"
+        }
+      ],
+      "tabs": [
+        "FLEX · Burning rate",
+        "BASS-II · Gas changes",
+        "SAFFIRE-II · Gravity"
+      ],
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "fire-behavior"
+    },
+    {
+      "url": "https://flamsa-398749245371.us-central1.run.app/?page=Investigations",
+      "exceptions": [],
+      "filterPanel": false,
+      "metrics": [],
+      "tabs": [
+        "Research & scientific context",
+        "Experimental records & raw values",
+        "Citations & source downloads"
+      ],
+      "width": 1440,
+      "scrollWidth": 1440,
+      "case": "investigations"
+    },
+    {
+      "case": "source-download",
+      "filename": "PSI-25_Experimental table_BASS-II.csv",
+      "bytes": 16590,
+      "sha256": "71e792bf6b5fb5ea620c5dd70fbbac05515992e12aefcf5dff47312caa48c042",
+      "matches_original": true
+    },
+    {
+      "case": "copilot-single-click-with-draft-edit",
+      "seconds": 34.94,
+      "pending_button_disabled": true,
+      "language_model_label": false,
+      "approved": false,
+      "insufficient_evidence": true,
+      "text": "Research copilot\n\nSet the conditions, ask a question, then check the sources.\n\nHabitat scenario\n\nOxygen (% of the atmosphere)\n\nPressure (psi)\n\nAsk about this scenario\n\nLet's explore the evidence.\n\nCompare studies. Follow the sources.\n\nauto_awesome\n\nAsk copilot\n\nRanks all curated studies, including those outside the chart filters.\n\nkeyboard_arrow_right\n\nHow the copilot works\n\nAnswer for 30% oxygen / 10.2 psi: Which investigations are most relevant to this scenario, and why?\n\nrule Insufficient evidence\n\nNo answer passed validation, so no generated text is shown. The deterministic ranking follows.\n\nquote_mismatch: The quote 'cfi experiments has provided cool flame burning data for pure n-dodeca' does not appear verbatim in the cited passage (knowledgeBase/suppression/CFI/CFI Science Final Report.pdf p. 11); copy one contiguous span exactly (or 'span ... span' with each piece copied exactly, in page order).\n\n1. FLEX: relevance score 0.796. oxygen_proximity 1.00 x 0.30 = 0.300 (Scenario oxygen (% ambient) is inside the tested range.); pressure_proximity 1.00 x 0.20 = 0.200 (Scenario pressure (psi) is 0.0 away from the nearest test.); pillar_match 0.67 x 0.15 = 0.100 (Shared fire-safety pillars: prevention, suppression.); fuel_phase_match 0.00 x 0.15 = 0.000 (0 of 274 records use a solid fuel.); data_richness 0.98 x 0.20 = 0.196 (274 individual tests, 269 with verified lineage.)\n2. ACME-CFI-G: relevance score 0.621. oxygen_proximity 0.84 x 0.30 = 0.251 (Scenario oxygen (% ambient) is 3.2 away from the nearest test.); pressure_proximity 0.85 x 0.20 = 0.170 (Scenario pressure (psi) is 2.2 away from the nearest test.); pillar_match 0.00 x 0.15 = 0.000 (Shared fire-safety pillars: none.); fuel_phase_match 0.00 x 0.15 = 0.000 (0 of 333 records use a solid fuel.); data_richness 1.00 x 0.20 = 0.200 (333 individual tests, 333 with verified lineage.)\n3. BASS-II: relevance score 0.557. oxygen_proximity 0.61 x 0.30 = 0.183 (Scenario oxygen (% ambient) is 7.8 away from the nearest test.); pressure_proximity 0.00 x 0.20 = 0.000 (No pressure (psi) reported for ambient conditions.); pillar_match 0.33 x 0.15 = 0.050 (Shared fire-safety pillars: prevention.); fuel_phase_match 1.00 x 0.15 = 0.150 (129 of 129 records use a solid fuel.); data_richness 0.87 x 0.20 = 0.174 (129 individual tests, 112 with verified lineage.)\n4. CFI: relevance score 0.528. oxygen_proximity 0.55 x 0.30 = 0.165 (Scenario oxygen (% ambient) is 9.0 away from the nearest test.); pressure_proximity 0.94 x 0.20 = 0.189 (Scenario pressure (psi) is 0.8 away from the nearest test.); pillar_match 0.00 x 0.15 = 0.000 (Shared fire-safety pillars: none.); fuel_phase_match 0.00 x 0.15 = 0.000 (0 of 87 records use a solid fuel.); data_richness 0.87 x 0.20 = 0.174 (87 individual tests, 87 with verified lineage.)\n5. FLEX-2: relevance score 0.500. oxygen_proximity 1.00 x 0.30 = 0.300 (Scenario oxygen (% ambient) is inside the tested range.); pressure_proximity 1.00 x 0.20 = 0.200 (Scenario pressure (psi) is inside the tested range.); pillar_match 0.00 x 0.15 = 0.000 (Shared fire-safety pillars: none.); fuel_phase_match 0.00 x 0.15 = 0.000 (0 of 8 records use a solid fuel.); data_richness 0.00 x 0.20 = 0.000 (No individual test records (only summaries or matrices).)\n6. BASS: relevance score 0.450. oxygen_proximity 0.00 x 0.30 = 0.000 (No oxygen (% ambient) reported for ambient conditions.); pressure_proximity 0.00 x 0.20 = 0.000 (No pressure (psi) reported for ambient conditions.); pillar_match 0.67 x 0.15 = 0.100 (Shared fire-safety pillars: prevention, suppression.); fuel_phase_match 1.00 x 0.15 = 0.150 (122 of 122 records use a solid fuel.); data_richness 1.00 x 0.20 = 0.200 (122 individual tests, 122 with verified lineage.)\nkeyboard_arrow_down\n\nScore breakdown (criterion, weight, value, contribution)\n\nLimitations\n\nPSI has no partial-gravity data: microgravity and 1 g bound the interval; E-FIELD only emulates partial gravity. LUCI and FM2 are future work.\n\nACME-CFI-G: some tests report oxygen in the burner (oxidizer) stream, not in the surrounding atmosphere; they are not counted as ambient oxygen.\n\nBASS-II: scenario oxygen 30% is outside the tested range 13.6-22.2%; any conclusion is an extrapolation.\n\nBASS-II: no ambient pressure reported, so the scenario cannot be compared.\n\nCFI: scenario oxygen 30% is outside the tested range 17-21%; any conclusion is an extrapolation.\n\nBASS: no ambient oxygen reported, so the scenario cannot be compared.\n\nBASS: no ambient pressure reported, so the scenario cannot be compared.\n\nkeyboard_arrow_right\n\nRun trace and retrieved passages (for debugging)"
+    },
+    {
+      "url": "https://flamsa-398749245371.us-central1.run.app/?page=Home",
+      "exceptions": [],
+      "filterPanel": false,
+      "metrics": [
+        {
+          "label": "Curated investigations",
+          "value": "15"
+        },
+        {
+          "label": "Reported records",
+          "value": "1,615"
+        },
+        {
+          "label": "Human-reviewed metadata",
+          "value": "0 / 15"
+        }
+      ],
+      "tabs": [],
+      "width": 390,
+      "scrollWidth": 390,
+      "case": "home-mobile"
+    }
+  ]
+}

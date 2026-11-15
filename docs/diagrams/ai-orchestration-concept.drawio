@@ -1,0 +1,105 @@
+<mxfile host="app.diagrams.net" agent="Claude" scale="1" border="0">
+  <diagram name="FLAMSA - AI orchestration" id="flamsa-orchestration">
+    <mxGraphModel dx="3807" dy="2481" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;" value="FLAMSA — AI orchestration (RAG + validation + Retry)" vertex="1">
+          <mxGeometry height="40" width="700" x="370" y="-120" as="geometry" />
+        </mxCell>
+        <mxCell id="n_input" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="User question about the scenario" vertex="1">
+          <mxGeometry height="70" width="180" x="-190" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="n_retrieve" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="retrieve_node&lt;br&gt;Retrieval function (CSV / keyword-embedding in investigations.json)" vertex="1">
+          <mxGeometry height="110" width="220" x="50" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="n_csv" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="&lt;div&gt;Curated NASA PSI Combustion Dataset (CSV) / Investigation Metadata (investigations.json)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Approximately 13–15 curated investigations.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="280" x="20" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n_kb" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;div&gt;Knowledge Base (PDFs)&lt;/div&gt;&lt;div&gt;Graph-based and vector-based RAG over scientific publications and technical documents.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="270" x="605" as="geometry" />
+        </mxCell>
+        <mxCell id="n_combustion" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;div&gt;combustion_agent&lt;/div&gt;&lt;div&gt;Microgravity Combustion Research Agent&lt;/div&gt;&lt;div&gt;Generates evidence-based responses with traceable citations to CSV fields or RAG-retrieved passages and DOIs.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="130" width="260" x="610" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="n_newsol" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="&lt;div&gt;new_solutions_agent&lt;/div&gt;&lt;div&gt;Citation Validation Agent&lt;/div&gt;&lt;div&gt;Performs a binary check to verify whether the cited reference matches a dictionary key.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="240" x="1020" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n_dict" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="&lt;div&gt;Key–Value Dictionary&lt;/div&gt;&lt;div&gt;Maps investigations to mock derived technologies.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="220" x="1340" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n_doublecheck" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="&lt;div&gt;double_check_agent&lt;/div&gt;&lt;div&gt;Scientific Validation Agent&lt;/div&gt;&lt;div&gt;Verifies citation coverage (CSV/RAG), dictionary-backed technology recommendations, and physical plausibility against domain-specific rules.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="280" x="1020" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="n_decision" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Approved?" vertex="1">
+          <mxGeometry height="100" width="140" x="1360" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="n_output" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;div&gt;OUTPUT&amp;nbsp;&lt;/div&gt;&lt;div&gt;Response &amp;amp; Evidence Traceability Map&lt;/div&gt;&lt;div&gt;Generates an evidence-based response with a source-level traceability map for each claim.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="270" x="1610" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="n_retry" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="attempts &lt; 2?" vertex="1">
+          <mxGeometry height="100" width="160" x="1360" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="n_failure" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="&lt;div&gt;FAILURE OUTPUT&amp;nbsp;&lt;/div&gt;&lt;div&gt;Insufficient Evidence&lt;/div&gt;&lt;div&gt;Returns insufficient_evidence when supporting evidence is unavailable,&amp;nbsp;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="130" width="240" x="1640" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="n_input" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="n_retrieve">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="n_retrieve" style="edgeStyle=orthogonalEdgeStyle;html=1;startArrow=classic;endArrow=classic;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="n_retrieve" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="n_combustion" value="dashboard context / shortlist (5-6 investigations)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="n_combustion" style="edgeStyle=orthogonalEdgeStyle;html=1;startArrow=classic;endArrow=classic;" target="n_kb" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="n_combustion" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.996;exitY=0.444;exitDx=0;exitDy=0;exitPerimeter=0;" target="n_newsol" value="citations used">
+          <mxGeometry relative="1" x="0.1387" as="geometry">
+            <Array as="points">
+              <mxPoint x="950" y="277.7" />
+              <mxPoint x="950" y="110" />
+            </Array>
+            <mxPoint x="940" y="285" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="n_newsol" style="edgeStyle=orthogonalEdgeStyle;html=1;startArrow=classic;endArrow=classic;" target="n_dict" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="n_doublecheck" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="940" y="285" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="n_newsol" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="n_doublecheck" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1140" y="200" />
+              <mxPoint x="1140" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="n_doublecheck" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="n_decision" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="n_decision" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="n_output" value="yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="n_decision" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="n_retry" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="n_retry" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=1;exitX=0;exitY=0.5;entryX=0.5;entryY=1;" target="n_retrieve" value="Yes: increment attempts, relax retrieval settings">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="n_retry" style="edgeStyle=orthogonalEdgeStyle;html=1;" target="n_failure" value="No (attempted 2x)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

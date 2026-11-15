@@ -7,6 +7,7 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 
+from psi_fire.application.behavior_signals import flex_signal, gas_signal, length_signal, safety_evidence
 from psi_fire.application.explore import ExplorationQuery, Match
 from psi_fire.application.fire_behavior import (
     BassEvidence,
@@ -40,6 +41,23 @@ def _record_action(study: str, available: bool) -> None:
               key=f"behavior_open_{study}", icon=":material/arrow_forward:")
 
 
+SIGNAL_LABELS = {"Higher K associated with higher oxygen": "↗ burns faster as O₂ rises",
+                 "Lower K associated with higher oxygen": "↘ burns slower as O₂ rises",
+                 "Trend interval includes zero": "≈ no clear trend"}
+
+
+def fuel_headline(fuel: str, signals: list[str]) -> str:
+    """One line a reader sees inside the chart: what the fitted trends say, in plain words."""
+    if not signals:
+        return f"{fuel.capitalize()}: no identifiable trend with oxygen"
+    rising = sum(s == "Higher K associated with higher oxygen" for s in signals)
+    return f"{fuel.capitalize()}: burning rate rises with oxygen in {rising} of {len(signals)} fitted groups"
+
+
+CHART_SUBTITLE = ["Each dot is a reported burning test. Evidence of burning behavior, not a risk classification",
+                  "or a safe zone; the shaded band is statistical uncertainty."]
+
+
 def slope_sentence(slope: float, lower: float, upper: float) -> str:
     """Plain-language reading of an adjusted slope; direction and whether the interval includes no change."""
     direction = "raises" if slope > 0 else "lowers"
@@ -51,10 +69,11 @@ def slope_sentence(slope: float, lower: float, upper: float) -> str:
 
 HOW_TO_READ = (
     "**How to read this chart.** Each dot is one reported test: oxygen on the horizontal axis, burning-rate constant K "
-    "on the vertical axis. The solid line is a *trend adjusted for pressure and droplet size*, so it can sit away from "
+    "on the vertical axis. Each fitted line is a *trend adjusted for pressure and droplet size*, so it can sit away from "
     "the dots; the shaded band is the 95% interval for that trend. A line rising to the right means K was larger at "
     "higher oxygen in these tests. It is drawn only inside the oxygen range that was actually tested.")
-CHART_KEY = "● dots: reported tests   ━ solid line: adjusted trend   ▒ shaded band: 95% interval   colors: diluent gas"
+CHART_KEY = ("Dots: reported tests · Lines: adjusted trends; pattern identifies evidence · "
+             "Shading: 95% mean-response interval · Colors: diluent gas")
 
 
 def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: str) -> None:
@@ -88,6 +107,7 @@ def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: 
                                    help="Interval: the range of slopes the model considers plausible given the scatter "
                                         "in the data. n: number of tests used in this fit.")
                         st.write(slope_sentence(fit.slope_mm2_s_per_o2_point, fit.lower_slope, fit.upper_slope))
+                        st.markdown(f"**Safety-relevant evidence:** {flex_signal(group)}.")
             rows = [{"kind": "observation", "Fuel": point.fuel, "Diluent": point.diluent, "Group": point.group,
                      "Oxygen": point.oxygen_percent, "K": point.k_mm2_s, "Lower": None, "Upper": None,
                      "Pressure (psi)": point.pressure_psi, "Diameter (mm)": point.diameter_mm,
@@ -98,7 +118,12 @@ def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: 
                     for prediction in group.estimate.line:
                         rows.append({"kind": "fit", "Fuel": group.fuel, "Diluent": group.diluent, "Group": group.label,
                                      "Oxygen": prediction.oxygen_percent, "K": prediction.expected_k_mm2_s,
-                                     "Lower": prediction.lower_k_mm2_s, "Upper": prediction.upper_k_mm2_s})
+                                     "Lower": prediction.lower_k_mm2_s, "Upper": prediction.upper_k_mm2_s,
+                                     "Evidence": flex_signal(group)})
+                    last = group.estimate.line[-1]
+                    rows.append({"kind": "label", "Fuel": group.fuel, "Diluent": group.diluent, "Group": group.label,
+                                 "Oxygen": last.oxygen_percent, "K": last.expected_k_mm2_s,
+                                 "Label": SIGNAL_LABELS[flex_signal(group)]})
             base = alt.Chart(pd.DataFrame(rows)).encode(
                 x=alt.X("Oxygen:Q", title="Ambient O₂ (%)", scale=alt.Scale(zero=False)),
                 color=alt.Color("Diluent:N", scale=alt.Scale(domain=["N2", "CO2+N2", "He+N2"],
@@ -113,11 +138,23 @@ def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: 
             fits = base.transform_filter(alt.datum.kind == "fit")
             band = fits.mark_area(opacity=.13).encode(y="Lower:Q", y2="Upper:Q", detail="Group:N")
             lines = fits.mark_line(strokeWidth=2).encode(y="K:Q", detail="Group:N",
-                                                        tooltip=["Group:N", "Oxygen:Q", "K:Q"])
+                strokeDash=alt.StrokeDash("Evidence:N", legend=alt.Legend(orient="bottom", labelLimit=320),
+                    scale=alt.Scale(domain=["Higher K associated with higher oxygen",
+                                            "Lower K associated with higher oxygen", "Trend interval includes zero"],
+                                    range=[[1, 0], [6, 2], [2, 3]])),
+                tooltip=["Group:N", "Evidence:N", "Oxygen:Q", "K:Q"])
             st.caption(CHART_KEY)
+            st.warning("Evidence of burning behavior, not an ignition alarm: a positive adjusted trend means higher "
+                       "K is associated with higher oxygen within that group. Above/below the line is not a risk "
+                       "classification. The shaded band is uncertainty in the mean, not a safe operating zone.")
+            labels = base.transform_filter(alt.datum.kind == "label").mark_text(
+                align="right", dx=-4, dy=-10, fontSize=11, fontWeight=600).encode(y="K:Q", text="Label:N")
             for fuel in sorted({point.fuel for point in evidence.observations}):
-                st.markdown(f"**Fuel: {fuel}**")
-                show_chart((band + lines + points).transform_filter(alt.datum.Fuel == fuel).properties(height=260))
+                signals = [flex_signal(g) for g in evidence.groups if g.fuel == fuel and g.estimate]
+                title = alt.TitleParams(fuel_headline(fuel, signals), subtitle=CHART_SUBTITLE, anchor="start",
+                                        fontSize=14, subtitleFontSize=11, subtitleColor="#526E83")
+                show_chart((band + lines + labels + points).transform_filter(alt.datum.Fuel == fuel).properties(
+                    height=260, title=title))
             st.caption("Points are reported tests. Lines and shading are adjusted model means and their 95% model-based "
                        "intervals at group-mean pressure/diameter, only within the observed oxygen range. "
                        "Fuel and He/CO₂ blend fractions never mix between fits.")
@@ -125,6 +162,7 @@ def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: 
             for group in evidence.groups:
                 fit = group.estimate
                 table.append({"Stratum": group.label, "n": len(group.record_ids),
+                              "Safety-relevant evidence": flex_signal(group),
                               "O₂ range": _range(group.oxygen_range, "%"),
                               "Pressure range": _range(group.pressure_range, "psi"),
                               "Diameter range": _range(group.diameter_range, "mm"),
@@ -159,6 +197,8 @@ def _flex_card(evidence: FlexEvidence, settings: BehaviorSettings, analysis_id: 
                             f"Records: {', '.join(group.record_ids)}", language=None, wrap_lines=True)
             frame = pd.DataFrame([{**asdict(point), **asdict(point.reference)} for point in evidence.observations])
             frame = frame.drop(columns="reference")
+            group_signals = {group.label: flex_signal(group) for group in evidence.groups}
+            frame["Group association"] = [group_signals[point.group] for point in evidence.observations]
             with st.expander("FLEX analyzed records and provenance"):
                 st.dataframe(frame, hide_index=True)
                 _csv_download(frame, "FLEX")
@@ -186,6 +226,7 @@ def _bass_card(evidence: BassEvidence) -> None:
         if evidence.observations:
             frame = pd.DataFrame([{**asdict(point), **asdict(point.reference),
                                    "Material": point.fuel or "Not reported",
+                                   "Safety-relevant evidence": gas_signal(point),
                                    "Quality": "Negative difference; inspect measurements" if point.negative_change
                                    else "Nonnegative differences"} for point in evidence.observations]).drop(columns="reference")
             zero = alt.Chart(pd.DataFrame({"zero": [0]}))
@@ -193,13 +234,19 @@ def _bass_card(evidence: BassEvidence) -> None:
                 x=alt.X("oxygen_consumed_points:Q", title="Initial − final O₂ (percentage points)"),
                 y=alt.Y("co2_increase_points:Q", title="Final − initial CO₂ (percentage points)"),
                 color=alt.Color("Material:N", legend=alt.Legend(orient="top", columns=2)),
-                shape=alt.Shape("Quality:N", legend=alt.Legend(orient="bottom", labelLimit=280, title=None)),
-                tooltip=["test_point_id:N", "source_row:N", "Material:N", "Quality:N", "oxygen_initial_percent:Q",
+                shape=alt.Shape("Safety-relevant evidence:N",
+                                legend=alt.Legend(orient="bottom", labelLimit=350, title="Measured evidence")),
+                tooltip=["test_point_id:N", "source_row:N", "Material:N", "Quality:N", "Safety-relevant evidence:N",
+                         "oxygen_initial_percent:Q",
                          "oxygen_final_percent:Q", "co2_initial_percent:Q", "co2_final_percent:Q",
                          "oxygen_consumed_points:Q", "co2_increase_points:Q"],
             )
             show_chart((zero.mark_rule(color="#B7C5D4").encode(x="zero:Q")
                         + zero.mark_rule(color="#B7C5D4").encode(y="zero:Q") + points).properties(height=330))
+            st.info("Points to the right of and above zero show measured oxygen decrease together with CO2 increase "
+                    "during a burn. This is atmosphere-change evidence relevant to detection research, not an "
+                    "ignition prediction or an exposure alarm. Zero axes indicate the sign of change only; "
+                    "measurement uncertainty is not quantified here.", icon=":material/info:")
             negatives = sum(point.negative_change for point in evidence.observations)
             st.caption(f"{negatives} pairs contain a negative measured difference and remain visible. "
                        "Values are signed differences, without clamping or imputation.")
@@ -223,10 +270,14 @@ def _saffire_card(evidence: SaffireEvidence) -> None:
             cells = []
             for point in evidence.observations:
                 label = point.reference.test_point_id
-                for condition, raw, state in (("Microgravity", point.microgravity_length_raw, point.microgravity_length_state),
-                                               ("1 g", point.normal_gravity_length_raw, point.normal_gravity_length_state)):
+                for condition, raw, state, value in (
+                        ("Microgravity", point.microgravity_length_raw, point.microgravity_length_state,
+                         point.microgravity_length_mm),
+                        ("1 g", point.normal_gravity_length_raw, point.normal_gravity_length_state,
+                         point.normal_gravity_length_mm)):
                     cells.append({"Sample": label, "Condition": condition, "Raw burned length": raw or "Not reported",
-                                  "Outcome": state, "Record": point.reference.test_point_id,
+                                  "Outcome": state, "Safety-relevant evidence": length_signal(value, state),
+                                  "Record": point.reference.test_point_id,
                                   "Material": point.fuel or "Not reported",
                                   "Source row": point.reference.source_row})
             base = alt.Chart(pd.DataFrame(cells)).encode(
@@ -235,15 +286,20 @@ def _saffire_card(evidence: SaffireEvidence) -> None:
                 y=alt.Y("Sample:N", sort=None, title=None),
             )
             rectangles = base.mark_rect(cornerRadius=5, stroke="white", strokeWidth=3).encode(
-                color=alt.Color("Outcome:N", scale=alt.Scale(
-                    domain=["Approximately zero", "Zero length reported", "Numeric length; inspect qualifiers",
-                            "Complete (source label)", "Mixed / see source note", "Not reported"],
-                    range=["#DCE7F3", "#DCE7F3", "#AFC8E8", "#EED6A6", "#D5D0E4", "#F0F3F6"]),
-                    legend=alt.Legend(orient="bottom", columns=1, labelLimit=300)),
-                tooltip=["Sample:N", "Material:N", "Condition:N", "Raw burned length:N", "Outcome:N", "Source row:N"],
+                color=alt.Color("Safety-relevant evidence:N", scale=alt.Scale(
+                    domain=["Positive burned length reported", "Complete burning reported",
+                            "Zero / near-zero length; not a safety verdict", "Unresolved / missing; inspect source"],
+                    range=["#F3C67A", "#EAA591", "#DCE7F3", "#D5D0E4"]),
+                    legend=alt.Legend(orient="bottom", columns=1, labelLimit=350, title="Reported evidence")),
+                tooltip=["Sample:N", "Material:N", "Condition:N", "Raw burned length:N", "Outcome:N",
+                         "Safety-relevant evidence:N", "Source row:N"],
             )
             text = base.mark_text(fontSize=11, color="#203747").encode(text="Raw burned length:N")
             show_chart((rectangles + text).properties(height=max(150, 38 * len(evidence.observations))))
+            st.warning("Amber cells identify positive reported burned length; coral cells retain the source label "
+                       "Complete. These are observations of burning under the listed test conditions, not a "
+                       "probability of future ignition. Blue zero/near-zero cells do not certify a material as safe "
+                       "or nonflammable. Compare both gravity columns and inspect the raw values and qualifiers.")
             table = pd.DataFrame([{"Sample": point.reference.test_point_id, "Material": point.fuel or "Not reported",
                                    "Thickness (source)": point.thickness_raw or "Not reported",
                                    "O₂ (source)": point.oxygen_raw or "Not reported", "Flow (source)": point.flow_raw,
@@ -258,6 +314,10 @@ def _saffire_card(evidence: SaffireEvidence) -> None:
             st.dataframe(table[primary], hide_index=True)
             table["microgravity_length_mm"] = [point.microgravity_length_mm for point in evidence.observations]
             table["normal_gravity_length_mm"] = [point.normal_gravity_length_mm for point in evidence.observations]
+            table["Microgravity evidence"] = [length_signal(point.microgravity_length_mm,
+                point.microgravity_length_state) for point in evidence.observations]
+            table["1 g evidence"] = [length_signal(point.normal_gravity_length_mm,
+                point.normal_gravity_length_state) for point in evidence.observations]
             table["microgravity_spread_rate_cm_s"] = [point.microgravity_rate_cm_s for point in evidence.observations]
             table["normal_gravity_spread_rate_cm_s"] = [point.normal_gravity_rate_cm_s for point in evidence.observations]
             with st.expander("SAFFIRE-II numeric fields, conditions and provenance"):
@@ -294,7 +354,11 @@ def fire_behavior(matches: tuple[Match, ...], revision: str, query: ExplorationQ
         st.error(f"Fire-behavior analysis unavailable: {error}")
         return {}
     st.caption(f"Dataset {revision[:12]} / Analysis {report.analysis_id[:12]} / {report.policy_version}")
-    payload = {**asdict(report), "applied_filters": asdict(query)}
+    payload = {**asdict(report), "applied_filters": asdict(query),
+               "safety_evidence": [asdict(signal) for signal in safety_evidence(report)]}
+    st.info("Safety-relevant evidence: these charts identify measured burning behavior and gas changes. "
+            "They do not estimate ignition probability, certify habitat safety or define alarm thresholds. "
+            "Labels are computed deterministically from the analyzed records and fits.", icon=":material/policy:")
     st.download_button("Download analysis JSON", json.dumps(payload, indent=2, allow_nan=False),
                        file_name=f"fire-behavior-{report.analysis_id[:12]}.json", mime="application/json",
                        key="behavior_json", on_click="ignore")

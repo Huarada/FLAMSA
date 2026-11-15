@@ -1,0 +1,2 @@
+# Apply the same restricted context to Cloud Build uploads as to Docker builds.
+#!include:.dockerignore

@@ -81,8 +81,14 @@ def _breakdown_table(result: AnswerResult) -> pd.DataFrame:
 
 
 def _render(result: AnswerResult, narrator_label: str, context: EvidenceContext) -> None:
-    if result.status == AnswerStatus.APPROVED and result.draft:
-        st.badge("Validated answer", color="green", icon=":material/verified:")
+    if result.status in (AnswerStatus.APPROVED, AnswerStatus.PARTIAL) and result.draft:
+        if result.status == AnswerStatus.PARTIAL:
+            st.badge("Partially validated", color="orange", icon=":material/rule:")
+            st.warning(f"{len(result.draft.claims)} of {result.claims_total} claims passed validation and are shown; "
+                       f"{result.claims_withheld} were withheld because they could not be verified. This answer may be "
+                       "incomplete. The ranking, scores and limitations below are complete.")
+        else:
+            st.badge("Validated answer", color="green", icon=":material/verified:")
         st.caption(f"Text written by: {narrator_label}. Ranking and scores are computed by the application, "
                    "not by the model. Every claim below passed citation, number and plausibility checks.")
         for index, claim in enumerate(result.draft.claims):

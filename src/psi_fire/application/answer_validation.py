@@ -1,5 +1,6 @@
 """Deterministic validation of a draft against the retrieved evidence (SPEC-003 section 3.5). No LLM."""
 
+import re
 import unicodedata
 from math import isclose
 
@@ -24,6 +25,31 @@ from psi_fire.domain.model import Investigation, TestPoint
 from psi_fire.domain.ranking import RankedInvestigation
 
 MIN_QUOTE_CHARS = 20  # shorter strings match too many places to identify a sentence
+MIN_SEGMENT_CHARS = 12  # each piece of an ellipsis-joined quote must still identify a place in the passage
+_ELLIPSIS = re.compile(r"\s*\.{3}\s*")
+
+
+def _squeeze(text: str) -> str:
+    """Letters and digits only: spacing and punctuation (PDF line breaks, quote marks) are not evidence."""
+    return re.sub(r"[\W_]+", "", text)
+
+
+def quote_in(quote: str, passage: str) -> bool:
+    """True if the quote is one span of the passage, or several spans joined by "..." that appear in that order.
+    Both arguments are already normalised. Words and numbers must match exactly; only spacing and punctuation are
+    ignored. Invented text between the pieces cannot hide inside an ellipsis: every piece must be a real span of
+    the same passage."""
+    pieces = [s for s in (_squeeze(p) for p in _ELLIPSIS.split(quote)) if s]
+    if len(pieces) > 1 and any(len(p) < MIN_SEGMENT_CHARS for p in pieces):
+        return False
+    squeezed = _squeeze(passage)
+    start = 0
+    for piece in pieces:
+        found = squeezed.find(piece, start)
+        if found < 0:
+            return False
+        start = found + len(piece)
+    return bool(pieces)
 
 
 def available_metadata_fields(inv: Investigation) -> tuple[str, ...]:
@@ -75,11 +101,15 @@ def system_facts(inv: RankedInvestigation) -> tuple[list[float], list[float]]:
     return exact, scores
 
 
-def unbacked_numbers(claim: Claim, ranked: dict[str, RankedInvestigation], scenario_numbers: list[float]) -> list[float]:
-    """Numbers in the text that no figure, scenario input or system fact of a cited investigation backs."""
-    exact = [f.value for f in claim.figures] + scenario_numbers
+def unbacked_numbers(claim: Claim, ranked: dict[str, RankedInvestigation], input_numbers: list[float]) -> list[float]:
+    """Numbers in the text that nothing backs. Backed: a declared figure, a number the user typed (scenario or
+    question), a digit group inside a cited passage quote (the quote itself is checked against the document),
+    or a system fact of an investigation that the claim cites, declares a figure for, or names in its text."""
+    quote_numbers = [n for c in claim.citations if c.kind == CitationKind.PASSAGE and c.quote for n in numbers_in(c.quote)]
+    exact = [f.value for f in claim.figures] + input_numbers + quote_numbers
     scores: list[float] = []
-    for inv_id in {c.investigation_id for c in claim.citations} | {f.investigation_id for f in claim.figures}:
+    named = {inv_id for inv_id in ranked if inv_id in claim.text}
+    for inv_id in {c.investigation_id for c in claim.citations} | {f.investigation_id for f in claim.figures} | named:
         if inv_id in ranked:
             more_exact, more_scores = system_facts(ranked[inv_id])
             exact += more_exact
@@ -123,8 +153,8 @@ class RuleBasedValidator:
         for figure in claim.figures:
             issues.extend(self._figure_issues(figure, claim, index, ranked))
         # the scenario's own oxygen and pressure are inputs the user typed, not claims about evidence
-        scenario_numbers = [context.scenario.o2_percent, context.scenario.pressure_psi]
-        for number in unbacked_numbers(claim, ranked, scenario_numbers):
+        input_numbers = [context.scenario.o2_percent, context.scenario.pressure_psi, *numbers_in(context.question)]
+        for number in unbacked_numbers(claim, ranked, input_numbers):
             issues.append(_issue(IssueCode.UNDECLARED_NUMBER,
                                  f"The number {number:g} in the text is not declared as a figure: declare it in "
                                  "figures with its source, or rewrite the sentence without digits.", index))
@@ -153,12 +183,19 @@ class RuleBasedValidator:
         elif citation.kind == CitationKind.METADATA:
             if citation.field not in METADATA_FIELDS:
                 return [_issue(IssueCode.MALFORMED_CITATION,
-                               f"Metadata field must be one of {METADATA_FIELDS}.", index)]
+                               f"Metadata field must be one of {METADATA_FIELDS}. To cite a score, rank or criterion "
+                               "use kind 'breakdown' instead.", index)]
             if citation.field not in available_metadata_fields(inv):
                 allowed = ", ".join(available_metadata_fields(inv)) or "none (cite a record instead)"
                 return [_issue(IssueCode.UNKNOWN_CITATION,
                                f"{inv.id} has no '{citation.field}' metadata. Metadata fields you may cite for "
                                f"{inv.id}: {allowed}.", index)]
+        elif citation.kind == CitationKind.BREAKDOWN:
+            allowed = ("score", "rank", *(s.criterion for s in target.breakdown.scores))
+            if citation.field not in allowed:
+                return [_issue(IssueCode.UNKNOWN_CITATION,
+                               f"{inv.id} ranking has no '{citation.field}'. Breakdown fields you may cite: "
+                               f"{', '.join(allowed)}.", index)]
         else:
             return self._passage_issues(citation, index, context)
         return []
@@ -173,10 +210,11 @@ class RuleBasedValidator:
                  (citation.investigation_id, citation.source_file, citation.locator)]
         if not pages:
             return [_issue(IssueCode.UNKNOWN_CITATION, "The cited passage was not retrieved in this attempt.", index)]
-        if not any(quote in _flat(p.text) for p in pages):
+        if not any(quote_in(quote, _flat(p.text)) for p in pages):
             return [_issue(IssueCode.QUOTE_MISMATCH,
                            f"The quote {quote[:70]!r} does not appear verbatim in the cited passage "
-                           f"({citation.source_file} {citation.locator}); copy one contiguous span exactly.", index)]
+                           f"({citation.source_file} {citation.locator}); copy one contiguous span exactly (or 'span ... span' "
+                           "with each piece copied exactly, in page order).", index)]
         return []
 
     def _figure_issues(self, figure: Figure, claim: Claim, index: int,

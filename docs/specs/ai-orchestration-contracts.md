@@ -1,7 +1,7 @@
 # SPEC-003 — AI orchestration contracts (RAG + validation + retry)
 
 Status: implemented (ADR-0114). Written before the code (spec-driven development, ADR-0110); AO-01..AO-09 pass in tests/application/test_answering_contract.py and tests/infrastructure/. English artifacts; conversation may be Portuguese.
-Source: the team's "FLAMSA AI orchestration" diagram (drawio, 2026-11-14). The diagram file is not committed because its labels are partly Portuguese; this spec is the English, normative version of it.
+Source: the team's "FLAMSA AI orchestration" diagram (drawio, 2026-11-14). An English adaptation is now retained in [SVG](../diagrams/ai-orchestration-concept.svg) and [editable draw.io](../diagrams/ai-orchestration-concept.drawio), with [source provenance and runtime differences](../diagrams/ai-orchestration-concept.provenance.json). It is a conceptual design; the README's implementation diagrams and current code distinguish TF-IDF retrieval, deterministic validation and the later guarded partial-answer policy.
 
 ## 1. Purpose and scope
 
@@ -20,7 +20,9 @@ question + HabitatScenario
   -> validate        (deterministic rules)                            -> approved | rejected(reasons)
   approved                     -> OUTPUT: answer + evidence traceability map + breakdown + limitations
   rejected, attempts < 2       -> attempts += 1, relax retrieval, back to retrieve
-  rejected, attempts == 2      -> FAILURE OUTPUT: insufficient_evidence + deterministic breakdown + limitations
+  rejected, attempts == 2      -> PARTIAL OUTPUT if >= 2 claims and >= 50% of the draft validated (ADR-0145):
+                                  validated claims only, withheld count, breakdown + limitations
+                               -> else FAILURE OUTPUT: insufficient_evidence + deterministic breakdown + limitations
 ```
 
 `MAX_ATTEMPTS = 2` is a named application constant (attempt counting starts at 1).
@@ -78,6 +80,7 @@ The validator is code, not a second LLM. An LLM judge may be added later only as
 Both outputs are always rendered with the deterministic `ScoreBreakdown` table and the domain-generated limitations (partial gravity, extrapolation, oxygen basis such as ACME-CFI-G burner-stream O2).
 
 - **Approved:** claims, their citations and an evidence traceability map (claim -> record/passage -> archived file, locator, checksum), the solution suggestions with their status, the run trace (attempts, relaxed settings).
+- **Partial (`partial`, ADR-0145):** the claims that raised no issue (re-validated on their own), the count of withheld claims, the traceability and figure traces of the shown claims only, the breakdown and the limitations. Withheld claims are never exposed as text. Constants `MIN_PARTIAL_CLAIMS` = 2 and `MIN_PARTIAL_SHARE` = 0.5; whole-draft failures (empty draft) and strict mode (`PSI_STRICT_ANSWERS=1`) never produce a partial answer.
 - **Failure (`insufficient_evidence`):** status code, the rejection reasons of the last attempt, and the breakdown rendered as text by a template. No LLM text is shown. This reconciles the diagram's failure node with the CLAUDE.md rule "invalid citation -> fallback to the deterministic breakdown"; the user never gets an empty answer.
 
 ### 4.1 Claim-level evidence and source access (ADR-0128; handoff: docs/copilot-evidence-handoff.md)

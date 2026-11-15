@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-15",
+  "project_id": "flamsa-514815",
+  "billing": "user confirmed enabled; not independently queried",
+  "required_files_checked": 1267,
+  "missing_runtime_paths": [],
+  "excluded_sensitive_examples": 9,
+  "unexpected_included_examples": [],
+  "ignore_validation": "pathspec GitIgnoreSpec over shared rules; Docker/gcloud native upload validation pending",
+  "host_launch_port": 18503,
+  "host_health": 200,
+  "docker_image_built": false,
+  "gcp_deployed": false,
+  "limitations": [
+    "Docker daemon unavailable",
+    "gcloud not on PATH",
+    "Linux image build and Cloud Run smoke tests pending"
+  ]
+}

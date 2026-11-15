@@ -114,3 +114,6 @@ logs/
 Thumbs.db
 desktop.ini
 ~$*
+
+# RAG stress dumps: raw model drafts for offline analysis
+data/eval/dumps/

@@ -1,3 +1,4 @@
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock, sentinel
 
@@ -27,7 +28,8 @@ def test_browsing_does_not_initialize_answering_engine(monkeypatch) -> None:
     st.cache_resource.clear()
     factory = Mock(side_effect=AssertionError("Browsing must not initialize the answering engine"))
     monkeypatch.setattr(answering_factory, "build_answering_pipeline", factory)
-    app = AppTest.from_file("src/psi_fire/interface/app.py", default_timeout=45).run()
+    app_path = Path(__file__).resolve().parents[2] / "src/psi_fire/interface/app.py"
+    app = AppTest.from_file(str(app_path), default_timeout=45).run()
     app.button(key="nav_dashboard").click().run()
     app.run()
     assert not app.exception

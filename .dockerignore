@@ -1,0 +1,33 @@
+# Default deny: include only the runtime/build inputs.
+**
+!Dockerfile
+!.dockerignore
+!.gcloudignore
+!pyproject.toml
+!README.md
+!src/
+!src/**
+!deploy/
+!deploy/**
+!.streamlit/
+!.streamlit/**
+!data/
+!data/**
+data/manual/
+data/export/
+data/eval/
+!knowledgeBase/
+!knowledgeBase/**
+
+# Defense in depth for local files inside included directories.
+**/.env
+**/.env.*
+**/*.env
+**/secrets.toml
+**/*credentials*.json
+**/*service-account*.json
+**/*.key
+**/*.pem
+**/__pycache__/
+**/__pycache__/**
+**/*.pyc

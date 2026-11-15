@@ -102,10 +102,9 @@ def home_content(snapshot: Snapshot, image_uri: str) -> None:
                   on_click=navigate, args=("Fire behavior",), key="home_behavior")
         st.button("Browse investigations", on_click=navigate, args=("Investigations",), key="home_browse")
     with st.container(key="home_metrics"):
-        columns = st.columns(3)
+        columns = st.columns(2)
         columns[0].metric("Curated investigations", summary.investigations)
         columns[1].metric("Reported records", f"{summary.records:,}")
-        columns[2].metric("Human-reviewed metadata", f"{summary.reviewed_metadata} / {summary.investigations}")
 
     st.subheader("From reported measurements to cited explanations")
     columns = st.columns(3)

@@ -1,0 +1,18 @@
+{
+  "source_filename": "FLAMSA_orquestracao_IA.drawio (1).svg",
+  "source_sha256": "b7b68ce072135b2a9d1794ff4fb95be4784213de236f1080d7006266d07d13c1",
+  "purpose": "Historical user-supplied conceptual design; not a claim of current runtime topology.",
+  "transformation": "English title/edge labels; original layout and conceptual node content retained; embedded raster text fallbacks replaced with native SVG text. Editable draw.io metadata retained. Fixed light palette for readable native text across display themes.",
+  "reviewed_against": [
+    "src/psi_fire/infrastructure/answer_graph.py",
+    "src/psi_fire/infrastructure/passage_index.py",
+    "src/psi_fire/application/answering.py"
+  ],
+  "differences_from_runtime": [
+    "TF-IDF lexical vectors are implemented, not graph retrieval or dense embeddings.",
+    "Only the narrator calls a language model; validation and catalog lookup are deterministic.",
+    "Current dataset contains 15 investigations, not an approximate 13-15.",
+    "Partial answers with guardrails are implemented in addition to approved and insufficient evidence.",
+    "The technology catalog currently has no entries."
+  ]
+}

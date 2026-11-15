@@ -85,12 +85,8 @@ def test_home_explains_current_capabilities_and_opens_behavior_without_replacing
     assert "Planned: a deterministic ranking" not in copy
     assert any("no direct lunar or Martian partial-gravity measurements" in c.value for c in app.caption)
     snapshot = app.session_state["last_snapshot"]
-    expected_reviewed = sum(inv.manual_metadata is not None
-                            and inv.manual_metadata.review_status.value == "reviewed"
-                            for inv in snapshot.investigations)
-    assert next(m for m in app.metric if m.label == "Human-reviewed metadata").value == (
-        f"{expected_reviewed} / {len(snapshot.investigations)}"
-    )
+    assert not any(m.label == "Human-reviewed metadata" for m in app.metric)
+    assert next(m for m in app.metric if m.label == "Curated investigations").value == str(len(snapshot.investigations))
     app.button(key="home_dashboard").click().run()
     app.multiselect(key="filters_0_ids").set_value(["FLEX"])
     next(button for button in app.button if button.label == "Apply filters").click().run()
@@ -331,3 +327,14 @@ def test_slope_sentence_states_direction_and_whether_the_interval_includes_zero(
     assert "raises K by about 0.0020" in up and "excludes zero" in up and "not a cause" in up
     down = slope_sentence(-0.004, -0.009, 0.001)
     assert "lowers K by about 0.0040" in down and "includes zero" in down
+
+
+def test_flex_chart_headline_states_the_trend_without_calling_it_a_risk_class() -> None:
+    from psi_fire.interface.fire_behavior_views import CHART_SUBTITLE, SIGNAL_LABELS, fuel_headline
+
+    rising = "Higher K associated with higher oxygen"
+    assert fuel_headline("heptane", [rising, rising, "Trend interval includes zero"]) == (
+        "Heptane: burning rate rises with oxygen in 2 of 3 fitted groups")
+    assert "no identifiable trend" in fuel_headline("methanol", [])
+    assert set(SIGNAL_LABELS) == {rising, "Lower K associated with higher oxygen", "Trend interval includes zero"}
+    assert "not a risk classification" in " ".join(CHART_SUBTITLE)

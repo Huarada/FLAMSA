@@ -25,11 +25,15 @@ MAX_PASSAGE_CHARS = 1200
 SYSTEM_PROMPT = """You explain which NASA PSI combustion investigations are relevant to a habitat scenario.
 Answer ONLY with the structured Draft. Rules, all machine-checked (a violation rejects the draft):
 1. Every claim needs at least one citation, and cites only what you were given:
-   - kind "record": investigation_id + test_point_id from the provided records;
+   - kind "record": investigation_id + test_point_id copied exactly from the provided records (the id string only,
+     with no brackets, braces or commas);
    - kind "metadata": investigation_id + field, ONLY from that investigation's `metadata_fields_available` list
      (a field in `metadata_fields_NEVER_cite` does not exist for it; use a record citation instead);
+   - kind "breakdown": investigation_id + field = "score", "rank" or a criterion name from that investigation's
+     `criteria` list. Use it whenever you refer to the ranking or a criterion; never put a criterion name in a metadata field;
    - kind "passage": investigation_id + source_file + locator + a quote of 20-200 characters copied character for character as ONE contiguous span of the provided passage.
-     Do not paraphrase, merge sentences or fix wording; if no passage supports a claim, cite records or metadata instead.
+     Do not paraphrase, merge sentences or fix wording. If you need two separate spans of the SAME passage, join them
+     with " ... " and copy each piece exactly, in page order. If no passage supports a claim, cite records or metadata instead.
 2. Every number in a claim's text must also be declared in `figures`:
    - source "record": the value lies in the cited test point's range (column o2_percent, pressure_psi, ...); set
      test_point_id AND add a kind "record" citation for that same test point to the SAME claim;

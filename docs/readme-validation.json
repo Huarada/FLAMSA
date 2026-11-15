@@ -1,0 +1,26 @@
+{
+  "scope": "README refresh and local bootstrap, with two verified compatibility fixes",
+  "validation": {
+    "clean_install": true,
+    "dependency_check": "passed",
+    "mermaid_blocks_rendered": 4,
+    "browser_pages": 4,
+    "tests_passed": 290,
+    "tests_skipped": 179,
+    "skip_reason": "Poppler-dependent source-line verification",
+    "ruff": "passed",
+    "domain_mypy": "passed",
+    "physical_sections_preserved": "R1-R8 unchanged"
+  },
+  "adrs": [
+    "ADR-0177",
+    "ADR-0178"
+  ],
+  "reviewed_artifact_sha256": {
+    "README.md": "0aeb940d131029d4419d2e1d87f07ea764c702e6f6ae115e730263fd2501d87e",
+    "scripts/run_local.py": "1513fe235941be770cc4bfde9ec05c172321b1e55035cc339d1d3de82a6365df",
+    "docs/specs/ai-orchestration-contracts.md": "8ea8b8679acd4e4ea13908b26ca8a563316f119ab78faba19e1167fd7dbc12f1",
+    "src/psi_fire/interface/app.py": "0cb9c241fa93d599084c3470a5a4e30746c27ca7ae47f549c3b1cd596936666b",
+    "tests/interface/test_deferred_pipeline.py": "20d43d0e59c6d350605ff099c2604aec75f013485ff34f12b51ab0c8456622ed"
+  }
+}

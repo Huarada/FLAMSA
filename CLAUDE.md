@@ -61,7 +61,7 @@ Use exactly these terms in code, JSON, UI and ADR:
 5. **Evidence quotes are 1:1.** A manual-metadata quote is a character-exact transcription of ONE printed line (PDF/text) or ONE DOCX paragraph, found with Ctrl+F at the cited `p. N` / `para N`; a wrapped sentence is quoted line by line. Claim values may only say what their quotes say (ADR-0032, ADR-0033).
 
 ## XAI rules
-- Every generated factual sentence cites an `[investigation_id]` present in the retrieved set. Invalid citation → answer rejected → fallback to the deterministic breakdown rendered as text.
+- Every generated factual sentence cites an `[investigation_id]` present in the retrieved set. A claim that fails validation is withheld and never shown (ADR-0145). After the retries, if at least 2 claims and 50% of the draft validated, the answer is shown as **partial** (badge + count of withheld claims); otherwise → answer rejected → fallback to the deterministic breakdown rendered as text. `PSI_STRICT_ANSWERS=1` restores all-or-nothing.
 - The UI **always** shows the breakdown (criterion, weight, value, contribution) next to the LLM text.
 - Every answer states relevant limitations (partial gravity, O2/pressure extrapolation outside tested range).
 

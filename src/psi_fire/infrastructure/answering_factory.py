@@ -34,5 +34,7 @@ def build_answering_pipeline(root: Path, env: Mapping[str, str] = os.environ) ->
     if model is not None:
         narrator = LangChainNarrator.from_chat_model(model, catalog)
         label = f"Language model ({env['PSI_LLM_MODEL']})"
-    steps = AnsweringSteps(RelevanceRanker(), passages, narrator, RuleBasedValidator(catalog), catalog)
+    strict = env.get("PSI_STRICT_ANSWERS", "").strip().lower() in {"1", "true", "yes"}
+    steps = AnsweringSteps(RelevanceRanker(), passages, narrator, RuleBasedValidator(catalog), catalog,
+                           allow_partial=not strict)
     return AnsweringPipeline(LangGraphAnswerer(steps), label)

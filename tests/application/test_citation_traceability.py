@@ -213,3 +213,149 @@ def test_a_number_equal_to_a_cited_record_value_is_declared_automatically_and_st
                     assert answer(investigations, Draft(claims=(bad,))).status == AnswerStatus.INSUFFICIENT_EVIDENCE
                     return
     pytest.skip("no record value outside the system facts in the shortlist")
+
+
+def test_metadata_fields_that_are_lists_of_claims_trace_to_their_first_evidence(investigations):
+    from psi_fire.application.answering import _source_of
+
+    inv = next(i for i in investigations if i.manual_metadata is not None and i.manual_metadata.sensors)
+    citation = Citation(kind=CitationKind.METADATA, investigation_id=inv.id, field="sensors")
+    source_file, _, _ = _source_of(citation, inv)  # used to raise AttributeError on a tuple of claims
+    assert source_file == inv.manual_metadata.sensors[0].evidence[0].source_file
+
+
+def test_quotes_may_join_real_spans_of_one_passage_with_an_ellipsis_but_nothing_invented():
+    from psi_fire.application.answer_validation import quote_in
+
+    page = "the ambient oxygen mole fraction influences the burning rate. this parameter will vary from 0.1 to 0.5 in tests."
+    assert quote_in("ambient oxygen mole fraction influences ... will vary from 0.1 to 0.5", page)
+    assert not quote_in("ambient oxygen mole fraction influences ... invented middle text here", page)
+    assert not quote_in("will vary from 0.1 to 0.5 ... ambient oxygen mole fraction influences", page)  # wrong order
+    assert not quote_in("ambient oxygen mole fraction ... tests", page)  # a piece too short to identify a place
+    assert quote_in("ambient oxygen mole fraction influences", page) and not quote_in("", page)
+
+
+def test_json_punctuation_glued_to_a_test_point_id_is_stripped_but_the_id_must_still_exist(investigations):
+    from psi_fire.application.answering import clean_identifiers
+
+    top = RelevanceRanker().rank(investigations, LUNAR_BASE)[0].investigation
+    real = top.test_points[0].test_point_id
+    garbled = Claim(text=f"[{top.id}] is close.", citations=(
+        Citation(kind=CitationKind.RECORD, investigation_id=top.id, test_point_id=f'{real}"}},{{'),))
+    cleaned = clean_identifiers(Draft(claims=(garbled,))).claims[0].citations[0].test_point_id
+    assert cleaned == real
+    invented = Claim(text=f"[{top.id}] is close.", citations=(
+        Citation(kind=CitationKind.RECORD, investigation_id=top.id, test_point_id="NOPE-999},{"),))
+    assert answer(investigations, Draft(claims=(invented,))).status == AnswerStatus.INSUFFICIENT_EVIDENCE
+
+
+def test_numbers_from_the_question_a_cited_quote_and_a_named_investigation_are_backed(investigations):
+    ranked = RelevanceRanker().rank(investigations, LUNAR_BASE)
+    first, second = ranked[0], ranked[1]
+    point = first.investigation.test_points[0]
+    cite = (Citation(kind=CitationKind.RECORD, investigation_id=first.investigation.id,
+                     test_point_id=point.test_point_id),)
+    steps = AnsweringSteps(RelevanceRanker(), Passages(), FixedNarrator(Draft(claims=(
+        Claim(text=f"[{first.investigation.id}] has no data at 33.3% oxygen.", citations=cite),
+        Claim(text=f"[{first.investigation.id}] outranks [{second.investigation.id}] ({second.score:.3f}).",
+              citations=cite)))), RuleBasedValidator(NoCatalog()), NoCatalog())
+    result = AnswerScenarioQuestion(steps)(investigations, LUNAR_BASE, "What is the burning rate at 33.3% oxygen?")
+    assert result.status == AnswerStatus.APPROVED, result.issues
+    worse = AnsweringSteps(RelevanceRanker(), Passages(), FixedNarrator(Draft(claims=(
+        Claim(text=f"[{first.investigation.id}] has no data at 44.4% oxygen.", citations=cite),))),
+        RuleBasedValidator(NoCatalog()), NoCatalog())
+    assert AnswerScenarioQuestion(worse)(investigations, LUNAR_BASE, "What is the burning rate at 33.3% oxygen?"
+                                         ).status == AnswerStatus.INSUFFICIENT_EVIDENCE
+
+
+def test_the_computed_ranking_is_a_citable_source_but_only_for_fields_it_has(investigations):
+    top = RelevanceRanker().rank(investigations, LUNAR_BASE)[0]
+    criterion = top.breakdown.scores[0].criterion
+
+    def draft(field: str) -> Draft:
+        return Draft(claims=(Claim(text=f"[{top.investigation.id}] ranks first on {field}.", citations=(
+            Citation(kind=CitationKind.BREAKDOWN, investigation_id=top.investigation.id, field=field),)),))
+
+    good = answer(investigations, draft(criterion))
+    assert good.status == AnswerStatus.APPROVED
+    assert good.traceability[0].source_file is None and "deterministic ranking" in good.traceability[0].status
+    assert answer(investigations, draft("made_up_criterion")).status == AnswerStatus.INSUFFICIENT_EVIDENCE
+
+
+def test_quote_matching_ignores_spacing_and_punctuation_but_not_words():
+    from psi_fire.application.answer_validation import quote_in
+
+    page = "the oxygen concentration (30 %) was held constant, and the flame spread slowed."
+    assert quote_in("oxygen concentration 30% was held constant and the flame spread", page)
+    assert not quote_in("oxygen concentration 31% was held constant and the flame spread", page)
+
+
+def _good_claim(inv, point, tag: str) -> Claim:
+    return _record_claim(inv, point, f"[{inv.id}] is relevant ({tag}).".replace("(", "").replace(")", ""))
+
+
+def _bad_claim(tag: str) -> Claim:
+    return Claim(text=f"[GHOST] matches {tag}.", citations=(
+        Citation(kind=CitationKind.RECORD, investigation_id="GHOST", test_point_id="1"),))
+
+
+def _partial_run(investigations, claims, allow_partial=True, engine="loop"):
+    from psi_fire.infrastructure.answer_graph import LangGraphAnswerer
+
+    catalog = NoCatalog()
+    steps = AnsweringSteps(RelevanceRanker(), Passages(), FixedNarrator(Draft(claims=tuple(claims))),
+                           RuleBasedValidator(catalog), catalog, allow_partial=allow_partial)
+    runner = AnswerScenarioQuestion(steps) if engine == "loop" else LangGraphAnswerer(steps)
+    return runner(investigations, LUNAR_BASE, "q")
+
+
+
+
+@pytest.mark.parametrize("engine", ["loop", "graph"])
+def test_partial_answer_keeps_only_validated_claims_and_never_shows_the_withheld_text(investigations, engine):
+    top = RelevanceRanker().rank(investigations, LUNAR_BASE)[0].investigation
+    point = top.test_points[0]
+    claims = [_good_claim(top, point, "a"), _bad_claim("x"), _good_claim(top, point, "b")]
+    result = _partial_run(investigations, claims, engine=engine)
+    assert result.status == AnswerStatus.PARTIAL
+    assert (result.claims_total, result.claims_withheld, len(result.draft.claims)) == (3, 1, 2)
+    assert all("GHOST" not in c.text for c in result.draft.claims)
+    assert result.traceability and all(e.citation.investigation_id == top.id for e in result.traceability)
+    assert result.limitations and result.breakdown_text and result.issues  # the reasons stay available for the trace
+
+
+def test_partial_needs_two_validated_claims_and_half_of_the_draft(investigations):
+    top = RelevanceRanker().rank(investigations, LUNAR_BASE)[0].investigation
+    point = top.test_points[0]
+    one_of_three = [_good_claim(top, point, "a"), _bad_claim("x"), _bad_claim("y")]
+    two_of_five = [_good_claim(top, point, "a"), _good_claim(top, point, "b"), _bad_claim("x"), _bad_claim("y"),
+                   _bad_claim("z")]
+    two_of_four = [_good_claim(top, point, "a"), _good_claim(top, point, "b"), _bad_claim("x"), _bad_claim("y")]
+    assert _partial_run(investigations, one_of_three).status == AnswerStatus.INSUFFICIENT_EVIDENCE
+    assert _partial_run(investigations, two_of_five).status == AnswerStatus.INSUFFICIENT_EVIDENCE
+    assert _partial_run(investigations, two_of_four).status == AnswerStatus.PARTIAL
+
+
+def test_strict_mode_keeps_the_all_or_nothing_rule(investigations):
+    top = RelevanceRanker().rank(investigations, LUNAR_BASE)[0].investigation
+    point = top.test_points[0]
+    claims = [_good_claim(top, point, "a"), _good_claim(top, point, "b"), _bad_claim("x")]
+    result = _partial_run(investigations, claims, allow_partial=False)
+    assert result.status == AnswerStatus.INSUFFICIENT_EVIDENCE and result.draft is None and result.claims_withheld == 0
+
+
+def test_a_whole_draft_failure_is_never_partial(investigations):
+    assert _partial_run(investigations, []).status == AnswerStatus.INSUFFICIENT_EVIDENCE
+
+
+def test_a_criterion_cited_as_metadata_is_relabelled_as_a_breakdown_citation_but_inventions_stay_invalid(investigations):
+    top = RelevanceRanker().rank(investigations, LUNAR_BASE)[0]
+    criterion = top.breakdown.scores[0].criterion
+
+    def draft(field: str) -> Draft:
+        return Draft(claims=(Claim(text=f"[{top.investigation.id}] ranks first on {field}.", citations=(
+            Citation(kind=CitationKind.METADATA, investigation_id=top.investigation.id, field=field),)),))
+
+    good = answer(investigations, draft(criterion))
+    assert good.status == AnswerStatus.APPROVED and good.traceability[0].citation.kind == CitationKind.BREAKDOWN
+    assert answer(investigations, draft("made_up_criterion")).status == AnswerStatus.INSUFFICIENT_EVIDENCE

@@ -2,6 +2,20 @@
 
 Status: implementation increment. English UI/artifacts; conversation may be Portuguese. This section presents source-bounded experimental associations, not habitat certification, a fire-risk score or direct partial-gravity evidence.
 
+## Safety-relevant evidence labels (2026-11-15 increment)
+
+Fire behavior uses full study records with local analysis controls; Dashboard filters remain independent, as already implemented. This supersedes the original shared-filter scope described below and FB-01 for this view.
+
+Identify observations relevant to fire-safety research without estimating ignition probability or declaring a material/environment safe. Labels are deterministic application projections, never LLM judgments. No point's vertical distance from the FLEX line is a risk classifier. Export labels alongside group/record identities in analysis JSON; retain original measurements, qualifiers and provenance in the report and CSVs.
+
+- FLEX: label an identifiable group's adjusted oxygen association as positive only when its 95% slope interval is strictly above zero, negative only when strictly below zero, otherwise unresolved in direction. Missing fits remain unavailable. Encode fit evidence with line patterns and readable labels/tooltips, retaining diluent colors. Raw dots are not assigned risk grades. The mean-response band is not an individual prediction interval or safe operating zone; pressure/diameter are fixed at group means for the drawn trend. A positive association is evidence about reported droplet burning behavior, not a causal ignition threshold.
+- BASS-II: use point shapes/tooltips to identify joint measured oxygen decrease and CO2 increase, negative differences needing inspection, and remaining pairs. The zero axes only separate signed differences. Small positive changes are not assumed statistically significant; uncertainty is not quantified. Do not infer exposure, detection performance, combustion onset or a mass yield.
+- SAFFIRE-II: use amber cells for positive reported burned length and coral for the exact Complete source category. Preserve raw text in cells/tooltips and the original outcome state. Zero/approximately-zero and unresolved/missing cells use neutral colors, never green/safe. Positive burned length alone does not establish sustained self-propagation. Compare paired gravity columns without converting outcomes into a universal ground-to-orbit law.
+
+Acceptance FB-13: slope intervals touching zero do not receive a directional flag; absent data/fit creates no positive flag; gas signs and unresolved source categories remain explicit. FB-14: rendered charts identify evidence and explain that neither above-line points nor zero/near-zero burned lengths are safety verdicts; JSON/CSV labels agree with deterministic application calculations and record identities.
+
+Primary interpretation references: [NASA FLEX objectives](https://gipoc.grc.nasa.gov/wp/fcf-cir/flex/), [NASA BASS-II sensor measurements](https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20150019858.pdf), [NASA Saffire-II silicone results](https://ntrs.nasa.gov/api/citations/20170008805/downloads/20170008805.pdf). These references motivate interpretation; individual plotted claims still use the archived project records.
+
 ## Consumption and architecture
 
 Add Fire behavior to Workspace navigation, using the same validated snapshot and committed research query as Dashboard/Investigations/Evidence. All cards consume matching TestPoints; absent investigations remain visibly absent, without secretly clearing filters. Local FLEX settings refine only that analysis. Domain/core data and ingestion are unchanged. Application code computes every derived quantity, coefficient and interval deterministically, without pandas, Streamlit or an LLM. Interface code renders projections and prepares downloads. Numerical libraries are explicit dependencies.

@@ -1,0 +1,15 @@
+{
+  "url": "https://flamsa-398749245371.us-central1.run.app",
+  "results": [
+    {
+      "path": "/_stcore/health",
+      "status": 200,
+      "body_bytes": 2
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "body_bytes": 7863
+    }
+  ]
+}

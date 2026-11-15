@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from psi_fire.application.behavior_signals import safety_evidence
 from psi_fire.application.explore import ExplorationQuery, ExploreInvestigations
 from psi_fire.application.fire_behavior import BuildFireBehavior
 from psi_fire.infrastructure.explorer import FileSnapshotProvider
@@ -57,3 +58,10 @@ def test_actual_evidence_reconciles_csv_measurements_sources_and_scenario_counts
     assert payload["dataset_revision"] == snapshot.revision
     assert all(source["source_files"] for source in payload["sources"])
     assert BuildFireBehavior()(snapshot.revision, tuple(reversed(matches))).analysis_id == report.analysis_id
+    signals = safety_evidence(report)
+    assert len(signals) == len(report.flex.groups) + len(report.bass.observations) + 2 * len(report.saffire.observations)
+    assert all(signal.record_ids for signal in signals)
+    for signal in signals:
+        study_points = next(match.points for match in matches if match.investigation.id == signal.investigation_id)
+        assert set(signal.record_ids) <= {point.test_point_id for point in study_points}
+    assert safety_evidence(BuildFireBehavior()(snapshot.revision, tuple(reversed(matches)))) == signals

@@ -108,6 +108,10 @@ class PdfPassageSearch:
             self._matrix = self._vectorizer.fit_transform(p.text for p in self._passages)
         return self._passages
 
+    def passages_of(self, investigation_id: str) -> tuple[Passage, ...]:
+        """Every indexed passage of one investigation (diagnostics: was the text there but not retrieved?)."""
+        return tuple(p for p in self._load() if p.investigation_id == investigation_id)
+
     def search(self, query: str, investigation_ids: tuple[str, ...], per_investigation: int) -> tuple[Passage, ...]:
         passages = self._load()
         if not passages or self._vectorizer is None or not query.strip():

@@ -48,10 +48,12 @@ class ValidationContext:
     scenario: HabitatScenario
     shortlist: tuple[RankedInvestigation, ...]
     passages: tuple[Passage, ...]
+    question: str = ""  # numbers the user typed in the question are inputs, like the scenario values
 
 
 class AnswerStatus(StrEnum):
     APPROVED = "approved"
+    PARTIAL = "partial"  # some claims passed validation; the others are withheld and never shown (ADR-0145)
     INSUFFICIENT_EVIDENCE = "insufficient_evidence"
 
 
@@ -108,6 +110,8 @@ class AnswerResult:
     attempts: tuple[AttemptRecord, ...]
     traceability: tuple[TraceEntry, ...]
     figure_traces: tuple[FigureTrace, ...] = ()
+    claims_total: int = 0      # claims in the last draft
+    claims_withheld: int = 0   # claims removed because they failed validation (partial answers only)
 
 
 class AnswerState(TypedDict, total=False):

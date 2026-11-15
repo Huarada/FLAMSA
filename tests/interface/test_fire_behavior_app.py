@@ -11,6 +11,13 @@ def test_behavior_cards_local_settings_copilot_and_source_navigation_preserve_qu
     app.button(key="nav_fire_behavior").click().run()
     assert not app.exception
     assert [tab.label for tab in app.tabs] == ["FLEX · Burning rate", "BASS-II · Gas changes", "SAFFIRE-II · Gravity"]
+    assert any("They do not estimate ignition probability" in item.value for item in app.info)
+    assert any("Above/below the line is not a risk" in item.value for item in app.warning)
+    assert any("do not certify a material as safe" in item.value for item in app.warning)
+    gas_frames = [item.value for item in app.dataframe if "Safety-relevant evidence" in item.value.columns
+                  and "test_point_id" in item.value.columns]
+    assert len(gas_frames) == 1
+    assert "Oxygen decrease and CO2 increase measured" in set(gas_frames[0]["Safety-relevant evidence"])
     query = app.session_state["applied_query"]
     assert any("pressure ≤10.2 psi" in item.value for item in app.markdown)
     assert any("Complete and Acceleratory remain source labels" in item.value for item in app.caption)

@@ -10,7 +10,7 @@ from psi_fire.application.source_access import ResolveCitationSource, SourceAcce
 from psi_fire.domain.answering import CitationKind
 
 KIND_LABELS = {CitationKind.PASSAGE: "Document passage", CitationKind.METADATA: "Curated metadata",
-               CitationKind.RECORD: "Experimental record"}
+               CitationKind.RECORD: "Experimental record", CitationKind.BREAKDOWN: "Computed ranking"}
 DIGEST_PREVIEW_CHARS = 16
 
 
@@ -58,7 +58,8 @@ def render_citation(entry: TraceEntry, result: AnswerResult, key: str, context: 
     st.caption(locator_line(entry))
     if entry.status:
         st.caption(entry.status)
-    if context.resolver is not None and st.button("View source", key=f"view_{key}", icon=":material/find_in_page:"):
+    has_document = entry.citation.kind != CitationKind.BREAKDOWN
+    if context.resolver is not None and has_document and st.button("View source", key=f"view_{key}", icon=":material/find_in_page:"):
         inspect_source(entry, result, context)
 
 

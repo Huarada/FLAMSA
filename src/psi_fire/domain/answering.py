@@ -13,6 +13,7 @@ class CitationKind(StrEnum):
     RECORD = "record"      # a curated test point
     METADATA = "metadata"  # a curated investigation field (pillars, hardware, ...)
     PASSAGE = "passage"    # a page of an archived source document
+    BREAKDOWN = "breakdown"  # the deterministic ranking: field is "score", "rank" or a criterion name
 
 
 # `objective` is deliberately not citable: it comes from the ISA-Tab i_Investigation.txt, a raw metadata file that is

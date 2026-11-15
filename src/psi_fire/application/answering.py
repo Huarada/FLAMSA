@@ -4,6 +4,7 @@
 loop (reference implementation); `infrastructure.answer_graph` wires the same steps into LangGraph.
 """
 
+import re
 from math import isclose
 
 from psi_fire.application.answer_types import (
@@ -28,6 +29,7 @@ from psi_fire.domain.answering import (
     Figure,
     IssueCode,
     ValidationIssue,
+    numbers_in,
 )
 from psi_fire.domain.model import Investigation
 from psi_fire.domain.ranking import HabitatScenario, RankedInvestigation, RelevanceRanker, limitations
@@ -92,6 +94,8 @@ PASSAGE_STATUS = "Document passage; the quote matched the retrieved text mechani
 
 
 def _status_of(citation: Citation, inv: Investigation) -> str:
+    if citation.kind == CitationKind.BREAKDOWN:
+        return "Computed by the application's deterministic ranking; not a source document"
     if citation.kind == CitationKind.RECORD:
         tp = next(tp for tp in inv.test_points if tp.test_point_id == citation.test_point_id)
         return f"Curated experimental record; provenance {tp.provenance_status.value}"
@@ -99,6 +103,40 @@ def _status_of(citation: Citation, inv: Investigation) -> str:
         manual = inv.manual_metadata
         return f"Curated metadata; review status {manual.review_status.value}" if manual else "Curated metadata"
     return PASSAGE_STATUS
+
+
+_JSON_DEBRIS = re.compile(r"""^[\s"'\[\]{},:]+|[\s"'\[\]{},:]+$""")
+
+
+def clean_identifiers(draft: Draft) -> Draft:
+    """Structured output sometimes leaves JSON punctuation inside an id string ("25},{"). Strip only the punctuation
+    at its ends; the cleaned id must still exist, so nothing unverified becomes valid."""
+    claims = []
+    for claim in draft.claims:
+        citations = tuple(c.model_copy(update={"test_point_id": _JSON_DEBRIS.sub("", c.test_point_id)})
+                          if c.test_point_id else c for c in claim.citations)
+        figures = tuple(f.model_copy(update={"test_point_id": _JSON_DEBRIS.sub("", f.test_point_id)})
+                        if f.test_point_id else f for f in claim.figures)
+        claims.append(claim.model_copy(update={"citations": citations, "figures": figures}))
+    return draft.model_copy(update={"claims": tuple(claims)})
+
+
+def reclassify_breakdown_citations(draft: Draft, shortlist: tuple[RankedInvestigation, ...]) -> Draft:
+    """A metadata citation whose field is really a score, rank or criterion of that investigation's breakdown is the
+    same mistake every time (the model reaches for the ranking). Re-label it as a breakdown citation; the validator
+    still checks the field against the real breakdown, so an invented name stays invalid."""
+    ranked = {r.investigation.id: r for r in shortlist}
+    claims = []
+    for claim in draft.claims:
+        citations = []
+        for c in claim.citations:
+            target = ranked.get(c.investigation_id)
+            names = {"score", "rank", *(s.criterion for s in target.breakdown.scores)} if target else set()
+            if c.kind == CitationKind.METADATA and c.field in names:
+                c = c.model_copy(update={"kind": CitationKind.BREAKDOWN})
+            citations.append(c)
+        claims.append(claim.model_copy(update={"citations": tuple(citations)}))
+    return draft.model_copy(update={"claims": tuple(claims)})
 
 
 def with_figure_citations(draft: Draft, shortlist: tuple[RankedInvestigation, ...]) -> Draft:
@@ -120,11 +158,11 @@ def with_figure_citations(draft: Draft, shortlist: tuple[RankedInvestigation, ..
 
 
 def with_declared_figures(draft: Draft, shortlist: tuple[RankedInvestigation, ...],
-                          scenario: HabitatScenario) -> Draft:
+                          scenario: HabitatScenario, question: str = "") -> Draft:
     """A number in the text that equals a value of a record the claim cites is declared as that record's figure.
     The validator then checks it like any figure; a number matching no cited record stays undeclared and is rejected."""
     ranked = {r.investigation.id: r for r in shortlist}
-    scenario_numbers = [scenario.o2_percent, scenario.pressure_psi]
+    scenario_numbers = [scenario.o2_percent, scenario.pressure_psi, *numbers_in(question)]
     claims = []
     for claim in draft.claims:
         cited = [(c.investigation_id, c.test_point_id) for c in claim.citations if c.kind == CitationKind.RECORD]
@@ -164,24 +202,44 @@ def figure_traces(draft: Draft, shortlist: tuple[RankedInvestigation, ...]) -> t
 
 
 def _source_of(citation: Citation, inv: Investigation) -> tuple[str | None, str | None, str | None]:
+    if citation.kind == CitationKind.BREAKDOWN:
+        return None, f"ranking: {citation.field}", None  # computed by the application, not read from a document
     if citation.kind == CitationKind.RECORD:
         tp = next(tp for tp in inv.test_points if tp.test_point_id == citation.test_point_id)
         return tp.source_file, tp.source_row, _sha(inv, tp.source_file)
     if citation.kind == CitationKind.METADATA:
         manual = inv.manual_metadata
-        claim = getattr(manual, citation.field or "", None) if manual else None
-        evidence = claim.evidence[0] if claim is not None and claim.evidence else None
+        value = getattr(manual, citation.field or "", None) if manual else None
+        claims = value if isinstance(value, tuple) else (value,)  # sensors and Earth applications are lists of claims
+        evidence = next((e for c in claims if c is not None for e in c.evidence), None)
         if evidence is not None:
             return evidence.source_file, evidence.locator, None
         return None, citation.field, None  # no evidence recorded for this field: reported as missing, never guessed
     return citation.source_file, citation.locator, None
 
 
+MIN_PARTIAL_CLAIMS = 2    # a partial answer needs at least this many validated claims ...
+MIN_PARTIAL_SHARE = 0.5   # ... and at least this share of the draft, else the strict fallback applies
+
+
+def validated_subset(draft: Draft, issues: tuple[ValidationIssue, ...]) -> Draft | None:
+    """The claims that raised no issue, if they are enough to stand as a partial answer; otherwise None.
+    Issues without a claim index (whole-draft failures) never allow a partial answer."""
+    if not draft.claims or any(i.claim_index is None for i in issues):
+        return None
+    failing = {i.claim_index for i in issues}
+    kept = tuple(c for index, c in enumerate(draft.claims) if index not in failing)
+    if len(kept) < MIN_PARTIAL_CLAIMS or len(kept) / len(draft.claims) < MIN_PARTIAL_SHARE:
+        return None
+    return draft.model_copy(update={"claims": kept})
+
+
 class AnsweringSteps:
     def __init__(self, ranker: RelevanceRanker, passages: PassageSearch, narrator: Narrator,
-                 validator: AnswerValidator, catalog: SolutionCatalog) -> None:
+                 validator: AnswerValidator, catalog: SolutionCatalog, allow_partial: bool = True) -> None:
         self._ranker, self._passages, self._narrator = ranker, passages, narrator
         self._validator, self._catalog = validator, catalog
+        self._allow_partial = allow_partial  # False = strict mode: one failing claim rejects the answer
 
     def start(self, investigations: tuple[Investigation, ...], scenario: HabitatScenario,
               question: str) -> AnswerState:
@@ -218,10 +276,11 @@ class AnsweringSteps:
         if draft is None:
             issues = state["issues"]
         else:
-            draft = with_declared_figures(with_figure_citations(draft, state["shortlist"]), state["shortlist"],
-                                          state["scenario"])
+            draft = with_declared_figures(with_figure_citations(
+                clean_identifiers(reclassify_breakdown_citations(draft, state["shortlist"])), state["shortlist"]),
+                                          state["shortlist"], state["scenario"], state["question"])
             issues = self._validator.validate(
-                draft, ValidationContext(state["scenario"], state["shortlist"], state["passages"]))
+                draft, ValidationContext(state["scenario"], state["shortlist"], state["passages"], state["question"]))
         record = AttemptRecord(state["attempt"], state["settings"],
                                tuple(r.investigation.id for r in state["shortlist"]),
                                len(state["passages"]), issues, draft, state["passages"])
@@ -238,17 +297,25 @@ class AnsweringSteps:
 
     def finalize(self, state: AnswerState) -> AnswerState:
         shortlist, draft, issues = state.get("shortlist", ()), state.get("draft"), state.get("issues", ())
-        approved = bool(shortlist) and draft is not None and not issues
-        cited = {c.investigation_id for claim in (draft.claims if approved and draft else ()) for c in claim.citations}
-        solutions = tuple(s for inv_id in sorted(cited) for s in self._catalog.lookup(inv_id)) if approved else ()
+        total = len(draft.claims) if draft else 0
+        shown, status = None, AnswerStatus.INSUFFICIENT_EVIDENCE
+        if shortlist and draft is not None and not issues:
+            shown, status = draft, AnswerStatus.APPROVED
+        elif shortlist and draft is not None and self._allow_partial:
+            subset = validated_subset(draft, issues)
+            context = ValidationContext(state["scenario"], shortlist, state.get("passages", ()), state["question"])
+            if subset is not None and not self._validator.validate(subset, context):  # the kept claims stand alone
+                shown, status = subset, AnswerStatus.PARTIAL
+        cited = {c.investigation_id for claim in (shown.claims if shown else ()) for c in claim.citations}
+        solutions = tuple(s for inv_id in sorted(cited) for s in self._catalog.lookup(inv_id)) if shown else ()
         return AnswerState(result=AnswerResult(
-            status=AnswerStatus.APPROVED if approved else AnswerStatus.INSUFFICIENT_EVIDENCE,
-            scenario=state["scenario"], question=state["question"], shortlist=shortlist,
-            draft=draft if approved else None, solutions=solutions, issues=() if approved else issues,
+            status=status, scenario=state["scenario"], question=state["question"], shortlist=shortlist,
+            draft=shown, solutions=solutions, issues=() if status == AnswerStatus.APPROVED else issues,
             limitations=limitations(state["scenario"], shortlist), breakdown_text=breakdown_text(shortlist),
             attempts=state.get("attempts", ()),
-            traceability=traceability(draft, shortlist) if approved and draft else (),
-            figure_traces=figure_traces(draft, shortlist) if approved and draft else ()))
+            traceability=traceability(shown, shortlist) if shown else (),
+            figure_traces=figure_traces(shown, shortlist) if shown else (),
+            claims_total=total, claims_withheld=total - len(shown.claims) if shown else 0))
 
 
 def merge(state: AnswerState, update: AnswerState) -> AnswerState:

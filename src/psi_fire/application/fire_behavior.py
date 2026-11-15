@@ -12,7 +12,7 @@ from psi_fire.domain.exploration import ConditionRange
 from psi_fire.domain.model import Investigation, O2Basis, TestPoint
 from psi_fire.domain.units import ATM_TO_PSI
 
-POLICY_VERSION = "fire-behavior-v1"
+POLICY_VERSION = "fire-behavior-v2"
 MAX_PRESSURE_TOLERANCE = 0.05
 COMPARISON_PRESSURE_MAX = 10.5
 SIGNED_DIFFERENCE_TOLERANCE = 1e-10
