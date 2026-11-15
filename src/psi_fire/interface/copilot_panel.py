@@ -8,7 +8,7 @@ import pandas as pd
 import streamlit as st
 
 from psi_fire.application.answer_types import AnswerResult, AnswerStatus
-from psi_fire.application.quota import DailyQuota
+from psi_fire.application.quota import DailyQuota, QuotaVerdict
 from psi_fire.domain.answering import CitationKind, IssueCode, ValidationIssue
 from psi_fire.domain.manual import GravityRegime
 from psi_fire.domain.model import Investigation
@@ -60,8 +60,19 @@ def _scenario() -> HabitatScenario:
     return HabitatScenario(preset if preset != CUSTOM else "Custom scenario", o2, pressure, gravity)
 
 
-QUOTA_MESSAGE = ("The daily limit of {limit} copilot questions was reached. It resets at 00:00 UTC and whenever the "
-                 "application is released again. Your previous answer, the chart and the filters are unchanged.")
+USER_QUOTA_MESSAGE = ("You have used your {limit} copilot questions for today. The count resets at 00:00 UTC and "
+                      "whenever the application is released again. Your previous answer, the chart and the filters "
+                      "are unchanged.")
+GLOBAL_QUOTA_MESSAGE = ("The copilot reached its daily limit for all visitors. It resets at 00:00 UTC and whenever the "
+                        "application is released again. Your previous answer, the chart and the filters are unchanged.")
+
+
+def visitor_key() -> str:
+    """The visitor's network address as Cloud Run reports it. The last X-Forwarded-For entry is the one Google's
+    front end appended; earlier entries can be written by the client, so they are ignored. Without the header
+    (local run) every visitor shares one bucket, which is harmless because local runs set no limit."""
+    forwarded = st.context.headers.get("X-Forwarded-For", "")
+    return forwarded.split(",")[-1].strip() or "unknown"
 
 
 def _submit(pipeline: PipelineHandle, investigations: tuple[Investigation, ...],
@@ -69,9 +80,13 @@ def _submit(pipeline: PipelineHandle, investigations: tuple[Investigation, ...],
     """Capture the click before charts render: a queued rerun must not consume a transient button value."""
     if JOB_KEY in st.session_state:
         return
-    if quota is not None and not quota.try_consume():
-        st.session_state["copilot_request_error"] = QUOTA_MESSAGE.format(limit=quota.limit)
-        return
+    if quota is not None:
+        verdict = quota.consume(visitor_key())
+        if verdict != QuotaVerdict.ALLOWED:
+            st.session_state["copilot_request_error"] = (
+                GLOBAL_QUOTA_MESSAGE if verdict == QuotaVerdict.GLOBAL_LIMIT
+                else USER_QUOTA_MESSAGE.format(limit=quota.limit))
+            return
     preset = st.session_state.get("copilot_preset", "Lunar base")
     base = PRESETS.get(preset, EARTH_CABIN)
     o2, pressure = scenario_point()
@@ -204,13 +219,14 @@ def copilot(pipeline: PipelineHandle, investigations: tuple[Investigation, ...],
             st.markdown("**Let's explore the evidence.**")
             st.caption("Compare studies. Follow the sources.")
     st.button("Ask copilot", key="ask_copilot", icon=":material/auto_awesome:", type="primary", width="stretch",
-                  disabled=JOB_KEY in st.session_state or (quota is not None and quota.remaining() == 0),
+                  disabled=JOB_KEY in st.session_state or (quota is not None and quota.remaining(visitor_key()) == 0),
                   on_click=_submit, args=(pipeline, investigations, quota),
                   help="Ranks investigations for these conditions, retrieves report passages and validates the text.")
     st.caption("Ranks all curated studies, including those outside the chart filters.")
     if quota is not None:
-        st.caption(f"Questions left today: {quota.remaining()} of {quota.limit}. The count resets at 00:00 UTC and "
-                   "whenever the application is released again.")
+        of = f" of {quota.limit}" if quota.limit > 0 else ""
+        st.caption(f"Questions left today: {quota.remaining(visitor_key())}{of}. The count is per visitor and resets "
+                   "at 00:00 UTC and whenever the application is released again.")
     with st.expander("How the copilot works"):
         st.write("The application computes the ranking scores. A connected language model or offline template "
                  "explains them using cited records and report passages. Answers must pass citation and number "

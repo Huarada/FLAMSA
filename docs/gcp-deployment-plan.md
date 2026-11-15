@@ -104,3 +104,7 @@ gcloud secrets versions disable 1 --secret flamsa-openai-api-key --project flams
 ```
 
 `latest` is resolved when an instance starts, so a new version needs a new revision (the `services update` above creates one). Use a key from a separate provider project with its own monthly budget for the public site.
+
+### Update: the limit is per visitor (ADR-0153)
+
+`PSI_DAILY_MODEL_LIMIT=4` is now **per visitor** per UTC day, where the visitor is the network address Cloud Run appended to `X-Forwarded-For` (the last entry; entries written by the client are ignored). `PSI_DAILY_GLOBAL_LIMIT=100` is a ceiling for all visitors together, so many addresses cannot exhaust the account. Both reset at 00:00 UTC and whenever a new revision starts. Visitors behind one shared address (an office or a campus) share one allowance; a visitor who changes network gets a fresh one, which the global ceiling bounds.

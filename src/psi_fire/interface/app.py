@@ -50,17 +50,17 @@ def answering_pipeline(root: str):
 
 
 @st.cache_resource(show_spinner=False)
-def _quota_for(limit: int):
+def _quota_for(limit: int, global_limit: int):
     from psi_fire.application.quota import DailyQuota
 
-    return DailyQuota(limit)
+    return DailyQuota(limit, global_limit=global_limit)
 
 
 def daily_quota():
-    """One counter per server process, shared by every session; a new release starts a new process, so it resets."""
-    from psi_fire.application.quota import limit_from_env
+    """One set of counters per server process, shared by every session; a new release starts a new process."""
+    from psi_fire.application.quota import global_limit_from_env, limit_from_env
 
-    return _quota_for(limit_from_env(os.environ))
+    return _quota_for(limit_from_env(os.environ), global_limit_from_env(os.environ))
 
 
 @st.cache_data(max_entries=8, show_spinner=False)

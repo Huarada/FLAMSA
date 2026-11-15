@@ -387,9 +387,20 @@ def test_the_daily_limit_is_shown_counted_and_disables_the_button_when_spent(mon
     st.cache_resource.clear()
     app = AppTest.from_file(str(APP), default_timeout=90).run()
     app.button(key="nav_dashboard").click().run()
-    assert any("Questions left today: 1 of 1" in c.value for c in app.caption)
+    assert any("Questions left today: 1 of 1" in c.value and "per visitor" in c.value for c in app.caption)
     app.button(key="ask_copilot").click().run()
     assert not app.exception
     assert any("Questions left today: 0 of 1" in c.value for c in app.caption)
     assert app.button(key="ask_copilot").disabled
     st.cache_resource.clear()
+
+
+def test_the_visitor_is_the_address_google_appended_not_one_the_client_wrote(monkeypatch) -> None:
+    from types import SimpleNamespace
+
+    from psi_fire.interface.copilot_panel import visitor_key
+
+    monkeypatch.setattr(st, "context", SimpleNamespace(headers={"X-Forwarded-For": "6.6.6.6, 1.2.3.4, 203.0.113.9"}))
+    assert visitor_key() == "203.0.113.9"
+    monkeypatch.setattr(st, "context", SimpleNamespace(headers={}))
+    assert visitor_key() == "unknown"
